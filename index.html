@@ -411,17 +411,24 @@
         ? `<a class="em-social" href="${escapeAttr(url)}" target="_blank" rel="noopener" aria-label="Profile link">${icon}</a>`
         : '';
 
-      const cards = eminents.map(e => `
+      const pad2 = (n) => String(n).padStart(2, '0');
+      const cards = eminents.map((e, i) => {
+        const socials = [
+          socialIcon(e.linkedin, ICON.linkedinSm),
+          socialIcon(e.twitter,  ICON.twitter),
+          socialIcon(e.instagram, ICON.instagram)
+        ].filter(Boolean).join('');
+        return `
         <div class="eminent-card">
-          <img src="${escapeAttr(e.photo)}" alt="${escapeAttr(e.name)}" class="em-photo" loading="lazy">
-          <div class="em-name">${escapeHtml(e.name)}</div>
-          <div class="em-role">${escapeHtml(e.designation)}</div>
-          <div class="em-socials">
-            ${socialIcon(e.linkedin, ICON.linkedinSm)}
-            ${socialIcon(e.twitter,  ICON.twitter)}
-            ${socialIcon(e.instagram, ICON.instagram)}
+          <span class="em-index">No. ${pad2(i + 1)}</span>
+          <div class="em-photo-wrap">
+            <img src="${escapeAttr(e.photo)}" alt="${escapeAttr(e.name)}" class="em-photo" loading="lazy">
+            ${socials ? `<div class="em-socials">${socials}</div>` : ''}
           </div>
-        </div>`).join('');
+          <h3 class="em-name">${escapeHtml(e.name)}</h3>
+          <p class="em-role">${escapeHtml(e.designation)}</p>
+        </div>`;
+      }).join('');
 
       document.getElementById('eminent-grid').innerHTML = cards;
     })();
