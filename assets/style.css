@@ -911,18 +911,15 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   transform: translateX(-2px);
 }
 
-/* Info block — soft coral card behind name + designation. Reads as a
-   museum-card / contact-strip beneath the portrait. Sharp corners +
-   brand-red leading rule for editorial feel. */
+/* Info block — solid brand-red card behind name + designation, white
+   text. Reads as a museum-card / contact-strip beneath the portrait. */
 .em-info {
   position: relative;
   width: 100%;
-  background: linear-gradient(135deg, #ffe7e9 0%, #fdd0d3 100%);
-  padding: 14px 16px 14px 18px;
-  border-left: 3px solid var(--brand);
-  /* Slight lift to suggest the block sits on the page, not in it. */
-  box-shadow: 0 6px 18px -10px rgba(209, 10, 17, 0.22);
-  margin-top: -2px;
+  background: var(--brand);
+  color: #fff;
+  padding: 14px 16px;
+  box-shadow: 0 8px 20px -10px rgba(209, 10, 17, 0.45);
 }
 .em-name {
   font-family: var(--font-display);
@@ -932,14 +929,13 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   letter-spacing: -0.015em;
   margin: 0 0 6px 0;
   font-variation-settings: "opsz" 36;
-  color: var(--ink);
+  color: #fff;
 }
 .em-role {
   font-size: 0.8rem;
-  color: var(--ink-2);
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.4;
   margin: 0;
-  opacity: 0.82;
 }
 
 @media (max-width: 1100px) {
