@@ -351,22 +351,57 @@ function renderUtilityBar(tickers) {
   </div>`;
 }
 
+function _tickerValueString(v) {
+  // Auto-decide formatting: FX/commodity vs index.
+  if (v == null) return '—';
+  const n = Number(v);
+  if (Math.abs(n) < 100) return n.toFixed(2);
+  return n.toLocaleString('en-US', { maximumFractionDigits: 2 });
+}
+function _tickerChangeHtml(t) {
+  const dir = (t.change_percent || 0) >= 0 ? 'up' : 'down';
+  const arrow = dir === 'up' ? '▲' : '▼';
+  const sign = (t.change_value || 0) >= 0 ? '+' : '';
+  const chgVal = Number(t.change_value || 0);
+  const chgValStr = Math.abs(chgVal) < 100 ? chgVal.toFixed(2) : chgVal.toFixed(0);
+  return `<span class="chg ${dir}"><span class="arrow">${arrow}</span> ${sign}${chgValStr} (${Math.abs(t.change_percent || 0).toFixed(2)}%)</span>`;
+}
+
 function renderTicker(tickers) {
   if (!tickers || !tickers.length) return '';
-  const items = tickers.map(t => {
-    const dir = (t.change_percent || 0) >= 0 ? 'up' : 'down';
-    const arrow = dir === 'up' ? '▲' : '▼';
-    return `<span class="ticker-item">
+  const items = tickers.map(t => `
+    <span class="ticker-item" data-symbol="${escapeAttr(t.symbol)}">
       <span class="sym">${escapeHtml(t.display_name || t.symbol)}</span>
-      <span class="val">${formatNumber(t.value)}</span>
-      <span class="chg ${dir}"><span class="arrow">${arrow}</span> ${(t.change_value || 0) >= 0 ? '+' : ''}${Number(t.change_value || 0).toFixed(2)} (${Math.abs(t.change_percent || 0).toFixed(2)}%)</span>
-    </span>`;
-  }).join('');
+      <span class="val">${_tickerValueString(t.value)}</span>
+      ${_tickerChangeHtml(t)}
+    </span>`).join('');
   return `
   <div class="ticker-bar">
     <div class="ticker-track">${items}${items}</div>
   </div>`;
 }
+
+// Update existing ticker DOM in place without breaking the CSS scroll animation.
+// Called on an interval so values refresh whenever the cron job writes new ones.
+async function refreshTickers() {
+  try {
+    const { data } = await sb.from('market_tickers').select('*').order('order_index', { ascending: true });
+    if (!data || !data.length) return;
+    _cacheSet('tickers', data);
+    for (const t of data) {
+      const items = document.querySelectorAll(`.ticker-item[data-symbol="${CSS.escape ? CSS.escape(t.symbol) : t.symbol.replace(/[^a-zA-Z0-9_-]/g, '\\$&')}"]`);
+      items.forEach((el) => {
+        const sym = el.querySelector('.sym');
+        const val = el.querySelector('.val');
+        const oldChg = el.querySelector('.chg');
+        if (sym) sym.textContent = t.display_name || t.symbol;
+        if (val) val.textContent = _tickerValueString(t.value);
+        if (oldChg) oldChg.outerHTML = _tickerChangeHtml(t);
+      });
+    }
+  } catch {}
+}
+window.refreshTickers = refreshTickers;
 
 function renderBreakingFromData(data) {
   if (!data || !data.length) return '';
@@ -710,8 +745,11 @@ function roundPillClass(r) {
    PAGE READY
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
-  // small delay so renderers can fire
   setTimeout(initReveal, 100);
+  // Auto-refresh ticker values every 60s. The CSS animation keeps
+  // running because we update the inner spans in place, not the
+  // animated .ticker-track parent.
+  setInterval(() => refreshTickers(), 60_000);
 });
 
 /* ============================================================

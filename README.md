@@ -133,6 +133,54 @@ Role meanings:
 
 ---
 
+## Live market tickers
+
+The strip at the top of every page (Nifty/Sensex/S&P/FTSE/DAX/OMX/Nikkei/HSI + FX + gold + crude) is backed by a script that pulls live data from Yahoo Finance's free unauthenticated `query1.finance.yahoo.com/v8/finance/chart/...` endpoint and upserts into the `market_tickers` table.
+
+**Symbols covered** (18): NIFTY 50, SENSEX, Bank Nifty, S&P 500, Nasdaq Comp., Dow Jones, FTSE 100, DAX, CAC 40, OMX Stockholm 30, Nikkei 225, Hang Seng, USD/INR, EUR/USD, GBP/USD, USD/SEK, Gold, WTI Crude. Tuned for an audience spanning India, US, UK, EU (esp. Sweden), and Asia.
+
+**Frontend behaviour:** the ticker auto-refreshes from the DB every 60s without a page reload. The CSS scroll animation isn't interrupted because we patch the value spans in place rather than re-rendering the animated container.
+
+### Running the fetcher
+
+```bash
+SUPABASE_SERVICE_ROLE_KEY=ey... node scripts/update-tickers.mjs
+```
+
+Outputs an aligned table of all 18 symbols with their latest values + percent change.
+
+### Scheduling (pick one)
+
+**Option A — GitHub Actions (recommended, free, zero ops):**
+
+A workflow at `.github/workflows/update-tickers.yml` runs every 5 minutes. To enable it:
+
+1. Push the repo to GitHub (already done at `roshanyadav-2109/karostartup`)
+2. Go to **Settings → Secrets and variables → Actions → New repository secret**
+3. Name it `SUPABASE_SERVICE_ROLE_KEY`, paste your service-role key, save
+4. Go to the **Actions** tab and enable workflows if prompted
+
+Free tier on public repos = unlimited minutes. Each run takes ~5 seconds.
+
+**Option B — Local cron / Task Scheduler:**
+
+Linux/Mac:
+```cron
+*/2 * * * * cd /path/to/karostartup && SUPABASE_SERVICE_ROLE_KEY=ey... node scripts/update-tickers.mjs >> /tmp/tickers.log 2>&1
+```
+
+Windows: Open Task Scheduler → Create Task → Trigger every 5 min → Action: `node` with arguments `scripts\update-tickers.mjs` and the env var set.
+
+**Option C — Supabase Edge Function:**
+
+Port `scripts/update-tickers.mjs` to a Deno function under `supabase/functions/update-tickers/index.ts`, deploy with `supabase functions deploy update-tickers`, and schedule with `pg_cron` (Supabase has the extension enabled).
+
+### Adding/removing symbols
+
+Edit the `SYMBOLS` array in `scripts/update-tickers.mjs`. The Yahoo symbol format follows their convention (e.g., `^NSEI` for indices, `INR=X` for FX rates, `GC=F` for gold futures, `BTC-USD` for Bitcoin). Once added, the next cron run will upsert it.
+
+---
+
 ## Deployment
 
 ### Vercel (recommended)
