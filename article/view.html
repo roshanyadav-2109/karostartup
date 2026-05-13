@@ -20,13 +20,26 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/assets/app.js"></script>
   <script>
-  // Returns ~5 lines / ~60 words from the start of markdown content so an
-  // anonymous reader sees a meaningful teaser before the auth wall.
+  // Returns ~5 lines of clean prose from the start of an article. Strips
+  // markdown syntax (headings, bold, links, blockquotes) so the teaser
+  // reads as flowing text — not as a giant H2 caused by an opening
+  // "## Section" header.
   function teaserContent(md) {
     if (!md) return '';
-    const words = md.split(/\s+/);
-    const cut = words.slice(0, 60).join(' ');
-    return cut + (words.length > 60 ? '…' : '');
+    const plain = md
+      .replace(/^#{1,6}\s+/gm, '')            // headings → plain
+      .replace(/^>\s+/gm, '')                  // blockquote marker
+      .replace(/^[-*]\s+/gm, '')               // bullets
+      .replace(/\*\*([^*]+)\*\*/g, '$1')       // bold
+      .replace(/\*([^*]+)\*/g, '$1')           // italic
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // links → text
+      .replace(/^---+\s*$/gm, '')              // hr
+      .replace(/\r?\n+/g, ' ')                 // collapse newlines into a single paragraph
+      .replace(/\s+/g, ' ')
+      .trim();
+    const words = plain.split(' ');
+    const cut = words.slice(0, 55).join(' ');
+    return cut + (words.length > 55 ? '…' : '');
   }
   (async () => {
     const params = new URLSearchParams(location.search);
