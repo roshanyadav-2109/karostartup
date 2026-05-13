@@ -237,7 +237,7 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   white-space: nowrap;
   height: 100%;
   width: max-content;
-  animation: ticker-scroll 35s linear infinite;
+  animation: ticker-scroll 60s linear infinite;
   will-change: transform;
 }
 .breaking-track a {
