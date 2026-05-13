@@ -370,12 +370,17 @@ function renderTicker(tickers) {
 
 function renderBreakingFromData(data) {
   if (!data || !data.length) return '';
-  const headlines = data.map(a => `<a href="/article/view.html?slug=${encodeURIComponent(a.slug)}">${escapeHtml(a.title)}</a>`).join('<span style="opacity:0.4;">•</span>');
+  const sep = '<span class="sep">•</span>';
+  const headlines = data.map(a => `<a href="/article/view.html?slug=${encodeURIComponent(a.slug)}">${escapeHtml(a.title)}</a>`).join(sep);
+  // Render twice so the scroll loops seamlessly (translateX 0 → -50%).
+  const loop = `${headlines}${sep}${headlines}${sep}`;
   return `
   <div class="breaking-ribbon">
     <div class="container">
       <span class="breaking-pill">Breaking</span>
-      <div class="breaking-headlines">${headlines}${headlines}</div>
+      <div class="breaking-mask">
+        <div class="breaking-track">${loop}</div>
+      </div>
     </div>
   </div>`;
 }

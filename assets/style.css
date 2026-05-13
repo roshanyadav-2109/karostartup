@@ -151,7 +151,7 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 .utility-bar a { color: #cfcfcf; }
 
 /* ============================================================
-   MARKET TICKER
+   MARKET TICKER (top bar)
    ============================================================ */
 .ticker-bar {
   background: #fff;
@@ -166,8 +166,10 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   white-space: nowrap;
   align-items: center;
   height: 100%;
-  animation: ticker-scroll 60s linear infinite;
+  width: max-content;
+  animation: ticker-scroll 30s linear infinite;
   padding-left: 24px;
+  will-change: transform;
 }
 .ticker-item {
   display: inline-flex;
@@ -182,12 +184,16 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 .ticker-item .chg.down { color: var(--down); }
 .ticker-item .arrow { display: inline-block; font-size: 0.7rem; }
 @keyframes ticker-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
 }
 
 /* ============================================================
    BREAKING RIBBON
+   The BREAKING pill is static on the left. Headlines slide R → L
+   inside their own clipping mask so they can't visually overlap
+   the pill. Loop is seamless: headlines are rendered twice and
+   the track scrolls exactly one copy width per cycle.
    ============================================================ */
 .breaking-ribbon {
   background: var(--brand);
@@ -211,20 +217,43 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   padding: 4px 10px;
   text-transform: uppercase;
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
 }
-.breaking-headlines {
-  display: flex;
-  gap: 24px;
-  white-space: nowrap;
+.breaking-mask {
+  flex: 1;
+  height: 100%;
   overflow: hidden;
-  animation: ticker-scroll 90s linear infinite;
+  position: relative;
+  /* Soft fade at the LEFT edge so headlines visually "disappear into"
+     the area behind the pill instead of cutting off hard. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
 }
-.breaking-headlines a {
+.breaking-track {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  white-space: nowrap;
+  height: 100%;
+  width: max-content;
+  animation: ticker-scroll 35s linear infinite;
+  will-change: transform;
+}
+.breaking-track a {
   color: #fff;
   font-size: 0.92rem;
   font-weight: 500;
 }
-.breaking-headlines a:hover { text-decoration: underline; }
+.breaking-track a:hover { text-decoration: underline; }
+.breaking-track .sep {
+  display: inline-block;
+  opacity: 0.5;
+  font-weight: 700;
+}
+/* Pause on hover so users can click a headline mid-scroll. */
+.ticker-bar:hover .ticker-track,
+.breaking-mask:hover .breaking-track { animation-play-state: paused; }
 
 /* ============================================================
    MASTHEAD
