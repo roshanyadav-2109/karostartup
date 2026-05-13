@@ -376,62 +376,50 @@
       document.getElementById('founder-spotlight-slot').style.display = 'none';
     } });
 
-    // EMINENT READERS — static, edit this list to feature real people.
-    // Pass null/empty for any social handle you don't want shown; the icon
-    // for that platform will simply be omitted.
-    (() => {
-      const eminents = [
-        { name: 'Nithin Kamath',     designation: 'Founder & CEO, Zerodha',
-          photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
-          linkedin: 'https://www.linkedin.com/in/nithinkamath/', twitter: 'https://twitter.com/Nithin0dha', instagram: null },
-        { name: 'Falguni Nayar',     designation: 'Founder & CEO, Nykaa',
-          photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80',
-          linkedin: 'https://www.linkedin.com/in/falguninayar/', twitter: 'https://twitter.com/falguni_nayar', instagram: 'https://www.instagram.com/mynykaa/' },
-        { name: 'Kunal Shah',        designation: 'Founder, Cred',
-          photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
-          linkedin: 'https://www.linkedin.com/in/kunalshah1/', twitter: 'https://twitter.com/kunalb11', instagram: null },
-        { name: 'Bhavish Aggarwal',  designation: 'Co-founder, Ola',
-          photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80',
-          linkedin: 'https://www.linkedin.com/in/bhavishaggarwal/', twitter: 'https://twitter.com/bhash', instagram: null },
-        { name: 'Sridhar Vembu',     designation: 'Founder & CEO, Zoho',
-          photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80',
-          linkedin: 'https://www.linkedin.com/in/sridhar-vembu/', twitter: 'https://twitter.com/svembu', instagram: null },
-        { name: 'Ghazal Alagh',      designation: 'Co-founder, Mamaearth',
-          photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80',
-          linkedin: 'https://www.linkedin.com/in/ghazal-alagh/', twitter: null, instagram: 'https://www.instagram.com/ghazalalagh/' },
-        { name: 'Aman Gupta',        designation: 'Co-founder, boAt Lifestyle',
-          photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',
-          linkedin: 'https://www.linkedin.com/in/aman-gupta-/', twitter: 'https://twitter.com/AmanGuptaBoat', instagram: 'https://www.instagram.com/boat.nirvana/' },
-        { name: 'Vani Kola',         designation: 'Managing Director, Kalaari Capital',
-          photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80',
-          linkedin: 'https://www.linkedin.com/in/vanikola/', twitter: 'https://twitter.com/vanikola', instagram: null }
-      ];
-
+    // EMINENT READERS — fetched from the eminent_readers table.
+    // Schema and seed: scripts/eminent-readers-table.sql, scripts/seed-eminent-readers.mjs
+    // Edit any row in the Supabase SQL editor (or via admin) to change a
+    // photo, designation, or social handles. A social icon is rendered
+    // only if the corresponding *_url column on the row is non-null.
+    run(async () => {
+      const slot = document.getElementById('eminent-grid');
       const socialIcon = (url, icon) => url
         ? `<a class="em-social" href="${escapeAttr(url)}" target="_blank" rel="noopener" aria-label="Profile link">${icon}</a>`
         : '';
-
       const pad2 = (n) => String(n).padStart(2, '0');
-      const cards = eminents.map((e, i) => {
-        const socials = [
-          socialIcon(e.linkedin, ICON.linkedinSm),
-          socialIcon(e.twitter,  ICON.twitter),
-          socialIcon(e.instagram, ICON.instagram)
-        ].filter(Boolean).join('');
-        return `
-        <div class="eminent-card">
-          <span class="em-index">No. ${pad2(i + 1)}</span>
-          <div class="em-photo-wrap">
-            <img src="${escapeAttr(e.photo)}" alt="${escapeAttr(e.name)}" class="em-photo" loading="lazy">
-            ${socials ? `<div class="em-socials">${socials}</div>` : ''}
-          </div>
-          <h3 class="em-name">${escapeHtml(e.name)}</h3>
-          <p class="em-role">${escapeHtml(e.designation)}</p>
-        </div>`;
-      }).join('');
-
-      document.getElementById('eminent-grid').innerHTML = cards;
-    })();
+      try {
+        const { data, error } = await sb.from('eminent_readers')
+          .select('name,designation,photo_url,linkedin_url,twitter_url,instagram_url,facebook_url,order_index')
+          .eq('active', true)
+          .order('order_index', { ascending: true })
+          .limit(12);
+        if (error) throw error;
+        if (!data || !data.length) {
+          slot.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><p>No eminent readers configured yet. Run scripts/seed-eminent-readers.mjs.</p></div>';
+          return;
+        }
+        slot.innerHTML = data.map((r, i) => {
+          const socials = [
+            socialIcon(r.linkedin_url,  ICON.linkedinSm),
+            socialIcon(r.twitter_url,   ICON.twitter),
+            socialIcon(r.instagram_url, ICON.instagram),
+            socialIcon(r.facebook_url,  ICON.facebook)
+          ].filter(Boolean).join('');
+          return `
+          <div class="eminent-card">
+            <span class="em-index">No. ${pad2(i + 1)}</span>
+            <div class="em-photo-wrap">
+              <img src="${escapeAttr(r.photo_url)}" alt="${escapeAttr(r.name)}" class="em-photo" loading="lazy">
+              ${socials ? `<div class="em-socials">${socials}</div>` : ''}
+            </div>
+            <h3 class="em-name">${escapeHtml(r.name)}</h3>
+            <p class="em-role">${escapeHtml(r.designation)}</p>
+          </div>`;
+        }).join('');
+      } catch (e) {
+        slot.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><p>Eminent readers table not set up yet. Run <code>scripts/eminent-readers-table.sql</code> in Supabase SQL editor, then <code>node scripts/seed-eminent-readers.mjs</code>.</p></div>`;
+      }
+    });
 
     // LONG READS
     run(async () => { try {

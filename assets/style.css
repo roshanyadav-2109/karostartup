@@ -858,17 +858,19 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 .em-photo {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  /* contain + bottom-ground works for transparent-PNG cutouts so the
+     subject is fully visible and "stands" inside the frame. mix-blend
+     stays as belt-and-braces for any future non-transparent image. */
+  object-fit: contain;
+  object-position: center bottom;
   display: block;
-  /* "Background removed" illusion: multiply collapses white/light backgrounds
-     into the white page; the contrast/saturation tweaks give a print-mag feel. */
   mix-blend-mode: multiply;
-  filter: contrast(1.06) saturate(0.78) brightness(1.02);
+  filter: contrast(1.04) saturate(0.92);
   transition: filter 0.3s ease, transform 0.3s cubic-bezier(.2,.8,.2,1);
 }
 .eminent-card:hover .em-photo {
-  filter: contrast(1.06) saturate(0.95) brightness(1.02);
-  transform: translateY(-2px);
+  filter: contrast(1.04) saturate(1.05);
+  transform: translateY(-3px);
 }
 /* A whisper-thin accent line that sits behind the photo on the bottom-left,
    reinforcing the editorial column-rule aesthetic. */
