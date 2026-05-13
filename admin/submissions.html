@@ -30,21 +30,20 @@
             <div class="filter-chips">
               <button class="filter-chip is-active" data-status="">All</button>
               <button class="filter-chip" data-status="new">New</button>
-              <button class="filter-chip" data-status="in_review">In review</button>
+              <button class="filter-chip" data-status="reviewing">Reviewing</button>
               <button class="filter-chip" data-status="responded">Responded</button>
               <button class="filter-chip" data-status="closed">Closed</button>
             </div>
             <select id="type-filter">
               <option value="">All types</option>
-              <option value="promotion">Promotion</option>
-              <option value="advertise">Advertise</option>
+              <option value="advertise">Promote / Advertise</option>
               <option value="tip">Tip</option>
               <option value="pr">PR</option>
               <option value="partnership">Partnership</option>
               <option value="careers">Careers</option>
               <option value="general">General</option>
             </select>
-            <input type="search" id="search" placeholder="Search name, email, company…">
+            <input type="search" id="search" placeholder="Search name, email, subject…">
           </div>
           <div id="list-items"><div class="loading-state">Loading…</div></div>
         </div>
@@ -80,12 +79,12 @@
     async function load() {
       const slot = document.getElementById('list-items');
       slot.innerHTML = '<div class="loading-state">Loading…</div>';
-      let qb = sb.from('contact_submissions').select('id,name,email,phone,company_name,subject,message,type,status,created_at');
+      let qb = sb.from('contact_submissions').select('id,name,email,phone,subject,message,type,status,created_at');
       if (status) qb = qb.eq('status', status);
       if (type) qb = qb.eq('type', type);
       if (q) {
         const safe = q.replace(/[%_]/g, '');
-        qb = qb.or(`name.ilike.%${safe}%,email.ilike.%${safe}%,company_name.ilike.%${safe}%`);
+        qb = qb.or(`name.ilike.%${safe}%,email.ilike.%${safe}%,subject.ilike.%${safe}%`);
       }
       qb = qb.order('created_at', { ascending: false }).limit(100);
       try {
@@ -94,7 +93,7 @@
         slot.innerHTML = data.map(s => `
           <div class="inbox-item ${s.id === selectedId ? 'is-selected' : ''}" data-id="${s.id}">
             <div class="row1">
-              <span class="name-co">${escapeHtml(s.name)}${s.company_name ? ' · ' + escapeHtml(s.company_name) : ''}</span>
+              <span class="name-co">${escapeHtml(s.name)}</span>
               <span class="time">${timeAgo(s.created_at)}</span>
             </div>
             <div class="pills">${typePill(s.type)}${statusPill(s.status)}</div>
@@ -131,7 +130,6 @@
                 <span>·</span>
                 <a href="mailto:${encodeURIComponent(s.email)}">${escapeHtml(s.email)}</a>
                 ${s.phone ? `<span>·</span><a href="tel:${encodeURIComponent(s.phone)}">${escapeHtml(s.phone)}</a>` : ''}
-                ${s.company_name ? `<span>·</span><span>${escapeHtml(s.company_name)}</span>` : ''}
                 <span>·</span>
                 <span class="mono">${formatDateLong(s.created_at)} · ${formatTimeIST(s.created_at)}</span>
               </div>
@@ -146,26 +144,15 @@
 
           <div class="detail-actions">
             <div class="status-changer">
-              ${['new','in_review','responded','closed'].map(st => `<button data-set-status="${st}" ${s.status === st ? 'class="is-active"' : ''}>${st.replace('_',' ')}</button>`).join('')}
+              ${['new','reviewing','responded','closed'].map(st => `<button data-set-status="${st}" ${s.status === st ? 'class="is-active"' : ''}>${st}</button>`).join('')}
             </div>
             ${admin ? `<button class="btn btn-danger btn-sm" data-del="${s.id}" style="margin-left:auto;">Delete</button>` : ''}
-          </div>
-
-          <div class="detail-block">
-            <div class="label">Admin notes</div>
-            <textarea id="admin-notes" rows="4" style="width:100%;padding:10px;border:1px solid #0a0a0a;font-family:inherit;font-size:0.94rem;">${escapeHtml(s.admin_notes || '')}</textarea>
-            <div class="hint" style="margin-top:4px;color:#5a5a5a;font-size:0.78rem;">Saves on blur.</div>
           </div>
         `;
         detail.querySelectorAll('[data-set-status]').forEach(b => b.addEventListener('click', async () => {
           try { await sb.from('contact_submissions').update({ status: b.dataset.setStatus }).eq('id', s.id); showToast('Status updated'); loadDetail(s.id); load(); }
           catch (e) { showToast(e.message, 'error'); }
         }));
-        const notesEl = document.getElementById('admin-notes');
-        notesEl.addEventListener('blur', async () => {
-          try { await sb.from('contact_submissions').update({ admin_notes: notesEl.value }).eq('id', s.id); showToast('Notes saved'); }
-          catch (e) { showToast(e.message, 'error'); }
-        });
         const delBtn = detail.querySelector('[data-del]');
         if (delBtn) delBtn.addEventListener('click', async () => {
           if (!confirm('Permanently delete this submission?')) return;

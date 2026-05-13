@@ -2065,7 +2065,8 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 .status-pill.published { background: #f0faf4; color: var(--up); border: 1px solid #9adfba; }
 .status-pill.archived { background: var(--paper); color: var(--muted); border: 1px solid var(--hairline); }
 .status-pill.new { background: #eff5fa; color: #0b5394; border: 1px solid #a1c7e8; }
-.status-pill.in_review { background: #fef9e7; color: #9a7a0c; border: 1px solid #f0d97e; }
+.status-pill.in_review,
+.status-pill.reviewing { background: #fef9e7; color: #9a7a0c; border: 1px solid #f0d97e; }
 .status-pill.responded { background: #f0faf4; color: var(--up); border: 1px solid #9adfba; }
 .status-pill.closed { background: var(--paper); color: var(--muted); border: 1px solid var(--hairline); }
 

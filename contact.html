@@ -166,14 +166,22 @@
       e.preventDefault();
       msgSlot.innerHTML = '';
       const fd = new FormData(form);
+      // DB enum has no 'promotion' value — map to 'advertise' and tag in subject.
+      const dbType = activeType === 'promotion' ? 'advertise' : activeType;
+      const subjectRaw = fd.get('subject').trim();
+      const subject = activeType === 'promotion' && !subjectRaw.toLowerCase().startsWith('[promotion]')
+        ? `[Promotion] ${subjectRaw}` : subjectRaw;
+      const companyName = (fd.get('company_name') || '').trim();
+      const messageRaw = fd.get('message').trim();
+      // company_name not in DB schema — fold into the message body.
+      const message = companyName ? `Company: ${companyName}\n\n${messageRaw}` : messageRaw;
       const payload = {
         name: fd.get('name').trim(),
         email: fd.get('email').trim(),
         phone: (fd.get('phone') || '').trim() || null,
-        company_name: (fd.get('company_name') || '').trim() || null,
-        subject: fd.get('subject').trim(),
-        message: fd.get('message').trim(),
-        type: activeType,
+        subject,
+        message,
+        type: dbType,
         status: 'new'
       };
       if (payload.message.length < 30) {
