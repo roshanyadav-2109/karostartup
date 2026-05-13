@@ -56,6 +56,16 @@
 
     <section class="founder-spotlight" id="founder-spotlight-slot"></section>
 
+    <section class="section eminent-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="h-section">Read by the people building India</h2>
+          <span class="more-link" style="color:#5a5a5a;cursor:default;">Eminent readers</span>
+        </div>
+        <div class="eminent-grid" id="eminent-grid"></div>
+      </div>
+    </section>
+
     <section class="section">
       <div class="container">
         <div class="section-header">
@@ -365,6 +375,56 @@
     } catch {
       document.getElementById('founder-spotlight-slot').style.display = 'none';
     } });
+
+    // EMINENT READERS — static, edit this list to feature real people.
+    // Pass null/empty for any social handle you don't want shown; the icon
+    // for that platform will simply be omitted.
+    (() => {
+      const eminents = [
+        { name: 'Nithin Kamath',     designation: 'Founder & CEO, Zerodha',
+          photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
+          linkedin: 'https://www.linkedin.com/in/nithinkamath/', twitter: 'https://twitter.com/Nithin0dha', instagram: null },
+        { name: 'Falguni Nayar',     designation: 'Founder & CEO, Nykaa',
+          photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80',
+          linkedin: 'https://www.linkedin.com/in/falguninayar/', twitter: 'https://twitter.com/falguni_nayar', instagram: 'https://www.instagram.com/mynykaa/' },
+        { name: 'Kunal Shah',        designation: 'Founder, Cred',
+          photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
+          linkedin: 'https://www.linkedin.com/in/kunalshah1/', twitter: 'https://twitter.com/kunalb11', instagram: null },
+        { name: 'Bhavish Aggarwal',  designation: 'Co-founder, Ola',
+          photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80',
+          linkedin: 'https://www.linkedin.com/in/bhavishaggarwal/', twitter: 'https://twitter.com/bhash', instagram: null },
+        { name: 'Sridhar Vembu',     designation: 'Founder & CEO, Zoho',
+          photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80',
+          linkedin: 'https://www.linkedin.com/in/sridhar-vembu/', twitter: 'https://twitter.com/svembu', instagram: null },
+        { name: 'Ghazal Alagh',      designation: 'Co-founder, Mamaearth',
+          photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80',
+          linkedin: 'https://www.linkedin.com/in/ghazal-alagh/', twitter: null, instagram: 'https://www.instagram.com/ghazalalagh/' },
+        { name: 'Aman Gupta',        designation: 'Co-founder, boAt Lifestyle',
+          photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',
+          linkedin: 'https://www.linkedin.com/in/aman-gupta-/', twitter: 'https://twitter.com/AmanGuptaBoat', instagram: 'https://www.instagram.com/boat.nirvana/' },
+        { name: 'Vani Kola',         designation: 'Managing Director, Kalaari Capital',
+          photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80',
+          linkedin: 'https://www.linkedin.com/in/vanikola/', twitter: 'https://twitter.com/vanikola', instagram: null }
+      ];
+
+      const socialIcon = (url, icon) => url
+        ? `<a class="em-social" href="${escapeAttr(url)}" target="_blank" rel="noopener" aria-label="Profile link">${icon}</a>`
+        : '';
+
+      const cards = eminents.map(e => `
+        <div class="eminent-card">
+          <img src="${escapeAttr(e.photo)}" alt="${escapeAttr(e.name)}" class="em-photo" loading="lazy">
+          <div class="em-name">${escapeHtml(e.name)}</div>
+          <div class="em-role">${escapeHtml(e.designation)}</div>
+          <div class="em-socials">
+            ${socialIcon(e.linkedin, ICON.linkedinSm)}
+            ${socialIcon(e.twitter,  ICON.twitter)}
+            ${socialIcon(e.instagram, ICON.instagram)}
+          </div>
+        </div>`).join('');
+
+      document.getElementById('eminent-grid').innerHTML = cards;
+    })();
 
     // LONG READS
     run(async () => { try {

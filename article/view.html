@@ -20,6 +20,14 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/assets/app.js"></script>
   <script>
+  // Returns ~5 lines / ~60 words from the start of markdown content so an
+  // anonymous reader sees a meaningful teaser before the auth wall.
+  function teaserContent(md) {
+    if (!md) return '';
+    const words = md.split(/\s+/);
+    const cut = words.slice(0, 60).join(' ');
+    return cut + (words.length > 60 ? '…' : '');
+  }
   (async () => {
     const params = new URLSearchParams(location.search);
     const slug = params.get('slug');
@@ -53,7 +61,9 @@
 
     const user = await getCurrentUser();
     const profile = user ? await getCurrentProfile() : null;
-    const isPaywalled = article.is_premium && !(profile?.is_plus_member) && !['author','editor','admin'].includes(profile?.role);
+    // Auth-wall: anonymous readers see a teaser then a signin prompt.
+    // Signed-in users see everything regardless of is_premium.
+    const isAuthWalled = !user;
 
     const author = article.profiles || {};
     const authorAvatar = author.avatar_url || defaultCover({title: author.full_name || 'A'});
@@ -82,6 +92,7 @@
               <button class="icon-btn" data-share="linkedin" aria-label="Share on LinkedIn">${ICON.linkedin}</button>
               <button class="icon-btn" data-share="whatsapp" aria-label="Share on WhatsApp">${ICON.whatsapp}</button>
               <button class="icon-btn" data-share="copy" aria-label="Copy link">${ICON.copy}</button>
+              <button class="icon-btn" id="print-btn" aria-label="Print article">${ICON.printer}</button>
               <button class="icon-btn" id="bookmark-btn" aria-label="Bookmark">${ICON.bookmark}</button>
             </div>
           </div>
@@ -95,15 +106,8 @@
         </div>` : ''}
 
       <article class="article-body" id="article-body">
-        ${isPaywalled
-          ? `<div class="paywall-fade">${renderMarkdown(article.content || '')}</div>
-             <div class="paywall-card">
-               <span class="kicker">Karostartup Plus</span>
-               <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.6rem;margin:8px 0 12px 0;">This is a Plus story.</h2>
-               <p style="color:#5a5a5a;margin-bottom:20px;">Continue reading with a Karostartup Plus membership. ₹4,999/year. Cancel anytime.</p>
-               <a href="/plus.html" class="btn btn-red">Become a Member</a>
-               ${user ? '' : `<p style="margin-top:14px;font-size:0.86rem;"><a href="/auth/signin.html?next=${encodeURIComponent(location.pathname + location.search)}">Already a member? Sign in →</a></p>`}
-             </div>`
+        ${isAuthWalled
+          ? `<div class="authwall-teaser">${renderMarkdown(teaserContent(article.content || ''))}</div>`
           : renderMarkdown(article.content || '')}
       </article>
 
@@ -134,6 +138,31 @@
         <div id="comments-list-slot"></div>
       </section>
     `;
+
+    // Auth wall modal for anonymous readers
+    if (isAuthWalled) {
+      const next = encodeURIComponent(location.pathname + location.search);
+      const wall = document.createElement('div');
+      wall.className = 'authwall-modal';
+      wall.innerHTML = `
+        <div class="authwall-card">
+          <span class="kicker">Continue reading</span>
+          <h2>Sign in to read the full story</h2>
+          <p>Karostartup is free to read — just create an account so we know who's reading. No paywall, no card required. Two clicks and you're in.</p>
+          <div class="authwall-actions">
+            <a class="btn btn-red" href="/auth/signup.html?next=${next}">Create a free account</a>
+            <a class="btn btn-ghost" href="/auth/signin.html?next=${next}">I already have one</a>
+          </div>
+          <p class="authwall-foot">By creating an account you agree to our <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
+        </div>`;
+      document.body.appendChild(wall);
+      // Prevent scrolling the article body while modal is open
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Print button
+    const printBtn = document.getElementById('print-btn');
+    if (printBtn) printBtn.addEventListener('click', () => { document.body.dataset.url = location.href; window.print(); });
 
     // Share buttons
     main.querySelectorAll('[data-share]').forEach(btn => {

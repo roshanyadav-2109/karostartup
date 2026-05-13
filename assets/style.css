@@ -781,6 +781,78 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 }
 
 /* ============================================================
+   EMINENT READERS
+   "Read by the people building India" — a static grid of notable
+   readers with photo, designation, and only the social icons they
+   actually have a handle for.
+   ============================================================ */
+.eminent-section { background: var(--paper); }
+.eminent-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+.eminent-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 22px 14px 18px;
+  background: #fff;
+  border: 1px solid var(--hairline);
+  transition: border-color 0.15s ease;
+}
+.eminent-card:hover { border-color: var(--ink); }
+.em-photo {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: grayscale(20%);
+  margin-bottom: 14px;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+}
+.em-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1.15;
+  margin-bottom: 4px;
+}
+.em-role {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.35;
+  margin-bottom: 12px;
+  min-height: 2.2em;
+}
+.em-socials {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.em-social {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+  color: var(--ink);
+  background: #fff;
+  transition: all 0.15s ease;
+}
+.em-social:hover { color: var(--brand); border-color: var(--brand); }
+@media (max-width: 1024px) {
+  .eminent-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+}
+@media (max-width: 768px) {
+  .eminent-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+}
+
+/* ============================================================
    LONG READS
    ============================================================ */
 .longread-grid {
@@ -1370,6 +1442,39 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   color: var(--ink);
 }
 
+/* Embedded video — YouTube, Vimeo */
+.article-body .embed-video,
+.embed-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 1.8em 0;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+}
+.embed-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+/* Embedded audio — Spotify, SoundCloud */
+.article-body .embed-audio,
+.embed-audio {
+  margin: 1.8em 0;
+  width: 100%;
+}
+.embed-audio iframe {
+  width: 100%;
+  height: 152px;
+  border: 0;
+  border-radius: 4px;
+}
+.embed-audio.embed-audio-apple iframe { height: 175px; }
+.article-body .embed-audio-native,
+.embed-audio-native { width: 100%; margin: 1.6em 0; }
+
 .paywall-card {
   max-width: 720px;
   margin: 40px auto;
@@ -1392,6 +1497,82 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   inset: 0;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #fff 90%);
 }
+
+/* ============================================================
+   AUTH WALL — anonymous reader teaser + signin/signup modal
+   ============================================================ */
+.authwall-teaser {
+  position: relative;
+  max-height: 180px;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+.authwall-teaser::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 60%, #fff 100%);
+  pointer-events: none;
+}
+.authwall-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.6);
+  z-index: 8000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: authwall-fade 0.25s ease-out;
+}
+@keyframes authwall-fade {
+  from { background: rgba(10, 10, 10, 0); }
+  to   { background: rgba(10, 10, 10, 0.6); }
+}
+.authwall-card {
+  background: #fff;
+  border-top: 4px solid var(--brand);
+  max-width: 480px;
+  width: 100%;
+  padding: 40px 32px 28px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  animation: authwall-rise 0.32s cubic-bezier(.2, .8, .2, 1);
+}
+@keyframes authwall-rise {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+.authwall-card .kicker { margin-bottom: 6px; }
+.authwall-card h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  margin: 0 0 14px 0;
+}
+.authwall-card p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0 0 22px 0;
+}
+.authwall-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.authwall-actions .btn { width: 100%; justify-content: center; padding: 13px 18px; }
+.authwall-foot {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 18px 0 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--hairline);
+}
+.authwall-foot a { color: var(--brand); text-decoration: underline; }
 
 .tags-row {
   max-width: 720px;
@@ -1588,6 +1769,54 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   font-size: 0.86rem;
   color: var(--brand);
   margin-top: 14px;
+}
+.cat-hero-row {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 40px;
+  align-items: end;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--hairline);
+}
+.cat-subscribe { display: flex; flex-direction: column; }
+.cat-sub-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+}
+.cat-sub-form {
+  display: flex;
+  border: 2px solid var(--ink);
+  background: #fff;
+  max-width: 460px;
+}
+.cat-sub-form input {
+  flex: 1;
+  padding: 11px 14px;
+  border: 0;
+  outline: 0;
+  font-size: 0.94rem;
+}
+.cat-sub-form button {
+  background: var(--ink);
+  color: #fff;
+  border: 0;
+  padding: 0 18px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.cat-sub-form button:hover { background: var(--brand); }
+.cat-sub-msg { margin-top: 8px; font-size: 0.82rem; min-height: 1.2em; }
+.cat-sub-msg.success { color: var(--up); }
+.cat-sub-msg.error { color: var(--down); }
+@media (max-width: 768px) {
+  .cat-hero-row { grid-template-columns: 1fr; gap: 18px; }
 }
 
 .filter-bar {
@@ -2633,6 +2862,70 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   color: var(--brand);
 }
 
+/* Podcasts page */
+.podcast-platforms {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.podcast-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+.podcast-card {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 22px;
+  padding: 18px;
+  border: 1px solid var(--hairline);
+  background: #fff;
+  color: inherit;
+  transition: border-color 0.15s ease;
+}
+.podcast-card:hover { border-color: var(--ink); }
+.pod-cover-wrap {
+  width: 200px;
+  height: 200px;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+}
+.pod-cover {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.pod-meta { display: flex; flex-direction: column; }
+.pod-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 6px 0 8px 0;
+}
+.pod-dek {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  margin: 0 0 12px 0;
+  flex: 1;
+}
+.pod-foot {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+.pod-foot .dot { width: 3px; height: 3px; background: var(--muted); border-radius: 50%; display: inline-block; }
+@media (max-width: 1024px) {
+  .podcast-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .podcast-card { grid-template-columns: 1fr; }
+  .pod-cover-wrap { width: 100%; height: auto; aspect-ratio: 1; }
+}
+
 /* Search page */
 .search-bar-large {
   display: flex;
@@ -2786,6 +3079,102 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   margin: 0 0 12px 0;
 }
 .access-denied p { color: var(--muted); margin: 0 0 24px 0; }
+
+/* ============================================================
+   COOKIE CONSENT BANNER
+   Sticky bottom strip, full viewport width, ink-black bg with a
+   red accent bar. Auto-shown on first visit; localStorage flag
+   suppresses it after Accept or Decline.
+   ============================================================ */
+.cookie-banner {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 9000;
+  background: var(--black);
+  color: #fff;
+  border-top: 3px solid var(--brand);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.18);
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(.2, .8, .2, 1);
+}
+.cookie-banner.is-visible { transform: translateY(0); }
+.cookie-banner .cookie-msg {
+  flex: 1;
+  max-width: 920px;
+  color: #d5d5d5;
+}
+.cookie-banner .cookie-msg strong { color: #fff; }
+.cookie-banner .cookie-msg a { color: var(--brand); text-decoration: underline; }
+.cookie-banner .cookie-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.cookie-banner .cookie-actions .btn { padding: 9px 16px; font-size: 0.84rem; }
+.cookie-banner .btn-cookie-accept { background: var(--brand); color: #fff; border: 1px solid var(--brand); }
+.cookie-banner .btn-cookie-accept:hover { background: var(--brand-dark); }
+.cookie-banner .btn-cookie-decline { background: transparent; color: #fff; border: 1px solid #555; }
+.cookie-banner .btn-cookie-decline:hover { border-color: #fff; background: rgba(255,255,255,0.06); }
+@media (max-width: 768px) {
+  .cookie-banner { flex-direction: column; align-items: stretch; padding: 14px 16px; gap: 12px; }
+  .cookie-banner .cookie-actions { justify-content: stretch; }
+  .cookie-banner .cookie-actions .btn { flex: 1; justify-content: center; }
+}
+
+/* ============================================================
+   PRINT
+   Strip chrome, show only article. Force black-on-white for ink-
+   friendly output. Triggered when user prints from any page.
+   ============================================================ */
+@media print {
+  #chrome, #footer, .footer,
+  .utility-bar, .ticker-bar, .breaking-ribbon, .masthead, .nav,
+  .byline-actions, .comments-section, .related-section, .companies-strip,
+  .author-card, .tags-row, .paywall-card, .auth-wall, .toast-container,
+  .read-progress, .cookie-banner, .nav-mobile-btn { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+  main { padding: 0 !important; }
+  .article-hero { padding: 0 0 16px 0 !important; }
+  .article-title { font-size: 32pt !important; color: #000 !important; }
+  .article-subtitle { font-size: 14pt !important; color: #333 !important; }
+  .article-body {
+    max-width: 100% !important;
+    padding: 0 !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+    color: #000 !important;
+  }
+  .article-body a { color: #000 !important; border-bottom: 1px dotted #000 !important; }
+  .article-body a::after { content: " (" attr(href) ")"; font-size: 9pt; color: #555; }
+  .article-body .blockquote-pull, .article-body blockquote {
+    border-left: 3px solid #000 !important;
+    color: #000 !important;
+    page-break-inside: avoid;
+  }
+  .article-body h2, .article-body h3 { page-break-after: avoid; }
+  .article-body img, .cover-img-wrap img { max-width: 100% !important; page-break-inside: avoid; }
+  .article-body .dropcap::first-letter,
+  .article-body > p:first-of-type::first-letter { color: #000 !important; }
+  .kicker { color: #000 !important; }
+  /* Print-only footer with URL + timestamp */
+  .article-hero::after,
+  body[data-page="article"]::after {
+    content: "Karostartup · " attr(data-url);
+    display: block;
+    margin-top: 24pt;
+    font-size: 9pt;
+    color: #555;
+    border-top: 1px solid #ccc;
+    padding-top: 8pt;
+  }
+}
 
 /* ============================================================
    MOBILE

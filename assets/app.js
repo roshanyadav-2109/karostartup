@@ -24,7 +24,13 @@ const ICON = {
   bookmarkFill: '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>',
   pin: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 7-8 12-8 12s-8-5-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>',
   check: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>',
-  inbox: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>'
+  inbox: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>',
+  printer: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>',
+  linkedinSm: '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg>',
+  instagram: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>',
+  youtube: '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>',
+  facebook: '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 8h-3v4h3v12h5v-12h3.642L18 8h-4V6.333C14 5.378 14.192 5 15.115 5H18V0h-3.808C10.596 0 9 1.583 9 4.615V8z"/></svg>',
+  podcast: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>'
 };
 window.ICON = ICON;
 
@@ -229,16 +235,80 @@ function escapeAttr(s) { return escapeHtml(s); }
    Supports: ## ### headings, **bold**, *italic*, > blockquote,
              [link](url), paragraphs, hr ---, lists - / 1.
    ============================================================ */
+// Convert a bare media URL on its own line to an embed iframe HTML.
+// Returns null if the URL isn't recognised as embeddable.
+function _mediaEmbedFor(url) {
+  try {
+    const u = new URL(url);
+    const host = u.hostname.replace(/^www\./, '');
+    // YouTube — watch?v=, youtu.be/, /shorts/, /embed/
+    if (host === 'youtube.com' || host === 'm.youtube.com') {
+      let id = u.searchParams.get('v');
+      if (!id && u.pathname.startsWith('/shorts/')) id = u.pathname.split('/')[2];
+      if (!id && u.pathname.startsWith('/embed/')) id = u.pathname.split('/')[2];
+      if (id) return `<div class="embed-video"><iframe src="https://www.youtube.com/embed/${encodeURIComponent(id)}" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+    }
+    if (host === 'youtu.be') {
+      const id = u.pathname.slice(1).split('/')[0];
+      if (id) return `<div class="embed-video"><iframe src="https://www.youtube.com/embed/${encodeURIComponent(id)}" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+    }
+    // Vimeo
+    if (host === 'vimeo.com') {
+      const id = u.pathname.split('/').filter(Boolean)[0];
+      if (id && /^\d+$/.test(id)) return `<div class="embed-video"><iframe src="https://player.vimeo.com/video/${encodeURIComponent(id)}" title="Vimeo video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+    }
+    // Spotify — episodes, shows, tracks
+    if (host === 'open.spotify.com') {
+      const parts = u.pathname.split('/').filter(Boolean);
+      if (parts.length >= 2) {
+        return `<div class="embed-audio"><iframe src="https://open.spotify.com/embed/${parts[0]}/${parts[1]}" title="Spotify embed" allow="encrypted-media; autoplay; clipboard-write; picture-in-picture" loading="lazy"></iframe></div>`;
+      }
+    }
+    // Apple Podcasts
+    if (host === 'podcasts.apple.com') {
+      return `<div class="embed-audio embed-audio-apple"><iframe src="https://embed.podcasts.apple.com${u.pathname}${u.search}" title="Apple Podcasts embed" allow="autoplay *; encrypted-media *; clipboard-write" loading="lazy"></iframe></div>`;
+    }
+    // SoundCloud
+    if (host === 'soundcloud.com') {
+      return `<div class="embed-audio"><iframe src="https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%23d10a11&inverse=false&auto_play=false&show_user=true" title="SoundCloud embed" loading="lazy"></iframe></div>`;
+    }
+    // Direct audio file (mp3/m4a/ogg/wav)
+    if (/\.(mp3|m4a|ogg|wav)(\?.*)?$/i.test(u.pathname)) {
+      return `<audio class="embed-audio-native" controls preload="metadata" src="${escapeAttr(url)}"></audio>`;
+    }
+  } catch {}
+  return null;
+}
+
 function renderMarkdown(md) {
   if (!md) return '';
-  const esc = escapeHtml(md);
-  const lines = esc.split(/\r?\n/);
+  const rawLines = md.split(/\r?\n/);
+  // First pass: handle bare-URL lines BEFORE escaping, so iframe HTML survives.
+  // Build a marker list that the per-line renderer below treats as a passthrough.
+  const passthrough = [];
+  const cooked = rawLines.map((line) => {
+    const trimmed = line.trim();
+    if (/^https?:\/\/\S+$/.test(trimmed)) {
+      const embed = _mediaEmbedFor(trimmed);
+      if (embed) {
+        passthrough.push(embed);
+        return ` PASS${passthrough.length - 1} `;
+      }
+    }
+    return line;
+  });
+  const esc = escapeHtml(cooked.join('\n'));
+  // Restore passthrough markers AFTER escapeHtml so the HTML is preserved
+  const restored = esc.replace(/ PASS(\d+) /g, (_, n) => passthrough[Number(n)] || '');
+  const lines = restored.split(/\r?\n/);
   const out = [];
   let i = 0;
   while (i < lines.length) {
     const line = lines[i];
     // blank line — skip
     if (/^\s*$/.test(line)) { i++; continue; }
+    // passthrough (already-rendered embed)
+    if (/^<(div|audio|iframe)/.test(line.trim())) { out.push(line); i++; continue; }
     // hr
     if (/^\s*---+\s*$/.test(line)) { out.push('<hr>'); i++; continue; }
     // h3
@@ -480,6 +550,7 @@ function renderFooter() {
             <li><a href="/contact.html">Contact</a></li>
             <li><a href="/plus.html">Plus membership</a></li>
             <li><a href="/newsletters.html">Newsletters</a></li>
+            <li><a href="/podcasts.html">Podcasts</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -505,9 +576,10 @@ function renderFooter() {
       <div class="footer-bottom">
         <div>© ${new Date().getFullYear()} Karostartup. All rights reserved.</div>
         <div class="socials">
-          <a href="/about.html">Privacy</a>
-          <a href="/about.html">Terms</a>
-          <a href="/about.html">Sitemap</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+          <a href="/cookies.html">Cookies</a>
+          <a href="mailto:roshan.25scs1003001159@iilm.edu">Contact editor</a>
         </div>
       </div>
     </div>
@@ -742,6 +814,37 @@ function roundPillClass(r) {
 }
 
 /* ============================================================
+   COOKIE CONSENT BANNER
+   ============================================================ */
+const COOKIE_LS_KEY = 'k:cookie-consent';
+function mountCookieBanner() {
+  try {
+    if (localStorage.getItem(COOKIE_LS_KEY)) return; // already responded
+  } catch {}
+  const el = document.createElement('div');
+  el.className = 'cookie-banner';
+  el.setAttribute('role', 'dialog');
+  el.setAttribute('aria-label', 'Cookie consent');
+  el.innerHTML = `
+    <div class="cookie-msg">
+      <strong>We use cookies.</strong> Karostartup uses essential cookies to keep you signed in and to remember your reading preferences. We also use lightweight analytics so we can write better stories. Read our <a href="/cookies.html">Cookie Policy</a> and <a href="/privacy.html">Privacy Policy</a>.
+    </div>
+    <div class="cookie-actions">
+      <button class="btn btn-cookie-decline" type="button" data-cookie="decline">Essential only</button>
+      <button class="btn btn-cookie-accept" type="button" data-cookie="accept">Accept all</button>
+    </div>`;
+  document.body.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('is-visible'));
+  el.querySelectorAll('[data-cookie]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      try { localStorage.setItem(COOKIE_LS_KEY, btn.dataset.cookie); } catch {}
+      el.classList.remove('is-visible');
+      setTimeout(() => el.remove(), 320);
+    });
+  });
+}
+
+/* ============================================================
    PAGE READY
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
@@ -750,6 +853,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // running because we update the inner spans in place, not the
   // animated .ticker-track parent.
   setInterval(() => refreshTickers(), 60_000);
+  // Show consent banner if user hasn't responded yet.
+  setTimeout(mountCookieBanner, 600);
 });
 
 /* ============================================================

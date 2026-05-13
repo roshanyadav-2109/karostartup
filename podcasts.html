@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Podcasts · Karostartup</title>
+  <meta name="description" content="Karostartup podcasts — conversations with the people building India. Founders, investors, operators.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="chrome"></div>
+  <main>
+    <section class="about-hero">
+      <div class="container">
+        <span class="kicker">Podcasts</span>
+        <h1>Conversations with the people building India.</h1>
+        <p class="dek" style="margin-top:16px;max-width:720px;">Long-form interviews with founders, investors, and operators. Subscribe wherever you listen.</p>
+        <div class="podcast-platforms">
+          <a href="https://open.spotify.com" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Spotify</a>
+          <a href="https://podcasts.apple.com" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Apple Podcasts</a>
+          <a href="https://youtube.com" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">YouTube</a>
+          <a href="https://soundcloud.com" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">SoundCloud</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header"><h2 class="h-section">Latest episodes</h2></div>
+        <div class="podcast-grid" id="pod-grid">
+          <div class="loading-state" style="grid-column:1/-1;">Loading episodes…</div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    mountChrome('').catch(() => {});
+    mountFooter();
+    try {
+      const { data } = await sb.from('articles')
+        .select('id,slug,title,subtitle,summary,cover_image_url,published_at,read_time_minutes,categories(name),profiles!author_id(full_name)')
+        .eq('status', 'published')
+        .eq('kicker', 'PODCAST')
+        .order('published_at', { ascending: false })
+        .limit(20);
+      const slot = document.getElementById('pod-grid');
+      if (!data || !data.length) {
+        slot.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1;">
+            <h3>No episodes yet</h3>
+            <p>We're recording the first season. Subscribe to a newsletter and we'll let you know when it drops.</p>
+            <a href="/newsletters.html" class="btn btn-primary" style="margin-top:14px;">Browse newsletters</a>
+          </div>`;
+        return;
+      }
+      slot.innerHTML = data.map(a => {
+        const cover = a.cover_image_url || defaultCover(a);
+        return `
+          <a href="/article/view.html?slug=${encodeURIComponent(a.slug)}" class="podcast-card">
+            <div class="pod-cover-wrap"><img src="${escapeAttr(cover)}" alt="${escapeAttr(a.title)}" class="pod-cover" loading="lazy"></div>
+            <div class="pod-meta">
+              <span class="kicker">Episode</span>
+              <h3 class="pod-title">${escapeHtml(a.title)}</h3>
+              ${a.subtitle ? `<p class="pod-dek">${escapeHtml(a.subtitle)}</p>` : (a.summary ? `<p class="pod-dek">${escapeHtml(a.summary.slice(0, 140))}…</p>` : '')}
+              <div class="pod-foot">
+                <span>${escapeHtml(a.profiles?.full_name || 'Karostartup')}</span>
+                <span class="dot"></span>
+                <span>${timeAgo(a.published_at)}</span>
+                ${a.read_time_minutes ? `<span class="dot"></span><span>${a.read_time_minutes} min listen</span>` : ''}
+              </div>
+            </div>
+          </a>`;
+      }).join('');
+    } catch (e) {
+      document.getElementById('pod-grid').innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><h3>Could not load episodes</h3></div>';
+    }
+  })();
+  </script>
+</body>
+</html>

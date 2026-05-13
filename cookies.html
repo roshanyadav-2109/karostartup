@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cookie Policy · Karostartup</title>
+  <meta name="description" content="What cookies Karostartup uses and how you can control them.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="chrome"></div>
+  <main>
+    <section class="article-hero">
+      <div class="container">
+        <span class="kicker">Legal</span>
+        <h1 class="article-title">Cookie Policy</h1>
+        <p class="article-subtitle">A short, honest list of every cookie Karostartup uses — what it does, who set it, and how to turn it off.</p>
+        <p style="color:#5a5a5a;font-size:0.86rem;margin-top:8px;">Effective: 14 May 2026 · Karostartup Media</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <h2>What is a cookie?</h2>
+      <p>A cookie is a tiny text file your browser stores when you visit a website. They are used to remember things like whether you are signed in, what theme you prefer, or whether you have already seen our consent banner. Karostartup also uses a related browser feature called <em>localStorage</em>, which serves the same purpose.</p>
+
+      <h2>The cookies and storage we use</h2>
+
+      <h3>Essential — always on</h3>
+      <ul>
+        <li><strong>sb-...-auth-token</strong> — set by Supabase, lets you stay signed in across page loads. Expires when your session does.</li>
+        <li><strong>k:cookie-consent</strong> (localStorage) — records whether you accepted or declined cookies, so we don't show the banner again. Stored on your device only; we never read it.</li>
+        <li><strong>k:tickers, k:categories, k:profile:* </strong> (sessionStorage) — short-lived caches that keep the site fast across page transitions. Cleared when you close the tab.</li>
+      </ul>
+
+      <h3>Optional — only with your consent</h3>
+      <ul>
+        <li><strong>Analytics</strong> — if you click "Accept all" on the consent banner, we may load a lightweight first-party analytics script that counts page views and where readers come from. We never set advertising or cross-site tracking cookies, and we do not use Google Analytics in its default form.</li>
+      </ul>
+
+      <h3>Third-party content</h3>
+      <p>When we embed third-party content (YouTube, Vimeo, Spotify, Twitter/X), those services may set their own cookies on the embed iframe. We have no control over them — please refer to each provider's cookie policy.</p>
+
+      <h2>How to control cookies</h2>
+      <p>The consent banner on your first visit gives you a choice between "Essential only" and "Accept all". You can change your mind at any time by clearing your browser's site data for this domain — the banner will return on your next visit.</p>
+      <p>All modern browsers also let you block or delete cookies in their settings. Be aware that disabling essential cookies will sign you out and break some features (bookmarks, commenting, admin).</p>
+
+      <h2>Do Not Track</h2>
+      <p>We respect the Do Not Track (DNT) header. If your browser sends DNT, we do not load any optional analytics regardless of your consent banner choice.</p>
+
+      <h2>Updates</h2>
+      <p>If we add or remove a cookie we will update this page and revise the date at the top.</p>
+
+      <h2>Contact</h2>
+      <p>Questions about cookies: <a href="mailto:roshan.25scs1003001159@iilm.edu">roshan.25scs1003001159@iilm.edu</a>. See also our <a href="/privacy.html">Privacy Policy</a> and <a href="/terms.html">Terms of Service</a>.</p>
+    </article>
+  </main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>(async()=>{ mountChrome('').catch(()=>{}); mountFooter(); })();</script>
+</body>
+</html>

@@ -49,7 +49,17 @@
           <span class="kicker">Section</span>
           <h1>${escapeHtml(cat.name)}</h1>
           ${cat.description ? `<p class="desc">${escapeHtml(cat.description)}</p>` : ''}
-          <div class="stat">${totalCount || 0} stories published</div>
+          <div class="cat-hero-row">
+            <div class="stat">${totalCount || 0} stories published</div>
+            <form class="cat-subscribe" id="cat-subscribe">
+              <label class="cat-sub-label">Get a weekly email of the best ${escapeHtml(cat.name)} stories →</label>
+              <div class="cat-sub-form">
+                <input type="email" name="email" placeholder="your@email.com" required aria-label="Email">
+                <button type="submit">Subscribe</button>
+              </div>
+              <div class="cat-sub-msg" id="cat-sub-msg"></div>
+            </form>
+          </div>
         </div>
       </section>
 
@@ -85,6 +95,51 @@
         </div>
       </div>
     `;
+
+    // Category newsletter subscribe
+    (() => {
+      const form = document.getElementById('cat-subscribe');
+      const msg = document.getElementById('cat-sub-msg');
+      if (!form) return;
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = form.email.value.trim();
+        if (!email) return;
+        msg.textContent = ''; msg.className = 'cat-sub-msg';
+        const newsletterSlug = `cat-${cat.slug}`;
+        try {
+          // Find or create the per-category newsletter row.
+          let { data: nl } = await sb.from('newsletters').select('id').eq('slug', newsletterSlug).maybeSingle();
+          if (!nl) {
+            const { data: created, error: cErr } = await sb.from('newsletters').insert({
+              slug: newsletterSlug,
+              name: `${cat.name} Weekly`,
+              description: `The best ${cat.name} stories from Karostartup, every week.`,
+              cadence: 'weekly',
+              active: true,
+            }).select('id').single();
+            if (cErr) throw cErr;
+            nl = created;
+          }
+          const { error } = await sb.from('newsletter_subscribers').insert({ email, newsletter_id: nl.id });
+          if (error) {
+            if (error.code === '23505') {
+              msg.textContent = `You're already subscribed to ${cat.name} Weekly.`;
+              msg.classList.add('success');
+            } else {
+              throw error;
+            }
+          } else {
+            msg.textContent = `Subscribed. You'll get the next ${cat.name} brief on Monday.`;
+            msg.classList.add('success');
+            form.reset();
+          }
+        } catch (err) {
+          msg.textContent = err.message || 'Could not subscribe right now.';
+          msg.classList.add('error');
+        }
+      });
+    })();
 
     // Featured
     try {
