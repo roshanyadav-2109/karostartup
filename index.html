@@ -407,7 +407,6 @@
           ].filter(Boolean).join('');
           return `
           <div class="eminent-card">
-            <span class="em-index">No. ${pad2(i + 1)}</span>
             <div class="em-photo-wrap">
               <img src="${escapeAttr(r.photo_url)}" alt="${escapeAttr(r.name)}" class="em-photo" loading="lazy">
               ${socials ? `<div class="em-socials">${socials}</div>` : ''}
