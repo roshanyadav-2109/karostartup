@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plus · Karostartup</title>
+  <meta name="description" content="Karostartup Plus — for the operators building India. ₹4,999/year for unlimited Plus stories, the Weekly Funding Brief, Founder Memo, and research reports.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="chrome"></div>
+  <main>
+    <section class="plus-hero">
+      <div class="container">
+        <span class="kicker" style="color:#d10a11;">Karostartup Plus</span>
+        <h1>For the operators<br>building India<span class="dot"></span></h1>
+        <p>Unlimited Plus stories. Weekly Funding Brief. Founder Memo. Research reports. The signal beneath the noise — for ₹4,999 a year.</p>
+        <a href="#price" class="btn btn-red btn-lg" style="margin-top:32px;">Become a Member</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="h-section">What's included</h2>
+        </div>
+        <div class="benefits-grid">
+          <div class="benefit-card reveal">
+            <span class="num">01</span>
+            <h3>Unlimited Plus stories</h3>
+            <p>Every paywalled feature, investigation, and deep-dive. No paywall. No limit. Full archive access.</p>
+          </div>
+          <div class="benefit-card reveal">
+            <span class="num">02</span>
+            <h3>Weekly Funding Brief</h3>
+            <p>Every Monday at 7am IST. The deals that mattered, the patterns we're watching, the names to know.</p>
+          </div>
+          <div class="benefit-card reveal">
+            <span class="num">03</span>
+            <h3>Founder Memo</h3>
+            <p>Operator-only newsletter. Off-the-record perspectives from founders, written for founders. Twice a month.</p>
+          </div>
+          <div class="benefit-card reveal">
+            <span class="num">04</span>
+            <h3>Research reports</h3>
+            <p>Quarterly sector deep dives with proprietary data. Fintech, SaaS, D2C, AI, climate — wherever the action is.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background:var(--paper);" id="price">
+      <div class="container" style="max-width:560px;text-align:center;">
+        <span class="kicker">Membership</span>
+        <h2 class="h-display" style="font-size:clamp(2.4rem,4.4vw,3.4rem);margin:16px 0 8px 0;">₹4,999<span style="color:#5a5a5a;font-size:0.4em;font-weight:400;"> /year</span></h2>
+        <p style="color:#5a5a5a;margin:0 0 32px 0;">Or ₹499/month. Cancel anytime. All prices in INR, GST inclusive.</p>
+        <button class="btn btn-red btn-lg" id="become-btn" style="margin-bottom:18px;width:100%;max-width:320px;">Become a Member</button>
+        <p style="font-size:0.86rem;color:#5a5a5a;margin:0;">Already a member? <a href="/auth/signin.html" style="color:#d10a11;font-weight:600;">Sign in</a></p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="h-section">What members say</h2>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial reveal">
+            <blockquote>"Karostartup is the only India business publication I read end-to-end. The Funding Brief alone is worth the membership."</blockquote>
+            <div class="attrib"><strong>Ankur Shah</strong> · Founder, Loop Health</div>
+          </div>
+          <div class="testimonial reveal">
+            <blockquote>"Founder Memo is unusually honest. It reads like a peer wrote it, not a journalist trying to perform."</blockquote>
+            <div class="attrib"><strong>Riya Krishnan</strong> · Partner, Stellaris VP</div>
+          </div>
+          <div class="testimonial reveal">
+            <blockquote>"The deep-dives have actually changed how I think about my own market. Money well spent."</blockquote>
+            <div class="attrib"><strong>Dev Patel</strong> · CEO, Sequence AI</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="h-section">Frequently asked</h2>
+        </div>
+        <div class="faq">
+          <details><summary>Can I cancel anytime?</summary><p>Yes. One click in your profile. No retention call. No emails trying to win you back.</p></details>
+          <details><summary>Is there a team plan?</summary><p>Yes — for 5 or more seats we offer enterprise pricing with consolidated billing. <a href="/contact.html?type=partnership" style="color:#d10a11;font-weight:600;">Talk to us</a>.</p></details>
+          <details><summary>Do you offer student discounts?</summary><p>50% off for verified students. Email a screenshot of your student ID to <a href="mailto:hello@karostartup.com" style="color:#d10a11;font-weight:600;">hello@karostartup.com</a>.</p></details>
+          <details><summary>What does Plus pay for?</summary><p>Our journalism, our reporters, and the time it takes to do this right. We don't take VC money. We don't run native ads disguised as editorial. Members fund the work.</p></details>
+          <details><summary>Can I gift a membership?</summary><p>Yes, gift memberships are available — <a href="/contact.html?type=general" style="color:#d10a11;font-weight:600;">contact us</a>.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    await mountChrome('');
+    mountFooter();
+    document.getElementById('become-btn').addEventListener('click', () => {
+      alert("Payments aren't wired up in this build. Email hello@karostartup.com or use the contact form and we'll set you up manually.");
+      location.href = '/contact.html?type=general';
+    });
+  })();
+  </script>
+</body>
+</html>

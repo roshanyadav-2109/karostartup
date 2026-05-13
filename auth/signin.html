@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in · Karostartup</title>
+  <meta name="description" content="Sign in to your Karostartup account.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div class="auth-shell">
+    <aside class="auth-brand">
+      <a href="/" style="color:#fff;text-decoration:none;"><div class="logo">Karostartup<span class="dot"></span></div></a>
+      <div>
+        <h2 class="tagline">India's <span class="accent">Business of Business.</span></h2>
+        <p style="color:#aaa;font-size:1rem;max-width:380px;">Founder-first journalism. Sharp deal coverage. Operator-only insight. Read by people building the next India.</p>
+      </div>
+      <div class="footer-note">© ${''}Karostartup · A new kind of business paper.</div>
+    </aside>
+    <section class="auth-form-pane" style="position:relative;">
+      <div class="top-link">New here? <a href="/auth/signup.html">Create an account →</a></div>
+      <form class="auth-form" id="signin-form">
+        <h1>Welcome back</h1>
+        <p class="sub">Sign in to continue.</p>
+        <div id="msg-slot"></div>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" required autocomplete="email" placeholder="you@company.com">
+        </div>
+        <div class="form-field">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" required autocomplete="current-password" minlength="6">
+          <div class="hint"><a href="#" id="forgot-link" style="color:#5a5a5a;">Forgot password?</a></div>
+        </div>
+        <button type="submit" class="btn btn-primary submit-btn" id="submit-btn">Sign in</button>
+        <div class="form-foot">Don't have an account? <a href="/auth/signup.html">Sign up</a></div>
+      </form>
+    </section>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    // Yearly stamp in brand panel
+    document.querySelector('.footer-note').textContent = `© ${new Date().getFullYear()} Karostartup · A new kind of business paper.`;
+
+    // If already signed in, bounce
+    const u = await getCurrentUser();
+    if (u) {
+      const next = new URLSearchParams(location.search).get('next') || '/';
+      location.href = next;
+      return;
+    }
+
+    const form = document.getElementById('signin-form');
+    const msgSlot = document.getElementById('msg-slot');
+    const submitBtn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msgSlot.innerHTML = '';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Signing in…';
+      try {
+        const { error } = await sb.auth.signInWithPassword({
+          email: form.email.value.trim(),
+          password: form.password.value
+        });
+        if (error) {
+          msgSlot.innerHTML = `<div class="form-msg error">${escapeHtml(error.message)}</div>`;
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Sign in';
+          return;
+        }
+        const next = new URLSearchParams(location.search).get('next') || '/';
+        location.href = next;
+      } catch (err) {
+        msgSlot.innerHTML = `<div class="form-msg error">${escapeHtml(err.message || 'Sign in failed.')}</div>`;
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign in';
+      }
+    });
+
+    document.getElementById('forgot-link').addEventListener('click', async (e) => {
+      e.preventDefault();
+      const email = form.email.value.trim();
+      if (!email) { msgSlot.innerHTML = `<div class="form-msg info">Enter your email above first.</div>`; return; }
+      try {
+        const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + '/auth/signin.html' });
+        if (error) msgSlot.innerHTML = `<div class="form-msg error">${escapeHtml(error.message)}</div>`;
+        else msgSlot.innerHTML = `<div class="form-msg success">Check your inbox for a reset link.</div>`;
+      } catch (err) {
+        msgSlot.innerHTML = `<div class="form-msg error">${escapeHtml(err.message || 'Could not send reset.')}</div>`;
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

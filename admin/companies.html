@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Companies · Admin · Karostartup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="admin-root"><div class="loading-state">Loading…</div></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script src="/admin/shell.js"></script>
+  <script>
+  (async () => {
+    const ok = await requireStaff();
+    if (!ok) return;
+    await renderAdminShell('companies', 'Companies');
+    const main = document.getElementById('admin-content');
+
+    let q = '';
+    let sector = '';
+
+    main.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+        <h1 style="margin:0;">Companies</h1>
+        <a href="/admin/company-edit.html" class="btn btn-red">+ New company</a>
+      </div>
+      <div class="admin-toolbar">
+        <input type="search" class="search" id="search" placeholder="Search company name…">
+        <select id="sector"><option value="">All sectors</option></select>
+      </div>
+      <div class="admin-card" style="padding:0;" id="table-slot"><div class="loading-state">Loading…</div></div>`;
+
+    // populate sectors
+    const { data: secs } = await sb.from('companies').select('sector').not('sector', 'is', null);
+    const sectors = [...new Set((secs || []).map(s => s.sector))].sort();
+    const sectorEl = document.getElementById('sector');
+    sectors.forEach(s => sectorEl.innerHTML += `<option value="${escapeAttr(s)}">${escapeHtml(s)}</option>`);
+
+    let searchTimer;
+    document.getElementById('search').addEventListener('input', (e) => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => { q = e.target.value.trim(); load(); }, 300);
+    });
+    sectorEl.addEventListener('change', () => { sector = sectorEl.value; load(); });
+
+    async function load() {
+      const slot = document.getElementById('table-slot');
+      slot.innerHTML = '<div class="loading-state">Loading…</div>';
+      let qb = sb.from('companies').select('id,slug,name,logo_url,sector,stage,headquarters_city,total_funding_usd');
+      if (q) qb = qb.ilike('name', `%${q.replace(/[%_]/g, '')}%`);
+      if (sector) qb = qb.eq('sector', sector);
+      qb = qb.order('name').limit(200);
+      try {
+        const { data } = await qb;
+        if (!data || !data.length) {
+          slot.innerHTML = '<div class="empty-state"><h3>No companies match</h3></div>';
+          return;
+        }
+        slot.innerHTML = `
+          <table class="admin-table">
+            <thead><tr><th>Logo</th><th>Name</th><th>Sector</th><th>Stage</th><th>HQ</th><th>Funding</th><th></th></tr></thead>
+            <tbody>
+              ${data.map(c => `<tr>
+                <td>${c.logo_url ? `<img src="${escapeAttr(c.logo_url)}" style="width:32px;height:32px;object-fit:contain;">` : `<div style="width:32px;height:32px;background:#fafaf8;border:1px solid #e6e6e6;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;color:#d10a11;">${escapeHtml((c.name||'?').charAt(0))}</div>`}</td>
+                <td><a href="/admin/company-edit.html?id=${c.id}" style="font-weight:600;">${escapeHtml(c.name)}</a></td>
+                <td>${escapeHtml(c.sector || '—')}</td>
+                <td><span class="status-pill draft">${escapeHtml((c.stage || '—').replace(/_/g, ' '))}</span></td>
+                <td>${escapeHtml(c.headquarters_city || '—')}</td>
+                <td class="mono">${c.total_funding_usd ? formatUSD(c.total_funding_usd) : '—'}</td>
+                <td><div class="row-actions">
+                  <a href="/admin/company-edit.html?id=${c.id}">Edit</a>
+                  <a href="/company/view.html?slug=${encodeURIComponent(c.slug)}" target="_blank">View ↗</a>
+                  <button class="danger" data-del="${c.id}">Delete</button>
+                </div></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>`;
+        document.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
+          if (!confirm('Delete this company?')) return;
+          try { await sb.from('companies').delete().eq('id', b.dataset.del); showToast('Deleted'); load(); }
+          catch (e) { showToast(e.message || 'Could not delete', 'error'); }
+        }));
+      } catch (e) {
+        slot.innerHTML = `<div class="empty-state"><h3>Couldn't load</h3><p>${escapeHtml(e.message)}</p></div>`;
+      }
+    }
+    load();
+  })();
+  </script>
+</body>
+</html>

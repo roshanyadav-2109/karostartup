@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comments · Admin · Karostartup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="admin-root"><div class="loading-state">Loading…</div></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script src="/admin/shell.js"></script>
+  <script>
+  (async () => {
+    const ok = await requireStaff();
+    if (!ok) return;
+    await renderAdminShell('comments', 'Comments');
+
+    const main = document.getElementById('admin-content');
+    main.innerHTML = `
+      <h1>Comments</h1>
+      <div class="admin-toolbar">
+        <select id="article-filter"><option value="">All articles</option></select>
+        <label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="flagged-only"> Flagged only</label>
+      </div>
+      <div class="admin-card" style="padding:0;" id="slot"><div class="loading-state">Loading…</div></div>`;
+
+    const { data: articles } = await sb.from('articles').select('id,title').order('published_at', { ascending: false }).limit(200);
+    const sel = document.getElementById('article-filter');
+    (articles || []).forEach(a => sel.innerHTML += `<option value="${a.id}">${escapeHtml(a.title)}</option>`);
+
+    sel.addEventListener('change', load);
+    document.getElementById('flagged-only').addEventListener('change', load);
+
+    async function load() {
+      const slot = document.getElementById('slot');
+      slot.innerHTML = '<div class="loading-state">Loading…</div>';
+      let qb = sb.from('comments').select('id,content,created_at,is_flagged,is_deleted,article_id,profiles(full_name,username),articles(title,slug)').eq('is_deleted', false);
+      if (sel.value) qb = qb.eq('article_id', sel.value);
+      if (document.getElementById('flagged-only').checked) qb = qb.eq('is_flagged', true);
+      qb = qb.order('created_at', { ascending: false }).limit(200);
+      try {
+        const { data } = await qb;
+        if (!data || !data.length) { slot.innerHTML = '<div class="empty-state"><h3>No comments</h3></div>'; return; }
+        slot.innerHTML = `
+          <table class="admin-table">
+            <thead><tr><th>Article</th><th>Author</th><th>Content</th><th>Flagged</th><th>Time</th><th></th></tr></thead>
+            <tbody>${data.map(c => `<tr>
+              <td>${c.articles ? `<a href="/article/view.html?slug=${encodeURIComponent(c.articles.slug)}" target="_blank">${escapeHtml(c.articles.title.slice(0, 40))}…</a>` : '—'}</td>
+              <td>${escapeHtml(c.profiles?.full_name || c.profiles?.username || 'Anonymous')}</td>
+              <td style="max-width:340px;font-size:0.86rem;">${escapeHtml((c.content || '').slice(0, 160))}${c.content && c.content.length > 160 ? '…' : ''}</td>
+              <td>${c.is_flagged ? '🚩' : ''}</td>
+              <td class="mono" style="font-size:0.74rem;color:#5a5a5a;">${timeAgo(c.created_at)}</td>
+              <td><div class="row-actions">
+                ${c.is_flagged ? `<button data-approve="${c.id}" style="color:#0a7a3b;background:none;border:0;cursor:pointer;font-weight:600;">Approve</button>` : `<button data-flag="${c.id}" style="background:none;border:0;cursor:pointer;font-weight:600;">Flag</button>`}
+                <button class="danger" data-del="${c.id}">Delete</button>
+              </div></td>
+            </tr>`).join('')}</tbody>
+          </table>`;
+        document.querySelectorAll('[data-approve]').forEach(b => b.addEventListener('click', async () => {
+          await sb.from('comments').update({ is_flagged: false }).eq('id', b.dataset.approve);
+          showToast('Approved'); load();
+        }));
+        document.querySelectorAll('[data-flag]').forEach(b => b.addEventListener('click', async () => {
+          await sb.from('comments').update({ is_flagged: true }).eq('id', b.dataset.flag);
+          showToast('Flagged'); load();
+        }));
+        document.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
+          if (!confirm('Delete this comment?')) return;
+          await sb.from('comments').update({ is_deleted: true }).eq('id', b.dataset.del);
+          showToast('Deleted'); load();
+        }));
+      } catch (e) {
+        slot.innerHTML = `<div class="empty-state"><p>${escapeHtml(e.message)}</p></div>`;
+      }
+    }
+    load();
+  })();
+  </script>
+</body>
+</html>

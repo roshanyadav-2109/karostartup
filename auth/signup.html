@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create your account · Karostartup</title>
+  <meta name="description" content="Create a Karostartup account.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div class="auth-shell">
+    <aside class="auth-brand">
+      <a href="/" style="color:#fff;text-decoration:none;"><div class="logo">Karostartup<span class="dot"></span></div></a>
+      <div>
+        <h2 class="tagline">Read the people <span class="accent">building India.</span></h2>
+        <p style="color:#aaa;font-size:1rem;max-width:380px;">Free account for free stories, bookmarks, and the Morning Brief. Upgrade to Plus when you're ready.</p>
+      </div>
+      <div class="footer-note">© Karostartup · A new kind of business paper.</div>
+    </aside>
+    <section class="auth-form-pane" style="position:relative;">
+      <div class="top-link">Already have an account? <a href="/auth/signin.html">Sign in →</a></div>
+      <form class="auth-form" id="signup-form">
+        <h1>Create your account</h1>
+        <p class="sub">It's free. Takes 30 seconds.</p>
+        <div id="msg-slot"></div>
+        <div class="form-field">
+          <label for="full_name">Full name</label>
+          <input type="text" name="full_name" id="full_name" required autocomplete="name">
+        </div>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" required autocomplete="email">
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required autocomplete="new-password" minlength="8">
+            <div class="hint">Minimum 8 characters</div>
+          </div>
+          <div class="form-field">
+            <label for="confirm">Confirm</label>
+            <input type="password" name="confirm" id="confirm" required minlength="8">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary submit-btn" id="submit-btn">Create account</button>
+        <div class="form-foot">By signing up you agree to our terms. We'll never spam you.</div>
+      </form>
+    </section>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    document.querySelector('.footer-note').textContent = `© ${new Date().getFullYear()} Karostartup · A new kind of business paper.`;
+    const u = await getCurrentUser();
+    if (u) { location.href = '/'; return; }
+
+    const form = document.getElementById('signup-form');
+    const msgSlot = document.getElementById('msg-slot');
+    const submitBtn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msgSlot.innerHTML = '';
+      const pw = form.password.value;
+      const confirm = form.confirm.value;
+      if (pw !== confirm) {
+        msgSlot.innerHTML = `<div class="form-msg error">Passwords don't match.</div>`;
+        return;
+      }
+      if (pw.length < 8) {
+        msgSlot.innerHTML = `<div class="form-msg error">Password must be at least 8 characters.</div>`;
+        return;
+      }
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating account…';
+      try {
+        const { data, error } = await sb.auth.signUp({
+          email: form.email.value.trim(),
+          password: pw,
+          options: { data: { full_name: form.full_name.value.trim() } }
+        });
+        if (error) {
+          msgSlot.innerHTML = `<div class="form-msg error">${escapeHtml(error.message)}</div>`;
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create account';
+          return;
+        }
+        if (data.session) {
+          location.href = '/';
+        } else {
+          form.style.display = 'none';
+          msgSlot.innerHTML = `
+            <div class="form-msg success" style="text-align:center;padding:24px;">
+              <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.4rem;margin:0 0 8px 0;color:#0a7a3b;">Check your email</h2>
+              <p style="margin:0;">We sent a confirmation link to <strong>${escapeHtml(form.email.value.trim())}</strong>. Click it to activate your account.</p>
+            </div>`;
+        }
+      } catch (err) {
+        msgSlot.innerHTML = `<div class="form-msg error">${escapeHtml(err.message || 'Sign up failed.')}</div>`;
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create account';
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

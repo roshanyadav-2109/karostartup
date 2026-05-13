@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact · Karostartup</title>
+  <meta name="description" content="Get in touch with Karostartup — promote your startup, advertise, send a tip, PR, partnership, careers, or general inquiries.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="chrome"></div>
+  <main>
+    <section class="contact-hero">
+      <div class="container">
+        <span class="kicker">Get in touch</span>
+        <h1>Get in touch with Karostartup</h1>
+        <p>Promote your startup, send us a tip, advertise, hire from our talent pool, or just say hi. We respond to most inquiries within 24 hours.</p>
+        <div class="contact-tabs" id="contact-tabs">
+          <button class="contact-tab" data-type="promotion">Promote Your Startup</button>
+          <button class="contact-tab" data-type="advertise">Advertise</button>
+          <button class="contact-tab" data-type="tip">Send a Tip</button>
+          <button class="contact-tab" data-type="pr">PR / Press</button>
+          <button class="contact-tab" data-type="partnership">Partnership</button>
+          <button class="contact-tab" data-type="careers">Careers</button>
+          <button class="contact-tab" data-type="general">General</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="contact-layout">
+        <div>
+          <div class="contact-form-head" id="form-head"></div>
+          <div id="success-state" style="display:none;">
+            <div class="form-msg success" style="padding:32px;text-align:center;">
+              <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.6rem;color:#0a7a3b;margin:0 0 12px 0;">Thanks — we'll be in touch.</h2>
+              <p style="margin:0;color:#1a1a1a;">We typically respond within 2 business days. Most promotion inquiries hear back within 24 hours.</p>
+              <button type="button" class="btn btn-ghost btn-sm" style="margin-top:20px;" id="new-msg-btn">Send another message</button>
+            </div>
+          </div>
+          <form id="contact-form">
+            <div id="msg-slot"></div>
+            <input type="hidden" name="type" id="type-input">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="name">Your name *</label>
+                <input type="text" name="name" id="name" required>
+              </div>
+              <div class="form-field">
+                <label for="email">Email *</label>
+                <input type="email" name="email" id="email" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="phone">Phone</label>
+                <input type="tel" name="phone" id="phone">
+              </div>
+              <div class="form-field">
+                <label for="company_name">Company name <span id="company-required" style="color:#5a5a5a;">(optional)</span></label>
+                <input type="text" name="company_name" id="company_name">
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="subject">Subject *</label>
+              <input type="text" name="subject" id="subject" required maxlength="200">
+            </div>
+            <div class="form-field">
+              <label for="message">Message *</label>
+              <textarea name="message" id="message" required minlength="30" maxlength="2000" placeholder="Tell us about your startup, the launch, the pitch deck — whatever's useful."></textarea>
+              <div class="hint">Minimum 30 characters · <span id="msg-count">0</span> / 2000</div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" id="submit-btn">Send message</button>
+          </form>
+        </div>
+
+        <aside class="contact-aside">
+          <div class="contact-info-card">
+            <h3>Reach us directly</h3>
+            <div class="info-line"><span class="label">Promote</span><a href="mailto:promotion@karostartup.com">promotion@karostartup.com</a></div>
+            <div class="info-line"><span class="label">Advertise</span><a href="mailto:ads@karostartup.com">ads@karostartup.com</a></div>
+            <div class="info-line"><span class="label">Tips</span><a href="mailto:tips@karostartup.com">tips@karostartup.com</a></div>
+            <div class="info-line"><span class="label">PR</span><a href="mailto:pr@karostartup.com">pr@karostartup.com</a></div>
+            <div class="info-line"><span class="label">Careers</span><a href="mailto:careers@karostartup.com">careers@karostartup.com</a></div>
+            <div class="info-line"><span class="label">General</span><a href="mailto:hello@karostartup.com">hello@karostartup.com</a></div>
+          </div>
+          <div class="contact-info-card">
+            <h3>Karostartup HQ</h3>
+            <p style="font-size:0.92rem;line-height:1.55;color:#1a1a1a;margin:0;">
+              Karostartup Media Pvt. Ltd.<br>
+              Indiranagar, Bengaluru<br>
+              Karnataka, India
+            </p>
+          </div>
+          <div class="contact-info-card">
+            <h3>Response time</h3>
+            <p style="font-size:0.92rem;line-height:1.55;color:#1a1a1a;margin:0;">
+              <strong>Promotion / Advertise:</strong> within 24 hours<br>
+              <strong>Tips / PR:</strong> 1–2 business days<br>
+              <strong>Careers / General:</strong> 2–3 business days
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    await mountChrome('');
+    mountFooter();
+
+    const headings = {
+      promotion: { h: 'Promote your startup', p: 'Tell us about your launch, milestone, or story. We feature founders building in India.' },
+      advertise: { h: 'Advertise with us', p: 'Reach 80,000+ founders, investors, and operators. Newsletter, native, and display.' },
+      tip: { h: 'Send us a tip', p: 'On the record, off the record, encrypted — we protect sources. Real news only.' },
+      pr: { h: 'PR / Press inquiries', p: 'Sending a release or pitching a feature? Make it count — keep the angle clear.' },
+      partnership: { h: 'Partnership inquiries', p: 'Event partnerships, content collaborations, and ecosystem programs.' },
+      careers: { h: 'Careers at Karostartup', p: 'We hire reporters, editors, designers, and operators. Tell us why you want in.' },
+      general: { h: 'General inquiry', p: "Anything else — we'll route it." }
+    };
+
+    const params = new URLSearchParams(location.search);
+    let activeType = params.get('type') || 'promotion';
+    if (!headings[activeType]) activeType = 'general';
+
+    const tabs = document.querySelectorAll('.contact-tab');
+    const formHead = document.getElementById('form-head');
+    const typeInput = document.getElementById('type-input');
+    const companyReq = document.getElementById('company-required');
+
+    function setType(t) {
+      activeType = t;
+      tabs.forEach(b => b.classList.toggle('is-active', b.dataset.type === t));
+      const h = headings[t];
+      formHead.innerHTML = `<h2>${escapeHtml(h.h)}</h2><p>${escapeHtml(h.p)}</p>`;
+      typeInput.value = t;
+      const isRequired = ['promotion', 'advertise', 'pr'].includes(t);
+      companyReq.textContent = isRequired ? '*' : '(optional)';
+      document.getElementById('company_name').required = isRequired;
+    }
+    tabs.forEach(b => b.addEventListener('click', () => {
+      setType(b.dataset.type);
+      const u = new URL(location);
+      u.searchParams.set('type', b.dataset.type);
+      history.replaceState({}, '', u);
+    }));
+    setType(activeType);
+
+    // Live char count
+    const msgEl = document.getElementById('message');
+    const countEl = document.getElementById('msg-count');
+    msgEl.addEventListener('input', () => { countEl.textContent = msgEl.value.length; });
+
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const msgSlot = document.getElementById('msg-slot');
+    const successState = document.getElementById('success-state');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msgSlot.innerHTML = '';
+      const fd = new FormData(form);
+      const payload = {
+        name: fd.get('name').trim(),
+        email: fd.get('email').trim(),
+        phone: (fd.get('phone') || '').trim() || null,
+        company_name: (fd.get('company_name') || '').trim() || null,
+        subject: fd.get('subject').trim(),
+        message: fd.get('message').trim(),
+        type: activeType,
+        status: 'new'
+      };
+      if (payload.message.length < 30) {
+        msgSlot.innerHTML = `<div class="form-msg error">Message must be at least 30 characters.</div>`;
+        return;
+      }
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      try {
+        const { error } = await sb.from('contact_submissions').insert(payload);
+        if (error) throw error;
+        form.style.display = 'none';
+        successState.style.display = 'block';
+        form.reset();
+      } catch (err) {
+        msgSlot.innerHTML = `<div class="form-msg error">${escapeHtml(err.message || 'Could not send message.')}</div>`;
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send message';
+      }
+    });
+
+    document.getElementById('new-msg-btn').addEventListener('click', () => {
+      successState.style.display = 'none';
+      form.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send message';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
+  </script>
+</body>
+</html>

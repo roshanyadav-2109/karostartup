@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loading… · Karostartup</title>
+  <meta name="description" content="">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="chrome"></div>
+  <main id="co-main"><div class="loading-state">Loading…</div></main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    const params = new URLSearchParams(location.search);
+    const slug = params.get('slug');
+    await mountChrome('');
+    mountFooter();
+    if (!slug) {
+      document.getElementById('co-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Company not found</h3><a href="/" class="btn btn-primary">Home</a></div>';
+      return;
+    }
+    let company;
+    try {
+      const { data } = await sb.from('companies').select('*').eq('slug', slug).maybeSingle();
+      company = data;
+    } catch {}
+    if (!company) {
+      document.title = 'Not found · Karostartup';
+      document.getElementById('co-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Company not found</h3><a href="/" class="btn btn-primary">Home</a></div>';
+      return;
+    }
+    document.title = `${company.name} · Karostartup`;
+
+    const initial = (company.name || '?').charAt(0).toUpperCase();
+    const logoHtml = company.logo_url
+      ? `<img src="${escapeAttr(company.logo_url)}" alt="${escapeAttr(company.name)}">`
+      : escapeHtml(initial);
+
+    document.getElementById('co-main').innerHTML = `
+      <section class="company-head">
+        <div class="container">
+          <div class="company-logo-big">${logoHtml}</div>
+          <div>
+            <span class="kicker">Company Profile</span>
+            <h1 class="company-name">${escapeHtml(company.name)}</h1>
+            <div class="company-pills">
+              ${company.sector ? `<span class="sector-pill">${escapeHtml(company.sector)}</span>` : ''}
+              ${company.stage ? `<span class="stage-pill">${escapeHtml(company.stage.replace(/_/g, ' '))}</span>` : ''}
+              ${company.headquarters_city ? `<span class="stage-pill">📍 ${escapeHtml(company.headquarters_city)}${company.headquarters_state ? ', ' + escapeHtml(company.headquarters_state) : ''}</span>` : ''}
+              ${company.founded_year ? `<span class="stage-pill">Est. ${company.founded_year}</span>` : ''}
+            </div>
+          </div>
+          <div>
+            ${company.website_url ? `<a href="${escapeAttr(company.website_url)}" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Visit website ↗</a>` : ''}
+          </div>
+        </div>
+      </section>
+
+      <div class="container">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="label">Total Raised</div>
+            <div class="value">${company.total_funding_usd ? formatUSD(company.total_funding_usd) : '—'}</div>
+            <div class="sub">All-time</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Last Valuation</div>
+            <div class="value">${company.last_valuation_usd ? formatUSD(company.last_valuation_usd) : '—'}</div>
+            <div class="sub">Post-money</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Employees</div>
+            <div class="value">${escapeHtml(company.employee_count_range || '—')}</div>
+            <div class="sub">Range</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Headquarters</div>
+            <div class="value" style="font-family:var(--font-display);font-size:1.4rem;">${escapeHtml(company.headquarters_city || '—')}</div>
+            <div class="sub">${escapeHtml(company.headquarters_state || '')}</div>
+          </div>
+        </div>
+      </div>
+
+      ${company.description ? `
+      <div class="container">
+        <section class="company-section">
+          <h2>About</h2>
+          <p style="font-size:1.05rem;line-height:1.6;color:#1a1a1a;max-width:880px;">${escapeHtml(company.description)}</p>
+        </section>
+      </div>` : ''}
+
+      ${company.founders && company.founders.length ? `
+      <div class="container">
+        <section class="company-section">
+          <h2>Founders</h2>
+          <div class="founders-list">
+            ${company.founders.map(f => `
+              <div class="founder-tile">
+                <div class="founder-avatar-init">${escapeHtml((f || '?').charAt(0).toUpperCase())}</div>
+                <div>
+                  <div style="font-weight:600;">${escapeHtml(f)}</div>
+                  <div style="font-size:0.78rem;color:#5a5a5a;">Co-founder</div>
+                </div>
+              </div>`).join('')}
+          </div>
+        </section>
+      </div>` : ''}
+
+      <div class="container">
+        <section class="company-section">
+          <h2>Funding history</h2>
+          <div id="funding-history-slot"><div class="loading-state">Loading…</div></div>
+        </section>
+      </div>
+
+      <div class="container">
+        <section class="company-section">
+          <h2>In the news</h2>
+          <div class="related-grid" id="company-news-slot"></div>
+        </section>
+      </div>
+    `;
+
+    // Funding history
+    try {
+      const { data: rounds } = await sb.from('funding_rounds')
+        .select('id,round_type,amount_usd,amount_inr,announced_date,lead_investor,other_investors,article_id,articles(slug,title)')
+        .eq('company_id', company.id)
+        .order('announced_date', { ascending: false });
+      const slot = document.getElementById('funding-history-slot');
+      if (!rounds || !rounds.length) {
+        slot.innerHTML = '<div class="empty-state"><p>No funding rounds tracked yet.</p></div>';
+      } else {
+        slot.innerHTML = `
+          <table class="deals-table">
+            <thead><tr><th>Round</th><th>Date</th><th>Amount</th><th>Lead</th><th>Co-investors</th><th>Coverage</th></tr></thead>
+            <tbody>
+              ${rounds.map(r => `<tr>
+                <td><span class="round-pill ${roundPillClass(r.round_type)}">${escapeHtml(r.round_type || '—')}</span></td>
+                <td class="date">${formatDate(r.announced_date)}</td>
+                <td class="amount">${r.amount_inr ? formatINR(r.amount_inr) : formatUSD(r.amount_usd)}</td>
+                <td>${escapeHtml(r.lead_investor || '—')}</td>
+                <td style="color:#5a5a5a;font-size:0.86rem;">${(r.other_investors || []).slice(0, 3).map(escapeHtml).join(', ')}${(r.other_investors || []).length > 3 ? ` +${r.other_investors.length - 3}` : ''}</td>
+                <td>${r.articles ? `<a href="/article/view.html?slug=${encodeURIComponent(r.articles.slug)}" style="color:#d10a11;font-weight:600;">Read →</a>` : '—'}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>`;
+      }
+    } catch {
+      document.getElementById('funding-history-slot').innerHTML = '<div class="empty-state"><p>Could not load funding history.</p></div>';
+    }
+
+    // In the news
+    try {
+      const { data: junction } = await sb.from('article_companies')
+        .select('articles(id,slug,title,kicker,summary,cover_image_url,published_at,read_time_minutes,categories(name),profiles!author_id(full_name))')
+        .eq('company_id', company.id)
+        .limit(6);
+      const articles = (junction || []).map(j => j.articles).filter(a => a && a.published_at);
+      articles.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+      const slot = document.getElementById('company-news-slot');
+      if (!articles.length) {
+        slot.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><p>No coverage yet.</p></div>';
+      } else {
+        slot.innerHTML = articles.slice(0, 6).map(a => renderStoryCard(a, { small: true })).join('');
+        initReveal();
+      }
+    } catch {}
+  })();
+  </script>
+</body>
+</html>

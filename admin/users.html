@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Users · Admin · Karostartup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="admin-root"><div class="loading-state">Loading…</div></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script src="/admin/shell.js"></script>
+  <script>
+  (async () => {
+    const ok = await requireStaff();
+    if (!ok) return;
+    const admin = await isAdmin();
+    if (!admin) {
+      document.body.innerHTML = '<div class="access-denied"><h1>Admins only</h1><p>This page is restricted to admins.</p><a href="/admin/" class="btn btn-primary">Back to dashboard</a></div>';
+      return;
+    }
+    await renderAdminShell('users', 'Users');
+
+    const main = document.getElementById('admin-content');
+    main.innerHTML = `
+      <h1>Users</h1>
+      <p style="color:#5a5a5a;font-size:0.9rem;margin-bottom:18px;">Manage roles and Plus membership. Email addresses live in <code>auth.users</code> and aren't queryable from the client — use Supabase Studio for that.</p>
+      <div class="admin-toolbar">
+        <input type="search" id="search" class="search" placeholder="Search name or username…">
+        <select id="role-filter"><option value="">All roles</option>
+          <option value="reader">Reader</option><option value="author">Author</option><option value="editor">Editor</option><option value="admin">Admin</option>
+        </select>
+      </div>
+      <div class="admin-card" style="padding:0;" id="slot"><div class="loading-state">Loading…</div></div>`;
+
+    let q = '', role = '', searchTimer;
+    document.getElementById('search').addEventListener('input', (e) => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => { q = e.target.value.trim(); load(); }, 300);
+    });
+    document.getElementById('role-filter').addEventListener('change', (e) => { role = e.target.value; load(); });
+
+    async function load() {
+      const slot = document.getElementById('slot');
+      slot.innerHTML = '<div class="loading-state">Loading…</div>';
+      let qb = sb.from('profiles').select('*');
+      if (q) qb = qb.or(`full_name.ilike.%${q.replace(/[%_]/g, '')}%,username.ilike.%${q.replace(/[%_]/g, '')}%`);
+      if (role) qb = qb.eq('role', role);
+      qb = qb.order('created_at', { ascending: false }).limit(200);
+      try {
+        const { data } = await qb;
+        if (!data || !data.length) { slot.innerHTML = '<div class="empty-state"><h3>No users match</h3></div>'; return; }
+        slot.innerHTML = `
+          <table class="admin-table">
+            <thead><tr><th>User</th><th>Username</th><th>Role</th><th>Plus</th><th>Joined</th><th></th></tr></thead>
+            <tbody>${data.map(u => {
+              const init = (u.full_name || u.username || '?').charAt(0).toUpperCase();
+              const av = u.avatar_url
+                ? `<img src="${escapeAttr(u.avatar_url)}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">`
+                : `<div style="width:32px;height:32px;border-radius:50%;background:#d10a11;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;">${escapeHtml(init)}</div>`;
+              return `<tr data-id="${u.id}">
+                <td><div style="display:flex;align-items:center;gap:10px;">${av}<strong>${escapeHtml(u.full_name || 'Unnamed')}</strong></div></td>
+                <td>${escapeHtml(u.username || '—')}</td>
+                <td><select data-role="${u.id}">
+                  ${['reader','author','editor','admin'].map(r => `<option value="${r}" ${r === u.role ? 'selected' : ''}>${r}</option>`).join('')}
+                </select></td>
+                <td><label style="cursor:pointer;"><input type="checkbox" data-plus="${u.id}" ${u.is_plus_member ? 'checked' : ''}> Plus</label></td>
+                <td class="mono" style="font-size:0.74rem;color:#5a5a5a;">${formatDate(u.created_at)}</td>
+                <td><button class="danger" data-save="${u.id}" style="color:#0a7a3b;background:none;border:0;cursor:pointer;font-weight:600;">Save</button></td>
+              </tr>`;
+            }).join('')}</tbody>
+          </table>`;
+        document.querySelectorAll('[data-save]').forEach(b => b.addEventListener('click', async () => {
+          const id = b.dataset.save;
+          const role = document.querySelector(`[data-role="${id}"]`).value;
+          const plus = document.querySelector(`[data-plus="${id}"]`).checked;
+          try { await sb.from('profiles').update({ role, is_plus_member: plus }).eq('id', id); showToast('Saved'); }
+          catch (e) { showToast(e.message, 'error'); }
+        }));
+      } catch (e) {
+        slot.innerHTML = `<div class="empty-state"><p>${escapeHtml(e.message)}</p></div>`;
+      }
+    }
+    load();
+  })();
+  </script>
+</body>
+</html>

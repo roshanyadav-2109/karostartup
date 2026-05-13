@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edit Article · Admin · Karostartup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="admin-root"><div class="loading-state">Loading…</div></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script src="/admin/shell.js"></script>
+  <script>
+  (async () => {
+    const ok = await requireStaff();
+    if (!ok) return;
+    const editId = new URLSearchParams(location.search).get('id');
+    const isNew = !editId;
+    await renderAdminShell('articles', isNew ? 'New article' : 'Edit article');
+    const main = document.getElementById('admin-content');
+    const me = await getCurrentProfile();
+
+    // Load data
+    let article = null;
+    if (editId) {
+      try {
+        const { data } = await sb.from('articles').select('*').eq('id', editId).maybeSingle();
+        article = data;
+      } catch {}
+      if (!article) {
+        main.innerHTML = '<div class="empty-state"><h3>Article not found</h3><a href="/admin/articles.html" class="btn btn-primary">Back to list</a></div>';
+        return;
+      }
+    } else {
+      article = {
+        title: '', slug: '', kicker: '', subtitle: '', summary: '', content: '',
+        cover_image_url: '', cover_caption: '', tags: [],
+        status: 'draft', is_featured: false, is_breaking: false, is_premium: false, is_exclusive: false,
+        author_id: me?.id, category_id: null, published_at: null
+      };
+    }
+
+    const [{ data: categories }, { data: authors }, { data: companies }, { data: linkedCompanies }] = await Promise.all([
+      sb.from('categories').select('id,name').order('order_index'),
+      sb.from('profiles').select('id,full_name').in('role', ['author', 'editor', 'admin']),
+      sb.from('companies').select('id,name').order('name'),
+      editId ? sb.from('article_companies').select('company_id').eq('article_id', editId) : Promise.resolve({ data: [] })
+    ]);
+    const linkedSet = new Set((linkedCompanies || []).map(j => j.company_id));
+
+    main.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+        <h1 style="margin:0;">${isNew ? 'New article' : 'Edit article'}</h1>
+        <div style="display:flex;gap:8px;">
+          <a href="/admin/articles.html" class="btn btn-ghost btn-sm">Back</a>
+          ${article.status === 'published' ? `<a href="/article/view.html?slug=${encodeURIComponent(article.slug)}" target="_blank" class="btn btn-ghost btn-sm">View live ↗</a>` : ''}
+        </div>
+      </div>
+      <div id="msg-slot"></div>
+
+      <div class="editor-grid">
+        <div class="editor-main">
+          <input type="text" id="title" class="editor-title-input form-field" placeholder="Headline…" value="${escapeAttr(article.title)}">
+          <div class="form-field" style="margin-top:14px;">
+            <label>Slug</label>
+            <input type="text" id="slug" value="${escapeAttr(article.slug)}" placeholder="auto-generated">
+            <div class="hint">Used in the URL. Auto-generated from title; you can edit.</div>
+          </div>
+          <div class="form-row">
+            <div class="form-field"><label>Kicker</label><input type="text" id="kicker" value="${escapeAttr(article.kicker||'')}" placeholder="DEEP DIVE"></div>
+            <div class="form-field"><label>Read time (auto)</label><input type="number" id="read_time" value="${article.read_time_minutes||''}" readonly style="background:#fafaf8;"></div>
+          </div>
+          <div class="form-field"><label>Subtitle / Dek</label><input type="text" id="subtitle" value="${escapeAttr(article.subtitle||'')}"></div>
+          <div class="form-field"><label>Summary</label><textarea id="summary" rows="3">${escapeHtml(article.summary||'')}</textarea><div class="hint">Used on cards and as meta description.</div></div>
+
+          <div class="form-field">
+            <label>Content (Markdown)</label>
+            <div class="editor-tabs">
+              <button type="button" class="editor-tab is-active" data-pane="write">Write</button>
+              <button type="button" class="editor-tab" data-pane="preview">Preview</button>
+            </div>
+            <div id="write-pane">
+              <textarea id="content" rows="18" placeholder="## Heading&#10;&#10;Body text. **Bold** and *italic*. &gt; Pull quote.&#10;&#10;- Bullet&#10;- Bullet&#10;&#10;[Link](https://example.com)">${escapeHtml(article.content||'')}</textarea>
+              <div class="editor-stats"><span id="word-count">0 words</span><span id="est-read">~0 min read</span></div>
+            </div>
+            <div id="preview-pane" class="preview-panel" style="display:none;"></div>
+          </div>
+
+          <div class="form-field"><label>Cover image URL</label><input type="url" id="cover_image_url" value="${escapeAttr(article.cover_image_url||'')}"></div>
+          <div class="form-field"><label>Cover caption</label><input type="text" id="cover_caption" value="${escapeAttr(article.cover_caption||'')}"></div>
+
+          <div class="form-field">
+            <label>Tags (comma-separated)</label>
+            <input type="text" id="tags" value="${escapeAttr((article.tags||[]).join(', '))}">
+          </div>
+
+          <div class="form-field">
+            <label>Companies mentioned</label>
+            <select id="companies" multiple size="6" style="height:auto;">
+              ${(companies || []).map(c => `<option value="${c.id}" ${linkedSet.has(c.id) ? 'selected' : ''}>${escapeHtml(c.name)}</option>`).join('')}
+            </select>
+            <div class="hint">Ctrl/Cmd+click for multiple. Links the article to those companies.</div>
+          </div>
+        </div>
+
+        <div class="editor-side">
+          <div class="admin-card">
+            <div class="admin-card-head"><h3>Publish</h3></div>
+            <div class="editor-actions">
+              <button class="btn btn-primary" data-action="save">Save draft</button>
+              <button class="btn btn-ghost" data-action="review">Submit for review</button>
+              <button class="btn btn-red" data-action="publish">${article.status === 'published' ? 'Update & republish' : 'Publish'}</button>
+              ${article.status === 'published' ? '<button class="btn btn-danger" data-action="unpublish">Unpublish</button>' : ''}
+            </div>
+            <div style="margin-top:12px;font-size:0.82rem;color:#5a5a5a;">Current: ${statusPill(article.status)}</div>
+          </div>
+
+          <div class="admin-card">
+            <div class="admin-card-head"><h3>Category</h3></div>
+            <select id="category_id" style="width:100%;padding:8px;border:1px solid #0a0a0a;">
+              <option value="">Uncategorized</option>
+              ${(categories || []).map(c => `<option value="${c.id}" ${c.id === article.category_id ? 'selected' : ''}>${escapeHtml(c.name)}</option>`).join('')}
+            </select>
+          </div>
+
+          <div class="admin-card">
+            <div class="admin-card-head"><h3>Author</h3></div>
+            <select id="author_id" style="width:100%;padding:8px;border:1px solid #0a0a0a;">
+              ${(authors || []).map(a => `<option value="${a.id}" ${a.id === (article.author_id || me?.id) ? 'selected' : ''}>${escapeHtml(a.full_name || '—')}</option>`).join('')}
+            </select>
+          </div>
+
+          <div class="admin-card">
+            <div class="admin-card-head"><h3>Published at</h3></div>
+            <input type="datetime-local" id="published_at" value="${article.published_at ? new Date(article.published_at).toISOString().slice(0, 16) : ''}" style="width:100%;padding:8px;border:1px solid #0a0a0a;">
+          </div>
+
+          <div class="admin-card">
+            <div class="admin-card-head"><h3>Flags</h3></div>
+            <div class="checkbox-group">
+              <label><input type="checkbox" id="is_featured" ${article.is_featured ? 'checked' : ''}> Featured</label>
+              <label><input type="checkbox" id="is_breaking" ${article.is_breaking ? 'checked' : ''}> Breaking</label>
+              <label><input type="checkbox" id="is_premium" ${article.is_premium ? 'checked' : ''}> Plus (premium)</label>
+              <label><input type="checkbox" id="is_exclusive" ${article.is_exclusive ? 'checked' : ''}> Exclusive</label>
+            </div>
+          </div>
+        </div>
+      </div>`;
+
+    // Auto-slug from title
+    const titleEl = document.getElementById('title');
+    const slugEl = document.getElementById('slug');
+    let slugTouched = !!article.slug;
+    slugEl.addEventListener('input', () => { slugTouched = true; });
+    titleEl.addEventListener('input', () => {
+      if (!slugTouched) slugEl.value = slugify(titleEl.value);
+    });
+
+    // Word count
+    const contentEl = document.getElementById('content');
+    const wordCountEl = document.getElementById('word-count');
+    const readEl = document.getElementById('est-read');
+    const readInput = document.getElementById('read_time');
+    function recount() {
+      const words = (contentEl.value.trim().split(/\s+/).filter(Boolean)).length;
+      const mins = Math.max(1, Math.round(words / 200));
+      wordCountEl.textContent = `${words} words`;
+      readEl.textContent = `~${mins} min read`;
+      readInput.value = mins;
+    }
+    contentEl.addEventListener('input', recount);
+    recount();
+
+    // Tabs
+    document.querySelectorAll('.editor-tab').forEach(t => t.addEventListener('click', () => {
+      document.querySelectorAll('.editor-tab').forEach(x => x.classList.remove('is-active'));
+      t.classList.add('is-active');
+      const pane = t.dataset.pane;
+      document.getElementById('write-pane').style.display = pane === 'write' ? 'block' : 'none';
+      const preview = document.getElementById('preview-pane');
+      preview.style.display = pane === 'preview' ? 'block' : 'none';
+      if (pane === 'preview') preview.innerHTML = renderMarkdown(contentEl.value);
+    }));
+
+    const msgSlot = document.getElementById('msg-slot');
+    function showMsg(html, type = 'success') {
+      msgSlot.innerHTML = `<div class="form-msg ${type}">${html}</div>`;
+      setTimeout(() => { msgSlot.innerHTML = ''; }, 4000);
+    }
+
+    async function save(action) {
+      const title = titleEl.value.trim();
+      let slug = slugEl.value.trim() || slugify(title);
+      const content = contentEl.value;
+      if (action === 'publish' && (!title || !slug || !content)) {
+        showMsg('Title, slug, and content are required to publish.', 'error');
+        return;
+      }
+      const tags = document.getElementById('tags').value.split(',').map(s => s.trim()).filter(Boolean);
+      const selectedCompanies = Array.from(document.getElementById('companies').selectedOptions).map(o => o.value);
+      const publishedAtInput = document.getElementById('published_at').value;
+      let newStatus = article.status;
+      let publishedAt = publishedAtInput ? new Date(publishedAtInput).toISOString() : article.published_at;
+      if (action === 'save') newStatus = newStatus === 'published' ? 'published' : 'draft';
+      else if (action === 'review') newStatus = 'review';
+      else if (action === 'publish') {
+        newStatus = 'published';
+        if (!publishedAt) publishedAt = new Date().toISOString();
+      } else if (action === 'unpublish') {
+        newStatus = 'draft';
+      }
+      const payload = {
+        title, slug,
+        kicker: document.getElementById('kicker').value || null,
+        subtitle: document.getElementById('subtitle').value || null,
+        summary: document.getElementById('summary').value || null,
+        content,
+        cover_image_url: document.getElementById('cover_image_url').value || null,
+        cover_caption: document.getElementById('cover_caption').value || null,
+        tags: tags.length ? tags : null,
+        category_id: document.getElementById('category_id').value || null,
+        author_id: document.getElementById('author_id').value || me?.id,
+        published_at: publishedAt,
+        is_featured: document.getElementById('is_featured').checked,
+        is_breaking: document.getElementById('is_breaking').checked,
+        is_premium: document.getElementById('is_premium').checked,
+        is_exclusive: document.getElementById('is_exclusive').checked,
+        status: newStatus
+      };
+      try {
+        let savedId = editId;
+        if (isNew) {
+          const { data, error } = await sb.from('articles').insert(payload).select('id').single();
+          if (error) throw error;
+          savedId = data.id;
+        } else {
+          const { error } = await sb.from('articles').update(payload).eq('id', editId);
+          if (error) throw error;
+        }
+        // Sync companies
+        if (savedId) {
+          if (!isNew) await sb.from('article_companies').delete().eq('article_id', savedId);
+          if (selectedCompanies.length) {
+            const rows = selectedCompanies.map(cid => ({ article_id: savedId, company_id: cid }));
+            await sb.from('article_companies').insert(rows);
+          }
+        }
+        showToast(action === 'publish' ? 'Published' : action === 'review' ? 'Sent for review' : action === 'unpublish' ? 'Unpublished' : 'Saved');
+        article.status = newStatus;
+        if (isNew && savedId) {
+          location.href = `/admin/article-edit.html?id=${savedId}`;
+        } else {
+          showMsg('Saved.', 'success');
+        }
+      } catch (e) {
+        showMsg(e.message || 'Save failed.', 'error');
+      }
+    }
+
+    document.querySelectorAll('[data-action]').forEach(b => b.addEventListener('click', () => save(b.dataset.action)));
+  })();
+  </script>
+</body>
+</html>

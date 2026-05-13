@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loading… · Karostartup</title>
+  <meta name="description" content="">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div class="read-progress" id="read-progress"></div>
+  <div id="chrome"></div>
+  <main id="article-main">
+    <div class="loading-state">Loading story…</div>
+  </main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    const params = new URLSearchParams(location.search);
+    const slug = params.get('slug');
+    if (!slug) { document.title = 'Not found · Karostartup'; await mountChrome(''); mountFooter(); document.getElementById('article-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Article not found</h3><p>The link you followed is missing a slug.</p><a href="/" class="btn btn-primary">Go home</a></div>'; return; }
+
+    let article;
+    try {
+      const { data, error } = await sb.from('articles')
+        .select('*, categories(name,slug), profiles!author_id(id,full_name,avatar_url,username,bio,twitter_handle,role)')
+        .eq('slug', slug)
+        .eq('status', 'published')
+        .maybeSingle();
+      if (error) throw error;
+      article = data;
+    } catch (e) { article = null; }
+
+    await mountChrome(article?.categories?.slug || '');
+    mountFooter();
+
+    if (!article) {
+      document.title = 'Not found · Karostartup';
+      document.getElementById('article-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Story not found</h3><p>This article may have been removed or is not yet published.</p><a href="/" class="btn btn-primary">Back to homepage</a></div>';
+      return;
+    }
+
+    document.title = `${article.title} · Karostartup`;
+    document.querySelector('meta[name=description]').content = article.summary || article.subtitle || '';
+
+    // Fire view counter (don't await)
+    sb.rpc('increment_article_views', { article_uuid: article.id }).then(() => {}).catch(() => {});
+
+    const user = await getCurrentUser();
+    const profile = user ? await getCurrentProfile() : null;
+    const isPaywalled = article.is_premium && !(profile?.is_plus_member) && !['author','editor','admin'].includes(profile?.role);
+
+    const author = article.profiles || {};
+    const authorAvatar = author.avatar_url || defaultCover({title: author.full_name || 'A'});
+
+    const main = document.getElementById('article-main');
+    main.innerHTML = `
+      <section class="article-hero">
+        <div class="container">
+          <div class="article-breadcrumb">
+            <a href="/">Home</a>
+            <span class="sep">›</span>
+            ${article.categories ? `<a href="/category/view.html?slug=${encodeURIComponent(article.categories.slug)}">${escapeHtml(article.categories.name)}</a><span class="sep">›</span>` : ''}
+            <span style="color:#0a0a0a;">${escapeHtml(article.title.slice(0, 60))}${article.title.length > 60 ? '…' : ''}</span>
+          </div>
+          ${article.kicker ? `<span class="kicker">${escapeHtml(article.kicker)}</span>` : ''}
+          <h1 class="article-title">${escapeHtml(article.title)}</h1>
+          ${article.subtitle ? `<p class="article-subtitle">${escapeHtml(article.subtitle)}</p>` : ''}
+          <div class="byline-row">
+            <img src="${escapeAttr(authorAvatar)}" class="byline-avatar" alt="${escapeAttr(author.full_name || '')}">
+            <div class="byline-info">
+              <div class="author"><a href="${author.username ? '#' : '#'}">${escapeHtml(author.full_name || 'Karostartup')}</a></div>
+              <div class="meta">${formatDateLong(article.published_at)} · ${formatTimeIST(article.published_at)} · ${article.read_time_minutes || 5} min read · ${formatNumber(article.view_count || 0)} views</div>
+            </div>
+            <div class="byline-actions">
+              <button class="icon-btn" data-share="twitter" aria-label="Share on X">𝕏</button>
+              <button class="icon-btn" data-share="linkedin" aria-label="Share on LinkedIn">in</button>
+              <button class="icon-btn" data-share="whatsapp" aria-label="Share on WhatsApp">✉</button>
+              <button class="icon-btn" data-share="copy" aria-label="Copy link">⎘</button>
+              <button class="icon-btn" id="bookmark-btn" aria-label="Bookmark">♥</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      ${article.cover_image_url ? `
+        <div class="cover-img-wrap">
+          <img src="${escapeAttr(article.cover_image_url)}" alt="${escapeAttr(article.title)}">
+          ${article.cover_caption ? `<div class="cover-caption">${escapeHtml(article.cover_caption)}</div>` : ''}
+        </div>` : ''}
+
+      <article class="article-body" id="article-body">
+        ${isPaywalled
+          ? `<div class="paywall-fade">${renderMarkdown(article.content || '')}</div>
+             <div class="paywall-card">
+               <span class="kicker">Karostartup Plus</span>
+               <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.6rem;margin:8px 0 12px 0;">This is a Plus story.</h2>
+               <p style="color:#5a5a5a;margin-bottom:20px;">Continue reading with a Karostartup Plus membership. ₹4,999/year. Cancel anytime.</p>
+               <a href="/plus.html" class="btn btn-red">Become a Member</a>
+               ${user ? '' : `<p style="margin-top:14px;font-size:0.86rem;"><a href="/auth/signin.html?next=${encodeURIComponent(location.pathname + location.search)}">Already a member? Sign in →</a></p>`}
+             </div>`
+          : renderMarkdown(article.content || '')}
+      </article>
+
+      ${article.tags && article.tags.length ? `
+        <div class="tags-row">
+          ${article.tags.map(t => `<a class="tag-chip" href="/search.html?q=${encodeURIComponent(t)}">#${escapeHtml(t)}</a>`).join('')}
+        </div>` : ''}
+
+      <div id="companies-strip"></div>
+
+      <div class="author-card">
+        <img src="${escapeAttr(authorAvatar)}" class="author-card-avatar" alt="${escapeAttr(author.full_name || '')}">
+        <div>
+          <div class="author-card-name">${escapeHtml(author.full_name || 'Karostartup')}</div>
+          <div class="author-card-role">${escapeHtml((author.role || '').replace(/^./, c => c.toUpperCase()))} ${author.twitter_handle ? `· <a href="https://twitter.com/${encodeURIComponent(author.twitter_handle.replace(/^@/, ''))}" target="_blank" rel="noopener">@${escapeHtml(author.twitter_handle.replace(/^@/, ''))}</a>` : ''}</div>
+          <p class="author-card-bio">${escapeHtml(author.bio || 'Karostartup editorial team.')}</p>
+        </div>
+      </div>
+
+      <section class="related-section">
+        <h3 class="h-section" style="border-bottom:2px solid #0a0a0a;padding-bottom:12px;margin-bottom:24px;">Related stories</h3>
+        <div class="related-grid" id="related-slot"></div>
+      </section>
+
+      <section class="comments-section">
+        <h3>Comments</h3>
+        <div id="comments-form-slot"></div>
+        <div id="comments-list-slot"></div>
+      </section>
+    `;
+
+    // Share buttons
+    main.querySelectorAll('[data-share]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const url = encodeURIComponent(location.href);
+        const title = encodeURIComponent(article.title);
+        const kind = btn.dataset.share;
+        if (kind === 'twitter') window.open(`https://twitter.com/intent/tweet?text=${title}&url=${url}`, '_blank');
+        else if (kind === 'linkedin') window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+        else if (kind === 'whatsapp') window.open(`https://api.whatsapp.com/send?text=${title}%20${url}`, '_blank');
+        else if (kind === 'copy') {
+          navigator.clipboard.writeText(location.href).then(() => showToast('Link copied'));
+        }
+      });
+    });
+
+    // Bookmark
+    const bookmarkBtn = document.getElementById('bookmark-btn');
+    let bookmarked = false;
+    if (user) {
+      try {
+        const { data } = await sb.from('bookmarks').select('user_id').eq('user_id', user.id).eq('article_id', article.id).maybeSingle();
+        bookmarked = !!data;
+        if (bookmarked) bookmarkBtn.classList.add('active');
+      } catch {}
+    }
+    bookmarkBtn.addEventListener('click', async () => {
+      if (!user) { location.href = `/auth/signin.html?next=${encodeURIComponent(location.pathname + location.search)}`; return; }
+      try {
+        if (bookmarked) {
+          await sb.from('bookmarks').delete().eq('user_id', user.id).eq('article_id', article.id);
+          bookmarkBtn.classList.remove('active');
+          showToast('Removed from bookmarks');
+        } else {
+          await sb.from('bookmarks').insert({ user_id: user.id, article_id: article.id });
+          bookmarkBtn.classList.add('active');
+          showToast('Saved to bookmarks');
+        }
+        bookmarked = !bookmarked;
+      } catch (e) {
+        showToast('Could not update bookmark', 'error');
+      }
+    });
+
+    // Read progress
+    const progress = document.getElementById('read-progress');
+    function updateProgress() {
+      const body = document.getElementById('article-body');
+      if (!body) return;
+      const rect = body.getBoundingClientRect();
+      const total = body.offsetHeight - window.innerHeight;
+      const scrolled = Math.max(0, -rect.top);
+      const pct = Math.min(100, (scrolled / Math.max(1, total)) * 100);
+      progress.style.width = `${pct}%`;
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+
+    // Companies mentioned
+    try {
+      const { data: junction } = await sb.from('article_companies')
+        .select('companies(name,slug,logo_url)')
+        .eq('article_id', article.id);
+      const slot = document.getElementById('companies-strip');
+      if (junction && junction.length) {
+        slot.innerHTML = `
+          <div class="companies-strip">
+            <h4>Companies mentioned</h4>
+            <div class="companies-strip-list">
+              ${junction.map(j => {
+                const c = j.companies; if (!c) return '';
+                const initial = (c.name || '?').charAt(0).toUpperCase();
+                const logo = c.logo_url
+                  ? `<img src="${escapeAttr(c.logo_url)}" class="company-logo" alt="${escapeAttr(c.name)}" style="border:0;background:transparent;">`
+                  : `<span class="company-logo">${escapeHtml(initial)}</span>`;
+                return `<a href="/company/view.html?slug=${encodeURIComponent(c.slug)}" class="company-chip">${logo}<span>${escapeHtml(c.name)}</span></a>`;
+              }).join('')}
+            </div>
+          </div>`;
+      }
+    } catch {}
+
+    // Related
+    try {
+      const { data } = await sb.from('articles')
+        .select('id,slug,title,kicker,summary,cover_image_url,published_at,read_time_minutes,categories(name),profiles!author_id(full_name)')
+        .eq('status', 'published')
+        .eq('category_id', article.category_id)
+        .neq('id', article.id)
+        .order('published_at', { ascending: false })
+        .limit(3);
+      const slot = document.getElementById('related-slot');
+      if (data && data.length) {
+        slot.innerHTML = data.map(a => renderStoryCard(a, { small: true })).join('');
+      } else {
+        slot.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><p>No related stories yet.</p></div>';
+      }
+    } catch {}
+
+    // COMMENTS
+    async function loadComments() {
+      const slot = document.getElementById('comments-list-slot');
+      try {
+        const { data } = await sb.from('comments')
+          .select('id,parent_id,content,is_flagged,created_at,profiles(full_name,username,avatar_url)')
+          .eq('article_id', article.id)
+          .eq('is_deleted', false)
+          .order('created_at', { ascending: true });
+        if (!data || !data.length) {
+          slot.innerHTML = '<div class="empty-state"><p>No comments yet. Be the first.</p></div>';
+          return;
+        }
+        const parents = data.filter(c => !c.parent_id);
+        const children = data.filter(c => c.parent_id);
+        const render = (c, isReply = false) => {
+          const p = c.profiles || {};
+          const init = (p.full_name || p.username || '?').charAt(0).toUpperCase();
+          const replies = children.filter(ch => ch.parent_id === c.id);
+          return `
+            <div class="comment ${isReply ? 'is-reply' : ''}" data-id="${c.id}">
+              <div class="comment-avatar">${p.avatar_url ? `<img src="${escapeAttr(p.avatar_url)}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` : escapeHtml(init)}</div>
+              <div>
+                <div class="comment-meta">
+                  <span class="comment-author">${escapeHtml(p.full_name || p.username || 'Anonymous')}</span>
+                  <span class="comment-time">${timeAgo(c.created_at)}</span>
+                </div>
+                <div class="comment-body">${escapeHtml(c.content)}</div>
+                <div class="comment-actions">
+                  <button data-action="flag" data-id="${c.id}">Flag</button>
+                </div>
+              </div>
+            </div>
+            ${replies.map(r => render(r, true)).join('')}`;
+        };
+        slot.innerHTML = parents.map(p => render(p)).join('');
+        slot.querySelectorAll('[data-action=flag]').forEach(b => {
+          b.addEventListener('click', async () => {
+            try {
+              await sb.from('comments').update({ is_flagged: true }).eq('id', b.dataset.id);
+              showToast('Comment flagged for review');
+            } catch { showToast('Could not flag comment', 'error'); }
+          });
+        });
+      } catch {
+        slot.innerHTML = '<div class="empty-state"><p>Could not load comments.</p></div>';
+      }
+    }
+
+    const formSlot = document.getElementById('comments-form-slot');
+    if (!user) {
+      formSlot.innerHTML = `<div class="signin-prompt"><p style="margin:0 0 12px 0;">Sign in to join the conversation.</p><a href="/auth/signin.html?next=${encodeURIComponent(location.pathname + location.search)}" class="btn btn-ghost btn-sm">Sign in</a></div>`;
+    } else {
+      formSlot.innerHTML = `
+        <form class="comment-form" id="comment-form">
+          <textarea name="content" placeholder="Share your perspective…" required maxlength="2000"></textarea>
+          <div class="comment-form-actions">
+            <button type="submit" class="btn btn-primary btn-sm">Post comment</button>
+          </div>
+        </form>`;
+      document.getElementById('comment-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const content = e.target.content.value.trim();
+        if (!content) return;
+        try {
+          const { error } = await sb.from('comments').insert({ article_id: article.id, user_id: user.id, content });
+          if (error) throw error;
+          e.target.reset();
+          showToast('Comment posted');
+          loadComments();
+        } catch (err) {
+          showToast(err.message || 'Could not post comment', 'error');
+        }
+      });
+    }
+    loadComments();
+  })();
+  </script>
+</body>
+</html>

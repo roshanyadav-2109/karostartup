@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Newsletters · Admin · Karostartup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="admin-root"><div class="loading-state">Loading…</div></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script src="/admin/shell.js"></script>
+  <script>
+  (async () => {
+    const ok = await requireStaff();
+    if (!ok) return;
+    const admin = await isAdmin();
+    if (!admin) {
+      document.body.innerHTML = '<div class="access-denied"><h1>Admins only</h1><a href="/admin/" class="btn btn-primary">Back to dashboard</a></div>';
+      return;
+    }
+    await renderAdminShell('newsletters', 'Newsletters');
+
+    document.getElementById('admin-content').innerHTML = `
+      <h1>Newsletters</h1>
+      <div class="admin-card">
+        <div class="admin-card-head"><h3>Add newsletter</h3></div>
+        <form id="new-form">
+          <div class="form-row">
+            <div class="form-field"><label>Name *</label><input type="text" name="name" required></div>
+            <div class="form-field"><label>Slug *</label><input type="text" name="slug" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-field"><label>Cadence</label>
+              <select name="cadence"><option>daily</option><option>weekly</option><option>monthly</option></select>
+            </div>
+            <div class="form-field"><label>Active</label>
+              <select name="active"><option value="true">Yes</option><option value="false">No</option></select>
+            </div>
+          </div>
+          <div class="form-field"><label>Description</label><textarea name="description" rows="2"></textarea></div>
+          <button type="submit" class="btn btn-primary">Add newsletter</button>
+        </form>
+      </div>
+
+      <div class="admin-card" style="padding:0;">
+        <div class="admin-card-head" style="padding:18px 22px;margin-bottom:0;"><h3>All newsletters</h3></div>
+        <div id="nl-slot"><div class="loading-state">Loading…</div></div>
+      </div>`;
+
+    const newForm = document.getElementById('new-form');
+    newForm.name.addEventListener('input', () => { newForm.slug.value = slugify(newForm.name.value); });
+    newForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const payload = {
+        name: fd.get('name'),
+        slug: fd.get('slug') || slugify(fd.get('name')),
+        cadence: fd.get('cadence'),
+        active: fd.get('active') === 'true',
+        description: fd.get('description') || null
+      };
+      try { await sb.from('newsletters').insert(payload); showToast('Newsletter added'); e.target.reset(); load(); }
+      catch (err) { showToast(err.message, 'error'); }
+    });
+
+    async function load() {
+      const slot = document.getElementById('nl-slot');
+      try {
+        const { data: nls } = await sb.from('newsletters').select('*').order('name');
+        if (!nls || !nls.length) { slot.innerHTML = '<div class="empty-state"><p>No newsletters.</p></div>'; return; }
+        // counts
+        const ids = nls.map(n => n.id);
+        const counts = {};
+        await Promise.all(nls.map(async (nl) => {
+          const { count } = await sb.from('newsletter_subscribers').select('id', { count: 'exact', head: true }).eq('newsletter_id', nl.id);
+          counts[nl.id] = count || 0;
+        }));
+        slot.innerHTML = `
+          <table class="admin-table">
+            <thead><tr><th>Name</th><th>Slug</th><th>Cadence</th><th>Subscribers</th><th>Active</th><th></th></tr></thead>
+            <tbody>${nls.map(nl => `<tr data-id="${nl.id}">
+              <td><strong>${escapeHtml(nl.name)}</strong></td>
+              <td class="mono" style="font-size:0.82rem;color:#5a5a5a;">${escapeHtml(nl.slug)}</td>
+              <td>${escapeHtml(nl.cadence || '—')}</td>
+              <td class="mono" style="font-weight:600;color:#d10a11;">${counts[nl.id] || 0}</td>
+              <td><label><input type="checkbox" data-active="${nl.id}" ${nl.active ? 'checked' : ''}> Active</label></td>
+              <td><div class="row-actions">
+                <button data-save="${nl.id}" style="color:#0a7a3b;background:none;border:0;cursor:pointer;font-weight:600;">Save</button>
+                <button class="danger" data-del="${nl.id}" style="background:none;border:0;color:#d10a11;cursor:pointer;font-weight:600;">Delete</button>
+              </div></td>
+            </tr>`).join('')}</tbody>
+          </table>`;
+        document.querySelectorAll('[data-save]').forEach(b => b.addEventListener('click', async () => {
+          const active = document.querySelector(`[data-active="${b.dataset.save}"]`).checked;
+          await sb.from('newsletters').update({ active }).eq('id', b.dataset.save);
+          showToast('Saved');
+        }));
+        document.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
+          if (!confirm('Delete newsletter and all its subscriber records?')) return;
+          await sb.from('newsletters').delete().eq('id', b.dataset.del);
+          showToast('Deleted'); load();
+        }));
+      } catch (e) {
+        slot.innerHTML = `<div class="empty-state"><p>${escapeHtml(e.message)}</p></div>`;
+      }
+    }
+    load();
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Newsletters · Karostartup</title>
+  <meta name="description" content="Subscribe to Karostartup newsletters — Morning Brief, Weekly Funding Brief, Founder Memo, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="chrome"></div>
+  <main>
+    <section class="about-hero">
+      <div class="container">
+        <span class="kicker">Newsletters</span>
+        <h1>The Karostartup newsletters.</h1>
+        <p class="dek" style="margin-top:16px;max-width:720px;">Free, paid, daily, weekly. Pick the cadence that fits your inbox.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="newsletter-grid" id="nl-grid">
+          <div class="loading-state" style="grid-column:1/-1;">Loading newsletters…</div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    await mountChrome('');
+    mountFooter();
+
+    try {
+      const { data } = await sb.from('newsletters').select('*').eq('active', true).order('cadence');
+      const slot = document.getElementById('nl-grid');
+      if (!data || !data.length) {
+        slot.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><h3>No newsletters yet</h3><p>We\'re prepping the first issues. Check back soon.</p></div>';
+        return;
+      }
+      slot.innerHTML = data.map(nl => `
+        <div class="newsletter-card reveal" data-id="${nl.id}">
+          <span class="cadence-pill">${escapeHtml(nl.cadence || '—')}</span>
+          <h3>${escapeHtml(nl.name)}</h3>
+          <p>${escapeHtml(nl.description || '')}</p>
+          <form class="newsletter-form sub-form" data-id="${nl.id}">
+            <input type="email" name="email" required placeholder="your@email.com" aria-label="Email">
+            <button type="submit">Subscribe</button>
+          </form>
+          <div class="newsletter-msg" data-msg="${nl.id}"></div>
+        </div>`).join('');
+      initReveal();
+
+      document.querySelectorAll('.sub-form').forEach(form => {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const id = form.dataset.id;
+          const email = form.email.value.trim();
+          const msgEl = document.querySelector(`[data-msg="${id}"]`);
+          msgEl.textContent = '';
+          msgEl.className = 'newsletter-msg';
+          try {
+            const { error } = await sb.from('newsletter_subscribers').insert({ email, newsletter_id: id });
+            if (error) {
+              if (error.code === '23505') {
+                msgEl.textContent = "Already subscribed.";
+                msgEl.classList.add('success');
+              } else {
+                msgEl.textContent = error.message;
+                msgEl.classList.add('error');
+              }
+            } else {
+              msgEl.textContent = "You're in. Welcome.";
+              msgEl.classList.add('success');
+              form.reset();
+            }
+          } catch (err) {
+            msgEl.textContent = err.message || 'Could not subscribe.';
+            msgEl.classList.add('error');
+          }
+        });
+      });
+    } catch (e) {
+      document.getElementById('nl-grid').innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><h3>Could not load newsletters</h3></div>';
+    }
+  })();
+  </script>
+</body>
+</html>

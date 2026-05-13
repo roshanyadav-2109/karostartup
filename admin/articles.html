@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Articles · Admin · Karostartup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="admin-root"><div class="loading-state">Loading…</div></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script src="/admin/shell.js"></script>
+  <script>
+  (async () => {
+    const ok = await requireStaff();
+    if (!ok) return;
+    await renderAdminShell('articles', 'Articles');
+    const main = document.getElementById('admin-content');
+
+    let page = 1;
+    const PER = 25;
+    let status = new URLSearchParams(location.search).get('status') || '';
+    let categoryId = '';
+    let q = '';
+
+    main.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+        <h1 style="margin:0;">Articles</h1>
+        <a href="/admin/article-edit.html" class="btn btn-red">+ New article</a>
+      </div>
+      <div class="admin-toolbar">
+        <input type="search" class="search" id="search" placeholder="Search title…">
+        <select id="status">
+          <option value="">All statuses</option>
+          <option value="draft">Draft</option>
+          <option value="review">Review</option>
+          <option value="published">Published</option>
+          <option value="archived">Archived</option>
+        </select>
+        <select id="category"><option value="">All categories</option></select>
+      </div>
+      <div id="bulk-bar" style="display:none;padding:12px;background:#0a0a0a;color:#fff;margin-bottom:12px;justify-content:space-between;align-items:center;">
+        <span id="bulk-count"></span>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-ghost btn-sm" style="border-color:#fff;color:#fff;" data-bulk="publish">Publish</button>
+          <button class="btn btn-ghost btn-sm" style="border-color:#fff;color:#fff;" data-bulk="archive">Archive</button>
+          <button class="btn btn-danger btn-sm" data-bulk="delete">Delete</button>
+        </div>
+      </div>
+      <div id="table-slot" class="admin-card" style="padding:0;"><div class="loading-state">Loading…</div></div>
+      <div class="pagination" id="pagination"></div>`;
+
+    // Categories
+    const { data: cats } = await sb.from('categories').select('id,name').order('order_index');
+    const catSel = document.getElementById('category');
+    (cats || []).forEach(c => catSel.innerHTML += `<option value="${c.id}">${escapeHtml(c.name)}</option>`);
+
+    const searchEl = document.getElementById('search');
+    const statusEl = document.getElementById('status');
+    statusEl.value = status;
+
+    let searchTimer;
+    searchEl.addEventListener('input', () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => { q = searchEl.value.trim(); page = 1; load(); }, 300);
+    });
+    statusEl.addEventListener('change', () => { status = statusEl.value; page = 1; load(); });
+    catSel.addEventListener('change', () => { categoryId = catSel.value; page = 1; load(); });
+
+    async function load() {
+      const slot = document.getElementById('table-slot');
+      slot.innerHTML = '<div class="loading-state">Loading…</div>';
+      let qb = sb.from('articles').select('id,slug,title,status,published_at,view_count,is_featured,is_breaking,is_premium,category_id,categories(name),profiles!author_id(full_name)', { count: 'exact' });
+      if (status) qb = qb.eq('status', status);
+      if (categoryId) qb = qb.eq('category_id', categoryId);
+      if (q) qb = qb.ilike('title', `%${q.replace(/[%_]/g, '')}%`);
+      qb = qb.order('updated_at', { ascending: false }).range((page - 1) * PER, page * PER - 1);
+      try {
+        const { data, count, error } = await qb;
+        if (error) throw error;
+        if (!data || !data.length) {
+          slot.innerHTML = '<div class="empty-state"><h3>No articles match</h3></div>';
+          document.getElementById('pagination').innerHTML = '';
+          return;
+        }
+        slot.innerHTML = `
+          <table class="admin-table">
+            <thead><tr>
+              <th style="width:30px;"><input type="checkbox" id="check-all"></th>
+              <th>Title</th><th>Category</th><th>Author</th><th>Status</th><th>Views</th><th>Published</th><th>Flags</th><th></th>
+            </tr></thead>
+            <tbody>
+              ${data.map(a => `<tr data-id="${a.id}">
+                <td><input type="checkbox" class="bulk-check" value="${a.id}"></td>
+                <td><a href="/admin/article-edit.html?id=${a.id}" style="font-weight:600;">${escapeHtml(a.title || 'Untitled')}</a></td>
+                <td>${escapeHtml(a.categories?.name || '—')}</td>
+                <td>${escapeHtml(a.profiles?.full_name || '—')}</td>
+                <td>${statusPill(a.status)}</td>
+                <td class="mono">${formatNumber(a.view_count || 0)}</td>
+                <td class="mono" style="font-size:0.78rem;">${a.published_at ? formatDate(a.published_at) : '—'}</td>
+                <td style="font-size:0.7rem;">${a.is_featured ? '⭐' : ''}${a.is_breaking ? '🔴' : ''}${a.is_premium ? '🔒' : ''}</td>
+                <td><div class="row-actions">
+                  <a href="/admin/article-edit.html?id=${a.id}">Edit</a>
+                  ${a.status === 'published' ? `<a href="/article/view.html?slug=${encodeURIComponent(a.slug)}" target="_blank">View ↗</a>` : ''}
+                  <button class="danger" data-delete="${a.id}">Delete</button>
+                </div></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>`;
+        renderPagination(count || 0);
+
+        // Bulk select
+        const checkAll = document.getElementById('check-all');
+        const checks = document.querySelectorAll('.bulk-check');
+        const bar = document.getElementById('bulk-bar');
+        const countEl = document.getElementById('bulk-count');
+        function refreshBulk() {
+          const sel = Array.from(checks).filter(c => c.checked).map(c => c.value);
+          if (sel.length) {
+            bar.style.display = 'flex';
+            countEl.textContent = `${sel.length} selected`;
+            bar.dataset.ids = sel.join(',');
+          } else {
+            bar.style.display = 'none';
+            bar.dataset.ids = '';
+          }
+        }
+        checkAll.addEventListener('change', () => { checks.forEach(c => c.checked = checkAll.checked); refreshBulk(); });
+        checks.forEach(c => c.addEventListener('change', refreshBulk));
+
+        document.querySelectorAll('[data-delete]').forEach(b => {
+          b.addEventListener('click', async () => {
+            if (!confirm('Delete this article permanently?')) return;
+            try {
+              await sb.from('articles').delete().eq('id', b.dataset.delete);
+              showToast('Article deleted');
+              load();
+            } catch (e) { showToast(e.message || 'Could not delete', 'error'); }
+          });
+        });
+      } catch (e) {
+        slot.innerHTML = `<div class="empty-state"><h3>Couldn't load</h3><p>${escapeHtml(e.message)}</p></div>`;
+      }
+    }
+
+    document.querySelectorAll('[data-bulk]').forEach(b => {
+      b.addEventListener('click', async () => {
+        const ids = (document.getElementById('bulk-bar').dataset.ids || '').split(',').filter(Boolean);
+        if (!ids.length) return;
+        const act = b.dataset.bulk;
+        if (act === 'delete' && !confirm(`Delete ${ids.length} articles?`)) return;
+        try {
+          if (act === 'publish') await sb.from('articles').update({ status: 'published', published_at: new Date().toISOString() }).in('id', ids);
+          else if (act === 'archive') await sb.from('articles').update({ status: 'archived' }).in('id', ids);
+          else if (act === 'delete') await sb.from('articles').delete().in('id', ids);
+          showToast(`${ids.length} updated`);
+          load();
+        } catch (e) { showToast(e.message || 'Bulk failed', 'error'); }
+      });
+    });
+
+    function renderPagination(total) {
+      const totalPages = Math.max(1, Math.ceil(total / PER));
+      const pag = document.getElementById('pagination');
+      if (totalPages <= 1) { pag.innerHTML = ''; return; }
+      const parts = [`<button ${page === 1 ? 'disabled' : ''} data-p="prev">‹</button>`];
+      for (let i = 1; i <= totalPages; i++) parts.push(`<button data-p="${i}" ${i === page ? 'class="is-active"' : ''}>${i}</button>`);
+      parts.push(`<button ${page === totalPages ? 'disabled' : ''} data-p="next">›</button>`);
+      pag.innerHTML = parts.join('');
+      pag.querySelectorAll('button[data-p]').forEach(b => b.addEventListener('click', () => {
+        const v = b.dataset.p;
+        if (v === 'prev') page = Math.max(1, page - 1);
+        else if (v === 'next') page = Math.min(totalPages, page + 1);
+        else page = Number(v);
+        load();
+      }));
+    }
+
+    load();
+  })();
+  </script>
+</body>
+</html>

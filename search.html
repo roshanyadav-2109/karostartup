@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Search · Karostartup</title>
+  <meta name="description" content="Search Karostartup stories.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="chrome"></div>
+  <main>
+    <section class="about-hero">
+      <div class="container">
+        <span class="kicker">Search</span>
+        <h1 id="search-h1">Search the archive</h1>
+        <form id="search-form" class="search-bar-large">
+          <input type="search" name="q" id="q" placeholder="Search stories, founders, companies…" autofocus>
+          <button type="submit">Search</button>
+        </form>
+        <p style="font-size:0.86rem;color:#5a5a5a;margin-top:8px;" id="result-count"></p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container" style="max-width:880px;">
+        <div id="results-slot"></div>
+      </div>
+    </section>
+  </main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    await mountChrome('');
+    mountFooter();
+
+    const form = document.getElementById('search-form');
+    const input = document.getElementById('q');
+    const slot = document.getElementById('results-slot');
+    const countEl = document.getElementById('result-count');
+    const h1 = document.getElementById('search-h1');
+
+    function setQuery(q) {
+      input.value = q || '';
+      const u = new URL(location);
+      if (q) u.searchParams.set('q', q); else u.searchParams.delete('q');
+      history.replaceState({}, '', u);
+    }
+
+    async function search(q) {
+      if (!q) {
+        slot.innerHTML = '<div class="empty-state"><h3>Search the Karostartup archive</h3><p>Try "fintech", "Razorpay", "Series B", or a founder name.</p></div>';
+        countEl.textContent = '';
+        h1.textContent = 'Search the archive';
+        return;
+      }
+      h1.textContent = `Results for "${q}"`;
+      slot.innerHTML = '<div class="loading-state">Searching…</div>';
+      try {
+        const safe = q.replace(/[%_]/g, '');
+        const { data, error } = await sb.from('articles')
+          .select('id,slug,title,kicker,summary,cover_image_url,published_at,read_time_minutes,view_count,categories(name),profiles!author_id(full_name)')
+          .eq('status', 'published')
+          .or(`title.ilike.%${safe}%,summary.ilike.%${safe}%,subtitle.ilike.%${safe}%`)
+          .order('published_at', { ascending: false })
+          .limit(40);
+        if (error) throw error;
+        if (!data || !data.length) {
+          slot.innerHTML = `<div class="empty-state"><h3>No matches</h3><p>Nothing matched "${escapeHtml(q)}". Try a different keyword.</p></div>`;
+          countEl.textContent = '';
+          return;
+        }
+        countEl.textContent = `${data.length} result${data.length === 1 ? '' : 's'}`;
+        slot.innerHTML = data.map(renderFeedItem).join('');
+        initReveal();
+      } catch (e) {
+        slot.innerHTML = '<div class="empty-state"><h3>Search failed</h3></div>';
+      }
+    }
+
+    const initial = new URLSearchParams(location.search).get('q') || '';
+    setQuery(initial);
+    search(initial);
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const q = input.value.trim();
+      setQuery(q);
+      search(q);
+    });
+  })();
+  </script>
+</body>
+</html>

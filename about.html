@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About · Karostartup</title>
+  <meta name="description" content="Karostartup is India's business of business — founder-first journalism for the startup economy.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="chrome"></div>
+  <main>
+    <section class="about-hero">
+      <div class="container">
+        <span class="kicker">About us</span>
+        <h1>We're building the business paper India deserves — sharp, fast, and on the side of the operator.</h1>
+      </div>
+    </section>
+
+    <section class="about-mission">
+      <div class="container">
+        <span class="eyebrow" style="color:#d10a11;">Our mission</span>
+        <p style="margin-top:14px;">India is being remade by founders. The capital is here, the markets are here, the ambition is here. What's been missing is journalism that takes that work seriously — without the hype, without the press-release cosplay. <strong>Karostartup</strong> is that paper.</p>
+        <p style="margin-top:14px;">We cover startups, funding, deals, founders, and the policy that shapes them. We talk to the people doing the work — not the people performing it on LinkedIn.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="h-section">Our team</h2>
+        </div>
+        <div class="team-grid" id="team-grid">
+          <div class="loading-state" style="grid-column:1/-1;">Loading team…</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="h-section">What we cover</h2>
+        </div>
+        <div class="sector-grid" id="cov-grid"></div>
+      </div>
+    </section>
+
+    <section class="plus-cta-block">
+      <div class="container">
+        <div>
+          <span class="eyebrow">Work with us</span>
+          <h2>Have a story? Hire us? Build with us?</h2>
+          <p>Reach the team directly. Promotion, advertising, tips, partnerships, careers — we read everything.</p>
+        </div>
+        <div class="plus-price-card" style="background:#1a1a1a;border:1px solid #2a2a2a;">
+          <a href="/contact.html" class="btn btn-red btn-lg" style="margin-bottom:10px;">Get in touch</a>
+          <a href="/contact.html?type=careers" class="btn btn-ghost btn-lg" style="border-color:#fff;color:#fff;">View careers</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    await mountChrome('');
+    mountFooter();
+
+    // Team
+    try {
+      const { data } = await sb.from('profiles')
+        .select('full_name,avatar_url,bio,role,username')
+        .in('role', ['author', 'editor', 'admin'])
+        .order('role', { ascending: false })
+        .limit(12);
+      const slot = document.getElementById('team-grid');
+      if (!data || !data.length) {
+        slot.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><h3>Team coming soon</h3><p>We\'re hiring.</p></div>';
+      } else {
+        slot.innerHTML = data.map(p => `
+          <div class="team-card reveal">
+            <img src="${escapeAttr(p.avatar_url || defaultCover({title:p.full_name||'A'}))}" class="avatar" alt="${escapeAttr(p.full_name||'')}">
+            <div class="name">${escapeHtml(p.full_name || p.username || 'Team member')}</div>
+            <div class="role">${escapeHtml((p.role || '').toUpperCase())}</div>
+          </div>`).join('');
+        initReveal();
+      }
+    } catch {}
+
+    // Coverage areas
+    try {
+      const { data: cats } = await sb.from('categories').select('slug,name,description').order('order_index').limit(8);
+      const slot = document.getElementById('cov-grid');
+      slot.innerHTML = (cats || []).map(c => `
+        <a href="/category/view.html?slug=${encodeURIComponent(c.slug)}" class="sector-card reveal">
+          <div class="sector-name">${escapeHtml(c.name)}</div>
+          <div class="sector-meta">${escapeHtml(c.description || '')}</div>
+        </a>`).join('');
+    } catch {}
+  })();
+  </script>
+</body>
+</html>

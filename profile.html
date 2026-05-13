@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profile · Karostartup</title>
+  <meta name="description" content="Your Karostartup profile.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="chrome"></div>
+  <main>
+    <div class="container">
+      <div class="profile-shell" id="profile-shell">
+        <div class="loading-state" style="grid-column:1/-1;">Loading your profile…</div>
+      </div>
+    </div>
+  </main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    await mountChrome('');
+    mountFooter();
+    const user = await requireAuth();
+    if (!user) return;
+    let profile = await getCurrentProfile();
+    if (!profile) {
+      // try to create one
+      try {
+        await sb.from('profiles').insert({ id: user.id, full_name: user.user_metadata?.full_name || '' });
+        profile = await getCurrentProfile();
+      } catch {}
+    }
+    if (!profile) profile = { id: user.id, full_name: '', username: '', bio: '', avatar_url: '', is_plus_member: false };
+
+    const shell = document.getElementById('profile-shell');
+    const initial = (profile.full_name || user.email || '?').charAt(0).toUpperCase();
+    shell.innerHTML = `
+      <aside class="profile-side">
+        <div class="avatar" style="display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:3rem;color:#d10a11;">${profile.avatar_url ? `<img src="${escapeAttr(profile.avatar_url)}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` : escapeHtml(initial)}</div>
+        <div class="name">${escapeHtml(profile.full_name || 'No name')}</div>
+        <div class="role-text">${escapeHtml(user.email || '')}</div>
+        ${profile.is_plus_member ? '<div style="margin-top:10px;display:inline-block;padding:3px 8px;background:#d10a11;color:#fff;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;">PLUS</div>' : ''}
+        <nav>
+          <a href="#profile" data-tab="profile" class="is-active">Profile</a>
+          <a href="#bookmarks" data-tab="bookmarks">Bookmarks</a>
+          <a href="#subs" data-tab="subs">Subscriptions</a>
+          <a href="#plus" data-tab="plus">Plus</a>
+          <a href="#" id="signout-tab" style="color:#d10a11;border-left:0!important;padding-left:0;margin-left:0;margin-top:14px;">Sign out</a>
+        </nav>
+      </aside>
+      <section id="tab-content">
+        <div class="loading-state">Loading…</div>
+      </section>`;
+
+    document.getElementById('signout-tab').addEventListener('click', (e) => { e.preventDefault(); signOut(); });
+
+    const tabs = shell.querySelectorAll('nav a[data-tab]');
+    function setTab(t) {
+      tabs.forEach(a => a.classList.toggle('is-active', a.dataset.tab === t));
+      const c = document.getElementById('tab-content');
+      if (t === 'profile') return renderProfile(c);
+      if (t === 'bookmarks') return renderBookmarks(c);
+      if (t === 'subs') return renderSubs(c);
+      if (t === 'plus') return renderPlus(c);
+    }
+    tabs.forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); setTab(a.dataset.tab); location.hash = a.dataset.tab; }));
+    const hashTab = (location.hash || '').replace('#', '');
+    setTab(['profile','bookmarks','subs','plus'].includes(hashTab) ? hashTab : 'profile');
+
+    async function renderProfile(c) {
+      c.innerHTML = `
+        <div class="admin-card">
+          <div class="admin-card-head"><h3>Your profile</h3></div>
+          <div id="profile-msg"></div>
+          <form id="profile-form">
+            <div class="form-field"><label>Full name</label><input type="text" name="full_name" value="${escapeAttr(profile.full_name||'')}"></div>
+            <div class="form-field"><label>Username</label><input type="text" name="username" value="${escapeAttr(profile.username||'')}"></div>
+            <div class="form-field"><label>Avatar URL</label><input type="url" name="avatar_url" value="${escapeAttr(profile.avatar_url||'')}"></div>
+            <div class="form-field"><label>Bio</label><textarea name="bio" rows="3" maxlength="500">${escapeHtml(profile.bio||'')}</textarea></div>
+            <div class="form-row">
+              <div class="form-field"><label>Twitter / X</label><input type="text" name="twitter_handle" value="${escapeAttr(profile.twitter_handle||'')}" placeholder="@yourhandle"></div>
+              <div class="form-field"><label>LinkedIn URL</label><input type="url" name="linkedin_url" value="${escapeAttr(profile.linkedin_url||'')}"></div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </form>
+        </div>`;
+      document.getElementById('profile-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fd = new FormData(e.target);
+        const payload = {
+          full_name: fd.get('full_name'),
+          username: fd.get('username') || null,
+          avatar_url: fd.get('avatar_url') || null,
+          bio: fd.get('bio') || null,
+          twitter_handle: fd.get('twitter_handle') || null,
+          linkedin_url: fd.get('linkedin_url') || null
+        };
+        const msg = document.getElementById('profile-msg');
+        try {
+          const { error } = await sb.from('profiles').update(payload).eq('id', user.id);
+          if (error) throw error;
+          Object.assign(profile, payload);
+          msg.innerHTML = '<div class="form-msg success">Profile updated.</div>';
+          showToast('Profile saved');
+        } catch (err) {
+          msg.innerHTML = `<div class="form-msg error">${escapeHtml(err.message)}</div>`;
+        }
+      });
+    }
+
+    async function renderBookmarks(c) {
+      c.innerHTML = '<div class="admin-card"><div class="admin-card-head"><h3>Bookmarks</h3></div><div class="loading-state">Loading…</div></div>';
+      try {
+        const { data } = await sb.from('bookmarks')
+          .select('article_id,created_at,articles(id,slug,title,kicker,summary,cover_image_url,published_at,read_time_minutes,categories(name),profiles!author_id(full_name))')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false });
+        const items = (data || []).map(b => b.articles).filter(Boolean);
+        if (!items.length) {
+          c.querySelector('.admin-card').innerHTML = '<div class="admin-card-head"><h3>Bookmarks</h3></div><div class="empty-state"><h3>No bookmarks yet</h3><p>Save stories you want to read later.</p></div>';
+          return;
+        }
+        c.querySelector('.admin-card').innerHTML = `
+          <div class="admin-card-head"><h3>Bookmarks (${items.length})</h3></div>
+          <div>${items.map(a => `
+            <div style="display:grid;grid-template-columns:1fr auto;gap:18px;padding:14px 0;border-bottom:1px solid #e6e6e6;align-items:center;">
+              <a href="${articleHref(a)}" style="font-family:var(--font-display);font-weight:600;font-size:1.05rem;">${escapeHtml(a.title)}</a>
+              <button class="btn btn-ghost btn-sm" data-rm="${a.id}">Remove</button>
+            </div>`).join('')}</div>`;
+        c.querySelectorAll('[data-rm]').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            try {
+              await sb.from('bookmarks').delete().eq('user_id', user.id).eq('article_id', btn.dataset.rm);
+              renderBookmarks(c);
+              showToast('Removed');
+            } catch { showToast('Could not remove', 'error'); }
+          });
+        });
+      } catch {
+        c.querySelector('.admin-card').innerHTML = '<div class="empty-state"><h3>Could not load bookmarks</h3></div>';
+      }
+    }
+
+    async function renderSubs(c) {
+      c.innerHTML = '<div class="admin-card"><div class="admin-card-head"><h3>Newsletter subscriptions</h3></div><div class="loading-state">Loading…</div></div>';
+      try {
+        const { data: subs } = await sb.from('newsletter_subscribers')
+          .select('id,subscribed_at,newsletter_id,newsletters(name,cadence,description)')
+          .eq('email', user.email);
+        if (!subs || !subs.length) {
+          c.querySelector('.admin-card').innerHTML = `
+            <div class="admin-card-head"><h3>Newsletter subscriptions</h3></div>
+            <div class="empty-state"><h3>No subscriptions</h3><p>Browse our <a href="/newsletters.html" style="color:#d10a11;font-weight:600;">newsletters</a> and subscribe.</p></div>`;
+          return;
+        }
+        c.querySelector('.admin-card').innerHTML = `
+          <div class="admin-card-head"><h3>Newsletter subscriptions</h3></div>
+          <div>${subs.map(s => `
+            <div style="display:grid;grid-template-columns:1fr auto;gap:18px;padding:14px 0;border-bottom:1px solid #e6e6e6;align-items:center;">
+              <div>
+                <strong>${escapeHtml(s.newsletters?.name || 'Newsletter')}</strong>
+                <div style="font-size:0.82rem;color:#5a5a5a;">${escapeHtml(s.newsletters?.cadence || '')} · subscribed ${timeAgo(s.subscribed_at)}</div>
+              </div>
+              <button class="btn btn-danger btn-sm" data-unsub="${s.id}">Unsubscribe</button>
+            </div>`).join('')}</div>`;
+        c.querySelectorAll('[data-unsub]').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            try {
+              await sb.from('newsletter_subscribers').delete().eq('id', btn.dataset.unsub);
+              renderSubs(c);
+              showToast('Unsubscribed');
+            } catch { showToast('Could not unsubscribe', 'error'); }
+          });
+        });
+      } catch {
+        c.querySelector('.admin-card').innerHTML = '<div class="empty-state"><h3>Could not load subscriptions</h3></div>';
+      }
+    }
+
+    function renderPlus(c) {
+      if (profile.is_plus_member) {
+        c.innerHTML = `
+          <div class="admin-card">
+            <div class="admin-card-head"><h3>Plus membership</h3></div>
+            <p style="font-family:var(--font-display);font-weight:700;font-size:1.6rem;color:#d10a11;margin:0 0 12px 0;">You're a Plus member.</p>
+            <p style="color:#5a5a5a;">Thanks for funding India's business of business. You have unlimited access to all Plus stories, the Weekly Funding Brief, Founder Memo, and our research reports.</p>
+            <a href="/contact.html?type=general" class="btn btn-ghost btn-sm" style="margin-top:14px;">Cancel membership</a>
+          </div>`;
+      } else {
+        c.innerHTML = `
+          <div class="admin-card" style="text-align:center;">
+            <div class="admin-card-head" style="justify-content:center;border-bottom:0;"><h3>Become a Plus member</h3></div>
+            <p style="font-family:var(--font-display);font-weight:700;font-size:2.4rem;color:#0a0a0a;margin:8px 0;">₹4,999<span style="color:#5a5a5a;font-size:0.4em;font-weight:400;"> /year</span></p>
+            <p style="color:#5a5a5a;margin:0 0 20px 0;">Unlimited Plus stories. Weekly Funding Brief. Founder Memo. Research reports.</p>
+            <a href="/plus.html" class="btn btn-red btn-lg">View Plus</a>
+          </div>`;
+      }
+    }
+  })();
+  </script>
+</body>
+</html>
