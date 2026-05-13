@@ -851,8 +851,11 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 .em-photo-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 5;
-  margin-bottom: 18px;
+  /* Square frame fits the typical "standing figure, transparent bg"
+     PNG without leaving a tall band of empty headroom above the
+     subject (the 4:5 portrait ratio was wasting ~45px at the top). */
+  aspect-ratio: 1 / 1;
+  margin-bottom: 0;
   isolation: isolate;
 }
 
@@ -912,30 +915,35 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 }
 
 /* Info block — blackish-red card behind name + designation, white text.
-   No shadow, no glow — sits flat on the page. */
+   Flat on the page (no shadow, no glow), tighter typographic hierarchy.
+   Sits flush against the photo above so the card reads as one unit. */
 .em-info {
   position: relative;
   width: 100%;
   background: #3a0a0d;
   color: #fff;
-  padding: 14px 16px;
+  padding: 16px 18px 18px;
 }
 .em-name {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.18rem;
-  line-height: 1.1;
+  font-size: 1.2rem;
+  line-height: 1.12;
   letter-spacing: -0.015em;
-  margin: 0 0 6px 0;
+  margin: 0 0 4px 0;
   font-variation-settings: "opsz" 36;
   color: #fff;
 }
 .em-role {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: rgba(255, 255, 255, 0.78);
-  line-height: 1.4;
+  line-height: 1.45;
   margin: 0;
+  letter-spacing: 0.005em;
 }
+/* Tighten card chrome: no padding-right on the card so social-icon
+   overflow doesn't push the photo+info pair off-center in the grid cell. */
+.eminent-card { padding-right: 0; }
 
 @media (max-width: 1100px) {
   .eminent-grid { grid-template-columns: repeat(3, 1fr); gap: 56px 32px; }
@@ -1630,34 +1638,40 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
     rgba(255, 255, 255, 0.95) 92%,
     #fff 100%);
 }
-/* Inline CTA — minimal, no card chrome. Flows naturally out of the
-   teaser fade. Clicking the button opens the signin/signup modal. */
+/* Inline CTA — minimal, no card chrome. Flexbox column with explicit
+   align-items: center guarantees the lede, button, and caption all sit
+   on the same centerline regardless of their intrinsic widths. */
 .authwall-inline {
   max-width: 720px;
   margin: 0 auto;
-  padding: 28px 24px 48px;
-  text-align: center;
+  padding: 28px 24px 56px;
   background: transparent;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 .authwall-inline-lede {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 1.6rem;
+  font-size: 1.55rem;
   letter-spacing: -0.015em;
-  line-height: 1.15;
+  line-height: 1.18;
   color: var(--ink);
   margin: 0 0 22px 0;
-  max-width: 520px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 480px;
 }
-.authwall-inline .btn { padding: 15px 36px; font-size: 0.96rem; }
+.authwall-inline .btn {
+  padding: 14px 32px;
+  font-size: 0.96rem;
+  align-self: center;
+}
 .authwall-inline-foot {
   margin: 18px 0 0 0;
   font-size: 0.8rem;
   color: var(--muted);
   letter-spacing: 0.02em;
+  max-width: 480px;
 }
 
 .authwall-modal {
