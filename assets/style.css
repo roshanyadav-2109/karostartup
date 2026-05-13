@@ -911,15 +911,14 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   transform: translateX(-2px);
 }
 
-/* Info block — solid brand-red card behind name + designation, white
-   text. Reads as a museum-card / contact-strip beneath the portrait. */
+/* Info block — blackish-red card behind name + designation, white text.
+   No shadow, no glow — sits flat on the page. */
 .em-info {
   position: relative;
   width: 100%;
-  background: var(--brand);
+  background: #3a0a0d;
   color: #fff;
   padding: 14px 16px;
-  box-shadow: 0 8px 20px -10px rgba(209, 10, 17, 0.45);
 }
 .em-name {
   font-family: var(--font-display);
@@ -933,7 +932,7 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 }
 .em-role {
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.78);
   line-height: 1.4;
   margin: 0;
 }
