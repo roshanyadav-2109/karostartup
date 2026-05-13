@@ -152,25 +152,50 @@
       </section>
     `;
 
-    // Auth wall modal for anonymous readers
+    // Auth wall for anonymous readers — inline CTA below the teaser.
+    // The login/signup modal only opens after the user clicks
+    // "Read full article", not automatically on page load.
     if (isAuthWalled) {
-      const next = encodeURIComponent(location.pathname + location.search);
-      const wall = document.createElement('div');
-      wall.className = 'authwall-modal';
-      wall.innerHTML = `
-        <div class="authwall-card">
-          <span class="kicker">Continue reading</span>
-          <h2>Sign in to read the full story</h2>
-          <p>Karostartup is free to read — just create an account so we know who's reading. No paywall, no card required. Two clicks and you're in.</p>
-          <div class="authwall-actions">
-            <a class="btn btn-red" href="/auth/signup.html?next=${next}">Create a free account</a>
-            <a class="btn btn-ghost" href="/auth/signin.html?next=${next}">I already have one</a>
-          </div>
-          <p class="authwall-foot">By creating an account you agree to our <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
-        </div>`;
-      document.body.appendChild(wall);
-      // Prevent scrolling the article body while modal is open
-      document.body.style.overflow = 'hidden';
+      const teaser = document.querySelector('.authwall-teaser');
+      if (teaser) {
+        const cta = document.createElement('div');
+        cta.className = 'authwall-inline';
+        cta.innerHTML = `
+          <p class="authwall-inline-lede">Free to read with a Karostartup account.</p>
+          <button type="button" class="btn btn-red btn-lg" id="read-full-btn">Read full article</button>
+          <p class="authwall-inline-foot">No card required · 30-second signup · You'll come right back here.</p>
+        `;
+        teaser.parentNode.insertBefore(cta, teaser.nextSibling);
+      }
+
+      const openAuthModal = () => {
+        if (document.querySelector('.authwall-modal')) return;
+        const next = encodeURIComponent(location.pathname + location.search);
+        const wall = document.createElement('div');
+        wall.className = 'authwall-modal';
+        wall.innerHTML = `
+          <div class="authwall-card">
+            <button type="button" class="authwall-close" aria-label="Close">×</button>
+            <span class="kicker">Continue reading</span>
+            <h2>Sign in to read the full story</h2>
+            <p>Karostartup is free to read — just create an account so we know who's reading. No paywall, no card required. Two clicks and you're in.</p>
+            <div class="authwall-actions">
+              <a class="btn btn-red" href="/auth/signup.html?next=${next}">Create a free account</a>
+              <a class="btn btn-ghost" href="/auth/signin.html?next=${next}">I already have one</a>
+            </div>
+            <p class="authwall-foot">By creating an account you agree to our <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
+          </div>`;
+        document.body.appendChild(wall);
+        document.body.style.overflow = 'hidden';
+        const close = () => { wall.remove(); document.body.style.overflow = ''; };
+        wall.querySelector('.authwall-close').addEventListener('click', close);
+        wall.addEventListener('click', (e) => { if (e.target === wall) close(); });
+        document.addEventListener('keydown', function esc(e) {
+          if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); }
+        });
+      };
+      const fullBtn = document.getElementById('read-full-btn');
+      if (fullBtn) fullBtn.addEventListener('click', openAuthModal);
     }
 
     // Print button

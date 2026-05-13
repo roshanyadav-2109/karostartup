@@ -1626,6 +1626,35 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
     rgba(255, 255, 255, 0.9) 85%,
     #fff 100%);
 }
+/* Inline CTA — sits below the teaser. Clicking the button opens the
+   modal; before that, the reader can scroll past it and explore the
+   rest of the page (related stories, comments, etc.) freely. */
+.authwall-inline {
+  max-width: 720px;
+  margin: -40px auto 24px;
+  padding: 24px 24px 28px;
+  text-align: center;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-top: 3px solid var(--brand);
+  position: relative;
+  z-index: 2;
+}
+.authwall-inline-lede {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.2rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 16px 0;
+}
+.authwall-inline .btn { padding: 13px 28px; }
+.authwall-inline-foot {
+  margin: 14px 0 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
 .authwall-modal {
   position: fixed;
   inset: 0;
@@ -1637,6 +1666,19 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   padding: 24px;
   animation: authwall-fade 0.25s ease-out;
 }
+.authwall-close {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 32px; height: 32px;
+  background: transparent;
+  border: 0;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.authwall-close:hover { color: var(--ink); }
 @keyframes authwall-fade {
   from { background: rgba(10, 10, 10, 0); }
   to   { background: rgba(10, 10, 10, 0.6); }
