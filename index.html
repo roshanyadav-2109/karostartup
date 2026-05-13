@@ -411,8 +411,10 @@
               <img src="${escapeAttr(r.photo_url)}" alt="${escapeAttr(r.name)}" class="em-photo" loading="lazy">
               ${socials ? `<div class="em-socials">${socials}</div>` : ''}
             </div>
-            <h3 class="em-name">${escapeHtml(r.name)}</h3>
-            <p class="em-role">${escapeHtml(r.designation)}</p>
+            <div class="em-info">
+              <h3 class="em-name">${escapeHtml(r.name)}</h3>
+              <p class="em-role">${escapeHtml(r.designation)}</p>
+            </div>
           </div>`;
         }).join('');
       } catch (e) {

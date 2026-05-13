@@ -856,37 +856,9 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   isolation: isolate;
 }
 
-/* Coloured "puddle" the figure stands ON — sits at the BOTTOM of
-   the photo wrap so the head and torso rise above it into white,
-   while the lower body is set against the colour. Soft asymmetric
-   shape, top of the puddle more rounded than the base for a
-   natural "spilled" feel. 4-way nth-child rotation keeps adjacent
-   cards visually distinct. */
-.em-photo-wrap::before {
-  content: "";
-  position: absolute;
-  inset: 52% 12% 4% 12%;
-  background:
-    radial-gradient(ellipse at 35% 28%, rgba(255, 255, 255, 0.42) 0%, transparent 45%),
-    linear-gradient(165deg, #ffdde0 0%, #f8b8bb 50%, #ea8e92 100%);
-  border-radius: 50% 50% 40% 40% / 60% 60% 36% 36%;
-  box-shadow:
-    inset 0 10px 22px -10px rgba(255, 255, 255, 0.45),
-    0 14px 32px -12px rgba(209, 10, 17, 0.22);
-  z-index: 0;
-}
-.eminent-card:nth-child(4n+2) .em-photo-wrap::before {
-  inset: 54% 8% 5% 18%;
-  border-radius: 55% 45% 42% 38% / 62% 58% 38% 34%;
-}
-.eminent-card:nth-child(4n+3) .em-photo-wrap::before {
-  inset: 50% 18% 4% 10%;
-  border-radius: 45% 55% 36% 44% / 58% 62% 40% 36%;
-}
-.eminent-card:nth-child(4n+4) .em-photo-wrap::before {
-  inset: 56% 10% 6% 16%;
-  border-radius: 52% 48% 40% 40% / 56% 64% 36% 38%;
-}
+/* No background shape behind the photo. The photo (transparent PNG)
+   sits cleanly on the white page. The coloured block lives BELOW the
+   photo, behind the name + designation. */
 
 .em-photo {
   position: relative;
@@ -939,6 +911,19 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   transform: translateX(-2px);
 }
 
+/* Info block — soft coral card behind name + designation. Reads as a
+   museum-card / contact-strip beneath the portrait. Sharp corners +
+   brand-red leading rule for editorial feel. */
+.em-info {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(135deg, #ffe7e9 0%, #fdd0d3 100%);
+  padding: 14px 16px 14px 18px;
+  border-left: 3px solid var(--brand);
+  /* Slight lift to suggest the block sits on the page, not in it. */
+  box-shadow: 0 6px 18px -10px rgba(209, 10, 17, 0.22);
+  margin-top: -2px;
+}
 .em-name {
   font-family: var(--font-display);
   font-weight: 700;
@@ -950,11 +935,11 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   color: var(--ink);
 }
 .em-role {
-  font-size: 0.82rem;
-  color: var(--muted);
+  font-size: 0.8rem;
+  color: var(--ink-2);
   line-height: 1.4;
   margin: 0;
-  max-width: 88%;
+  opacity: 0.82;
 }
 
 @media (max-width: 1100px) {
