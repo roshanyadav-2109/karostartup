@@ -321,19 +321,10 @@ function showToast(msg, type = 'success', duration = 3000) {
    REVEAL ANIMATION
    ============================================================ */
 function initReveal() {
-  if (!('IntersectionObserver' in window)) {
-    document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-revealed'));
-    return;
-  }
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('is-revealed');
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.05 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  // No-op. The .reveal class is kept as a hook for future animations,
+  // but we don't hide content by default — async-loaded content was
+  // staying invisible because the observer ran before data rendered.
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-revealed'));
 }
 
 /* ============================================================

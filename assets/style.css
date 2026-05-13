@@ -2706,14 +2706,13 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 }
 
 /* ============================================================
-   REVEAL ANIMATION
+   REVEAL — content is always visible. The .reveal class is a
+   marker (kept for potential future animation hooks) but does
+   not hide anything by default. This avoids invisible-content
+   bugs when async data renders after the IntersectionObserver
+   has already set up.
    ============================================================ */
-.reveal {
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.reveal.is-revealed { opacity: 1; transform: translateY(0); }
+.reveal, .reveal.is-revealed { opacity: 1; transform: none; }
 
 /* ============================================================
    EMPTY STATE
