@@ -53,7 +53,7 @@
             <div class="company-pills">
               ${company.sector ? `<span class="sector-pill">${escapeHtml(company.sector)}</span>` : ''}
               ${company.stage ? `<span class="stage-pill">${escapeHtml(company.stage.replace(/_/g, ' '))}</span>` : ''}
-              ${company.headquarters_city ? `<span class="stage-pill">📍 ${escapeHtml(company.headquarters_city)}${company.headquarters_state ? ', ' + escapeHtml(company.headquarters_state) : ''}</span>` : ''}
+              ${company.headquarters_city ? `<span class="stage-pill">${ICON.pin} ${escapeHtml(company.headquarters_city)}${company.headquarters_state ? ', ' + escapeHtml(company.headquarters_state) : ''}</span>` : ''}
               ${company.founded_year ? `<span class="stage-pill">Est. ${company.founded_year}</span>` : ''}
             </div>
           </div>

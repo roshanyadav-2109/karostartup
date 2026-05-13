@@ -78,11 +78,11 @@
               <div class="meta">${formatDateLong(article.published_at)} · ${formatTimeIST(article.published_at)} · ${article.read_time_minutes || 5} min read · ${formatNumber(article.view_count || 0)} views</div>
             </div>
             <div class="byline-actions">
-              <button class="icon-btn" data-share="twitter" aria-label="Share on X">𝕏</button>
-              <button class="icon-btn" data-share="linkedin" aria-label="Share on LinkedIn">in</button>
-              <button class="icon-btn" data-share="whatsapp" aria-label="Share on WhatsApp">✉</button>
-              <button class="icon-btn" data-share="copy" aria-label="Copy link">⎘</button>
-              <button class="icon-btn" id="bookmark-btn" aria-label="Bookmark">♥</button>
+              <button class="icon-btn" data-share="twitter" aria-label="Share on X">${ICON.twitter}</button>
+              <button class="icon-btn" data-share="linkedin" aria-label="Share on LinkedIn">${ICON.linkedin}</button>
+              <button class="icon-btn" data-share="whatsapp" aria-label="Share on WhatsApp">${ICON.whatsapp}</button>
+              <button class="icon-btn" data-share="copy" aria-label="Copy link">${ICON.copy}</button>
+              <button class="icon-btn" id="bookmark-btn" aria-label="Bookmark">${ICON.bookmark}</button>
             </div>
           </div>
         </div>
@@ -153,11 +153,15 @@
     // Bookmark
     const bookmarkBtn = document.getElementById('bookmark-btn');
     let bookmarked = false;
+    const setBookmarkUI = (on) => {
+      bookmarkBtn.innerHTML = on ? ICON.bookmarkFill : ICON.bookmark;
+      bookmarkBtn.classList.toggle('active', on);
+    };
     if (user) {
       try {
         const { data } = await sb.from('bookmarks').select('user_id').eq('user_id', user.id).eq('article_id', article.id).maybeSingle();
         bookmarked = !!data;
-        if (bookmarked) bookmarkBtn.classList.add('active');
+        setBookmarkUI(bookmarked);
       } catch {}
     }
     bookmarkBtn.addEventListener('click', async () => {
@@ -165,11 +169,11 @@
       try {
         if (bookmarked) {
           await sb.from('bookmarks').delete().eq('user_id', user.id).eq('article_id', article.id);
-          bookmarkBtn.classList.remove('active');
+          setBookmarkUI(false);
           showToast('Removed from bookmarks');
         } else {
           await sb.from('bookmarks').insert({ user_id: user.id, article_id: article.id });
-          bookmarkBtn.classList.add('active');
+          setBookmarkUI(true);
           showToast('Saved to bookmarks');
         }
         bookmarked = !bookmarked;

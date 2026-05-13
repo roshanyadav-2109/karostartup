@@ -110,6 +110,19 @@ WHERE id = (SELECT id FROM auth.users WHERE email = 'YOUR_EMAIL_HERE');
 
 Then sign in and go to `/admin/` — you should see the dashboard. From `/admin/users.html` you can promote other users to author/editor/admin.
 
+### Loading sample data (recommended)
+
+After promoting yourself to admin, open `seed.sql` from this repo and paste it into the Supabase SQL editor. It inserts:
+
+- 6 categories (Fintech, SaaS, D2C, AI, Climate, Policy)
+- 6 companies (Razorpay, Zerodha, Cred, Zepto, Zoho, Sarvam AI)
+- 8 articles with cover images from the Unsplash CDN — 3 featured, 2 breaking, 1 founder profile, 1 premium, 1 exclusive — so the homepage hero, top strip, sector pulse, long reads, and founder spotlight all populate
+- 6 funding rounds linked to companies + articles
+- 6 market tickers (Nifty 50, Sensex, Bank Nifty, Nifty IT, INR/USD, Gold)
+- 3 newsletters
+
+The script is idempotent — re-running it updates existing rows rather than duplicating. Articles are authored by your admin profile if one exists.
+
 Role meanings:
 - `reader` — default for new signups. Can comment, bookmark, subscribe to newsletters.
 - `author` — can be assigned as article author. Cannot access admin yet (depends on your RLS policies).

@@ -161,11 +161,15 @@
   <script src="/assets/app.js"></script>
   <script>
   (async () => {
-    await mountChrome('');
+    // Fire chrome + footer in parallel with content fetches — don't block content on chrome.
+    mountChrome('').catch(() => {});
     mountFooter();
 
+    // Each section is fired as an independent async task so they run concurrently.
+    const run = (fn) => { fn().catch(() => {}); };
+
     // HERO + side stack
-    try {
+    run(async () => { try {
       const { data: featured } = await sb.from('articles')
         .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,is_featured,categories(name,slug),profiles!author_id(full_name)')
         .eq('status', 'published')
@@ -203,10 +207,10 @@
       }
     } catch (e) {
       document.getElementById('hero-slot').innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><h3>Unable to load stories</h3></div>';
-    }
+    } });
 
     // TOP STRIP — next 5 latest
-    try {
+    run(async () => { try {
       const { data } = await sb.from('articles')
         .select('id,slug,title,kicker,published_at,categories(name,slug)')
         .eq('status', 'published')
@@ -214,10 +218,10 @@
         .range(4, 8)
         .limit(5);
       document.getElementById('top-strip-slot').innerHTML = (data || []).map(renderStripItem).join('');
-    } catch {}
+    } catch {} });
 
     // FUNDING ROUNDS table + chart
-    try {
+    run(async () => { try {
       const { data: rounds } = await sb.from('funding_rounds')
         .select('id,round_type,amount_usd,amount_inr,announced_date,lead_investor,companies(name,slug,logo_url)')
         .order('announced_date', { ascending: false })
@@ -288,41 +292,40 @@
         </div>`;
     } catch (e) {
       document.getElementById('deals-table-slot').innerHTML = '<div class="empty-state"><h3>Couldn\'t load deals</h3></div>';
-    }
+    } });
 
-    // SECTOR PULSE
-    try {
+    // SECTOR PULSE — fetch all 4 sectors in parallel
+    run(async () => { try {
       const sectorSlugs = ['fintech', 'd2c', 'saas', 'ai'];
       const { data: cats } = await sb.from('categories')
         .select('id,slug,name')
         .in('slug', sectorSlugs);
       const slot = document.getElementById('sector-grid-slot');
-      const cards = [];
-      for (const slug of sectorSlugs) {
+      const sectorData = await Promise.all(sectorSlugs.map(async (slug) => {
         const cat = (cats || []).find(c => c.slug === slug);
-        if (!cat) {
-          cards.push(`<div class="sector-card"><div class="sector-name">${slug.toUpperCase()}</div><div class="sector-meta">No category configured</div></div>`);
-          continue;
-        }
+        if (!cat) return { slug, cat: null, stories: [] };
         const { data: stories } = await sb.from('articles')
           .select('id,slug,title')
           .eq('status', 'published')
           .eq('category_id', cat.id)
           .order('published_at', { ascending: false })
           .limit(3);
-        const items = (stories || []).map(s => `<a href="/article/view.html?slug=${encodeURIComponent(s.slug)}">${escapeHtml(s.title)}</a>`).join('');
-        cards.push(`
+        return { slug, cat, stories: stories || [] };
+      }));
+      slot.innerHTML = sectorData.map(({ slug, cat, stories }) => {
+        if (!cat) return `<div class="sector-card"><div class="sector-name">${slug.toUpperCase()}</div><div class="sector-meta">No category configured</div></div>`;
+        const items = stories.map(s => `<a href="/article/view.html?slug=${encodeURIComponent(s.slug)}">${escapeHtml(s.title)}</a>`).join('');
+        return `
           <div class="sector-card reveal">
             <div class="sector-name">${escapeHtml(cat.name)}</div>
             <div class="sector-meta"><a href="/category/view.html?slug=${encodeURIComponent(cat.slug)}">View all →</a></div>
             <div class="sector-stories">${items || '<span style="color:#9a9a9a;font-size:0.9rem;">No stories yet</span>'}</div>
-          </div>`);
-      }
-      slot.innerHTML = cards.join('');
-    } catch {}
+          </div>`;
+      }).join('');
+    } catch {} });
 
     // FOUNDER SPOTLIGHT
-    try {
+    run(async () => { try {
       let { data: profile } = await sb.from('articles')
         .select('id,slug,title,summary,cover_image_url,kicker,profiles!author_id(full_name)')
         .eq('status', 'published')
@@ -361,10 +364,10 @@
       }
     } catch {
       document.getElementById('founder-spotlight-slot').style.display = 'none';
-    }
+    } });
 
     // LONG READS
-    try {
+    run(async () => { try {
       const { data } = await sb.from('articles')
         .select('id,slug,title,kicker,summary,cover_image_url,published_at,categories(name)')
         .eq('status', 'published')
@@ -384,10 +387,10 @@
       } else {
         slot.innerHTML = data.map(renderLongreadCard).join('');
       }
-    } catch {}
+    } catch {} });
 
     // NIFTY chart (mocked 30 points trending up)
-    try {
+    run(async () => { try {
       const pts = [];
       let val = 21400;
       for (let i = 0; i < 30; i++) { val += (Math.random() - 0.45) * 80; pts.push(val); }
@@ -415,7 +418,7 @@
           <span>Source: Live ticker (mock)</span>
           <span class="mono">${new Date().toLocaleDateString('en-IN')}</span>
         </div>`;
-    } catch {}
+    } catch {} });
 
     // Movers — static for now
     const gainers = [
@@ -449,7 +452,7 @@
     });
 
     // OPINION
-    try {
+    run(async () => { try {
       const { data } = await sb.from('articles')
         .select('id,slug,title,summary,profiles!author_id(full_name,avatar_url)')
         .eq('status', 'published')
@@ -468,7 +471,7 @@
       } else {
         slot.innerHTML = data.map(renderOpinionCard).join('');
       }
-    } catch {}
+    } catch {} });
 
     // NEWSLETTER FORM
     const newsletterForm = document.getElementById('newsletter-form');
@@ -513,7 +516,7 @@
     });
 
     // FEED (latest 8)
-    try {
+    run(async () => { try {
       const { data } = await sb.from('articles')
         .select('id,slug,title,kicker,summary,cover_image_url,published_at,read_time_minutes,view_count,categories(name),profiles!author_id(full_name)')
         .eq('status', 'published')
@@ -526,10 +529,10 @@
       } else {
         slot.innerHTML = data.map(renderFeedItem).join('');
       }
-    } catch {}
+    } catch {} });
 
     // MOST READ (last 7 days, top 5)
-    try {
+    run(async () => { try {
       const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
       let { data } = await sb.from('articles')
         .select('id,slug,title,view_count,published_at')
@@ -554,21 +557,20 @@
             </div>
           </li>`).join('');
       }
-    } catch {}
+    } catch {} });
 
-    // TRENDING SECTORS (last 7d)
-    try {
+    // TRENDING SECTORS (last 7d) — count per category in parallel
+    run(async () => { try {
       const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
       const { data: cats } = await sb.from('categories').select('id,slug,name');
-      const counts = [];
-      for (const c of (cats || [])) {
+      const counts = await Promise.all((cats || []).map(async (c) => {
         const { count } = await sb.from('articles')
           .select('id', { count: 'exact', head: true })
           .eq('status', 'published')
           .eq('category_id', c.id)
           .gte('published_at', since);
-        counts.push({ ...c, count: count || 0 });
-      }
+        return { ...c, count: count || 0 };
+      }));
       counts.sort((a, b) => b.count - a.count);
       const top = counts.slice(0, 4);
       const slot = document.getElementById('trending-slot');
@@ -577,7 +579,7 @@
       } else {
         slot.innerHTML = top.map(t => `<li><a href="/category/view.html?slug=${encodeURIComponent(t.slug)}">${escapeHtml(t.name)}</a><span class="count">${t.count} stories</span></li>`).join('');
       }
-    } catch {}
+    } catch {} });
   })();
   </script>
 </body>

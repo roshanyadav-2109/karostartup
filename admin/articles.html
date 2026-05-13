@@ -102,7 +102,11 @@
                 <td>${statusPill(a.status)}</td>
                 <td class="mono">${formatNumber(a.view_count || 0)}</td>
                 <td class="mono" style="font-size:0.78rem;">${a.published_at ? formatDate(a.published_at) : '—'}</td>
-                <td style="font-size:0.7rem;">${a.is_featured ? '⭐' : ''}${a.is_breaking ? '🔴' : ''}${a.is_premium ? '🔒' : ''}</td>
+                <td style="font-size:0.66rem;">
+                  ${a.is_featured ? '<span class="flag-pill" title="Featured">F</span>' : ''}
+                  ${a.is_breaking ? '<span class="flag-pill flag-red" title="Breaking">B</span>' : ''}
+                  ${a.is_premium ? '<span class="flag-pill flag-red" title="Plus / Premium">P</span>' : ''}
+                </td>
                 <td><div class="row-actions">
                   <a href="/admin/article-edit.html?id=${a.id}">Edit</a>
                   ${a.status === 'published' ? `<a href="/article/view.html?slug=${encodeURIComponent(a.slug)}" target="_blank">View ↗</a>` : ''}

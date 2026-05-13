@@ -285,11 +285,13 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   border: 0;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   color: var(--ink);
   font-size: 0.86rem;
-  padding: 6px 8px;
+  padding: 6px 10px;
+  border-bottom: 1px solid transparent;
 }
+.masthead .search-btn svg { display: block; }
 .masthead .search-btn:hover { color: var(--brand); }
 
 /* ============================================================
@@ -943,7 +945,7 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   color: #e5e5e5;
 }
 .plus-features li::before {
-  content: "✓";
+  content: "→";
   color: var(--brand);
   font-weight: 700;
 }
@@ -1650,7 +1652,9 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 }
 .company-pills { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
 .stage-pill, .sector-pill {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 5px 12px;
   font-size: 0.74rem;
   font-weight: 600;
@@ -1658,6 +1662,7 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   text-transform: uppercase;
   border: 1px solid var(--hairline);
 }
+.stage-pill svg, .sector-pill svg { display: block; }
 .stage-pill { background: var(--paper); color: var(--ink); }
 .sector-pill { color: var(--brand); border-color: var(--brand); }
 
@@ -2063,6 +2068,21 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 .status-pill.in_review { background: #fef9e7; color: #9a7a0c; border: 1px solid #f0d97e; }
 .status-pill.responded { background: #f0faf4; color: var(--up); border: 1px solid #9adfba; }
 .status-pill.closed { background: var(--paper); color: var(--muted); border: 1px solid var(--hairline); }
+
+/* Flag pills (admin article list) */
+.flag-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; height: 20px;
+  margin-right: 3px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  border: 1px solid var(--hairline);
+  background: var(--paper);
+  color: var(--ink);
+}
+.flag-pill.flag-red { color: var(--brand); border-color: var(--brand); background: var(--brand-tint); }
 
 /* Type pills (contact submissions) */
 .type-pill {
