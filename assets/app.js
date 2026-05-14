@@ -664,6 +664,7 @@ function renderMasthead() {
       <a href="/" class="logo">Karostartup<span class="dot"></span></a>
       <div class="masthead-right">
         <a href="/plus.html" class="plus-link">Plus</a>
+        <button class="search-btn listen-btn" id="listen-btn" type="button" aria-label="Listen to breaking news">${ICON.podcast} <span>Listen</span></button>
         <button class="search-btn" id="search-trigger" type="button" aria-label="Search">${ICON.search} <span>Search</span></button>
       </div>
     </div>
@@ -978,6 +979,133 @@ function mountMobileDrawer(activeSlug, cats) {
   });
 }
 
+/* ============================================================
+   LISTEN BUTTON — text-to-speech for breaking news headlines.
+   Uses the Web Speech API's SpeechSynthesis. Prefers an en-IN
+   ("English (India)") voice when one is installed locally, falls
+   back to en-GB → en-US → first English voice → default voice.
+   Toggles between Listen and Stop.
+   ============================================================ */
+function _getVoicesAsync() {
+  return new Promise((resolve) => {
+    if (!('speechSynthesis' in window)) return resolve([]);
+    const v = window.speechSynthesis.getVoices();
+    if (v && v.length) return resolve(v);
+    // Some browsers populate voices asynchronously
+    window.speechSynthesis.onvoiceschanged = () => resolve(window.speechSynthesis.getVoices());
+    setTimeout(() => resolve(window.speechSynthesis.getVoices() || []), 1200);
+  });
+}
+
+function _pickIndianVoice(voices) {
+  if (!voices || !voices.length) return null;
+  // Best — explicit en-IN
+  let v = voices.find(x => (x.lang || '').toLowerCase() === 'en-in');
+  if (v) return v;
+  // Common Indian English voice names across OSes
+  v = voices.find(x => /heera|ravi|veena|rishi|prabhat|aaditya|vikram|priya|isha|kalpana|neel/i.test(x.name || ''));
+  if (v) return v;
+  // en-GB tends to feel closer to Indian English than en-US
+  v = voices.find(x => (x.lang || '').toLowerCase() === 'en-gb');
+  if (v) return v;
+  v = voices.find(x => (x.lang || '').toLowerCase().startsWith('en'));
+  return v || voices[0];
+}
+
+let _listenUtter = null;
+let _listenPlaying = false;
+
+function _initListenBtn() {
+  const btn = document.getElementById('listen-btn');
+  if (!btn) return;
+
+  if (!('speechSynthesis' in window)) {
+    btn.disabled = true;
+    btn.title = 'Your browser does not support text-to-speech';
+    return;
+  }
+
+  const label = btn.querySelector('span');
+  const setLabel = (text) => { if (label) label.textContent = text; };
+
+  const stop = () => {
+    try { window.speechSynthesis.cancel(); } catch {}
+    _listenPlaying = false;
+    btn.classList.remove('is-playing');
+    setLabel('Listen');
+  };
+
+  btn.addEventListener('click', async () => {
+    if (_listenPlaying) { stop(); return; }
+
+    btn.classList.add('is-loading');
+    setLabel('Loading…');
+
+    let text = '';
+    try {
+      const since = new Date(Date.now() - 86_400_000).toISOString();
+      const { data } = await sb.from('articles')
+        .select('title,summary')
+        .eq('is_breaking', true)
+        .eq('status', 'published')
+        .gte('published_at', since)
+        .order('published_at', { ascending: false })
+        .limit(5);
+      const items = data || [];
+      if (items.length) {
+        const headlines = items.map((a, i) => `${i + 1}. ${a.title}.`).join(' ');
+        text = `Breaking news from Karostartup. ${headlines} For more, visit karostartup.com.`;
+      } else {
+        // Fallback: read the top 5 latest headlines
+        const { data: latest } = await sb.from('articles')
+          .select('title')
+          .eq('status', 'published')
+          .order('published_at', { ascending: false })
+          .limit(5);
+        const ll = latest || [];
+        if (ll.length) {
+          const headlines = ll.map((a, i) => `${i + 1}. ${a.title}.`).join(' ');
+          text = `Top stories on Karostartup right now. ${headlines}`;
+        } else {
+          text = `There are no breaking stories right now. Please check back later.`;
+        }
+      }
+    } catch (e) {
+      console.warn('[listen]', e?.message || e);
+      text = `Sorry, we couldn't load the latest headlines just now.`;
+    }
+
+    const voices = await _getVoicesAsync();
+    const voice = _pickIndianVoice(voices);
+
+    _listenUtter = new SpeechSynthesisUtterance(text);
+    if (voice) _listenUtter.voice = voice;
+    _listenUtter.lang = voice?.lang || 'en-IN';
+    _listenUtter.rate = 0.98;
+    _listenUtter.pitch = 1.0;
+    _listenUtter.volume = 1.0;
+    _listenUtter.onend   = () => { _listenPlaying = false; btn.classList.remove('is-playing'); setLabel('Listen'); };
+    _listenUtter.onerror = () => { _listenPlaying = false; btn.classList.remove('is-playing'); btn.classList.remove('is-loading'); setLabel('Listen'); };
+
+    btn.classList.remove('is-loading');
+    btn.classList.add('is-playing');
+    setLabel('Stop');
+    _listenPlaying = true;
+    try {
+      window.speechSynthesis.cancel(); // clear any pending queue
+      window.speechSynthesis.speak(_listenUtter);
+    } catch (e) {
+      console.warn('[listen]', e?.message || e);
+      stop();
+    }
+  });
+
+  // Stop playback on page hide
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && _listenPlaying) stop();
+  });
+}
+
 async function mountChrome(activeSlug = '') {
   const slot = document.getElementById('chrome');
   if (!slot) return;
@@ -1001,6 +1129,8 @@ async function mountChrome(activeSlug = '') {
   mountSearchOverlay();
   // "More ▾" dropdown in desktop nav
   _wireNavMore();
+  // Listen-to-breaking-news TTS button
+  _initListenBtn();
 
   // Wire signout if signed in (read from session synchronously)
   const session = await getCurrentSession();
