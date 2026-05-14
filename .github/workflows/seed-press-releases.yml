@@ -1,0 +1,21 @@
+name: Seed press releases
+
+on:
+  schedule:
+    # Every 30 minutes — picks up new PIB English releases as they post
+    - cron: "*/30 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run seeder
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/seed-press-releases.mjs
