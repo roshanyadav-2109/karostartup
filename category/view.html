@@ -70,21 +70,33 @@
     const { count: totalCount } = await sb.from('articles').select('id', { count: 'exact', head: true }).eq('status', 'published').eq('category_id', cat.id);
 
     document.getElementById('cat-main').innerHTML = `
-      <section class="category-hero">
+      <section class="cat-hero-v2">
         <div class="container">
-          <span class="kicker">Section</span>
-          <h1>${escapeHtml(cat.name)}</h1>
-          ${cat.description ? `<p class="desc">${escapeHtml(cat.description)}</p>` : ''}
-          <div class="cat-hero-row">
-            <div class="stat">${totalCount || 0} stories published</div>
-            <form class="cat-subscribe" id="cat-subscribe">
-              <label class="cat-sub-label">Get a weekly email of the best ${escapeHtml(cat.name)} stories →</label>
-              <div class="cat-sub-form">
+          <div class="cat-hero-grid">
+            <div class="cat-hero-info">
+              <div class="cat-breadcrumb">
+                <a href="/">Karostartup</a> <span>›</span> <span>Section</span>
+              </div>
+              <h1 class="cat-hero-name">${escapeHtml(cat.name)}</h1>
+              ${cat.description ? `<p class="cat-hero-desc">${escapeHtml(cat.description)}</p>` : ''}
+              <div class="cat-hero-stats">
+                <span><strong>${totalCount || 0}</strong> ${(totalCount || 0) === 1 ? 'story' : 'stories'}</span>
+                <span class="sep">·</span>
+                <span id="cat-hero-brands"><strong>—</strong> brands</span>
+                <span class="sep">·</span>
+                <span id="cat-hero-updated">Updated <strong>—</strong></span>
+              </div>
+            </div>
+            <aside class="cat-hero-subscribe">
+              <span class="kicker">The ${escapeHtml(cat.name)} Weekly</span>
+              <h3>The best ${escapeHtml(cat.name)} stories, every Monday at 7am IST.</h3>
+              <form class="cat-sub-card" id="cat-subscribe">
                 <input type="email" name="email" placeholder="your@email.com" required aria-label="Email">
                 <button type="submit">Subscribe</button>
-              </div>
+              </form>
+              <p class="cat-sub-foot">Free · Unsubscribe anytime · No spam.</p>
               <div class="cat-sub-msg" id="cat-sub-msg"></div>
-            </form>
+            </aside>
           </div>
         </div>
       </section>
@@ -187,6 +199,19 @@
         .eq('category_id', cat.id)
         .order('published_at', { ascending: false })
         .limit(14);
+
+      // Hero stats — latest-updated time + brand count for this sector
+      try {
+        const updatedEl = document.getElementById('cat-hero-updated');
+        if (updatedEl && data && data[0]?.published_at) {
+          updatedEl.innerHTML = `Updated <strong>${timeAgo(data[0].published_at)}</strong>`;
+        }
+        const { count: brandCount } = await sb.from('companies')
+          .select('id', { count: 'exact', head: true })
+          .eq('sector', cat.name);
+        const brandsEl = document.getElementById('cat-hero-brands');
+        if (brandsEl) brandsEl.innerHTML = `<strong>${brandCount || 0}</strong> ${brandCount === 1 ? 'brand' : 'brands'}`;
+      } catch {}
 
       if (!data || !data.length) {
         document.getElementById('cnn-mid').innerHTML = '<div class="empty-state"><h3>No stories in this section yet</h3><p>Check back soon.</p></div>';

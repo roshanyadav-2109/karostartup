@@ -666,10 +666,35 @@ a:hover .media-play { background: var(--brand); }
 .hero-section { padding: 32px 0; }
 .hero {
   display: grid;
-  grid-template-columns: 8fr 4fr;
+  grid-template-columns: 3fr 6fr 3fr;
   gap: var(--gap);
   padding-bottom: 32px;
   border-bottom: 1px solid var(--hairline);
+  align-items: stretch;
+}
+.hero-side-left {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.hero-side-head {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--ink);
+  color: var(--ink);
+}
+.hero-side-left .side-card {
+  padding: 14px 0;
+  border-top: 1px solid var(--hairline);
+}
+.hero-side-left .side-card:first-of-type {
+  padding-top: 0;
+  border-top: 0;
 }
 .hero-lead .title {
   font-size: clamp(2rem, 4.4vw, 3.6rem);
@@ -2355,6 +2380,140 @@ a:hover .media-play { background: var(--brand); }
   font-size: 0.86rem;
   color: var(--brand);
   margin-top: 14px;
+}
+
+/* ============================================================
+   CATEGORY HERO V2 — editorial 2-col layout
+   Left: breadcrumb + name + dek + stats strip
+   Right: dark "Section Weekly" subscribe card
+   Inspired by Economic Times / Moneycontrol section headers
+   crossed with shadcn's clean dark-on-light card aesthetic.
+   ============================================================ */
+.cat-hero-v2 {
+  background: linear-gradient(180deg, #fff 0%, var(--paper) 100%);
+  padding: 52px 0 0;
+  border-bottom: 2px solid var(--ink);
+}
+.cat-hero-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 56px;
+  align-items: end;
+  padding-bottom: 28px;
+}
+.cat-breadcrumb {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+.cat-breadcrumb a { color: var(--brand); }
+.cat-breadcrumb a:hover { text-decoration: underline; }
+.cat-breadcrumb span { color: var(--muted); }
+.cat-hero-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.8rem, 6vw, 4.8rem);
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  margin: 0 0 16px;
+  color: var(--ink);
+  font-variation-settings: "opsz" 144;
+}
+.cat-hero-desc {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.05rem, 1.4vw, 1.22rem);
+  line-height: 1.4;
+  color: var(--muted);
+  max-width: 560px;
+  margin: 0 0 22px;
+}
+.cat-hero-stats {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  padding-top: 16px;
+  border-top: 1px solid var(--hairline);
+  letter-spacing: 0.02em;
+}
+.cat-hero-stats strong { color: var(--ink); font-weight: 700; }
+.cat-hero-stats .sep { color: var(--hairline); }
+
+/* Subscribe card on the right */
+.cat-hero-subscribe {
+  background: var(--ink);
+  color: #fff;
+  padding: 28px 28px 24px;
+  border-top: 4px solid var(--brand);
+  position: relative;
+}
+.cat-hero-subscribe .kicker { color: var(--brand); display: block; margin-bottom: 6px; }
+.cat-hero-subscribe h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.22;
+  letter-spacing: -0.005em;
+  margin: 0 0 18px;
+  color: #fff;
+}
+.cat-sub-card {
+  display: flex;
+  background: #fff;
+  border: 0;
+}
+.cat-sub-card input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 0;
+  outline: 0;
+  font-size: 0.94rem;
+  font-family: inherit;
+  color: var(--ink);
+  min-width: 0;
+}
+.cat-sub-card button {
+  background: var(--brand);
+  color: #fff;
+  border: 0;
+  padding: 0 18px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.cat-sub-card button:hover { background: var(--brand-dark); }
+.cat-sub-foot {
+  margin: 14px 0 0;
+  font-size: 0.74rem;
+  color: #9a9a9a;
+  letter-spacing: 0.02em;
+}
+.cat-hero-subscribe .cat-sub-msg {
+  margin-top: 12px;
+  font-size: 0.84rem;
+  min-height: 1.2em;
+  color: #fff;
+}
+.cat-hero-subscribe .cat-sub-msg.success { color: #6cd49a; }
+.cat-hero-subscribe .cat-sub-msg.error   { color: #fb7185; }
+
+@media (max-width: 1024px) {
+  .cat-hero-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (max-width: 768px) {
+  .cat-hero-v2 { padding: 36px 0 0; }
+  .cat-hero-grid { gap: 24px; padding-bottom: 24px; }
+  .cat-hero-subscribe { padding: 22px 20px 20px; }
+  .cat-hero-stats { font-size: 0.74rem; gap: 10px; }
 }
 .cat-hero-row {
   display: grid;
@@ -4356,8 +4515,13 @@ a:hover .media-play { background: var(--brand); }
 /* ============================================================
    MOBILE
    ============================================================ */
+@media (max-width: 1100px) {
+  .hero { grid-template-columns: 1fr 1fr; }
+  .hero-side-left { grid-column: 1 / -1; order: 3; padding-top: 20px; border-top: 1px solid var(--hairline); }
+  .hero-lead-v2 { grid-column: 1 / -1; order: 1; }
+  .hero-top-stories { grid-column: 1 / -1; order: 2; margin-top: 4px; }
+}
 @media (max-width: 1024px) {
-  .hero { grid-template-columns: 1fr; }
   .hero-top-stories { margin-top: 8px; }
   .latest-news-grid { grid-template-columns: repeat(2, 1fr); }
   .top-strip { grid-template-columns: repeat(2, 1fr); row-gap: 24px; }

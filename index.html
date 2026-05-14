@@ -237,12 +237,19 @@
       }
 
       const lead = data.find(a => a.is_featured) || data[0];
-      const topStories = data.filter(a => a.id !== lead.id).slice(0, 5);
+      const remaining = data.filter(a => a.id !== lead.id);
+      const leftStories = remaining.slice(0, 3);   // 3 small side cards on the left
+      const topStories  = remaining.slice(3, 8);   // 5 numbered top stories on the right
       const leadCover = lead.cover_image_url || defaultCover(lead);
       const leadAuthor = lead.profiles?.full_name || 'Karostartup';
       const leadKickerText = lead.kicker || lead.categories?.name || '';
 
       heroSlot.innerHTML = `
+        <aside class="hero-side-left">
+          <h3 class="hero-side-head">Editor's Picks</h3>
+          ${leftStories.map(renderSideCard).join('')}
+        </aside>
+
         <article class="hero-lead-v2">
           <a href="${articleHref(lead)}">
             <div class="hero-lead-img">
