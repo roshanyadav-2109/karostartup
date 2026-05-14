@@ -215,8 +215,35 @@
     mountChrome('').catch(() => {});
     mountFooter();
 
-    // Each section is fired as an independent async task so they run concurrently.
-    const run = (fn) => { fn().catch(() => {}); };
+    // Each section is fired as an independent async task so they run
+    // concurrently. Any unhandled error inside a section is logged to
+    // the console (so missing content can be diagnosed) rather than
+    // silently eaten.
+    const run = (label, fn) => {
+      if (typeof label === 'function') { fn = label; label = 'home-section'; }
+      fn().catch(e => console.warn('[' + label + ']', e?.message || e));
+    };
+
+    // Run a Supabase query with a single automatic retry after 600ms.
+    // Lets the homepage survive transient cold-start / rate-limit hiccups
+    // that were intermittently blanking out sections.
+    async function _retryQuery(qFn) {
+      try { return await qFn(); }
+      catch (err) {
+        await new Promise(r => setTimeout(r, 600));
+        return await qFn();
+      }
+    }
+
+    // Watchdog — any .loading-state placeholder still showing after 12s
+    // gets replaced with a soft "Couldn't load" notice. Stops sections
+    // from looking blank/missing when a query hangs or fails silently.
+    setTimeout(() => {
+      document.querySelectorAll('.loading-state').forEach(el => {
+        el.innerHTML = '<span style="color:#9a9a9a;font-size:0.84rem;">Couldn\'t load this — refresh to retry.</span>';
+        el.classList.add('loading-state-failed');
+      });
+    }, 12000);
 
     // HERO — newsroom-style lead + numbered "Top Stories" sidebar
     run(async () => { try {
@@ -322,7 +349,7 @@
       `;
       leftSlot.innerHTML  = leftSmall.length  ? leftSmall.map(renderSideCard).join('')  : '<span style="color:#9a9a9a;font-size:0.86rem;">Nothing else yet.</span>';
       rightSlot.innerHTML = rightSmall.length ? rightSmall.map(renderSideCard).join('') : '<span style="color:#9a9a9a;font-size:0.86rem;">Nothing else yet.</span>';
-    } catch {} });
+    } catch (e) { console.warn('[home]', e?.message || e); } });
 
     // FUNDING ROUNDS table + chart
     run(async () => { try {
@@ -427,7 +454,7 @@
             <a href="/best-brands.html?sector=${encodeURIComponent(cat.name)}" class="sector-brands-link">Top ${escapeHtml(cat.name)} brands →</a>
           </div>`;
       }).join('');
-    } catch {} });
+    } catch (e) { console.warn('[home]', e?.message || e); } });
 
     // FOUNDER SPOTLIGHT
     run(async () => { try {
@@ -486,7 +513,7 @@
         const totalFunding = (fundRows.data || []).reduce((s, r) => s + (Number(r.amount_usd) || 0), 0);
         setM('m-funding',   totalFunding ? formatUSD(totalFunding) : '—');
         setM('m-subs',      formatNumber(subC.count || 0));
-      } catch {}
+      } catch (e) { console.warn('[home metrics]', e?.message || e); }
     });
 
     // EMINENT READERS — fetched from the eminent_readers table.
@@ -556,7 +583,7 @@
       } else {
         slot.innerHTML = data.map(renderLongreadCard).join('');
       }
-    } catch {} });
+    } catch (e) { console.warn('[home]', e?.message || e); } });
 
     // NIFTY chart (mocked 30 points trending up)
     run(async () => { try {
@@ -587,7 +614,7 @@
           <span>Source: Live ticker (mock)</span>
           <span class="mono">${new Date().toLocaleDateString('en-IN')}</span>
         </div>`;
-    } catch {} });
+    } catch (e) { console.warn('[home]', e?.message || e); } });
 
     // Movers — static for now
     const gainers = [
@@ -640,7 +667,7 @@
       } else {
         slot.innerHTML = data.map(renderOpinionCard).join('');
       }
-    } catch {} });
+    } catch (e) { console.warn('[home]', e?.message || e); } });
 
     // NEWSLETTER FORM
     const newsletterForm = document.getElementById('newsletter-form');
@@ -698,7 +725,7 @@
       } else {
         slot.innerHTML = data.map(renderFeedItem).join('');
       }
-    } catch {} });
+    } catch (e) { console.warn('[home]', e?.message || e); } });
 
     // MOST READ (last 7 days, top 5)
     run(async () => { try {
@@ -726,7 +753,7 @@
             </div>
           </li>`).join('');
       }
-    } catch {} });
+    } catch (e) { console.warn('[home]', e?.message || e); } });
 
     // TRENDING SECTORS (last 7d) — count per category in parallel
     run(async () => { try {
@@ -748,7 +775,7 @@
       } else {
         slot.innerHTML = top.map(t => `<li><a href="/category/view.html?slug=${encodeURIComponent(t.slug)}">${escapeHtml(t.name)}</a><span class="count">${t.count} stories</span></li>`).join('');
       }
-    } catch {} });
+    } catch (e) { console.warn('[home]', e?.message || e); } });
   })();
   </script>
 </body>
