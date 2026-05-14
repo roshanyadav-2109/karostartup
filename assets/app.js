@@ -983,7 +983,7 @@ function renderFooter() {
           <a href="/privacy.html">Privacy</a>
           <a href="/terms.html">Terms</a>
           <a href="/cookies.html">Cookies</a>
-          <a href="mailto:roshan.25scs1003001159@iilm.edu">Contact editor</a>
+          <a href="/contact.html">Contact editor</a>
         </div>
       </div>
     </div>
