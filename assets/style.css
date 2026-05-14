@@ -590,6 +590,81 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   border-left-color: var(--brand);
 }
 
+/* Search input inside the drawer — sits at the very top under the head */
+.k-drawer-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 12px 14px 4px;
+  border: 1px solid var(--ink);
+  background: #fff;
+}
+.k-drawer-search-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--muted);
+  display: inline-flex;
+  pointer-events: none;
+}
+.k-drawer-search input {
+  width: 100%;
+  padding: 12px 14px 12px 38px;
+  border: 0;
+  outline: 0;
+  font-size: 0.95rem;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+}
+.k-drawer-search input::placeholder { color: var(--muted); }
+
+/* "Sign in" CTA — full-width red button, matches CNN drawer */
+.k-drawer-cta {
+  display: block;
+  margin: 8px 14px;
+  padding: 11px 14px;
+  background: var(--brand);
+  color: #fff;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.96rem;
+  letter-spacing: 0.01em;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background 0.12s ease;
+}
+.k-drawer-cta:hover { background: #b00b11; color: #fff; }
+
+/* Follow Karostartup — centered title + centered social icon row */
+.k-drawer-follow { text-align: center; padding-top: 18px; padding-bottom: 22px; }
+.k-drawer-follow h4 {
+  padding: 0;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.k-drawer-socials {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.k-drawer-socials a {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+.k-drawer-socials a:hover {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
 /* ============================================================
    BUTTONS
    ============================================================ */
@@ -3337,14 +3412,19 @@ a:hover .media-play { background: var(--brand); }
   }
   .cnn-col-mid .cnn-lead .story-card > .title {
     position: absolute;
-    left: 14px; right: 14px; bottom: 50px;
+    left: 14px; right: 14px; bottom: 44px;
     color: #fff !important;
-    font-size: 1.45rem !important;
-    line-height: 1.12;
+    font-size: 1.3rem !important;
+    line-height: 1.15;
     font-weight: 800;
     margin: 0;
     z-index: 2;
     text-shadow: 0 1px 12px rgba(0,0,0,0.35);
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
   }
   .cnn-col-mid .cnn-lead .story-card > .summary { display: none; }
   .cnn-col-mid .cnn-lead .story-card > .meta {
@@ -5396,12 +5476,17 @@ a:hover .media-play { background: var(--brand); }
     position: absolute;
     left: 14px; right: 14px; bottom: 14px;
     color: #fff !important;
-    font-size: 1.55rem !important;
-    line-height: 1.12 !important;
+    font-size: 1.4rem !important;
+    line-height: 1.15 !important;
     font-weight: 800;
     margin: 0;
     z-index: 2;
     text-shadow: 0 1px 12px rgba(0,0,0,0.35);
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
   }
   .hero-lead-dek { display: none; }     /* dek hidden on phone for cleaner CNN-style overlay */
   .hero-lead-meta {
@@ -5433,8 +5518,60 @@ a:hover .media-play { background: var(--brand); }
   .benefits-grid { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: repeat(2, 1fr); }
   .cat-grid { grid-template-columns: 1fr; }
-  .auth-brand { padding: 32px 24px; }
-  .auth-form-pane { padding: 32px 24px; }
+  /* CNN-style mobile sign-in — hide the dark brand pane, centre the
+     form on a clean white surface with a small logo at the top and
+     the existing form below. Mirrors edition.cnn.com/account/log-in. */
+  .auth-shell { display: block; min-height: 100vh; background: #fff; }
+  .auth-brand { display: none; }
+  .auth-form-pane {
+    padding: 28px 22px 40px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .auth-form-pane::before {
+    content: "Karostartup";
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    margin: 8px 0 28px;
+    text-align: center;
+  }
+  .auth-form-pane .top-link {
+    position: static;
+    margin: 18px auto 0;
+    text-align: center;
+    font-size: 0.88rem;
+  }
+  .auth-form {
+    max-width: 380px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .auth-form h1 {
+    font-size: 1.5rem !important;
+    text-align: left;
+    margin-bottom: 6px;
+  }
+  .auth-form .sub {
+    margin-bottom: 22px;
+    font-size: 0.94rem;
+  }
+  .auth-form .submit-btn {
+    padding: 14px 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    background: var(--brand);
+    color: #fff;
+    border: 0;
+    border-radius: 2px;
+    margin-top: 4px;
+  }
   .form-row { grid-template-columns: 1fr; }
   .article-body {
     padding: 0 18px;

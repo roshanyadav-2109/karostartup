@@ -1011,10 +1011,19 @@ function mountMobileDrawer(activeSlug, cats) {
       <a href="/" class="k-drawer-logo">Karostartup<span class="dot"></span></a>
       <button class="k-drawer-close" id="k-drawer-close" aria-label="Close menu">×</button>
     </div>
+
+    <form class="k-drawer-search" id="k-drawer-search" role="search">
+      <span class="k-drawer-search-icon" aria-hidden="true">${ICON.search}</span>
+      <input type="search" name="q" id="k-drawer-search-input" placeholder="Search Karostartup…" autocomplete="off" required>
+    </form>
+
+    <div class="k-drawer-section" id="k-drawer-auth"></div>
+
     <nav class="k-drawer-nav">
       <a href="/" class="k-drawer-link ${activeSlug === '' ? 'is-active' : ''}">Home</a>
       ${(cats || []).map(c => `<a href="/category/view.html?slug=${encodeURIComponent(c.slug)}" class="k-drawer-link ${c.slug === activeSlug ? 'is-active' : ''}">${escapeHtml(c.name)}</a>`).join('')}
     </nav>
+
     <div class="k-drawer-section">
       <h4>More</h4>
       <a href="/best-brands.html" class="k-drawer-link sub">Best Brands</a>
@@ -1026,10 +1035,21 @@ function mountMobileDrawer(activeSlug, cats) {
       <a href="/about.html" class="k-drawer-link sub">About</a>
       <a href="/contact.html" class="k-drawer-link sub">Contact</a>
     </div>
+
     <div class="k-drawer-section k-drawer-promote">
       <a href="/contact.html?type=promotion" class="btn btn-red btn-sm" style="width:100%;justify-content:center;">Promote your startup</a>
     </div>
-    <div class="k-drawer-section" id="k-drawer-auth"></div>`;
+
+    <div class="k-drawer-section k-drawer-follow">
+      <h4>Follow Karostartup</h4>
+      <div class="k-drawer-socials">
+        <a href="https://twitter.com/karostartup" target="_blank" rel="noopener" aria-label="X (Twitter)">${ICON.twitter}</a>
+        <a href="https://www.linkedin.com/company/karostartup" target="_blank" rel="noopener" aria-label="LinkedIn">${ICON.linkedinSm}</a>
+        <a href="https://www.instagram.com/karostartup" target="_blank" rel="noopener" aria-label="Instagram">${ICON.instagram}</a>
+        <a href="https://www.youtube.com/@karostartup" target="_blank" rel="noopener" aria-label="YouTube">${ICON.youtube}</a>
+        <a href="https://www.facebook.com/karostartup" target="_blank" rel="noopener" aria-label="Facebook">${ICON.facebook}</a>
+      </div>
+    </div>`;
 
   document.body.appendChild(scrim);
   document.body.appendChild(drawer);
@@ -1059,7 +1079,18 @@ function mountMobileDrawer(activeSlug, cats) {
     if (e.key === 'Escape' && drawer.classList.contains('is-open')) close();
   });
 
-  // Auth swap inside drawer
+  // Search input → /search.html?q=...
+  const searchForm = document.getElementById('k-drawer-search');
+  if (searchForm) {
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const q = document.getElementById('k-drawer-search-input').value.trim();
+      if (!q) return;
+      location.href = '/search.html?q=' + encodeURIComponent(q);
+    });
+  }
+
+  // Auth swap inside drawer — sits directly under the search input
   getCurrentSession().then((session) => {
     const slot = document.getElementById('k-drawer-auth');
     if (!slot) return;
@@ -1076,9 +1107,8 @@ function mountMobileDrawer(activeSlug, cats) {
       if (so) so.addEventListener('click', (e) => { e.preventDefault(); signOut(); });
     } else {
       slot.innerHTML = `
-        <h4>Account</h4>
-        <a href="/auth/signin.html" class="k-drawer-link sub">Sign in</a>
-        <a href="/auth/signup.html" class="k-drawer-link sub">Create an account</a>`;
+        <a href="/auth/signin.html" class="k-drawer-cta">Sign in</a>
+        <a href="/auth/signup.html" class="k-drawer-link sub" style="text-align:center;">Create an account</a>`;
     }
   });
 }
