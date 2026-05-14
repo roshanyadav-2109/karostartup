@@ -297,25 +297,35 @@
 
         <aside class="hero-top-stories">
           <div class="hero-promo-rotator" id="hero-promo-rotator">
-            <a class="hero-promo-item is-active" href="/contact.html?type=advertise">
-              <span class="hero-promo-kicker">Karostartup for brands</span>
-              <h4 class="hero-promo-title">Promote with us</h4>
-              <p class="hero-promo-body">Featured stories, paid promotion, newsletter ads — reach 80,000+ operators.</p>
-              <span class="hero-promo-cta">Get in touch →</span>
+            <a class="hero-promo-item is-active" data-theme="red" href="/contact.html?type=advertise">
+              <span class="hero-promo-numeral" aria-hidden="true">01</span>
+              <div class="hero-promo-head">
+                <span class="hero-promo-kicker">Karostartup · For Brands</span>
+                <h4 class="hero-promo-title">Promote with us.</h4>
+              </div>
+              <div class="hero-promo-body">Featured stories, paid promotion, newsletter ads — reach 80,000+ founders, investors, operators.</div>
+              <div class="hero-promo-foot"><span class="hero-promo-cta">Get in touch</span></div>
             </a>
-            <a class="hero-promo-item" href="/contact.html?type=partnership">
-              <span class="hero-promo-kicker">Editorial collaboration</span>
-              <h4 class="hero-promo-title">Partner with us</h4>
-              <p class="hero-promo-body">Co-published research, event partnerships, content sponsorships.</p>
-              <span class="hero-promo-cta">Let's talk →</span>
+            <a class="hero-promo-item" data-theme="blue" href="/contact.html?type=partnership">
+              <span class="hero-promo-numeral" aria-hidden="true">02</span>
+              <div class="hero-promo-head">
+                <span class="hero-promo-kicker">Editorial Collaboration</span>
+                <h4 class="hero-promo-title">Partner with us.</h4>
+              </div>
+              <div class="hero-promo-body">Co-published research reports, event partnerships, content sponsorships. We retain editorial independence.</div>
+              <div class="hero-promo-foot"><span class="hero-promo-cta">Let's talk</span></div>
             </a>
-            <a class="hero-promo-item" href="/contact.html?type=general">
-              <span class="hero-promo-kicker">Karostartup Studio</span>
-              <h4 class="hero-promo-title">Build with our studio</h4>
-              <p class="hero-promo-body">Website, brand, content, launch comms — our team can ship it for you.</p>
-              <span class="hero-promo-cta">Send a brief →</span>
+            <a class="hero-promo-item" data-theme="green" href="/contact.html?type=general">
+              <span class="hero-promo-numeral" aria-hidden="true">03</span>
+              <div class="hero-promo-head">
+                <span class="hero-promo-kicker">Karostartup Studio</span>
+                <h4 class="hero-promo-title">Build with our studio.</h4>
+              </div>
+              <div class="hero-promo-body">Website, brand, content, launch comms — our team can ship it end-to-end. For founders, by founders.</div>
+              <div class="hero-promo-foot"><span class="hero-promo-cta">Send a brief</span></div>
             </a>
           </div>
+
           <div class="hero-top-header">
             <h3><span class="live-dot"></span> Top Stories</h3>
             <a href="#latest-feed" class="hero-top-more">All →</a>
@@ -344,15 +354,18 @@
       document.getElementById('hero-slot').innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><h3>Unable to load stories</h3></div>';
     } });
 
-    // Cross-fade slide rotator for the hero promo CTA block. Cycles
-    // every 3.5s, builds progress dots in the corner, full block is
-    // an <a> so clicking anywhere navigates to the contact form.
+    // Cross-fade slide rotator for the hero promo CTA block.
+    // Each card has its own theme (data-theme). The rotator panel
+    // tracks the active theme via a class so shared chrome (progress
+    // dashes, accents) can match the active card's accent colour.
     function _initPromoRotator() {
       const rotator = document.getElementById('hero-promo-rotator');
       if (!rotator) return;
-      const items = rotator.querySelectorAll('.hero-promo-item');
+      const items = Array.from(rotator.querySelectorAll('.hero-promo-item'));
       if (items.length < 2) return;
-      // Progress dots (small chips top-right of the panel)
+      const themes = items.map(it => it.dataset.theme || 'red');
+
+      // Progress dashes
       const dots = document.createElement('div');
       dots.className = 'hero-promo-dots';
       items.forEach((_, k) => {
@@ -361,14 +374,27 @@
         dots.appendChild(d);
       });
       rotator.appendChild(dots);
+
+      // Initial theme class on rotator
+      rotator.classList.add('theme-' + themes[0]);
+
       let i = 0;
-      setInterval(() => {
-        items[i].classList.remove('is-active');
-        dots.children[i].classList.remove('is-active');
+      let timer = setInterval(advance, 4500);
+
+      function advance() {
+        const prev = i;
+        items[prev].classList.remove('is-active');
+        dots.children[prev].classList.remove('is-active');
+        rotator.classList.remove('theme-' + themes[prev]);
         i = (i + 1) % items.length;
         items[i].classList.add('is-active');
         dots.children[i].classList.add('is-active');
-      }, 3500);
+        rotator.classList.add('theme-' + themes[i]);
+      }
+
+      // Pause on hover so users can finish reading / click
+      rotator.addEventListener('mouseenter', () => { clearInterval(timer); timer = null; });
+      rotator.addEventListener('mouseleave', () => { if (!timer) timer = setInterval(advance, 4500); });
     }
 
     // LATEST NEWS — CNN-style 3-col layout (left small + middle lead/medium + right small)
