@@ -717,17 +717,53 @@ function mountSearchOverlay() {
 }
 
 function renderNavFromData(categories, activeSlug = '') {
-  const cats = (categories || []).map(c => `<a href="/category/view.html?slug=${encodeURIComponent(c.slug)}" ${c.slug === activeSlug ? 'class="is-active"' : ''}>${escapeHtml(c.name)}</a>`).join('');
+  // First N categories visible inline; everything else under a "More ▾"
+  // dropdown so adjacent ones never overflow the nav row. Editorial
+  // ordering follows the categories.order_index column from Supabase.
+  const NAV_VISIBLE = 7;
+  const cats = categories || [];
+  const visible = cats.slice(0, NAV_VISIBLE);
+  const hidden  = cats.slice(NAV_VISIBLE);
+
+  const link = (c) => `<a href="/category/view.html?slug=${encodeURIComponent(c.slug)}" ${c.slug === activeSlug ? 'class="is-active"' : ''}>${escapeHtml(c.name)}</a>`;
+  const visibleHtml = visible.map(link).join('');
+  const moreActive = hidden.some(c => c.slug === activeSlug);
+  const morePanel = hidden.length ? `
+    <div class="k-nav-more ${moreActive ? 'is-active' : ''}">
+      <button class="k-nav-more-btn" id="k-nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false">More <span class="k-nav-more-caret" aria-hidden="true">▾</span></button>
+      <div class="k-nav-more-panel" id="k-nav-more-panel" role="menu">
+        ${hidden.map(c => `<a href="/category/view.html?slug=${encodeURIComponent(c.slug)}" role="menuitem" ${c.slug === activeSlug ? 'class="is-active"' : ''}>${escapeHtml(c.name)}</a>`).join('')}
+      </div>
+    </div>` : '';
+
   return `
   <nav class="nav">
     <div class="container">
       <div class="nav-links">
         <a href="/" ${activeSlug === '' ? 'class="is-active"' : ''}>Home</a>
-        ${cats}
+        ${visibleHtml}
+        ${morePanel}
       </div>
       <a href="/contact.html?type=promotion" class="nav-promote">Promote with us →</a>
     </div>
   </nav>`;
+}
+
+// Wire the "More ▾" dropdown. Toggles a panel, closes on outside click + Escape.
+function _wireNavMore() {
+  const btn = document.getElementById('k-nav-more-btn');
+  const panel = document.getElementById('k-nav-more-panel');
+  if (!btn || !panel) return;
+  const close = () => { panel.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); };
+  const toggle = () => {
+    const isOpen = panel.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  };
+  btn.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
+  document.addEventListener('click', (e) => {
+    if (!panel.contains(e.target) && e.target !== btn) close();
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 }
 
 function renderFooter() {
@@ -913,6 +949,8 @@ async function mountChrome(activeSlug = '') {
   mountMobileDrawer(activeSlug, cachedCats || []);
   // Search overlay (all viewports)
   mountSearchOverlay();
+  // "More ▾" dropdown in desktop nav
+  _wireNavMore();
 
   // Wire signout if signed in (read from session synchronously)
   const session = await getCurrentSession();
@@ -967,7 +1005,10 @@ async function mountChrome(activeSlug = '') {
     }
     // Patch nav
     const nav = slot.querySelector('.nav');
-    if (!cachedCats && cats.length && nav) nav.outerHTML = renderNavFromData(cats, activeSlug);
+    if (!cachedCats && cats.length && nav) {
+      nav.outerHTML = renderNavFromData(cats, activeSlug);
+      _wireNavMore();
+    }
 
     // Patch profile (cache it)
     if (pRes.data && session?.user) {

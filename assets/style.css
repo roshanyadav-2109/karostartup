@@ -167,7 +167,7 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   align-items: center;
   height: 100%;
   width: max-content;
-  animation: ticker-scroll 45s linear infinite;
+  animation: ticker-scroll 90s linear infinite;
   padding-left: 24px;
   will-change: transform;
 }
@@ -371,6 +371,83 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   color: var(--brand) !important;
   font-weight: 700 !important;
 }
+
+/* ============================================================
+   "MORE ▾" overflow dropdown in the desktop nav.
+   When the categories table has more rows than the nav row can
+   comfortably fit (>7), the extras live inside this menu.
+   ============================================================ */
+.k-nav-more {
+  position: relative;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+}
+.k-nav-more-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  height: 100%;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-bottom: 2px solid transparent;
+  padding-top: 2px;
+}
+.k-nav-more-btn:hover { color: var(--brand); }
+.k-nav-more.is-active .k-nav-more-btn {
+  color: var(--brand);
+  border-bottom-color: var(--brand);
+}
+.k-nav-more-caret {
+  font-size: 0.78rem;
+  line-height: 1;
+  transform: translateY(1px);
+  transition: transform 0.15s ease;
+}
+.k-nav-more-btn[aria-expanded="true"] .k-nav-more-caret { transform: translateY(1px) rotate(180deg); }
+
+.k-nav-more-panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 220px;
+  background: #fff;
+  border: 1px solid var(--ink);
+  display: none;
+  flex-direction: column;
+  z-index: 60;
+  box-shadow: 0 6px 22px -6px rgba(0, 0, 0, 0.18);
+  margin-top: 0;
+  border-top: 0;
+}
+.k-nav-more-panel.is-open { display: flex; }
+.k-nav-more-panel a {
+  display: block;
+  padding: 11px 16px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ink);
+  border-bottom: 1px solid var(--hairline);
+  border-left: 3px solid transparent;
+}
+.k-nav-more-panel a:hover {
+  background: var(--paper);
+  color: var(--brand);
+  border-left-color: var(--brand);
+}
+.k-nav-more-panel a.is-active {
+  color: var(--brand);
+  border-left-color: var(--brand);
+  background: var(--paper);
+}
+.k-nav-more-panel a:last-child { border-bottom: 0; }
 .nav-mobile-btn {
   display: none;
   background: none;
