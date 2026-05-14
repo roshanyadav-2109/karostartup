@@ -489,6 +489,7 @@
         slot.innerHTML = `<div class="empty-state"><h3>No deals tracked yet</h3><p>The latest funding rounds will appear here.</p></div>`;
       } else {
         slot.innerHTML = `
+          <div class="deals-table-wrap">
           <table class="deals-table">
             <thead><tr><th>Company</th><th>Round</th><th>Amount</th><th>Lead investor</th><th>Date</th></tr></thead>
             <tbody>
@@ -507,7 +508,8 @@
                 </tr>`;
               }).join('')}
             </tbody>
-          </table>`;
+          </table>
+          </div>`;
       }
 
       // Build a weekly aggregate chart from these rounds
