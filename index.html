@@ -295,31 +295,32 @@
           </a>
         </article>
 
-        <aside class="hero-top-stories">
-          <div class="hero-promo-rotator" id="hero-promo-rotator">
-            <a class="hero-promo-item is-active" data-theme="red" href="/contact.html?type=advertise">
-              <div class="hero-promo-head">
-                <h4 class="hero-promo-title">Get featured.</h4>
-                <p class="hero-promo-desc">Featured stories, paid promotion, newsletter ads — reach 80,000+ founders.</p>
-              </div>
-              <span class="hero-promo-cta">Get in touch</span>
-            </a>
-            <a class="hero-promo-item" data-theme="amber" href="/contact.html?type=partnership">
-              <div class="hero-promo-head">
-                <h4 class="hero-promo-title">Become a partner.</h4>
-                <p class="hero-promo-desc">Co-published research, event partnerships, content sponsorships.</p>
-              </div>
-              <span class="hero-promo-cta">Get in touch</span>
-            </a>
-            <a class="hero-promo-item" data-theme="green" href="/contact.html?type=general">
-              <div class="hero-promo-head">
-                <h4 class="hero-promo-title">Build your site.</h4>
-                <p class="hero-promo-desc">Karostartup Studio — website, brand, content, launch comms, shipped end-to-end.</p>
-              </div>
-              <span class="hero-promo-cta">Get in touch</span>
-            </a>
-          </div>
+        <div class="hero-side-right">
+        <div class="hero-promo-rotator" id="hero-promo-rotator">
+          <a class="hero-promo-item is-active" data-theme="red" href="/contact.html?type=advertise">
+            <div class="hero-promo-head">
+              <h4 class="hero-promo-title">Get featured.</h4>
+              <p class="hero-promo-desc">Featured stories, paid promotion, newsletter ads — reach 80,000+ founders.</p>
+            </div>
+            <span class="hero-promo-cta">Get in touch</span>
+          </a>
+          <a class="hero-promo-item" data-theme="amber" href="/contact.html?type=partnership">
+            <div class="hero-promo-head">
+              <h4 class="hero-promo-title">Become a partner.</h4>
+              <p class="hero-promo-desc">Co-published research, event partnerships, content sponsorships.</p>
+            </div>
+            <span class="hero-promo-cta">Get in touch</span>
+          </a>
+          <a class="hero-promo-item" data-theme="green" href="/contact.html?type=general">
+            <div class="hero-promo-head">
+              <h4 class="hero-promo-title">Build your site.</h4>
+              <p class="hero-promo-desc">Karostartup Studio — website, brand, content, launch comms, shipped end-to-end.</p>
+            </div>
+            <span class="hero-promo-cta">Get in touch</span>
+          </a>
+        </div>
 
+        <aside class="hero-top-stories">
           <div class="hero-top-header">
             <h3><span class="live-dot"></span> Top Stories</h3>
             <a href="#latest-feed" class="hero-top-more">All →</a>
@@ -340,7 +341,8 @@
               </li>`;
             }).join('')}
           </ol>
-        </aside>`;
+        </aside>
+        </div>`;
 
       // Wire up the rotating CTA carousel inside the right column
       _initPromoRotator();

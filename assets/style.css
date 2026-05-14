@@ -886,12 +886,23 @@ a:hover .media-play { background: var(--brand); }
    ROTATING CTA BLOCK — light grey card, faded-red filled button.
    Two cards (Promote / Partner). 6-second cycle, pause on hover.
    ============================================================ */
+/* Right-column wrapper — stacks the standalone promo rotator above
+   the separate Top Stories aside. They're now two distinct blocks
+   instead of the rotator being nested inside Top Stories. */
+.hero-side-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
 .hero-promo-rotator {
   position: relative;
-  margin: -22px -22px 22px;
+  margin: 0;
   overflow: hidden;
-  min-height: 168px;            /* tightened from 200px */
+  min-height: 168px;
   background: #ececef;
+  border: 1px solid var(--hairline);
 }
 .hero-promo-item {
   position: absolute;
@@ -960,7 +971,7 @@ a:hover .media-play { background: var(--brand); }
 .hero-promo-item:hover .hero-promo-cta::after { transform: translateX(3px); }
 
 @media (max-width: 768px) {
-  .hero-promo-rotator { margin: -18px -18px 18px; min-height: 162px; }
+  .hero-promo-rotator { margin: 0; min-height: 162px; }
   .hero-promo-item { padding: 18px 18px 16px; }
   .hero-promo-title { font-size: 1.25rem; }
   .hero-promo-desc { font-size: 0.8rem; }
@@ -4883,7 +4894,7 @@ a:hover .media-play { background: var(--brand); }
   .hero { grid-template-columns: 1fr; gap: 24px; }
   .hero-side-left { order: 3; padding-top: 20px; border-top: 1px solid var(--hairline); }
   .hero-lead-v2 { order: 1; }
-  .hero-top-stories { order: 2; }
+  .hero-side-right { order: 2; }
 }
 @media (max-width: 1024px) {
   .hero-top-stories { margin-top: 8px; }
