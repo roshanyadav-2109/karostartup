@@ -148,32 +148,52 @@
     const author = article.profiles || {};
     const authorAvatar = author.avatar_url || defaultCover({title: author.full_name || 'A'});
 
+    // Compute pill tag: BREAKING NEWS > TOP STORIES > LATEST UPDATE > none.
+    // No other kicker/tag is shown — the article.kicker field is intentionally
+    // ignored in the header to keep tag noise out of the layout.
+    let pillTag = null;
+    if (article.is_breaking) pillTag = 'BREAKING NEWS';
+    else if (article.is_featured) pillTag = 'TOP STORIES';
+    else if (article.updated_at && article.published_at) {
+      const upd = new Date(article.updated_at).getTime();
+      const pub = new Date(article.published_at).getTime();
+      const now = Date.now();
+      const editedAfterPub = upd - pub > 60 * 60 * 1000;            // >1h after publish
+      const recent = now - upd < 24 * 60 * 60 * 1000;               // within last 24h
+      if (editedAfterPub && recent) pillTag = 'LATEST UPDATE';
+    }
+
     const main = document.getElementById('article-main');
     main.innerHTML = `
       <section class="article-hero">
         <div class="container">
-          <div class="article-breadcrumb">
-            <a href="/">Home</a>
-            <span class="sep">›</span>
-            ${article.categories ? `<a href="/category/view.html?slug=${encodeURIComponent(article.categories.slug)}">${escapeHtml(article.categories.name)}</a><span class="sep">›</span>` : ''}
-            <span style="color:#0a0a0a;">${escapeHtml(article.title.slice(0, 60))}${article.title.length > 60 ? '…' : ''}</span>
+          <div class="article-crumb">
+            ${article.categories ? `<a href="/category/view.html?slug=${encodeURIComponent(article.categories.slug)}">${escapeHtml(article.categories.name.toUpperCase())}</a>` : ''}
+            ${article.categories ? `<span class="crumb-dot">·</span>` : ''}
+            <span class="crumb-read">${article.read_time_minutes || 5} MIN READ</span>
           </div>
-          ${article.kicker ? `<span class="kicker">${escapeHtml(article.kicker)}</span>` : ''}
+
+          ${pillTag ? `<span class="article-pill" data-kind="${pillTag.toLowerCase().split(' ')[0]}"><span class="article-pill-dot"></span>${pillTag}</span>` : ''}
+
           <h1 class="article-title">${escapeHtml(article.title)}</h1>
           ${article.subtitle ? `<p class="article-subtitle">${escapeHtml(article.subtitle)}</p>` : ''}
+
+          <div class="article-timeago">${timeAgo(article.published_at).toUpperCase()}</div>
+
           <div class="byline-row">
-            <img src="${escapeAttr(authorAvatar)}" class="byline-avatar" alt="${escapeAttr(author.full_name || '')}">
-            <div class="byline-info">
-              <div class="author"><a href="${author.username ? '#' : '#'}">${escapeHtml(author.full_name || 'Karostartup')}</a></div>
-              <div class="meta">${formatDateLong(article.published_at)} · ${formatTimeIST(article.published_at)} · ${article.read_time_minutes || 5} min read · ${formatNumber(article.view_count || 0)} views</div>
+            <div class="byline-author">
+              <span class="byline-by">By</span>
+              <img src="${escapeAttr(authorAvatar)}" class="byline-avatar" alt="${escapeAttr(author.full_name || '')}">
+              <span class="byline-name">${escapeHtml(author.full_name || 'Karostartup')}</span>
             </div>
             <div class="byline-actions">
-              <button class="icon-btn" data-share="twitter" aria-label="Share on X">${ICON.twitter}</button>
-              <button class="icon-btn" data-share="linkedin" aria-label="Share on LinkedIn">${ICON.linkedin}</button>
-              <button class="icon-btn" data-share="whatsapp" aria-label="Share on WhatsApp">${ICON.whatsapp}</button>
-              <button class="icon-btn" data-share="copy" aria-label="Copy link">${ICON.copy}</button>
-              <button class="icon-btn" id="print-btn" aria-label="Print article">${ICON.printer}</button>
-              <button class="icon-btn" id="bookmark-btn" aria-label="Bookmark">${ICON.bookmark}</button>
+              <button class="share-btn" data-share="mail" aria-label="Share by email">${ICON.mail}</button>
+              <button class="share-btn" data-share="copy" aria-label="Copy link">${ICON.link}</button>
+              <button class="share-btn" data-share="twitter" aria-label="Share on X">${ICON.twitter}</button>
+              <button class="share-btn" data-share="facebook" aria-label="Share on Facebook">${ICON.facebook}</button>
+              <button class="share-btn" data-share="threads" aria-label="Share on Threads">${ICON.threads}</button>
+              <button class="share-btn" id="print-btn" aria-label="Print article" title="Print">${ICON.printer}</button>
+              <button class="share-btn" id="bookmark-btn" aria-label="Bookmark" title="Bookmark">${ICON.bookmark}</button>
             </div>
           </div>
         </div>
@@ -280,33 +300,26 @@
       <button class="icon-btn" id="rail-bookmark-btn" aria-label="Bookmark">${ICON.bookmark}</button>
     `;
     document.body.appendChild(rail);
+    function handleShare(kind) {
+      const url = encodeURIComponent(location.href);
+      const title = encodeURIComponent(article.title);
+      if (kind === 'twitter') window.open(`https://twitter.com/intent/tweet?text=${title}&url=${url}`, '_blank');
+      else if (kind === 'linkedin') window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+      else if (kind === 'whatsapp') window.open(`https://api.whatsapp.com/send?text=${title}%20${url}`, '_blank');
+      else if (kind === 'facebook') window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+      else if (kind === 'threads') window.open(`https://www.threads.net/intent/post?text=${title}%20${url}`, '_blank');
+      else if (kind === 'mail') window.location.href = `mailto:?subject=${title}&body=${url}`;
+      else if (kind === 'copy') navigator.clipboard.writeText(location.href).then(() => showToast('Link copied'));
+    }
     rail.querySelectorAll('[data-share]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const url = encodeURIComponent(location.href);
-        const title = encodeURIComponent(article.title);
-        const kind = btn.dataset.share;
-        if (kind === 'twitter') window.open(`https://twitter.com/intent/tweet?text=${title}&url=${url}`, '_blank');
-        else if (kind === 'linkedin') window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
-        else if (kind === 'whatsapp') window.open(`https://api.whatsapp.com/send?text=${title}%20${url}`, '_blank');
-        else if (kind === 'copy') navigator.clipboard.writeText(location.href).then(() => showToast('Link copied'));
-      });
+      btn.addEventListener('click', () => handleShare(btn.dataset.share));
     });
     // Mirror bookmark state into the rail
     const railBookmarkBtn = document.getElementById('rail-bookmark-btn');
 
-    // Share buttons
+    // Share buttons in the article header
     main.querySelectorAll('[data-share]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const url = encodeURIComponent(location.href);
-        const title = encodeURIComponent(article.title);
-        const kind = btn.dataset.share;
-        if (kind === 'twitter') window.open(`https://twitter.com/intent/tweet?text=${title}&url=${url}`, '_blank');
-        else if (kind === 'linkedin') window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
-        else if (kind === 'whatsapp') window.open(`https://api.whatsapp.com/send?text=${title}%20${url}`, '_blank');
-        else if (kind === 'copy') {
-          navigator.clipboard.writeText(location.href).then(() => showToast('Link copied'));
-        }
-      });
+      btn.addEventListener('click', () => handleShare(btn.dataset.share));
     });
 
     // Bookmark — keep both the byline button and the mobile rail button in sync
