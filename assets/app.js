@@ -660,7 +660,6 @@ function renderMasthead() {
         <button class="nav-mobile-btn" id="nav-burger" aria-label="Open menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
-        <a href="/about.html" class="masthead-link">About</a>
         <a href="/newsletters.html" class="masthead-link">Newsletters</a>
         <a href="/contact.html" class="masthead-link">Contact</a>
       </div>
@@ -944,7 +943,6 @@ function renderFooter() {
         <div class="footer-col">
           <h4>Company</h4>
           <ul>
-            <li><a href="/about.html">About us</a></li>
             <li><a href="/internship.html">Internships</a></li>
             <li><a href="/contact.html?type=careers">Careers</a></li>
             <li><a href="/contact.html">Contact</a></li>
@@ -1032,7 +1030,6 @@ function mountMobileDrawer(activeSlug, cats) {
       <a href="/plus.html" class="k-drawer-link sub">Karostartup Plus</a>
       <a href="/share-your-startup.html" class="k-drawer-link sub">Share your startup</a>
       <a href="/internship.html" class="k-drawer-link sub">Internships</a>
-      <a href="/about.html" class="k-drawer-link sub">About</a>
       <a href="/contact.html" class="k-drawer-link sub">Contact</a>
     </div>
 

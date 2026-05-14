@@ -72,7 +72,6 @@ function isoDate(d) {
   // Static pages — pinned set of URLs we know exist
   const staticUrls = [
     { path: '/',                priority: '1.0', changefreq: 'hourly'  },
-    { path: '/about.html',       priority: '0.6', changefreq: 'monthly' },
     { path: '/best-brands.html', priority: '0.8', changefreq: 'daily'   },
     { path: '/newsletters.html', priority: '0.6', changefreq: 'weekly'  },
     { path: '/podcasts.html',    priority: '0.7', changefreq: 'weekly'  },
