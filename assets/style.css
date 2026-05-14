@@ -883,92 +883,77 @@ a:hover .media-play { background: var(--brand); }
 }
 
 /* ============================================================
-   ROTATING CTA BLOCK — Hero right column, above Top Stories.
-   3 themed cards (Promote / Partner / Studio) slide-fade every
-   4.5s, each with its own dark gradient + accent colour. Whole
-   panel is an <a> — click anywhere navigates to the contact page.
-   Pauses on hover.
+   ROTATING CTA BLOCK — minimal shadcn/editorial card.
+   Two cards (Promote / Partner). Same elegant dark base; accent
+   colour differentiates them. Subtle fade-up transition every
+   5.5s, pause on hover. Whole card is a link.
    ============================================================ */
 .hero-promo-rotator {
-  --promo-accent: #ff8b9a;             /* default = red theme accent */
+  --promo-accent: #d10a11;       /* set by .theme-{x} class */
   position: relative;
-  margin: -22px -22px 22px;            /* edge-to-edge inside Top Stories card */
+  margin: -22px -22px 22px;
   overflow: hidden;
-  min-height: 230px;
-  background: #1a0507;                 /* fallback if all gradients fail */
+  min-height: 220px;
+  background: #0a0a0e;
 }
-.hero-promo-rotator.theme-red   { --promo-accent: #ff8b9a; }
-.hero-promo-rotator.theme-blue  { --promo-accent: #ffd166; }
-.hero-promo-rotator.theme-green { --promo-accent: #a7f3d0; }
+.hero-promo-rotator.theme-red   { --promo-accent: #d10a11; }
+.hero-promo-rotator.theme-amber { --promo-accent: #d4a017; }
 
 .hero-promo-item {
   position: absolute;
   inset: 0;
-  padding: 26px 24px 22px;
+  padding: 28px 26px 22px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 12px;
   text-decoration: none;
   color: inherit;
   opacity: 0;
-  transform: translateX(36px);
-  transition: opacity 0.5s ease, transform 0.55s cubic-bezier(.2, .8, .2, 1);
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.55s cubic-bezier(.2, .8, .2, 1);
   pointer-events: none;
   z-index: 1;
+  background: linear-gradient(160deg, #0a0a0e 0%, #14141b 65%, #1c1c25 100%);
 }
 .hero-promo-item.is-active {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(0);
   pointer-events: auto;
 }
-.hero-promo-item[data-theme="red"]   { background: linear-gradient(135deg, #2a060a 0%, #4a0a10 55%, #6e0d15 100%); }
-.hero-promo-item[data-theme="blue"]  { background: linear-gradient(135deg, #0a1530 0%, #1f3358 55%, #2a4475 100%); }
-.hero-promo-item[data-theme="green"] { background: linear-gradient(135deg, #0a2620 0%, #1a4838 55%, #246b54 100%); }
+.hero-promo-item[data-theme="red"]   { --accent: #d10a11; }
+.hero-promo-item[data-theme="amber"] { --accent: #d4a017; }
 
-/* Big serif numeral floating bottom-right behind the content */
-.hero-promo-numeral {
-  position: absolute;
-  right: -10px;
-  bottom: -30px;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 9rem;
-  line-height: 0.8;
-  color: rgba(255, 255, 255, 0.05);
-  z-index: 0;
-  pointer-events: none;
-  letter-spacing: -0.04em;
+.hero-promo-head {
+  position: relative;
+  z-index: 1;
 }
-.hero-promo-head { position: relative; z-index: 1; }
 .hero-promo-kicker {
-  display: inline-block;
+  display: block;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--promo-accent);
-  margin: 0 0 14px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+.hero-promo-rule {
+  display: block;
+  width: 28px;
+  height: 2px;
+  background: var(--accent);
+  margin: 14px 0 18px;
 }
 .hero-promo-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.7rem;
-  line-height: 1.04;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.75rem, 2.3vw, 2.15rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
   color: #fff;
   margin: 0;
   font-variation-settings: "opsz" 96;
-}
-.hero-promo-body {
-  font-size: 0.84rem;
-  color: rgba(255, 255, 255, 0.78);
-  line-height: 1.5;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
-  position: relative;
-  z-index: 1;
+  max-width: 11ch;
 }
 .hero-promo-foot {
   display: flex;
@@ -981,53 +966,53 @@ a:hover .media-play { background: var(--brand); }
 .hero-promo-cta {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--promo-accent);
-  transition: color 0.15s ease, transform 0.18s cubic-bezier(.2,.8,.2,1);
+  color: rgba(255, 255, 255, 0.88);
+  transition: color 0.18s ease;
 }
 .hero-promo-cta::after {
-  content: "→";
-  font-size: 1.1rem;
-  line-height: 1;
-  transition: transform 0.18s cubic-bezier(.2,.8,.2,1);
+  content: "";
+  display: inline-block;
+  width: 26px;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.22s cubic-bezier(.2,.8,.2,1), background 0.18s ease;
 }
-.hero-promo-item:hover .hero-promo-cta { color: #fff; }
-.hero-promo-item:hover .hero-promo-cta::after { transform: translateX(4px); }
-.hero-promo-item:hover .hero-promo-title {
-  text-decoration: underline;
-  text-decoration-thickness: 1.5px;
-  text-underline-offset: 5px;
-}
+.hero-promo-item:hover .hero-promo-cta { color: var(--accent); }
+.hero-promo-item:hover .hero-promo-cta::after { width: 40px; }
 
-/* Progress dashes top-left */
+/* Progress dots — top-right, small circles */
 .hero-promo-dots {
   position: absolute;
-  top: 16px;
-  left: 24px;
+  top: 26px;
+  right: 26px;
   display: flex;
-  gap: 5px;
+  gap: 6px;
   z-index: 2;
 }
 .hero-promo-dots span {
   display: inline-block;
-  width: 18px;
-  height: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
   background: rgba(255, 255, 255, 0.22);
-  transition: background 0.35s ease;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
-.hero-promo-dots span.is-active { background: var(--promo-accent); }
+.hero-promo-dots span.is-active {
+  background: var(--promo-accent);
+  transform: scale(1.15);
+}
 
 @media (max-width: 768px) {
-  .hero-promo-rotator { margin: -18px -18px 18px; min-height: 210px; }
+  .hero-promo-rotator { margin: -18px -18px 18px; min-height: 200px; }
   .hero-promo-item { padding: 22px 20px 20px; }
-  .hero-promo-title { font-size: 1.4rem; }
-  .hero-promo-body { font-size: 0.82rem; padding-top: 12px; }
-  .hero-promo-numeral { font-size: 7rem; bottom: -22px; right: -8px; }
+  .hero-promo-title { font-size: 1.5rem; }
+  .hero-promo-rule { margin: 10px 0 14px; }
 }
 .hero-top-header {
   display: flex;

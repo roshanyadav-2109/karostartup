@@ -298,31 +298,20 @@
         <aside class="hero-top-stories">
           <div class="hero-promo-rotator" id="hero-promo-rotator">
             <a class="hero-promo-item is-active" data-theme="red" href="/contact.html?type=advertise">
-              <span class="hero-promo-numeral" aria-hidden="true">01</span>
               <div class="hero-promo-head">
-                <span class="hero-promo-kicker">Karostartup · For Brands</span>
+                <span class="hero-promo-kicker">For Brands</span>
+                <span class="hero-promo-rule"></span>
                 <h4 class="hero-promo-title">Promote with us.</h4>
               </div>
-              <div class="hero-promo-body">Featured stories, paid promotion, newsletter ads — reach 80,000+ founders, investors, operators.</div>
               <div class="hero-promo-foot"><span class="hero-promo-cta">Get in touch</span></div>
             </a>
-            <a class="hero-promo-item" data-theme="blue" href="/contact.html?type=partnership">
-              <span class="hero-promo-numeral" aria-hidden="true">02</span>
+            <a class="hero-promo-item" data-theme="amber" href="/contact.html?type=partnership">
               <div class="hero-promo-head">
-                <span class="hero-promo-kicker">Editorial Collaboration</span>
+                <span class="hero-promo-kicker">Editorial</span>
+                <span class="hero-promo-rule"></span>
                 <h4 class="hero-promo-title">Partner with us.</h4>
               </div>
-              <div class="hero-promo-body">Co-published research reports, event partnerships, content sponsorships. We retain editorial independence.</div>
               <div class="hero-promo-foot"><span class="hero-promo-cta">Let's talk</span></div>
-            </a>
-            <a class="hero-promo-item" data-theme="green" href="/contact.html?type=general">
-              <span class="hero-promo-numeral" aria-hidden="true">03</span>
-              <div class="hero-promo-head">
-                <span class="hero-promo-kicker">Karostartup Studio</span>
-                <h4 class="hero-promo-title">Build with our studio.</h4>
-              </div>
-              <div class="hero-promo-body">Website, brand, content, launch comms — our team can ship it end-to-end. For founders, by founders.</div>
-              <div class="hero-promo-foot"><span class="hero-promo-cta">Send a brief</span></div>
             </a>
           </div>
 
@@ -379,7 +368,8 @@
       rotator.classList.add('theme-' + themes[0]);
 
       let i = 0;
-      let timer = setInterval(advance, 4500);
+      const CYCLE = 5500;
+      let timer = setInterval(advance, CYCLE);
 
       function advance() {
         const prev = i;
@@ -394,7 +384,7 @@
 
       // Pause on hover so users can finish reading / click
       rotator.addEventListener('mouseenter', () => { clearInterval(timer); timer = null; });
-      rotator.addEventListener('mouseleave', () => { if (!timer) timer = setInterval(advance, 4500); });
+      rotator.addEventListener('mouseleave', () => { if (!timer) timer = setInterval(advance, CYCLE); });
     }
 
     // LATEST NEWS — CNN-style 3-col layout (left small + middle lead/medium + right small)
