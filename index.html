@@ -301,7 +301,10 @@
           <section class="hero-updates" aria-label="Latest updates">
             <div class="hero-updates-head">
               <h3 class="hero-updates-title"><span class="live-dot"></span> Latest Updates</h3>
-              <a href="#latest-feed" class="hero-updates-more">More →</a>
+              <div class="hero-updates-nav" role="group" aria-label="Scroll updates">
+                <button type="button" class="hero-updates-arrow" data-dir="prev" aria-label="Previous updates">‹</button>
+                <button type="button" class="hero-updates-arrow" data-dir="next" aria-label="Next updates">›</button>
+              </div>
             </div>
             <div class="hero-updates-strip" id="hero-updates-strip">
               ${stripUpdates.map(a => {
@@ -370,6 +373,8 @@
 
       // Wire up the rotating CTA carousel inside the right column
       _initPromoRotator();
+      // Hook the Latest Updates strip prev/next arrows
+      _initUpdatesStrip();
     } catch (e) {
       document.getElementById('hero-slot').innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><h3>Unable to load stories</h3></div>';
     } });
@@ -404,6 +409,43 @@
       // Pause on hover so users can finish reading / click
       rotator.addEventListener('mouseenter', () => { clearInterval(timer); timer = null; });
       rotator.addEventListener('mouseleave', () => { if (!timer) timer = setInterval(advance, CYCLE); });
+    }
+
+    // Hero "Latest Updates" horizontal strip — prev/next arrow buttons
+    // scroll the strip by roughly one card's width. Arrows disable
+    // themselves at each end so the user knows there's nothing further.
+    function _initUpdatesStrip() {
+      const strip = document.getElementById('hero-updates-strip');
+      if (!strip) return;
+      const head = strip.parentElement.querySelector('.hero-updates-head');
+      const arrows = head ? head.querySelectorAll('[data-dir]') : [];
+      if (!arrows.length) return;
+
+      const stepSize = () => {
+        const first = strip.firstElementChild;
+        if (!first) return 240;
+        const cardWidth = first.getBoundingClientRect().width;
+        const gap = parseFloat(getComputedStyle(strip).columnGap || getComputedStyle(strip).gap || '16') || 16;
+        return cardWidth + gap;
+      };
+
+      const refreshArrows = () => {
+        const max = strip.scrollWidth - strip.clientWidth - 1;
+        arrows.forEach(b => {
+          if (b.dataset.dir === 'prev') b.disabled = strip.scrollLeft <= 1;
+          else b.disabled = strip.scrollLeft >= max;
+        });
+      };
+
+      arrows.forEach(b => {
+        b.addEventListener('click', () => {
+          const dir = b.dataset.dir === 'next' ? 1 : -1;
+          strip.scrollBy({ left: dir * stepSize(), behavior: 'smooth' });
+        });
+      });
+      strip.addEventListener('scroll', refreshArrows, { passive: true });
+      window.addEventListener('resize', refreshArrows);
+      refreshArrows();
     }
 
     // LATEST NEWS — CNN-style 3-col layout (left small + middle lead/medium + right small)

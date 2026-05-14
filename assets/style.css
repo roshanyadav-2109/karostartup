@@ -836,16 +836,35 @@ a:hover .media-play { background: var(--brand); }
   gap: 8px;
   color: var(--ink);
 }
-.hero-updates-more {
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--brand);
-  text-decoration: none;
-  font-weight: 700;
+.hero-updates-nav {
+  display: inline-flex;
+  gap: 6px;
 }
-.hero-updates-more:hover { text-decoration: underline; }
+.hero-updates-arrow {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--hairline);
+  background: #fff;
+  color: var(--ink);
+  font-size: 1.2rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+.hero-updates-arrow:hover:not(:disabled) {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+.hero-updates-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
 
 .hero-updates-strip {
   display: grid;
