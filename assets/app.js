@@ -664,10 +664,56 @@ function renderMasthead() {
       <a href="/" class="logo">Karostartup<span class="dot"></span></a>
       <div class="masthead-right">
         <a href="/plus.html" class="plus-link">Plus</a>
-        <a href="/search.html" class="search-btn" aria-label="Search">${ICON.search} <span>Search</span></a>
+        <button class="search-btn" id="search-trigger" type="button" aria-label="Search">${ICON.search} <span>Search</span></button>
       </div>
     </div>
   </div>`;
+}
+
+/* ============================================================
+   SEARCH OVERLAY — opens from the masthead search button.
+   Inline input → routes to /search.html on submit. Escape / scrim
+   click closes. Built once per page-load by mountChrome.
+   ============================================================ */
+function mountSearchOverlay() {
+  if (document.getElementById('k-search-overlay')) return;
+  const o = document.createElement('div');
+  o.id = 'k-search-overlay';
+  o.className = 'k-search-overlay';
+  o.innerHTML = `
+    <div class="k-search-card" role="dialog" aria-label="Site search">
+      <button class="k-search-close" id="k-search-close" aria-label="Close">×</button>
+      <span class="kicker" style="color:#d10a11;">Search</span>
+      <h2 style="font-family:var(--font-display);font-weight:700;font-size:clamp(1.6rem,2.4vw,2.2rem);margin:8px 0 18px;">Find a story, a founder, a deal.</h2>
+      <form class="k-search-form" id="k-search-form" role="search">
+        <input type="search" id="k-search-input" placeholder="Try \"razorpay\", \"series c\", \"saas\"…" autocomplete="off" required>
+        <button type="submit" class="btn btn-red">Search</button>
+      </form>
+      <p style="font-size:0.78rem;color:#8a8a8a;margin:14px 0 0;">Press <kbd>Esc</kbd> to close.</p>
+    </div>`;
+  document.body.appendChild(o);
+  const close = () => {
+    o.classList.remove('is-open');
+    document.body.style.overflow = '';
+  };
+  o.querySelector('#k-search-close').addEventListener('click', close);
+  o.addEventListener('click', (e) => { if (e.target === o) close(); });
+  o.querySelector('#k-search-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = o.querySelector('#k-search-input').value.trim();
+    if (!q) return;
+    location.href = '/search.html?q=' + encodeURIComponent(q);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && o.classList.contains('is-open')) close();
+  });
+  // Hook the masthead trigger
+  const trigger = document.getElementById('search-trigger');
+  if (trigger) trigger.addEventListener('click', () => {
+    o.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => o.querySelector('#k-search-input')?.focus(), 60);
+  });
 }
 
 function renderNavFromData(categories, activeSlug = '') {
@@ -708,6 +754,7 @@ function renderFooter() {
           <h4>Company</h4>
           <ul>
             <li><a href="/about.html">About us</a></li>
+            <li><a href="/internship.html">Internships</a></li>
             <li><a href="/contact.html?type=careers">Careers</a></li>
             <li><a href="/contact.html">Contact</a></li>
             <li><a href="/plus.html">Plus membership</a></li>
@@ -719,7 +766,8 @@ function renderFooter() {
         <div class="footer-col">
           <h4>Reach Us</h4>
           <ul>
-            <li><a href="/contact.html?type=promotion">Promote your startup</a></li>
+            <li><a href="/share-your-startup.html">Share your startup</a></li>
+            <li><a href="/contact.html?type=advertise">Promote your startup</a></li>
             <li><a href="/contact.html?type=advertise">Advertise</a></li>
             <li><a href="/contact.html?type=tip">Send a tip</a></li>
             <li><a href="/contact.html?type=pr">PR / Press</a></li>
@@ -728,12 +776,14 @@ function renderFooter() {
         </div>
         <div class="footer-col">
           <h4>Follow</h4>
-          <ul>
-            <li><a href="https://twitter.com/karostartup" target="_blank" rel="noopener">X (Twitter)</a></li>
-            <li><a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a></li>
-            <li><a href="https://youtube.com" target="_blank" rel="noopener">YouTube</a></li>
-            <li><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></li>
-          </ul>
+          <div class="footer-socials">
+            <a href="https://twitter.com/karostartup" target="_blank" rel="noopener" aria-label="X (Twitter)" class="footer-social">${ICON.twitter}</a>
+            <a href="https://www.linkedin.com/company/karostartup" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-social">${ICON.linkedinSm}</a>
+            <a href="https://www.youtube.com/@karostartup" target="_blank" rel="noopener" aria-label="YouTube" class="footer-social">${ICON.youtube}</a>
+            <a href="https://www.instagram.com/karostartup" target="_blank" rel="noopener" aria-label="Instagram" class="footer-social">${ICON.instagram}</a>
+            <a href="https://www.facebook.com/karostartup" target="_blank" rel="noopener" aria-label="Facebook" class="footer-social">${ICON.facebook}</a>
+          </div>
+          <p style="font-size:0.78rem;color:#9a9a9a;margin:16px 0 0;line-height:1.45;">Newsroom alerts:<br><a href="https://wa.me/919315194393" target="_blank" rel="noopener" style="color:#c5c5c5;">WhatsApp →</a></p>
         </div>
       </div>
       <div class="footer-bottom">
@@ -780,6 +830,8 @@ function mountMobileDrawer(activeSlug, cats) {
       <a href="/podcasts.html" class="k-drawer-link sub">Podcasts</a>
       <a href="/newsletters.html" class="k-drawer-link sub">Newsletters</a>
       <a href="/plus.html" class="k-drawer-link sub">Karostartup Plus</a>
+      <a href="/share-your-startup.html" class="k-drawer-link sub">Share your startup</a>
+      <a href="/internship.html" class="k-drawer-link sub">Internships</a>
       <a href="/about.html" class="k-drawer-link sub">About</a>
       <a href="/contact.html" class="k-drawer-link sub">Contact</a>
     </div>
@@ -859,6 +911,8 @@ async function mountChrome(activeSlug = '') {
 
   // Hamburger drawer (mobile)
   mountMobileDrawer(activeSlug, cachedCats || []);
+  // Search overlay (all viewports)
+  mountSearchOverlay();
 
   // Wire signout if signed in (read from session synchronously)
   const session = await getCurrentSession();

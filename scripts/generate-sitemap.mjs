@@ -77,6 +77,8 @@ function isoDate(d) {
     { path: '/newsletters.html', priority: '0.6', changefreq: 'weekly'  },
     { path: '/podcasts.html',    priority: '0.7', changefreq: 'weekly'  },
     { path: '/plus.html',        priority: '0.5', changefreq: 'monthly' },
+    { path: '/share-your-startup.html', priority: '0.7', changefreq: 'monthly' },
+    { path: '/internship.html',  priority: '0.6', changefreq: 'monthly' },
     { path: '/contact.html',     priority: '0.4', changefreq: 'monthly' },
     { path: '/privacy.html',     priority: '0.2', changefreq: 'yearly'  },
     { path: '/terms.html',       priority: '0.2', changefreq: 'yearly'  },

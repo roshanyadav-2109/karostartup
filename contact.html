@@ -140,11 +140,35 @@
     const typeInput = document.getElementById('type-input');
     const companyReq = document.getElementById('company-required');
 
+    const partnershipTiers = `
+      <div class="partnership-tiers">
+        <h3>How we partner</h3>
+        <div class="tiers-grid">
+          <div class="tier-card">
+            <h4>Editorial collaboration</h4>
+            <p>Co-published research reports, sector deep-dives, founder roundtables. We retain editorial independence; partner funds the research.</p>
+          </div>
+          <div class="tier-card">
+            <h4>Event partnership</h4>
+            <p>Karostartup editors moderate / host at your conference or stage; logo placement; pre-event interview series.</p>
+          </div>
+          <div class="tier-card">
+            <h4>Content sponsorship</h4>
+            <p>Sponsor a newsletter issue, podcast season, or vertical (e.g. AI Weekly). Clearly disclosed; no editorial influence.</p>
+          </div>
+          <div class="tier-card">
+            <h4>Affiliate / data partner</h4>
+            <p>Become a data source on our funding tracker, deals database, or directory pages — attribution and traffic in return.</p>
+          </div>
+        </div>
+      </div>`;
+
     function setType(t) {
       activeType = t;
       tabs.forEach(b => b.classList.toggle('is-active', b.dataset.type === t));
       const h = headings[t];
-      formHead.innerHTML = `<h2>${escapeHtml(h.h)}</h2><p>${escapeHtml(h.p)}</p>`;
+      const tiersHtml = (t === 'partnership') ? partnershipTiers : '';
+      formHead.innerHTML = `<h2>${escapeHtml(h.h)}</h2><p>${escapeHtml(h.p)}</p>${tiersHtml}`;
       typeInput.value = t;
       const isRequired = ['promotion', 'advertise', 'pr'].includes(t);
       companyReq.textContent = isRequired ? '*' : '(optional)';

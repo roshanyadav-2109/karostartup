@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Internships · Karostartup</title>
+  <meta name="description" content="Apply for an internship at Karostartup — newsroom, design, growth, and engineering roles.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="chrome"></div>
+  <main>
+    <section class="contact-hero">
+      <div class="container">
+        <span class="kicker">Internships</span>
+        <h1>Work with the Karostartup newsroom.</h1>
+        <p>We hire ambitious students and early-career operators across newsroom, design, growth, and engineering. Remote-first, paid stipend, real bylines, real shipped product.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header"><h2 class="h-section">Open roles</h2></div>
+        <div class="latest-news-grid" style="grid-template-columns:repeat(2,1fr);">
+          <div class="bb-card">
+            <div class="bb-card-head">
+              <div class="bb-logo"><span class="bb-logo-init">N</span></div>
+              <div class="bb-card-head-text"><h3 class="bb-name">Newsroom Intern</h3><span class="bb-sector-pill">Editorial</span></div>
+            </div>
+            <p class="bb-desc">Pitch and write 2-3 stories per week across funding, founders, and sectors. Closely mentored. Real bylines on every published piece.</p>
+            <div class="bb-meta"><div class="bb-meta-row"><span class="bb-meta-item mono">3-6 months · Remote · ₹15-25k/mo</span></div></div>
+          </div>
+          <div class="bb-card">
+            <div class="bb-card-head">
+              <div class="bb-logo"><span class="bb-logo-init">D</span></div>
+              <div class="bb-card-head-text"><h3 class="bb-name">Design Intern</h3><span class="bb-sector-pill">Design</span></div>
+            </div>
+            <p class="bb-desc">Visual stories, infographics, story-page layouts. Strong typography sense required. Bonus for motion / data-viz chops.</p>
+            <div class="bb-meta"><div class="bb-meta-row"><span class="bb-meta-item mono">3-6 months · Remote · ₹15-25k/mo</span></div></div>
+          </div>
+          <div class="bb-card">
+            <div class="bb-card-head">
+              <div class="bb-logo"><span class="bb-logo-init">G</span></div>
+              <div class="bb-card-head-text"><h3 class="bb-name">Growth Intern</h3><span class="bb-sector-pill">Growth</span></div>
+            </div>
+            <p class="bb-desc">Drive newsletter signups + Plus subscriptions. Run experiments. Own a number. Suits someone with consumer-product instincts.</p>
+            <div class="bb-meta"><div class="bb-meta-row"><span class="bb-meta-item mono">3-6 months · Remote · ₹15-30k/mo</span></div></div>
+          </div>
+          <div class="bb-card">
+            <div class="bb-card-head">
+              <div class="bb-logo"><span class="bb-logo-init">E</span></div>
+              <div class="bb-card-head-text"><h3 class="bb-name">Engineering Intern</h3><span class="bb-sector-pill">Engineering</span></div>
+            </div>
+            <p class="bb-desc">Ship features on the editorial CMS and reader experience. Vanilla JS + Supabase. Read code, write code, deploy on day one.</p>
+            <div class="bb-meta"><div class="bb-meta-row"><span class="bb-meta-item mono">3-6 months · Remote · ₹20-35k/mo</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background:var(--paper);">
+      <div class="container" style="max-width:720px;">
+        <h2 style="font-family:var(--font-display);font-weight:700;font-size:2rem;letter-spacing:-0.015em;margin:0 0 8px;">Apply</h2>
+        <p style="color:#5a5a5a;margin:0 0 24px;">One form, all four roles. Tell us which one you're targeting and why.</p>
+        <div id="success-state" style="display:none;">
+          <div class="form-msg success" style="padding:32px;text-align:center;">
+            <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.6rem;color:#0a7a3b;margin:0 0 12px 0;">Application received.</h2>
+            <p style="margin:0;color:#1a1a1a;">We respond to internship applications within 1 week. If we want to talk further, we'll reach out to schedule a short call.</p>
+          </div>
+        </div>
+        <form id="intern-form">
+          <div id="intern-msg"></div>
+          <div class="form-row">
+            <div class="form-field"><label>Your name *</label><input type="text" name="name" required></div>
+            <div class="form-field"><label>Email *</label><input type="email" name="email" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-field"><label>Phone</label><input type="tel" name="phone"></div>
+            <div class="form-field"><label>Role applied for *</label>
+              <select name="role" required>
+                <option value="">Select…</option>
+                <option>Newsroom Intern</option>
+                <option>Design Intern</option>
+                <option>Growth Intern</option>
+                <option>Engineering Intern</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field"><label>College / institution</label><input type="text" name="college"></div>
+            <div class="form-field"><label>Graduation year</label><input type="number" name="grad" placeholder="2026"></div>
+          </div>
+          <div class="form-field"><label>Portfolio / clips / GitHub / LinkedIn</label><input type="url" name="portfolio" placeholder="https://"></div>
+          <div class="form-field"><label>Resume URL</label><input type="url" name="resume" placeholder="Google Drive or Dropbox public link"></div>
+          <div class="form-field"><label>Why Karostartup? *</label>
+            <textarea name="why" required minlength="80" maxlength="2000" placeholder="A specific Karostartup story or angle that hooked you. Avoid generic 'I love media' lines."></textarea>
+            <div class="hint">Minimum 80 characters · <span id="why-count">0</span> / 2000</div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg" id="intern-submit">Send application</button>
+          <p style="font-size:0.78rem;color:#5a5a5a;margin:14px 0 0;">By applying you agree to our <a href="/terms.html" style="color:#d10a11;">terms</a> and <a href="/privacy.html" style="color:#d10a11;">privacy policy</a>. We keep applications confidential.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    setMeta({ title: 'Internships', description: 'Apply for an internship at Karostartup — newsroom, design, growth, or engineering.', url: '/internship.html' });
+    await mountChrome('');
+    mountFooter();
+
+    const form = document.getElementById('intern-form');
+    const why = form.querySelector('textarea[name=why]');
+    const count = document.getElementById('why-count');
+    why.addEventListener('input', () => { count.textContent = why.value.length; });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const lines = [];
+      lines.push(`Role: ${fd.get('role')}`);
+      if (fd.get('college')) lines.push(`College: ${fd.get('college')}`);
+      if (fd.get('grad'))    lines.push(`Graduation: ${fd.get('grad')}`);
+      if (fd.get('portfolio')) lines.push(`Portfolio: ${fd.get('portfolio')}`);
+      if (fd.get('resume'))    lines.push(`Resume: ${fd.get('resume')}`);
+      const message = `${lines.join('\n')}\n\n--- Why Karostartup ---\n${fd.get('why')}`;
+      const payload = {
+        name: fd.get('name').trim(),
+        email: fd.get('email').trim(),
+        phone: (fd.get('phone') || '').trim() || null,
+        subject: `[Internship] ${fd.get('role')} application`,
+        message,
+        type: 'careers',
+        status: 'new',
+      };
+      const btn = document.getElementById('intern-submit');
+      const msg = document.getElementById('intern-msg');
+      btn.disabled = true; btn.textContent = 'Sending…';
+      msg.innerHTML = '';
+      try {
+        const { error } = await sb.from('contact_submissions').insert(payload);
+        if (error) throw error;
+        form.style.display = 'none';
+        document.getElementById('success-state').style.display = 'block';
+      } catch (err) {
+        msg.innerHTML = `<div class="form-msg error">${escapeHtml(err.message || 'Could not send.')}</div>`;
+        btn.disabled = false; btn.textContent = 'Send application';
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

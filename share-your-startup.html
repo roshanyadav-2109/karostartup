@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Share Your Startup Journey · Karostartup</title>
+  <meta name="description" content="Founders — pitch your startup, milestone, or story to the Karostartup editorial team. Structured submission form.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="chrome"></div>
+  <main>
+    <section class="contact-hero">
+      <div class="container">
+        <span class="kicker">For Founders</span>
+        <h1>Share your startup journey.</h1>
+        <p>We feature founders building in India — funding rounds, launches, pivots, and the operating choices nobody else talks about. Fill the form below and the editorial team will reach out within 24-48 hours if it's a fit.</p>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="contact-layout">
+        <div>
+          <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.8rem;letter-spacing:-0.015em;margin:0 0 8px;">Tell us about you</h2>
+          <p style="color:#5a5a5a;margin:0 0 28px;">The more specific you are, the easier it is for us to evaluate. We read every submission.</p>
+          <div id="success-state" style="display:none;">
+            <div class="form-msg success" style="padding:32px;text-align:center;">
+              <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.6rem;color:#0a7a3b;margin:0 0 12px 0;">Submission received.</h2>
+              <p style="margin:0;color:#1a1a1a;">An editor will review your pitch within 24-48 hours. If it's a fit, we'll reach out to schedule a call.</p>
+            </div>
+          </div>
+          <form id="sys-form">
+            <div id="sys-msg"></div>
+            <div class="form-row">
+              <div class="form-field"><label for="name">Your name *</label><input type="text" name="name" id="name" required></div>
+              <div class="form-field"><label for="email">Email *</label><input type="email" name="email" id="email" required></div>
+            </div>
+            <div class="form-row">
+              <div class="form-field"><label for="phone">Phone</label><input type="tel" name="phone" id="phone" placeholder="+91"></div>
+              <div class="form-field"><label for="role">Your role *</label>
+                <select name="role" id="role" required>
+                  <option value="">Select…</option>
+                  <option value="Founder">Founder / Co-founder</option>
+                  <option value="CXO">CXO (CEO/CTO/COO/CMO)</option>
+                  <option value="PR">PR / Comms</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-field"><label for="company">Company name *</label><input type="text" name="company" id="company" required></div>
+            <div class="form-row">
+              <div class="form-field"><label for="sector">Sector *</label>
+                <input type="text" name="sector" id="sector" required placeholder="Fintech / SaaS / D2C / AI / Climate…">
+              </div>
+              <div class="form-field"><label for="stage">Stage *</label>
+                <select name="stage" id="stage" required>
+                  <option value="">Select…</option>
+                  <option>Pre-revenue / Idea</option>
+                  <option>Pre-seed</option>
+                  <option>Seed</option>
+                  <option>Series A</option>
+                  <option>Series B</option>
+                  <option>Series C</option>
+                  <option>Series D+</option>
+                  <option>Public</option>
+                  <option>Bootstrapped</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field"><label for="founded">Founded year</label><input type="number" name="founded" id="founded" placeholder="2024"></div>
+              <div class="form-field"><label for="funding">Total funding raised (USD)</label><input type="text" name="funding" id="funding" placeholder="$1.2M / Bootstrapped"></div>
+            </div>
+            <div class="form-field"><label for="website">Website</label><input type="url" name="website" id="website" placeholder="https://"></div>
+            <div class="form-field"><label for="pitch">Why is this story worth telling? *</label>
+              <textarea name="pitch" id="pitch" required minlength="60" maxlength="2000" placeholder="The milestone, the numbers, the contrarian choice — whatever's specific and verifiable. Avoid marketing language. Aim for 100–300 words."></textarea>
+              <div class="hint">Minimum 60 characters · <span id="pitch-count">0</span> / 2000</div>
+            </div>
+            <div class="form-field"><label for="deck">Deck / press kit URL</label><input type="url" name="deck" id="deck" placeholder="https://drive.google.com/…  or  https://www.notion.so/…"></div>
+            <div class="form-field">
+              <label>Story angles you'd be open to (optional)</label>
+              <div class="checkbox-group">
+                <label><input type="checkbox" name="angle" value="Funding round announcement"> Funding round announcement</label>
+                <label><input type="checkbox" name="angle" value="Founder interview / podcast"> Founder interview / podcast</label>
+                <label><input type="checkbox" name="angle" value="Case study / deep dive"> Case study / deep dive</label>
+                <label><input type="checkbox" name="angle" value="Industry trend feature"> Industry trend feature</label>
+                <label><input type="checkbox" name="angle" value="Paid promotion / sponsored"> Paid promotion / sponsored coverage</label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" id="sys-submit">Send to editorial</button>
+            <p style="font-size:0.78rem;color:#5a5a5a;margin:14px 0 0;">By submitting you agree to our <a href="/terms.html" style="color:#d10a11;">terms</a> and <a href="/privacy.html" style="color:#d10a11;">privacy policy</a>. We may quote or paraphrase your submission in editorial coverage; we will not share your contact details outside the team.</p>
+          </form>
+        </div>
+
+        <aside class="contact-aside">
+          <div class="contact-info-card">
+            <h3>What we look for</h3>
+            <ul style="padding-left:18px;font-size:0.92rem;line-height:1.55;color:#1a1a1a;margin:0;">
+              <li>Specific milestones — revenue, customers, scale, exits</li>
+              <li>Real numbers we can verify</li>
+              <li>Contrarian operating choices or non-obvious lessons</li>
+              <li>Founders willing to talk on the record</li>
+            </ul>
+          </div>
+          <div class="contact-info-card">
+            <h3>Response time</h3>
+            <p style="font-size:0.92rem;line-height:1.55;color:#1a1a1a;margin:0;">Most pitches hear back within <strong>24-48 hours</strong>. If it's a fit, an editor will reach out to schedule a 30-minute call.</p>
+          </div>
+          <div class="contact-info-card">
+            <h3>Prefer to pitch differently?</h3>
+            <p style="font-size:0.92rem;line-height:1.55;color:#1a1a1a;margin:0;">Email <a href="mailto:roshan.25scs1003001159@iilm.edu" style="color:#d10a11;font-weight:600;">our editor directly</a> · For paid promotion, <a href="/contact.html?type=advertise" style="color:#d10a11;font-weight:600;">advertising enquiries</a>.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    setMeta({
+      title: 'Share Your Startup Journey',
+      description: 'Founders — pitch your startup, milestone, or story to the Karostartup editorial team.',
+      url: '/share-your-startup.html',
+    });
+    await mountChrome('');
+    mountFooter();
+
+    const form = document.getElementById('sys-form');
+    const pitch = document.getElementById('pitch');
+    const count = document.getElementById('pitch-count');
+    pitch.addEventListener('input', () => { count.textContent = pitch.value.length; });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const angles = Array.from(form.querySelectorAll('input[name=angle]:checked')).map(c => c.value);
+      const company = (fd.get('company') || '').trim();
+      const role    = (fd.get('role') || '').trim();
+      const sector  = (fd.get('sector') || '').trim();
+      const stage   = (fd.get('stage') || '').trim();
+      const founded = (fd.get('founded') || '').trim();
+      const funding = (fd.get('funding') || '').trim();
+      const website = (fd.get('website') || '').trim();
+      const deck    = (fd.get('deck') || '').trim();
+      const pitchText = (fd.get('pitch') || '').trim();
+      // Fold all the structured fields into the message body — the
+      // contact_submissions table only has name/email/phone/subject/message.
+      const lines = [];
+      if (company) lines.push(`Company: ${company}`);
+      if (role)    lines.push(`Role: ${role}`);
+      if (sector)  lines.push(`Sector: ${sector}`);
+      if (stage)   lines.push(`Stage: ${stage}`);
+      if (founded) lines.push(`Founded: ${founded}`);
+      if (funding) lines.push(`Total funding: ${funding}`);
+      if (website) lines.push(`Website: ${website}`);
+      if (deck)    lines.push(`Deck: ${deck}`);
+      if (angles.length) lines.push(`Open angles: ${angles.join('; ')}`);
+      const message = `${lines.join('\n')}\n\n--- Pitch ---\n${pitchText}`;
+      const payload = {
+        name:    (fd.get('name') || '').trim(),
+        email:   (fd.get('email') || '').trim(),
+        phone:   (fd.get('phone') || '').trim() || null,
+        subject: `[Founder pitch] ${company || 'Untitled startup'}`,
+        message,
+        type: 'pr',          // closest enum to founder pitch
+        status: 'new',
+      };
+      const submitBtn = document.getElementById('sys-submit');
+      const msg = document.getElementById('sys-msg');
+      submitBtn.disabled = true; submitBtn.textContent = 'Sending…';
+      msg.innerHTML = '';
+      try {
+        const { error } = await sb.from('contact_submissions').insert(payload);
+        if (error) throw error;
+        form.style.display = 'none';
+        document.getElementById('success-state').style.display = 'block';
+      } catch (err) {
+        msg.innerHTML = `<div class="form-msg error">${escapeHtml(err.message || 'Could not send.')}</div>`;
+        submitBtn.disabled = false; submitBtn.textContent = 'Send to editorial';
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

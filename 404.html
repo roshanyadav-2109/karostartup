@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Not Found · Karostartup</title>
+  <meta name="description" content="The page you're looking for doesn't exist on Karostartup.">
+  <meta name="robots" content="noindex,follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="chrome"></div>
+  <main>
+    <section class="notfound">
+      <div class="container">
+        <span class="notfound-code">404</span>
+        <h1>This story doesn't exist.</h1>
+        <p>The link you followed might be broken, the article may have been archived, or you've found a typo in our URL structure. (We'd love to know if it's the third one — <a href="mailto:roshan.25scs1003001159@iilm.edu">tell us</a>.)</p>
+        <div class="notfound-actions">
+          <a href="/" class="btn btn-primary">Back to the homepage</a>
+          <a href="/best-brands.html" class="btn btn-ghost">Browse brands</a>
+          <a href="/podcasts.html" class="btn btn-ghost">Listen to podcasts</a>
+        </div>
+        <div class="notfound-recent">
+          <h3>While you're here — recent stories</h3>
+          <div class="latest-news-grid" id="nf-recent">
+            <div class="loading-state" style="grid-column:1/-1;">Loading…</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    setMeta({ title: 'Not Found', description: "The page you're looking for doesn't exist.", url: location.pathname, noindex: true });
+    mountChrome('').catch(() => {});
+    mountFooter();
+    try {
+      const { data } = await sb.from('articles')
+        .select('id,slug,title,kicker,summary,cover_image_url,published_at,read_time_minutes,categories(name),profiles!author_id(full_name)')
+        .eq('status', 'published')
+        .order('published_at', { ascending: false })
+        .limit(4);
+      const slot = document.getElementById('nf-recent');
+      if (data && data.length) slot.innerHTML = data.map(a => renderStoryCard(a, { small: true })).join('');
+      else slot.innerHTML = '';
+    } catch {}
+  })();
+  </script>
+</body>
+</html>
