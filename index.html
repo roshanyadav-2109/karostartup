@@ -296,6 +296,26 @@
         </article>
 
         <aside class="hero-top-stories">
+          <div class="hero-promo-rotator" id="hero-promo-rotator">
+            <a class="hero-promo-item is-active" href="/contact.html?type=advertise">
+              <span class="hero-promo-kicker">Karostartup for brands</span>
+              <h4 class="hero-promo-title">Promote with us</h4>
+              <p class="hero-promo-body">Featured stories, paid promotion, newsletter ads — reach 80,000+ operators.</p>
+              <span class="hero-promo-cta">Get in touch →</span>
+            </a>
+            <a class="hero-promo-item" href="/contact.html?type=partnership">
+              <span class="hero-promo-kicker">Editorial collaboration</span>
+              <h4 class="hero-promo-title">Partner with us</h4>
+              <p class="hero-promo-body">Co-published research, event partnerships, content sponsorships.</p>
+              <span class="hero-promo-cta">Let's talk →</span>
+            </a>
+            <a class="hero-promo-item" href="/contact.html?type=general">
+              <span class="hero-promo-kicker">Karostartup Studio</span>
+              <h4 class="hero-promo-title">Build with our studio</h4>
+              <p class="hero-promo-body">Website, brand, content, launch comms — our team can ship it for you.</p>
+              <span class="hero-promo-cta">Send a brief →</span>
+            </a>
+          </div>
           <div class="hero-top-header">
             <h3><span class="live-dot"></span> Top Stories</h3>
             <a href="#latest-feed" class="hero-top-more">All →</a>
@@ -317,9 +337,39 @@
             }).join('')}
           </ol>
         </aside>`;
+
+      // Wire up the rotating CTA carousel inside the right column
+      _initPromoRotator();
     } catch (e) {
       document.getElementById('hero-slot').innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><h3>Unable to load stories</h3></div>';
     } });
+
+    // Cross-fade slide rotator for the hero promo CTA block. Cycles
+    // every 3.5s, builds progress dots in the corner, full block is
+    // an <a> so clicking anywhere navigates to the contact form.
+    function _initPromoRotator() {
+      const rotator = document.getElementById('hero-promo-rotator');
+      if (!rotator) return;
+      const items = rotator.querySelectorAll('.hero-promo-item');
+      if (items.length < 2) return;
+      // Progress dots (small chips top-right of the panel)
+      const dots = document.createElement('div');
+      dots.className = 'hero-promo-dots';
+      items.forEach((_, k) => {
+        const d = document.createElement('span');
+        if (k === 0) d.classList.add('is-active');
+        dots.appendChild(d);
+      });
+      rotator.appendChild(dots);
+      let i = 0;
+      setInterval(() => {
+        items[i].classList.remove('is-active');
+        dots.children[i].classList.remove('is-active');
+        i = (i + 1) % items.length;
+        items[i].classList.add('is-active');
+        dots.children[i].classList.add('is-active');
+      }, 3500);
+    }
 
     // LATEST NEWS — CNN-style 3-col layout (left small + middle lead/medium + right small)
     // Picks up where the hero leaves off (range 6-15 → 10 items)
