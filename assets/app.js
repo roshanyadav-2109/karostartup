@@ -664,7 +664,6 @@ function renderMasthead() {
       <a href="/" class="logo">Karostartup<span class="dot"></span></a>
       <div class="masthead-right">
         <a href="/plus.html" class="plus-link">Plus</a>
-        <button class="search-btn listen-btn" id="listen-btn" type="button" aria-label="Listen to breaking news">${ICON.podcast} <span>Listen</span></button>
         <button class="search-btn" id="search-trigger" type="button" aria-label="Search">${ICON.search} <span>Search</span></button>
       </div>
     </div>
@@ -685,14 +684,19 @@ function mountSearchOverlay() {
     <div class="k-search-card" role="dialog" aria-label="Site search">
       <button class="k-search-close" id="k-search-close" aria-label="Close">×</button>
       <span class="kicker" style="color:#d10a11;">Search</span>
-      <h2 style="font-family:var(--font-display);font-weight:700;font-size:clamp(1.6rem,2.4vw,2.2rem);margin:8px 0 18px;">Find a story, a founder, a deal.</h2>
+      <h2 style="font-family:var(--font-display);font-weight:700;font-size:clamp(1.6rem,2.4vw,2.2rem);margin:8px 0 14px;">Find a story, a founder, a deal.</h2>
       <form class="k-search-form" id="k-search-form" role="search">
-        <input type="search" id="k-search-input" placeholder="Try \"razorpay\", \"series c\", \"saas\"…" autocomplete="off" required>
+        <input type="search" id="k-search-input" placeholder="Try &quot;razorpay&quot;, &quot;series c&quot;, &quot;saas&quot;…" autocomplete="off" required>
         <button type="submit" class="btn btn-red">Search</button>
       </form>
-      <p style="font-size:0.78rem;color:#8a8a8a;margin:14px 0 0;">Press <kbd>Esc</kbd> to close.</p>
+      <div class="k-search-results" id="k-search-results" aria-live="polite"></div>
+      <p class="k-search-foot">Press <kbd>Esc</kbd> to close · <kbd>Enter</kbd> for all results</p>
     </div>`;
   document.body.appendChild(o);
+
+  const input = o.querySelector('#k-search-input');
+  const resultsEl = o.querySelector('#k-search-results');
+
   const close = () => {
     o.classList.remove('is-open');
     document.body.style.overflow = '';
@@ -701,19 +705,116 @@ function mountSearchOverlay() {
   o.addEventListener('click', (e) => { if (e.target === o) close(); });
   o.querySelector('#k-search-form').addEventListener('submit', (e) => {
     e.preventDefault();
-    const q = o.querySelector('#k-search-input').value.trim();
+    const q = input.value.trim();
     if (!q) return;
     location.href = '/search.html?q=' + encodeURIComponent(q);
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && o.classList.contains('is-open')) close();
   });
+
+  // Live search — debounced, cancellable
+  let searchToken = 0;
+  let debounceTimer = null;
+
+  const highlight = (text, q) => {
+    const safe = escapeHtml(text || '');
+    if (!q) return safe;
+    const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+    return safe.replace(re, '<mark>$1</mark>');
+  };
+
+  const fmtDate = (iso) => {
+    if (!iso) return '';
+    try {
+      return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch { return ''; }
+  };
+
+  const renderResults = (q, articles, categories) => {
+    if (!q) { resultsEl.innerHTML = ''; resultsEl.classList.remove('has-results'); return; }
+
+    const catBlock = (categories && categories.length) ? `
+      <div class="k-sr-section">
+        <div class="k-sr-label">Sections</div>
+        ${categories.map(c => `
+          <a class="k-sr-cat" href="/category/view.html?slug=${encodeURIComponent(c.slug)}">
+            <span class="k-sr-cat-dot" style="background:${escapeAttr(c.color || '#0a0a0a')};"></span>
+            <span>${highlight(c.name, q)}</span>
+          </a>`).join('')}
+      </div>` : '';
+
+    const artBlock = (articles && articles.length) ? `
+      <div class="k-sr-section">
+        <div class="k-sr-label">Stories</div>
+        ${articles.map(a => `
+          <a class="k-sr-item" href="/article/view.html?slug=${encodeURIComponent(a.slug)}">
+            ${a.cover_image_url
+              ? `<div class="k-sr-thumb"><img src="${escapeAttr(a.cover_image_url)}" alt="" loading="lazy"></div>`
+              : `<div class="k-sr-thumb k-sr-thumb-empty"></div>`}
+            <div class="k-sr-body">
+              <div class="k-sr-meta">
+                ${a.categories?.name ? `<span class="k-sr-cat-tag">${escapeHtml(a.categories.name)}</span>` : ''}
+                <span class="k-sr-date">${fmtDate(a.published_at)}</span>
+              </div>
+              <div class="k-sr-title">${highlight(a.title, q)}</div>
+              ${a.summary ? `<div class="k-sr-summary">${highlight(a.summary.slice(0, 140), q)}${a.summary.length > 140 ? '…' : ''}</div>` : ''}
+            </div>
+          </a>`).join('')}
+      </div>` : '';
+
+    if (!catBlock && !artBlock) {
+      resultsEl.innerHTML = `<div class="k-sr-empty">No matches for "<strong>${escapeHtml(q)}</strong>" yet. Press Enter to search the archive.</div>`;
+    } else {
+      resultsEl.innerHTML = catBlock + artBlock + `
+        <a class="k-sr-all" href="/search.html?q=${encodeURIComponent(q)}">See all results for "${escapeHtml(q)}" →</a>`;
+    }
+    resultsEl.classList.add('has-results');
+  };
+
+  const runSearch = async (q) => {
+    const my = ++searchToken;
+    if (!q) { renderResults('', [], []); return; }
+    resultsEl.innerHTML = '<div class="k-sr-loading">Searching…</div>';
+    resultsEl.classList.add('has-results');
+
+    const safe = q.replace(/[%_,()]/g, ' ').trim();
+    if (!safe) return;
+
+    try {
+      const [artRes, catRes] = await Promise.all([
+        sb.from('articles')
+          .select('id,slug,title,summary,cover_image_url,published_at,categories(name)')
+          .eq('status', 'published')
+          .or(`title.ilike.%${safe}%,summary.ilike.%${safe}%`)
+          .order('published_at', { ascending: false })
+          .limit(6),
+        sb.from('categories')
+          .select('slug,name,color')
+          .ilike('name', `%${safe}%`)
+          .limit(4)
+      ]);
+      if (my !== searchToken) return; // stale
+      renderResults(q, artRes.data || [], catRes.data || []);
+    } catch (e) {
+      if (my !== searchToken) return;
+      resultsEl.innerHTML = '<div class="k-sr-empty">Search failed. Please try again.</div>';
+    }
+  };
+
+  input.addEventListener('input', () => {
+    const q = input.value.trim();
+    clearTimeout(debounceTimer);
+    if (!q) { searchToken++; renderResults('', [], []); return; }
+    debounceTimer = setTimeout(() => runSearch(q), 180);
+  });
+
   // Hook the masthead trigger
   const trigger = document.getElementById('search-trigger');
   if (trigger) trigger.addEventListener('click', () => {
     o.classList.add('is-open');
     document.body.style.overflow = 'hidden';
-    setTimeout(() => o.querySelector('#k-search-input')?.focus(), 60);
+    setTimeout(() => input.focus(), 60);
   });
 }
 
@@ -979,133 +1080,6 @@ function mountMobileDrawer(activeSlug, cats) {
   });
 }
 
-/* ============================================================
-   LISTEN BUTTON — text-to-speech for breaking news headlines.
-   Uses the Web Speech API's SpeechSynthesis. Prefers an en-IN
-   ("English (India)") voice when one is installed locally, falls
-   back to en-GB → en-US → first English voice → default voice.
-   Toggles between Listen and Stop.
-   ============================================================ */
-function _getVoicesAsync() {
-  return new Promise((resolve) => {
-    if (!('speechSynthesis' in window)) return resolve([]);
-    const v = window.speechSynthesis.getVoices();
-    if (v && v.length) return resolve(v);
-    // Some browsers populate voices asynchronously
-    window.speechSynthesis.onvoiceschanged = () => resolve(window.speechSynthesis.getVoices());
-    setTimeout(() => resolve(window.speechSynthesis.getVoices() || []), 1200);
-  });
-}
-
-function _pickIndianVoice(voices) {
-  if (!voices || !voices.length) return null;
-  // Best — explicit en-IN
-  let v = voices.find(x => (x.lang || '').toLowerCase() === 'en-in');
-  if (v) return v;
-  // Common Indian English voice names across OSes
-  v = voices.find(x => /heera|ravi|veena|rishi|prabhat|aaditya|vikram|priya|isha|kalpana|neel/i.test(x.name || ''));
-  if (v) return v;
-  // en-GB tends to feel closer to Indian English than en-US
-  v = voices.find(x => (x.lang || '').toLowerCase() === 'en-gb');
-  if (v) return v;
-  v = voices.find(x => (x.lang || '').toLowerCase().startsWith('en'));
-  return v || voices[0];
-}
-
-let _listenUtter = null;
-let _listenPlaying = false;
-
-function _initListenBtn() {
-  const btn = document.getElementById('listen-btn');
-  if (!btn) return;
-
-  if (!('speechSynthesis' in window)) {
-    btn.disabled = true;
-    btn.title = 'Your browser does not support text-to-speech';
-    return;
-  }
-
-  const label = btn.querySelector('span');
-  const setLabel = (text) => { if (label) label.textContent = text; };
-
-  const stop = () => {
-    try { window.speechSynthesis.cancel(); } catch {}
-    _listenPlaying = false;
-    btn.classList.remove('is-playing');
-    setLabel('Listen');
-  };
-
-  btn.addEventListener('click', async () => {
-    if (_listenPlaying) { stop(); return; }
-
-    btn.classList.add('is-loading');
-    setLabel('Loading…');
-
-    let text = '';
-    try {
-      const since = new Date(Date.now() - 86_400_000).toISOString();
-      const { data } = await sb.from('articles')
-        .select('title,summary')
-        .eq('is_breaking', true)
-        .eq('status', 'published')
-        .gte('published_at', since)
-        .order('published_at', { ascending: false })
-        .limit(5);
-      const items = data || [];
-      if (items.length) {
-        const headlines = items.map((a, i) => `${i + 1}. ${a.title}.`).join(' ');
-        text = `Breaking news from Karostartup. ${headlines} For more, visit karostartup.com.`;
-      } else {
-        // Fallback: read the top 5 latest headlines
-        const { data: latest } = await sb.from('articles')
-          .select('title')
-          .eq('status', 'published')
-          .order('published_at', { ascending: false })
-          .limit(5);
-        const ll = latest || [];
-        if (ll.length) {
-          const headlines = ll.map((a, i) => `${i + 1}. ${a.title}.`).join(' ');
-          text = `Top stories on Karostartup right now. ${headlines}`;
-        } else {
-          text = `There are no breaking stories right now. Please check back later.`;
-        }
-      }
-    } catch (e) {
-      console.warn('[listen]', e?.message || e);
-      text = `Sorry, we couldn't load the latest headlines just now.`;
-    }
-
-    const voices = await _getVoicesAsync();
-    const voice = _pickIndianVoice(voices);
-
-    _listenUtter = new SpeechSynthesisUtterance(text);
-    if (voice) _listenUtter.voice = voice;
-    _listenUtter.lang = voice?.lang || 'en-IN';
-    _listenUtter.rate = 0.98;
-    _listenUtter.pitch = 1.0;
-    _listenUtter.volume = 1.0;
-    _listenUtter.onend   = () => { _listenPlaying = false; btn.classList.remove('is-playing'); setLabel('Listen'); };
-    _listenUtter.onerror = () => { _listenPlaying = false; btn.classList.remove('is-playing'); btn.classList.remove('is-loading'); setLabel('Listen'); };
-
-    btn.classList.remove('is-loading');
-    btn.classList.add('is-playing');
-    setLabel('Stop');
-    _listenPlaying = true;
-    try {
-      window.speechSynthesis.cancel(); // clear any pending queue
-      window.speechSynthesis.speak(_listenUtter);
-    } catch (e) {
-      console.warn('[listen]', e?.message || e);
-      stop();
-    }
-  });
-
-  // Stop playback on page hide
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden && _listenPlaying) stop();
-  });
-}
-
 async function mountChrome(activeSlug = '') {
   const slot = document.getElementById('chrome');
   if (!slot) return;
@@ -1129,8 +1103,6 @@ async function mountChrome(activeSlug = '') {
   mountSearchOverlay();
   // "More ▾" dropdown in desktop nav
   _wireNavMore();
-  // Listen-to-breaking-news TTS button
-  _initListenBtn();
 
   // Wire signout if signed in (read from session synchronously)
   const session = await getCurrentSession();

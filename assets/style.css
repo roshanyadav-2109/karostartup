@@ -326,19 +326,6 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 .masthead .search-btn:hover { color: var(--brand); }
 .masthead .search-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* Listen button — TTS reads breaking headlines aloud */
-.masthead .listen-btn.is-loading { color: var(--muted); }
-.masthead .listen-btn.is-playing {
-  color: var(--brand);
-}
-.masthead .listen-btn.is-playing svg {
-  animation: listen-pulse 1.1s ease-in-out infinite;
-}
-@keyframes listen-pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50%      { transform: scale(1.15); opacity: 0.65; }
-}
-
 /* ============================================================
    NAV
    ============================================================ */
@@ -4728,6 +4715,144 @@ a:hover .media-play { background: var(--brand); }
   background: var(--paper);
   border-radius: 3px;
 }
+.k-search-foot {
+  font-size: 0.78rem;
+  color: #8a8a8a;
+  margin: 14px 0 0;
+}
+
+/* Live search results */
+.k-search-results {
+  margin-top: 14px;
+  max-height: min(58vh, 520px);
+  overflow-y: auto;
+  border-top: 1px solid var(--hairline);
+  padding-top: 0;
+  opacity: 0;
+  max-block-size: 0;
+  transition: opacity 0.18s ease;
+}
+.k-search-results.has-results {
+  opacity: 1;
+  max-block-size: none;
+  padding-top: 12px;
+}
+.k-search-results mark {
+  background: #fff3a3;
+  color: inherit;
+  padding: 0 1px;
+}
+.k-sr-section { padding: 6px 0 4px; }
+.k-sr-section + .k-sr-section { border-top: 1px solid var(--hairline); margin-top: 6px; padding-top: 10px; }
+.k-sr-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a8a8a;
+  margin: 0 0 6px;
+}
+.k-sr-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  margin: 0 6px 6px 0;
+  border: 1px solid var(--hairline);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: 600;
+  background: var(--paper);
+  transition: background 0.12s ease;
+}
+.k-sr-cat:hover { background: #f3f3f5; }
+.k-sr-cat-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.k-sr-item {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 12px;
+  padding: 10px 8px;
+  margin: 0 -8px;
+  border-radius: 2px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background 0.12s ease;
+}
+.k-sr-item:hover { background: var(--paper); }
+.k-sr-thumb {
+  width: 72px;
+  height: 56px;
+  overflow: hidden;
+  background: #eaeaea;
+}
+.k-sr-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.k-sr-thumb-empty {
+  background: linear-gradient(135deg, #ececef 0%, #d9d9dd 100%);
+}
+.k-sr-body { min-width: 0; }
+.k-sr-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  color: #6a6a6a;
+  margin-bottom: 4px;
+}
+.k-sr-cat-tag {
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand);
+  font-weight: 600;
+}
+.k-sr-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.3;
+  color: var(--ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.k-sr-summary {
+  font-size: 0.82rem;
+  color: #5a5a5a;
+  line-height: 1.4;
+  margin-top: 3px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.k-sr-loading,
+.k-sr-empty {
+  padding: 14px 8px;
+  font-size: 0.88rem;
+  color: #6a6a6a;
+  text-align: center;
+}
+.k-sr-all {
+  display: block;
+  margin: 12px 0 0;
+  padding: 10px 8px;
+  border-top: 1px solid var(--hairline);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 700;
+}
+.k-sr-all:hover { background: var(--paper); }
 
 /* ============================================================
    FOOTER SOCIAL ICONS
@@ -4958,8 +5083,7 @@ a:hover .media-play { background: var(--brand); }
   .nav-mobile-btn { display: inline-flex; }
   .k-drawer-scrim { display: block; }
   .masthead-right .plus-link { display: none; }
-  .masthead .search-btn span,
-  .masthead .listen-btn span { display: none; }
+  .masthead .search-btn span { display: none; }
   .masthead .search-btn { padding: 10px; }
   .nav { display: none; }                  /* category bar hidden on mobile — drawer covers it */
   .nav-links { gap: 18px; }
