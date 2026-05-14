@@ -554,6 +554,7 @@ function renderFooter() {
             <li><a href="/plus.html">Plus membership</a></li>
             <li><a href="/newsletters.html">Newsletters</a></li>
             <li><a href="/podcasts.html">Podcasts</a></li>
+            <li><a href="/best-brands.html">Best Brands</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -616,6 +617,7 @@ function mountMobileDrawer(activeSlug, cats) {
     </nav>
     <div class="k-drawer-section">
       <h4>More</h4>
+      <a href="/best-brands.html" class="k-drawer-link sub">Best Brands</a>
       <a href="/podcasts.html" class="k-drawer-link sub">Podcasts</a>
       <a href="/newsletters.html" class="k-drawer-link sub">Newsletters</a>
       <a href="/plus.html" class="k-drawer-link sub">Karostartup Plus</a>

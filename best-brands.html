@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Best Brands · Karostartup</title>
+  <meta name="description" content="A curated directory of the Indian brands and startups Karostartup covers. Filter by sector, stage, or funding.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="chrome"></div>
+  <main>
+    <section class="bb-hero">
+      <div class="container">
+        <span class="kicker">Brand Directory</span>
+        <h1>India's brands worth watching.</h1>
+        <p class="bb-lede">A curated directory of the companies we cover — from bootstrapped quiet operators to late-stage unicorns. Filter by sector, stage, or funding.</p>
+        <div class="bb-stats">
+          <div class="bb-stat">
+            <strong id="bb-stat-count">—</strong>
+            <span>Brands listed</span>
+          </div>
+          <div class="bb-stat">
+            <strong id="bb-stat-funding">—</strong>
+            <span>Total funding tracked</span>
+          </div>
+          <div class="bb-stat">
+            <strong id="bb-stat-sectors">—</strong>
+            <span>Sectors</span>
+          </div>
+          <div class="bb-stat">
+            <strong id="bb-stat-cities">—</strong>
+            <span>HQ cities</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container bb-section">
+      <div class="bb-toolbar">
+        <div class="bb-search-wrap">
+          <input type="search" id="bb-search" placeholder="Search by name or sector…" aria-label="Search brands">
+        </div>
+        <select id="bb-sector" aria-label="Filter by sector">
+          <option value="">All sectors</option>
+        </select>
+        <select id="bb-stage" aria-label="Filter by stage">
+          <option value="">All stages</option>
+          <option value="idea">Idea</option>
+          <option value="seed">Seed</option>
+          <option value="series_a">Series A</option>
+          <option value="series_b">Series B</option>
+          <option value="series_c">Series C</option>
+          <option value="series_d_plus">Series D+</option>
+          <option value="late_stage">Late stage</option>
+          <option value="public">Public</option>
+          <option value="acquired">Acquired</option>
+        </select>
+        <select id="bb-sort" aria-label="Sort">
+          <option value="funding-desc">Most-funded first</option>
+          <option value="name-asc">A → Z</option>
+          <option value="name-desc">Z → A</option>
+          <option value="founded-desc">Newest first</option>
+          <option value="founded-asc">Oldest first</option>
+        </select>
+      </div>
+      <div class="bb-result-line" id="bb-result-line"></div>
+      <div class="bb-grid" id="bb-grid">
+        <div class="loading-state" style="grid-column:1/-1;">Loading the directory…</div>
+      </div>
+    </section>
+  </main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    mountChrome('').catch(() => {});
+    mountFooter();
+
+    let companies = [];
+    let filtered = [];
+    const els = {
+      search:  document.getElementById('bb-search'),
+      sector:  document.getElementById('bb-sector'),
+      stage:   document.getElementById('bb-stage'),
+      sort:    document.getElementById('bb-sort'),
+      grid:    document.getElementById('bb-grid'),
+      line:    document.getElementById('bb-result-line'),
+      statCount:   document.getElementById('bb-stat-count'),
+      statFunding: document.getElementById('bb-stat-funding'),
+      statSectors: document.getElementById('bb-stat-sectors'),
+      statCities:  document.getElementById('bb-stat-cities'),
+    };
+
+    function stageLabel(stage) {
+      if (!stage) return '—';
+      return stage.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function renderCard(c) {
+      const initial = (c.name || '?').charAt(0).toUpperCase();
+      const logoHtml = c.logo_url
+        ? `<img src="${escapeAttr(c.logo_url)}" alt="${escapeAttr(c.name)}" class="bb-logo-img">`
+        : `<span class="bb-logo-init">${escapeHtml(initial)}</span>`;
+      const description = c.description
+        ? escapeHtml(c.description.slice(0, 140)) + (c.description.length > 140 ? '…' : '')
+        : '<span style="color:#9a9a9a;">No description yet.</span>';
+      const hq = [c.headquarters_city, c.headquarters_state].filter(Boolean).join(', ');
+      return `
+        <a href="/company/view.html?slug=${encodeURIComponent(c.slug)}" class="bb-card">
+          <div class="bb-card-head">
+            <div class="bb-logo">${logoHtml}</div>
+            <div class="bb-card-head-text">
+              <h3 class="bb-name">${escapeHtml(c.name)}</h3>
+              ${c.sector ? `<span class="bb-sector-pill">${escapeHtml(c.sector)}</span>` : ''}
+            </div>
+          </div>
+          <p class="bb-desc">${description}</p>
+          <div class="bb-meta">
+            <div class="bb-meta-row">
+              ${hq ? `<span class="bb-meta-item">${ICON.pin}<span>${escapeHtml(hq)}</span></span>` : ''}
+              ${c.founded_year ? `<span class="bb-meta-item mono">Est. ${c.founded_year}</span>` : ''}
+            </div>
+            <div class="bb-meta-row bb-meta-foot">
+              ${c.total_funding_usd ? `<span class="bb-funding mono">${formatUSD(c.total_funding_usd)} raised</span>` : '<span class="bb-funding-empty">Funding undisclosed</span>'}
+              ${c.stage ? `<span class="bb-stage-pill stage-${c.stage}">${escapeHtml(stageLabel(c.stage))}</span>` : ''}
+            </div>
+          </div>
+        </a>`;
+    }
+
+    function applyFilters() {
+      const q = els.search.value.trim().toLowerCase();
+      const sector = els.sector.value;
+      const stage = els.stage.value;
+      const sort = els.sort.value;
+
+      filtered = companies.filter(c => {
+        if (sector && c.sector !== sector) return false;
+        if (stage && c.stage !== stage) return false;
+        if (q) {
+          const hay = (c.name + ' ' + (c.sector || '') + ' ' + (c.description || '')).toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      filtered.sort((a, b) => {
+        switch (sort) {
+          case 'name-asc':     return (a.name || '').localeCompare(b.name || '');
+          case 'name-desc':    return (b.name || '').localeCompare(a.name || '');
+          case 'founded-desc': return (b.founded_year || 0) - (a.founded_year || 0);
+          case 'founded-asc':  return (a.founded_year || 9999) - (b.founded_year || 9999);
+          case 'funding-desc':
+          default:             return (b.total_funding_usd || 0) - (a.total_funding_usd || 0);
+        }
+      });
+
+      // Result line
+      const total = companies.length;
+      const visible = filtered.length;
+      els.line.innerHTML = (visible === total)
+        ? `Showing all <strong>${total}</strong> brands`
+        : `<strong>${visible}</strong> of ${total} brands match`;
+
+      // Grid
+      if (!visible) {
+        els.grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><h3>No brands match these filters</h3><p>Try clearing one — or <a href="#" id="bb-clear" style="color:#d10a11;font-weight:600;">reset all filters</a>.</p></div>`;
+        const clear = document.getElementById('bb-clear');
+        if (clear) clear.addEventListener('click', (e) => {
+          e.preventDefault();
+          els.search.value = ''; els.sector.value = ''; els.stage.value = ''; els.sort.value = 'funding-desc';
+          applyFilters();
+        });
+        return;
+      }
+      els.grid.innerHTML = filtered.map(renderCard).join('');
+    }
+
+    try {
+      const { data } = await sb.from('companies')
+        .select('id,slug,name,logo_url,description,sector,stage,headquarters_city,headquarters_state,founded_year,total_funding_usd,last_valuation_usd')
+        .order('total_funding_usd', { ascending: false, nullsFirst: false });
+      companies = data || [];
+
+      if (!companies.length) {
+        els.grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><h3>No brands listed yet</h3><p>The editorial team is curating the first batch.</p></div>';
+        return;
+      }
+
+      // Populate sector filter from distinct values
+      const sectors = [...new Set(companies.map(c => c.sector).filter(Boolean))].sort();
+      sectors.forEach(s => els.sector.innerHTML += `<option value="${escapeAttr(s)}">${escapeHtml(s)}</option>`);
+
+      // Stats band
+      els.statCount.textContent = companies.length.toLocaleString('en-IN');
+      const totalFunding = companies.reduce((sum, c) => sum + (Number(c.total_funding_usd) || 0), 0);
+      els.statFunding.textContent = totalFunding ? formatUSD(totalFunding) : '—';
+      els.statSectors.textContent = sectors.length;
+      const cities = new Set(companies.map(c => c.headquarters_city).filter(Boolean));
+      els.statCities.textContent = cities.size;
+
+      // Wire filters with debounced search
+      let searchTimer;
+      els.search.addEventListener('input', () => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(applyFilters, 180);
+      });
+      els.sector.addEventListener('change', applyFilters);
+      els.stage.addEventListener('change', applyFilters);
+      els.sort.addEventListener('change', applyFilters);
+
+      // Pre-select sector/stage from query string if present
+      const params = new URLSearchParams(location.search);
+      if (params.get('sector')) els.sector.value = params.get('sector');
+      if (params.get('stage'))  els.stage.value  = params.get('stage');
+
+      applyFilters();
+    } catch (e) {
+      els.grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><h3>Couldn't load directory</h3><p>${escapeHtml(e.message)}</p></div>`;
+    }
+  })();
+  </script>
+</body>
+</html>
