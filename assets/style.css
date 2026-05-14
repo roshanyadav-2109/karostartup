@@ -375,8 +375,138 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   display: none;
   background: none;
   border: 0;
-  padding: 8px;
-  font-size: 1.2rem;
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+}
+.nav-mobile-btn span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--ink);
+  border-radius: 1px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.nav-mobile-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-mobile-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-mobile-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ============================================================
+   MOBILE DRAWER
+   Slide-in panel from the left, full-height. Triggered by the
+   hamburger on mobile. Hidden on desktop entirely.
+   ============================================================ */
+.k-drawer-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.5);
+  z-index: 9500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  display: none;
+}
+.k-drawer-scrim.is-open { opacity: 1; pointer-events: auto; }
+.k-drawer {
+  position: fixed;
+  top: 0; left: 0;
+  width: min(82vw, 320px);
+  height: 100%;
+  background: #fff;
+  z-index: 9600;
+  transform: translateX(-100%);
+  transition: transform 0.28s cubic-bezier(.2,.8,.2,1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 32px rgba(0, 0, 0, 0.18);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.k-drawer.is-open { transform: translateX(0); }
+.k-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--hairline);
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+}
+.k-drawer-logo {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--ink);
+}
+.k-drawer-logo .dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  background: var(--brand);
+  border-radius: 50%;
+  margin-left: 3px;
+  transform: translateY(-2px);
+}
+.k-drawer-close {
+  width: 44px; height: 44px;
+  background: none;
+  border: 0;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+}
+.k-drawer-close:hover { color: var(--ink); }
+.k-drawer-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.k-drawer-section {
+  padding: 16px 0 8px;
+  border-bottom: 1px solid var(--hairline);
+}
+.k-drawer-section:last-child { border-bottom: 0; }
+.k-drawer-section h4 {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 18px;
+  margin: 0 0 8px 0;
+}
+.k-drawer-promote { padding: 16px 18px; }
+.k-drawer-link {
+  display: block;
+  padding: 12px 18px;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--ink);
+  border-left: 3px solid transparent;
+  transition: background 0.1s ease, color 0.1s ease;
+}
+.k-drawer-link.sub {
+  font-size: 0.94rem;
+  font-weight: 500;
+  padding: 10px 18px;
+}
+.k-drawer-link:hover, .k-drawer-link:focus-visible {
+  background: var(--paper);
+  color: var(--brand);
+}
+.k-drawer-link.is-active {
+  color: var(--brand);
+  border-left-color: var(--brand);
 }
 
 /* ============================================================
@@ -949,11 +1079,15 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   .eminent-grid { grid-template-columns: repeat(3, 1fr); gap: 56px 32px; }
 }
 @media (max-width: 768px) {
-  .eminent-section { padding: 56px 0 64px; }
-  .eminent-grid { grid-template-columns: repeat(2, 1fr); gap: 48px 24px; }
-  .em-socials { right: -14px; }
+  .eminent-section { padding: 48px 0 56px; }
+  .eminent-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
+  .em-socials { right: -12px; bottom: 8px; gap: 5px; }
   .em-social { width: 32px; height: 32px; }
   .em-social svg { width: 14px; height: 14px; }
+  .em-info { padding: 12px 14px; }
+  .em-name { font-size: 1.04rem; }
+  .em-role { font-size: 0.74rem; }
+  .eminent-section .section-header { margin-bottom: 32px; }
 }
 
 /* ============================================================
@@ -3253,6 +3387,10 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 }
 .access-denied p { color: var(--muted); margin: 0 0 24px 0; }
 
+/* Mobile-only sticky share rail (rules inside the 768px breakpoint below
+   override this). On desktop it stays hidden. */
+.mobile-share-rail { display: none; }
+
 /* ============================================================
    COOKIE CONSENT BANNER
    Sticky bottom strip, full viewport width, ink-black bg with a
@@ -3390,10 +3528,16 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 @media (max-width: 768px) {
   :root { --gap: 20px; --gutter: 16px; }
   .utility-bar .quick-chips { display: none; }
-  .masthead { padding: 14px 0; }
+  .masthead { padding: 12px 0; }
   .masthead .container { grid-template-columns: auto 1fr auto; }
-  .masthead-left { display: none; }
+  /* On mobile the masthead-left collapses to JUST the hamburger button. */
+  .masthead-left .masthead-link { display: none; }
+  .nav-mobile-btn { display: inline-flex; }
+  .k-drawer-scrim { display: block; }
   .masthead-right .plus-link { display: none; }
+  .masthead .search-btn span { display: none; }
+  .masthead .search-btn { padding: 10px; }
+  .nav { display: none; }                  /* category bar hidden on mobile — drawer covers it */
   .nav-links { gap: 18px; }
   .top-strip { grid-template-columns: 1fr; }
   .sector-grid { grid-template-columns: 1fr; }
@@ -3416,11 +3560,95 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   .auth-brand { padding: 32px 24px; }
   .auth-form-pane { padding: 32px 24px; }
   .form-row { grid-template-columns: 1fr; }
-  .article-body { padding: 0 16px; font-size: 1.05rem; }
-  .article-title { font-size: 2rem !important; }
+  .article-body {
+    padding: 0 18px;
+    font-size: 1.12rem;      /* bigger for comfortable thumb reading */
+    line-height: 1.72;
+  }
+  .article-body p { margin-bottom: 1.3em; }
+  .article-body h2 { font-size: 1.5rem; margin-top: 1.6em; }
+  .article-body h3 { font-size: 1.22rem; margin-top: 1.4em; }
+  .article-body .blockquote-pull,
+  .article-body blockquote { font-size: 1.15rem; padding-left: 16px; margin: 1.3em 0; }
+  .article-title { font-size: 2rem !important; line-height: 1.08 !important; }
+  .article-hero { padding: 28px 0 22px 0; }
+  .article-hero .container { padding: 0 18px; }
+  .article-subtitle { font-size: 1.06rem !important; line-height: 1.4 !important; }
   .article-body .dropcap::first-letter,
-  .article-body > p:first-of-type::first-letter { font-size: 3.4em; padding: 4px 8px 0 0; }
+  .article-body > p:first-of-type::first-letter {
+    font-size: 3em;
+    padding: 4px 8px 0 0;
+  }
+  .cover-img-wrap { padding: 0; margin-bottom: 22px; }
+  .cover-img-wrap img { aspect-ratio: 4 / 3; }   /* slightly taller cover on mobile reads better */
+  .cover-caption { padding: 0 18px; }
+  .byline-row { padding: 16px 0; gap: 12px; flex-wrap: wrap; }
+  .byline-info { width: 100%; order: 2; }
+  .byline-avatar { width: 36px; height: 36px; }
+  .byline-actions { width: 100%; order: 3; justify-content: flex-start; gap: 6px; }
+  .icon-btn { width: 40px; height: 40px; }   /* meets the 40-44px touch target */
+  /* Sticky bottom share rail on mobile articles — always thumb-reachable. */
+  body[data-page="article"] .byline-actions { /* fallback if rail absent */ }
+  .mobile-share-rail {
+    display: flex;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: #fff;
+    border-top: 1px solid var(--hairline);
+    padding: 8px 12px max(env(safe-area-inset-bottom, 8px), 8px) 12px;
+    gap: 6px;
+    z-index: 70;
+    justify-content: space-around;
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.04);
+  }
+  .mobile-share-rail .icon-btn {
+    width: 44px; height: 44px;
+    border: 0;
+    color: var(--ink);
+  }
+  .mobile-share-rail .icon-btn:hover,
+  .mobile-share-rail .icon-btn.active { color: var(--brand); }
+  /* leave room at the bottom of the article so the rail doesn't cover content */
+  body[data-page="article"] { padding-bottom: 64px; }
   .contact-tabs .contact-tab { padding: 8px 12px; font-size: 0.8rem; }
   .toast { min-width: 240px; }
   .toast-container { left: 16px; right: 16px; }
+  /* Auth-wall modal — nearly full-screen on phones so the CTAs are huge */
+  .authwall-modal { padding: 0; }
+  .authwall-card {
+    border-top: 0;
+    border-radius: 0;
+    padding: 64px 24px 40px;
+    max-width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .authwall-actions .btn { padding: 16px 18px; font-size: 1rem; }
+  .authwall-close { top: 16px; right: 16px; width: 44px; height: 44px; font-size: 2rem; }
+  /* Inline read-full CTA — tighter spacing for small screens */
+  .authwall-inline { padding: 22px 16px 40px; }
+  .authwall-inline-lede { font-size: 1.32rem; }
+  .authwall-inline .btn { width: 100%; max-width: 360px; padding: 16px 20px; }
+  /* Buttons everywhere — bigger thumb targets on mobile */
+  .btn { padding: 13px 20px; font-size: 0.94rem; }
+  .btn-lg { padding: 16px 24px; font-size: 1rem; }
+  .btn-sm { padding: 10px 14px; font-size: 0.84rem; }
+  /* Hero headline punchier on tiny screens */
+  .hero-lead .title { font-size: clamp(1.8rem, 7vw, 2.4rem); }
+  /* Comments form bigger tap target */
+  .comment-form textarea { font-size: 1rem; min-height: 120px; }
+  /* Newsletter form vertical stack on phones */
+  .newsletter-form { flex-direction: column; border-width: 1px; }
+  .newsletter-form input[type=email] { border-bottom: 1px solid var(--hairline); }
+  .newsletter-form button { padding: 14px; }
+  .cat-sub-form { flex-direction: column; }
+  .cat-sub-form button { padding: 14px; }
+  /* Section paddings tighter on mobile */
+  .section { padding: 32px 0; }
+  /* Cookie banner already stacks; bump touch target */
+  .cookie-banner .cookie-actions .btn { padding: 13px 16px; min-height: 44px; }
+  /* Avoid horizontal overflow */
+  body { overflow-x: hidden; }
 }

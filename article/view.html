@@ -42,6 +42,7 @@
     return cut + (words.length > 55 ? '…' : '');
   }
   (async () => {
+    document.body.dataset.page = 'article';
     const params = new URLSearchParams(location.search);
     const slug = params.get('slug');
     if (!slug) { document.title = 'Not found · Karostartup'; await mountChrome(''); mountFooter(); document.getElementById('article-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Article not found</h3><p>The link you followed is missing a slug.</p><a href="/" class="btn btn-primary">Go home</a></div>'; return; }
@@ -69,8 +70,17 @@
     document.title = `${article.title} · Karostartup`;
     document.querySelector('meta[name=description]').content = article.summary || article.subtitle || '';
 
-    // Fire view counter (don't await)
-    sb.rpc('increment_article_views', { article_uuid: article.id }).then(() => {}).catch(() => {});
+    // Fire view counter. Increment the displayed value optimistically so
+    // the reader sees their view counted immediately.
+    article.view_count = (article.view_count || 0) + 1;
+    sb.rpc('increment_article_views', { article_uuid: article.id })
+      .then(({ error }) => {
+        if (error) {
+          // Surface in console only — don't bother the reader.
+          console.warn('view counter RPC missing:', error.message);
+        }
+      })
+      .catch(() => {});
 
     const user = await getCurrentUser();
     const profile = user ? await getCurrentProfile() : null;
@@ -202,6 +212,31 @@
     const printBtn = document.getElementById('print-btn');
     if (printBtn) printBtn.addEventListener('click', () => { document.body.dataset.url = location.href; window.print(); });
 
+    // Mobile sticky share rail — always thumb-reachable while reading.
+    const rail = document.createElement('div');
+    rail.className = 'mobile-share-rail';
+    rail.innerHTML = `
+      <button class="icon-btn" data-share="twitter" aria-label="Share on X">${ICON.twitter}</button>
+      <button class="icon-btn" data-share="linkedin" aria-label="Share on LinkedIn">${ICON.linkedin}</button>
+      <button class="icon-btn" data-share="whatsapp" aria-label="Share on WhatsApp">${ICON.whatsapp}</button>
+      <button class="icon-btn" data-share="copy" aria-label="Copy link">${ICON.copy}</button>
+      <button class="icon-btn" id="rail-bookmark-btn" aria-label="Bookmark">${ICON.bookmark}</button>
+    `;
+    document.body.appendChild(rail);
+    rail.querySelectorAll('[data-share]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const url = encodeURIComponent(location.href);
+        const title = encodeURIComponent(article.title);
+        const kind = btn.dataset.share;
+        if (kind === 'twitter') window.open(`https://twitter.com/intent/tweet?text=${title}&url=${url}`, '_blank');
+        else if (kind === 'linkedin') window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+        else if (kind === 'whatsapp') window.open(`https://api.whatsapp.com/send?text=${title}%20${url}`, '_blank');
+        else if (kind === 'copy') navigator.clipboard.writeText(location.href).then(() => showToast('Link copied'));
+      });
+    });
+    // Mirror bookmark state into the rail
+    const railBookmarkBtn = document.getElementById('rail-bookmark-btn');
+
     // Share buttons
     main.querySelectorAll('[data-share]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -217,13 +252,17 @@
       });
     });
 
-    // Bookmark
+    // Bookmark — keep both the byline button and the mobile rail button in sync
     const bookmarkBtn = document.getElementById('bookmark-btn');
     let bookmarked = false;
     const setBookmarkUI = (on) => {
-      bookmarkBtn.innerHTML = on ? ICON.bookmarkFill : ICON.bookmark;
-      bookmarkBtn.classList.toggle('active', on);
+      const icon = on ? ICON.bookmarkFill : ICON.bookmark;
+      if (bookmarkBtn) { bookmarkBtn.innerHTML = icon; bookmarkBtn.classList.toggle('active', on); }
+      if (railBookmarkBtn) { railBookmarkBtn.innerHTML = icon; railBookmarkBtn.classList.toggle('active', on); }
     };
+    if (railBookmarkBtn) {
+      railBookmarkBtn.addEventListener('click', () => bookmarkBtn?.click());
+    }
     if (user) {
       try {
         const { data } = await sb.from('bookmarks').select('user_id').eq('user_id', user.id).eq('article_id', article.id).maybeSingle();

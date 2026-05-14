@@ -495,9 +495,12 @@ function renderMasthead() {
   <div class="masthead">
     <div class="container">
       <div class="masthead-left">
-        <a href="/about.html">About</a>
-        <a href="/newsletters.html">Newsletters</a>
-        <a href="/contact.html">Contact</a>
+        <button class="nav-mobile-btn" id="nav-burger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <a href="/about.html" class="masthead-link">About</a>
+        <a href="/newsletters.html" class="masthead-link">Newsletters</a>
+        <a href="/contact.html" class="masthead-link">Contact</a>
       </div>
       <a href="/" class="logo">Karostartup<span class="dot"></span></a>
       <div class="masthead-right">
@@ -586,6 +589,96 @@ function renderFooter() {
   </footer>`;
 }
 
+/* ============================================================
+   MOBILE DRAWER — slide-in panel triggered by the hamburger.
+   Builds once per page load. Refreshes its category list when
+   the chrome cache updates.
+   ============================================================ */
+function mountMobileDrawer(activeSlug, cats) {
+  // Remove any prior drawer (mountChrome can be re-run).
+  document.querySelectorAll('.k-drawer, .k-drawer-scrim').forEach(el => el.remove());
+
+  const scrim = document.createElement('div');
+  scrim.className = 'k-drawer-scrim';
+
+  const drawer = document.createElement('aside');
+  drawer.className = 'k-drawer';
+  drawer.setAttribute('aria-label', 'Site menu');
+  drawer.setAttribute('aria-hidden', 'true');
+  drawer.innerHTML = `
+    <div class="k-drawer-head">
+      <a href="/" class="k-drawer-logo">Karostartup<span class="dot"></span></a>
+      <button class="k-drawer-close" id="k-drawer-close" aria-label="Close menu">×</button>
+    </div>
+    <nav class="k-drawer-nav">
+      <a href="/" class="k-drawer-link ${activeSlug === '' ? 'is-active' : ''}">Home</a>
+      ${(cats || []).map(c => `<a href="/category/view.html?slug=${encodeURIComponent(c.slug)}" class="k-drawer-link ${c.slug === activeSlug ? 'is-active' : ''}">${escapeHtml(c.name)}</a>`).join('')}
+    </nav>
+    <div class="k-drawer-section">
+      <h4>More</h4>
+      <a href="/podcasts.html" class="k-drawer-link sub">Podcasts</a>
+      <a href="/newsletters.html" class="k-drawer-link sub">Newsletters</a>
+      <a href="/plus.html" class="k-drawer-link sub">Karostartup Plus</a>
+      <a href="/about.html" class="k-drawer-link sub">About</a>
+      <a href="/contact.html" class="k-drawer-link sub">Contact</a>
+    </div>
+    <div class="k-drawer-section k-drawer-promote">
+      <a href="/contact.html?type=promotion" class="btn btn-red btn-sm" style="width:100%;justify-content:center;">Promote your startup</a>
+    </div>
+    <div class="k-drawer-section" id="k-drawer-auth"></div>`;
+
+  document.body.appendChild(scrim);
+  document.body.appendChild(drawer);
+
+  const open = () => {
+    drawer.classList.add('is-open');
+    scrim.classList.add('is-open');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    const burger = document.getElementById('nav-burger');
+    if (burger) burger.setAttribute('aria-expanded', 'true');
+  };
+  const close = () => {
+    drawer.classList.remove('is-open');
+    scrim.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    const burger = document.getElementById('nav-burger');
+    if (burger) burger.setAttribute('aria-expanded', 'false');
+  };
+
+  const burger = document.getElementById('nav-burger');
+  if (burger) burger.addEventListener('click', open);
+  scrim.addEventListener('click', close);
+  document.getElementById('k-drawer-close').addEventListener('click', close);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('is-open')) close();
+  });
+
+  // Auth swap inside drawer
+  getCurrentSession().then((session) => {
+    const slot = document.getElementById('k-drawer-auth');
+    if (!slot) return;
+    if (session?.user) {
+      const profile = _cacheGet('profile:' + session.user.id, 120);
+      const staffLink = profile && ['author', 'editor', 'admin'].includes(profile.role)
+        ? `<a href="/admin/" class="k-drawer-link sub">Admin dashboard</a>` : '';
+      slot.innerHTML = `
+        <h4>Account</h4>
+        ${staffLink}
+        <a href="/profile.html" class="k-drawer-link sub">Your profile</a>
+        <a href="#" class="k-drawer-link sub" id="k-drawer-signout">Sign out</a>`;
+      const so = document.getElementById('k-drawer-signout');
+      if (so) so.addEventListener('click', (e) => { e.preventDefault(); signOut(); });
+    } else {
+      slot.innerHTML = `
+        <h4>Account</h4>
+        <a href="/auth/signin.html" class="k-drawer-link sub">Sign in</a>
+        <a href="/auth/signup.html" class="k-drawer-link sub">Create an account</a>`;
+    }
+  });
+}
+
 async function mountChrome(activeSlug = '') {
   const slot = document.getElementById('chrome');
   if (!slot) return;
@@ -602,6 +695,9 @@ async function mountChrome(activeSlug = '') {
     (cachedBreaking ? renderBreakingFromData(cachedBreaking) : '') +
     renderMasthead() +
     renderNavFromData(cachedCats || [], activeSlug);
+
+  // Hamburger drawer (mobile)
+  mountMobileDrawer(activeSlug, cachedCats || []);
 
   // Wire signout if signed in (read from session synchronously)
   const session = await getCurrentSession();
