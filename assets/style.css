@@ -5442,20 +5442,33 @@ a:hover .media-play { background: var(--brand); }
   .top-strip { grid-template-columns: 1fr; }
   .latest-news-grid { grid-template-columns: 1fr; gap: 18px; }
 
-  /* ===== CNN-style mobile hero — title overlaid on lead image ===== */
-  .hero-lead-v2 > a { display: block; position: relative; }
-  .hero-lead-img {
-    aspect-ratio: 4 / 5;        /* taller, vertical-friendly canvas */
-    margin-bottom: 0;
+  /* ===== CNN-style mobile hero — title overlaid on lead image =====
+     The <a> is the positioning context. The image fills the entire <a>;
+     kicker, title, and meta are ALL absolutely positioned inside it, so
+     the <a> never grows taller than the picture and the overlay text
+     never spills below the image. */
+  .hero-lead-v2 > a {
+    display: block;
     position: relative;
+    aspect-ratio: 4 / 5;
     overflow: hidden;
   }
+  .hero-lead-img {
+    margin-bottom: 0;
+    position: absolute;
+    inset: 0;
+  }
   .hero-lead-img img { width: 100%; height: 100%; object-fit: cover; }
+  /* Dark fade from bottom — guarantees overlay text is readable */
   .hero-lead-img::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.45) 40%, rgba(0,0,0,0) 70%);
+    background: linear-gradient(to top,
+      rgba(0,0,0,0.85) 0%,
+      rgba(0,0,0,0.55) 35%,
+      rgba(0,0,0,0.2)  60%,
+      rgba(0,0,0,0)    80%);
     pointer-events: none;
   }
   .hero-lead-kicker {
@@ -5470,30 +5483,42 @@ a:hover .media-play { background: var(--brand); }
     text-transform: uppercase;
     font-weight: 700;
     border-radius: 3px;
-    z-index: 2;
+    z-index: 3;
   }
   .hero-lead-title {
     position: absolute;
-    left: 14px; right: 14px; bottom: 14px;
+    left: 16px; right: 16px;
+    bottom: 56px;                 /* leaves room for meta line below */
     color: #fff !important;
     font-size: 1.4rem !important;
-    line-height: 1.15 !important;
+    line-height: 1.18 !important;
     font-weight: 800;
     margin: 0;
-    z-index: 2;
+    z-index: 3;
     text-shadow: 0 1px 12px rgba(0,0,0,0.35);
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     word-break: break-word;
   }
-  .hero-lead-dek { display: none; }     /* dek hidden on phone for cleaner CNN-style overlay */
+  .hero-lead-dek { display: none; }
   .hero-lead-meta {
-    padding: 10px 4px 4px;
-    border-bottom: 1px solid var(--hairline);
+    position: absolute;
+    left: 16px; right: 16px;
+    bottom: 16px;
+    z-index: 3;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.85) !important;
     font-size: 0.74rem;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.4);
   }
+  .hero-lead-meta strong,
+  .hero-lead-meta time,
+  .hero-lead-meta span { color: inherit !important; }
+  .hero-lead-meta .meta-dot { background: rgba(255, 255, 255, 0.55) !important; }
 
   /* Top Stories and Editor's Picks on mobile — tighter, no big inner padding */
   .hero-top-stories { padding: 14px 14px; }
