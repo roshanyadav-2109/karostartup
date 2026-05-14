@@ -11,6 +11,7 @@ async function renderAdminShell(activeKey, breadcrumb) {
   const navItems = [
     { key: 'dashboard', label: 'Dashboard', href: '/admin/' },
     { key: 'articles', label: 'Articles', href: '/admin/articles.html' },
+    { key: 'categories', label: 'Categories', href: '/admin/categories.html' },
     { key: 'companies', label: 'Companies', href: '/admin/companies.html' },
     { key: 'funding', label: 'Funding', href: '/admin/funding.html' },
     { key: 'tickers', label: 'Tickers', href: '/admin/tickers.html' },

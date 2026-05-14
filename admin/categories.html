@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Categories · Admin · Karostartup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div id="admin-root"><div class="loading-state">Loading…</div></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script src="/admin/shell.js"></script>
+  <script>
+  (async () => {
+    const ok = await requireStaff();
+    if (!ok) return;
+    await renderAdminShell('categories', 'Categories');
+
+    const main = document.getElementById('admin-content');
+    main.innerHTML = `
+      <h1>Categories</h1>
+      <p style="color:#5a5a5a;font-size:0.9rem;margin-bottom:18px;max-width:680px;">
+        Categories drive the section nav and the per-section pages. The <strong>Order</strong>
+        column controls where each category appears in the nav — lowest first. Anything that
+        doesn't fit in the row at runtime overflows into the "More ▾" dropdown.
+      </p>
+
+      <div class="admin-card">
+        <div class="admin-card-head"><h3>Add a category</h3></div>
+        <form id="new-form">
+          <div class="form-row">
+            <div class="form-field"><label>Name *</label><input type="text" name="name" required placeholder="e.g. Crypto"></div>
+            <div class="form-field"><label>Slug *</label><input type="text" name="slug" required placeholder="e.g. crypto"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-field"><label>Color (hex, optional)</label><input type="text" name="color" placeholder="#d10a11" maxlength="7"></div>
+            <div class="form-field"><label>Order *</label><input type="number" name="order_index" required value="0" style="max-width:160px;"></div>
+          </div>
+          <div class="form-field"><label>Description (optional)</label><textarea name="description" rows="2" placeholder="A short summary of what this section covers"></textarea></div>
+          <button type="submit" class="btn btn-primary">Add category</button>
+        </form>
+      </div>
+
+      <div class="admin-card" style="padding:0;">
+        <div class="admin-card-head" style="padding:18px 22px;margin-bottom:0;">
+          <h3>All categories · drag-edit order to re-sequence</h3>
+          <span style="font-family:var(--font-mono);font-size:0.78rem;color:#5a5a5a;" id="cat-count">—</span>
+        </div>
+        <div id="cat-table"><div class="loading-state">Loading…</div></div>
+      </div>
+    `;
+
+    // Auto-slug on name input in the new form
+    const newForm = document.getElementById('new-form');
+    let slugTouched = false;
+    newForm.slug.addEventListener('input', () => { slugTouched = true; });
+    newForm.name.addEventListener('input', () => {
+      if (!slugTouched) newForm.slug.value = slugify(newForm.name.value);
+    });
+
+    newForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(newForm);
+      const payload = {
+        name: fd.get('name').trim(),
+        slug: (fd.get('slug') || slugify(fd.get('name'))).trim(),
+        color: fd.get('color')?.trim() || null,
+        order_index: Number(fd.get('order_index') || 0),
+        description: fd.get('description')?.trim() || null,
+      };
+      try {
+        const { error } = await sb.from('categories').insert(payload);
+        if (error) throw error;
+        showToast('Category added');
+        newForm.reset();
+        slugTouched = false;
+        load();
+      } catch (err) { showToast(err.message || 'Could not add', 'error'); }
+    });
+
+    async function load() {
+      const slot = document.getElementById('cat-table');
+      slot.innerHTML = '<div class="loading-state">Loading…</div>';
+      try {
+        const { data } = await sb.from('categories')
+          .select('id,slug,name,description,color,order_index')
+          .order('order_index', { ascending: true });
+        document.getElementById('cat-count').textContent = data ? `${data.length} categories` : '';
+        if (!data || !data.length) {
+          slot.innerHTML = '<div class="empty-state"><p>No categories yet.</p></div>';
+          return;
+        }
+        slot.innerHTML = `
+          <table class="admin-table">
+            <thead><tr>
+              <th style="width:80px;">Order</th>
+              <th style="width:24px;"></th>
+              <th>Name</th>
+              <th>Slug</th>
+              <th>Description</th>
+              <th style="width:160px;">Color (hex)</th>
+              <th style="width:160px;"></th>
+            </tr></thead>
+            <tbody>${data.map(c => `<tr data-id="${c.id}">
+              <td>
+                <input type="number" data-field="order_index" value="${c.order_index || 0}"
+                       style="width:64px;padding:6px;border:1px solid #e6e6e6;font-family:var(--font-mono);font-weight:700;">
+              </td>
+              <td>
+                <span class="cat-swatch" style="display:inline-block;width:14px;height:14px;background:${escapeAttr(c.color || '#0a0a0a')};border:1px solid #0a0a0a;"></span>
+              </td>
+              <td><input type="text" data-field="name" value="${escapeAttr(c.name)}" style="border:1px solid #e6e6e6;padding:6px 8px;min-width:140px;"></td>
+              <td><input type="text" data-field="slug" value="${escapeAttr(c.slug)}" class="mono" style="border:1px solid #e6e6e6;padding:6px 8px;font-family:var(--font-mono);font-size:0.86rem;min-width:120px;"></td>
+              <td><input type="text" data-field="description" value="${escapeAttr(c.description || '')}" style="border:1px solid #e6e6e6;padding:6px 8px;width:100%;"></td>
+              <td><input type="text" data-field="color" value="${escapeAttr(c.color || '')}" placeholder="#d10a11" maxlength="7"
+                         style="border:1px solid #e6e6e6;padding:6px 8px;font-family:var(--font-mono);font-size:0.84rem;width:110px;"></td>
+              <td>
+                <div class="row-actions">
+                  <button data-save="${c.id}" style="color:#0a7a3b;background:none;border:0;cursor:pointer;font-weight:600;">Save</button>
+                  <button class="danger" data-del="${c.id}" style="background:none;border:0;color:#d10a11;cursor:pointer;font-weight:600;">Delete</button>
+                </div>
+              </td>
+            </tr>`).join('')}</tbody>
+          </table>
+          <p style="padding:14px 22px;font-size:0.78rem;color:#5a5a5a;">
+            Tip: re-number the <strong>Order</strong> column (lowest = leftmost in nav) and click <strong>Save</strong>.
+            New categories appear in the public nav after a hard refresh (or up to 5 min if the chrome cache is warm).
+          </p>
+        `;
+
+        document.querySelectorAll('[data-save]').forEach(b => b.addEventListener('click', async () => {
+          const row = b.closest('tr');
+          const id = b.dataset.save;
+          const payload = {};
+          row.querySelectorAll('[data-field]').forEach(inp => {
+            let v = inp.value;
+            if (inp.dataset.field === 'order_index') v = Number(v) || 0;
+            else if (inp.dataset.field === 'color' && !v.trim()) v = null;
+            else v = String(v).trim();
+            payload[inp.dataset.field] = v;
+          });
+          try {
+            const { error } = await sb.from('categories').update(payload).eq('id', id);
+            if (error) throw error;
+            showToast('Saved');
+            load();
+          } catch (err) { showToast(err.message || 'Save failed', 'error'); }
+        }));
+
+        document.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
+          if (!confirm('Delete this category? Articles assigned to it will be orphaned (category_id set to NULL).')) return;
+          try {
+            const { error } = await sb.from('categories').delete().eq('id', b.dataset.del);
+            if (error) throw error;
+            showToast('Deleted');
+            load();
+          } catch (err) { showToast(err.message || 'Delete failed', 'error'); }
+        }));
+      } catch (e) {
+        slot.innerHTML = `<div class="empty-state"><p>${escapeHtml(e.message)}</p></div>`;
+      }
+    }
+    load();
+  })();
+  </script>
+</body>
+</html>
