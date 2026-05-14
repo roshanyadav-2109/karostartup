@@ -4721,22 +4721,26 @@ a:hover .media-play { background: var(--brand); }
   margin: 14px 0 0;
 }
 
-/* Live search results */
+/* Live search results — fixed-height scrollable box */
 .k-search-results {
   margin-top: 14px;
-  max-height: min(58vh, 520px);
+  height: 360px;
+  max-height: 50vh;
   overflow-y: auto;
-  border-top: 1px solid var(--hairline);
-  padding-top: 0;
-  opacity: 0;
-  max-block-size: 0;
-  transition: opacity 0.18s ease;
+  border: 1px solid var(--hairline);
+  background: #fff;
+  padding: 0 14px;
+  display: none;
+  scrollbar-width: thin;
+  scrollbar-color: #c8c8cc transparent;
 }
 .k-search-results.has-results {
-  opacity: 1;
-  max-block-size: none;
-  padding-top: 12px;
+  display: block;
+  padding: 12px 14px;
 }
+.k-search-results::-webkit-scrollbar { width: 8px; }
+.k-search-results::-webkit-scrollbar-thumb { background: #c8c8cc; border-radius: 4px; }
+.k-search-results::-webkit-scrollbar-track { background: transparent; }
 .k-search-results mark {
   background: #fff3a3;
   color: inherit;
