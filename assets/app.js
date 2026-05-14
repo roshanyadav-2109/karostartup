@@ -717,53 +717,103 @@ function mountSearchOverlay() {
 }
 
 function renderNavFromData(categories, activeSlug = '') {
-  // First N categories visible inline; everything else under a "More ▾"
-  // dropdown so adjacent ones never overflow the nav row. Editorial
-  // ordering follows the categories.order_index column from Supabase.
-  const NAV_VISIBLE = 7;
+  // All categories render inline. After mount, _balanceNav() measures
+  // the row width and moves overflowing items into the More dropdown.
+  // If everything fits, the More button stays hidden.
   const cats = categories || [];
-  const visible = cats.slice(0, NAV_VISIBLE);
-  const hidden  = cats.slice(NAV_VISIBLE);
-
-  const link = (c) => `<a href="/category/view.html?slug=${encodeURIComponent(c.slug)}" ${c.slug === activeSlug ? 'class="is-active"' : ''}>${escapeHtml(c.name)}</a>`;
-  const visibleHtml = visible.map(link).join('');
-  const moreActive = hidden.some(c => c.slug === activeSlug);
-  const morePanel = hidden.length ? `
-    <div class="k-nav-more ${moreActive ? 'is-active' : ''}">
-      <button class="k-nav-more-btn" id="k-nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false">More <span class="k-nav-more-caret" aria-hidden="true">▾</span></button>
-      <div class="k-nav-more-panel" id="k-nav-more-panel" role="menu">
-        ${hidden.map(c => `<a href="/category/view.html?slug=${encodeURIComponent(c.slug)}" role="menuitem" ${c.slug === activeSlug ? 'class="is-active"' : ''}>${escapeHtml(c.name)}</a>`).join('')}
-      </div>
-    </div>` : '';
+  const link = (c) => `<a href="/category/view.html?slug=${encodeURIComponent(c.slug)}" data-cat="1" ${c.slug === activeSlug ? 'class="is-active"' : ''}>${escapeHtml(c.name)}</a>`;
+  const linksHtml = cats.map(link).join('');
 
   return `
   <nav class="nav">
     <div class="container">
-      <div class="nav-links">
-        <a href="/" ${activeSlug === '' ? 'class="is-active"' : ''}>Home</a>
-        ${visibleHtml}
-        ${morePanel}
+      <div class="nav-links" id="k-nav-links">
+        <a href="/" data-home="1" ${activeSlug === '' ? 'class="is-active"' : ''}>Home</a>
+        ${linksHtml}
+        <div class="k-nav-more" id="k-nav-more" hidden>
+          <button class="k-nav-more-btn" id="k-nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false">More <span class="k-nav-more-caret" aria-hidden="true">▾</span></button>
+          <div class="k-nav-more-panel" id="k-nav-more-panel" role="menu"></div>
+        </div>
       </div>
       <a href="/contact.html?type=promotion" class="nav-promote">Promote with us →</a>
     </div>
   </nav>`;
 }
 
-// Wire the "More ▾" dropdown. Toggles a panel, closes on outside click + Escape.
+// Measure the nav row and move overflowing category items into the
+// "More" dropdown. If everything fits, the dropdown stays hidden.
+// Re-runs on resize.
+function _balanceNav() {
+  const navLinks = document.getElementById('k-nav-links');
+  const moreEl = document.getElementById('k-nav-more');
+  const morePanel = document.getElementById('k-nav-more-panel');
+  if (!navLinks || !moreEl || !morePanel) return;
+
+  // Step 1 — move any items previously stashed in the panel back into
+  // the row, just before the More container. Then re-measure from scratch.
+  const stashed = Array.from(morePanel.querySelectorAll('a'));
+  stashed.forEach(a => navLinks.insertBefore(a, moreEl));
+  morePanel.innerHTML = '';
+  moreEl.hidden = true;
+  moreEl.classList.remove('is-active');
+
+  // Step 2 — overflow check. The Home link is anchored at the start and
+  // never moves; category links carry data-cat="1" and are eligible to
+  // shift into the dropdown.
+  const isOverflowing = () => navLinks.scrollWidth > navLinks.clientWidth + 2;
+  if (!isOverflowing()) return; // everything fits — keep More hidden
+
+  // Step 3 — there's overflow, so reveal the More button…
+  moreEl.hidden = false;
+
+  // …then iterate from the rightmost category leftward, pulling items
+  // out of the row and prepending them into the panel (so original
+  // order is preserved inside the dropdown).
+  while (isOverflowing()) {
+    const items = navLinks.querySelectorAll('a[data-cat="1"]');
+    if (items.length === 0) break; // safety: don't strip past the categories
+    const last = items[items.length - 1];
+    last.remove();
+    morePanel.insertBefore(last, morePanel.firstChild);
+  }
+
+  // Step 4 — if the active category ended up in the panel, mark the
+  // More button as active so the user can tell where they are.
+  if (morePanel.querySelector('a.is-active')) moreEl.classList.add('is-active');
+}
+
+// Wire the "More ▾" dropdown. Toggles a panel, closes on outside click
+// + Escape, and re-balances the nav on window resize.
 function _wireNavMore() {
+  // Run once after fonts are likely settled; once more after a short
+  // delay so any late font shifts get accounted for.
+  requestAnimationFrame(_balanceNav);
+  setTimeout(_balanceNav, 600);
+
   const btn = document.getElementById('k-nav-more-btn');
   const panel = document.getElementById('k-nav-more-panel');
-  if (!btn || !panel) return;
-  const close = () => { panel.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); };
-  const toggle = () => {
-    const isOpen = panel.classList.toggle('is-open');
-    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-  };
-  btn.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
-  document.addEventListener('click', (e) => {
-    if (!panel.contains(e.target) && e.target !== btn) close();
-  });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  if (btn && panel) {
+    const close = () => { panel.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); };
+    const toggle = () => {
+      const isOpen = panel.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    };
+    btn.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
+    document.addEventListener('click', (e) => {
+      if (!panel.contains(e.target) && e.target !== btn) close();
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  }
+
+  // Rebalance on resize (debounced) — attach once globally.
+  if (!window.__navResizeBound) {
+    window.__navResizeBound = true;
+    let t;
+    window.addEventListener('resize', () => {
+      clearTimeout(t);
+      t = setTimeout(_balanceNav, 150);
+    });
+  }
 }
 
 function renderFooter() {
