@@ -1,0 +1,21 @@
+# Karostartup — robots.txt
+# https://www.robotstxt.org/
+
+User-agent: *
+Allow: /
+
+# Auth flows and the admin CMS aren't useful in search results
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /profile.html
+
+# Search results pages are dynamic; let crawlers find articles directly
+Disallow: /search.html
+
+# Don't crawl raw query-string variants of the contact form
+Disallow: /contact.html?
+
+# Give crawlers a healthy delay (Bingbot etc.)
+Crawl-delay: 1
+
+Sitemap: https://karostartup.com/sitemap.xml

@@ -1,0 +1,48 @@
+name: Regenerate sitemap.xml
+
+on:
+  schedule:
+    # Every 4 hours — frequent enough to catch new articles, infrequent
+    # enough that we don't churn the repo with redundant commits.
+    - cron: '0 */4 * * *'
+  workflow_dispatch:        # allow manual runs from the Actions tab
+
+permissions:
+  contents: write           # needed to push the regenerated sitemap back
+
+concurrency:
+  group: sitemap
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Use a token that can push back to main. The default GITHUB_TOKEN
+          # works as long as repo Settings → Actions → General →
+          # "Workflow permissions" is set to "Read and write permissions".
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      - name: Generate sitemap
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SITE_URL:                 ${{ vars.SITE_URL || 'https://karostartup.com' }}
+        run: node scripts/generate-sitemap.mjs
+
+      - name: Commit + push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet sitemap.xml; then
+            echo "sitemap.xml unchanged — nothing to commit"
+          else
+            git add sitemap.xml
+            git commit -m "chore: regenerate sitemap.xml [skip ci]"
+            git push
+          fi
