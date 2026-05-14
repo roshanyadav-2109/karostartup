@@ -78,6 +78,20 @@
   <script src="/assets/app.js"></script>
   <script>
   (async () => {
+    setMeta({
+      title: 'Best Brands',
+      description: "A curated directory of the Indian brands and startups Karostartup covers. Filter by sector, stage, or funding.",
+      url: '/best-brands.html',
+      type: 'website',
+      jsonLd: {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: 'Best Brands · Karostartup',
+        description: "Indian brands and startups Karostartup covers — filterable by sector, stage, and funding.",
+        url: location.origin + '/best-brands.html',
+        isPartOf: { '@type': 'WebSite', name: 'Karostartup', url: location.origin },
+      },
+    });
     mountChrome('').catch(() => {});
     mountFooter();
 

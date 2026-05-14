@@ -44,6 +44,7 @@
   <script src="/assets/app.js"></script>
   <script>
   (async () => {
+    setMeta({ title: 'Sign in', description: 'Sign in to your Karostartup account.', url: '/auth/signin.html', noindex: true });
     // Yearly stamp in brand panel
     document.querySelector('.footer-note').textContent = `© ${new Date().getFullYear()} Karostartup · A new kind of business paper.`;
 

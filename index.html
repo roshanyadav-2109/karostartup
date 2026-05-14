@@ -178,6 +178,15 @@
   <script src="/assets/app.js"></script>
   <script>
   (async () => {
+    // SEO meta — homepage is the site root, advertise the full Organization + WebSite graph
+    setMeta({
+      title: null,
+      description: "Karostartup — India's business of business. Live market tickers, founder-first journalism, funding tracker, podcasts, and brand directory.",
+      url: '/',
+      type: 'website',
+      jsonLd: siteJsonLd(),
+    });
+
     // Fire chrome + footer in parallel with content fetches — don't block content on chrome.
     mountChrome('').catch(() => {});
     mountFooter();

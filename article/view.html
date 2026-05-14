@@ -67,8 +67,65 @@
       return;
     }
 
-    document.title = `${article.title} · Karostartup`;
-    document.querySelector('meta[name=description]').content = article.summary || article.subtitle || '';
+    // SEO meta — NewsArticle + BreadcrumbList with the live article data
+    const articleUrl = `${location.origin}/article/view.html?slug=${encodeURIComponent(article.slug)}`;
+    const articleDesc = article.summary || article.subtitle || article.title;
+    const authorName = article.profiles?.full_name || 'Karostartup';
+    const breadcrumbItems = [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: location.origin + '/' },
+    ];
+    if (article.categories) {
+      breadcrumbItems.push({
+        '@type': 'ListItem', position: 2,
+        name: article.categories.name,
+        item: `${location.origin}/category/view.html?slug=${encodeURIComponent(article.categories.slug)}`,
+      });
+    }
+    breadcrumbItems.push({ '@type': 'ListItem', position: breadcrumbItems.length + 1, name: article.title });
+
+    setMeta({
+      title: article.title,
+      description: articleDesc,
+      image: article.cover_image_url || null,
+      type: 'article',
+      url: articleUrl,
+      canonical: articleUrl,
+      keywords: (article.tags || []).join(', ') || null,
+      article: {
+        publishedTime: article.published_at,
+        modifiedTime:  article.updated_at || article.published_at,
+        author:        authorName,
+        section:       article.categories?.name || null,
+        tags:          article.tags || [],
+      },
+      jsonLd: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'NewsArticle',
+          headline: article.title,
+          alternativeHeadline: article.subtitle || undefined,
+          description: articleDesc,
+          image: article.cover_image_url ? [article.cover_image_url] : undefined,
+          datePublished: article.published_at,
+          dateModified: article.updated_at || article.published_at,
+          author: [{ '@type': 'Person', name: authorName }],
+          publisher: {
+            '@type': 'Organization',
+            name: 'Karostartup',
+            logo: { '@type': 'ImageObject', url: `${location.origin}/assets/og-logo.png` },
+          },
+          mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+          articleSection: article.categories?.name || undefined,
+          keywords: (article.tags || []).join(', ') || undefined,
+          wordCount: (article.content || '').split(/\s+/).length,
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: breadcrumbItems,
+        },
+      ],
+    });
 
     // Fire view counter. Increment the displayed value optimistically so
     // the reader sees their view counted immediately.

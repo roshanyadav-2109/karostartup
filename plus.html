@@ -104,6 +104,12 @@
   <script src="/assets/app.js"></script>
   <script>
   (async () => {
+    setMeta({
+      title: 'Karostartup Plus',
+      description: 'Karostartup Plus — for the operators building India. ₹4,999/year for unlimited Plus stories, the Weekly Funding Brief, Founder Memo, and research reports.',
+      url: '/plus.html',
+      type: 'website',
+    });
     await mountChrome('');
     mountFooter();
     document.getElementById('become-btn').addEventListener('click', () => {

@@ -24,6 +24,13 @@
   <script src="/assets/app.js"></script>
   <script>
   (async () => {
+    setMeta({
+      title: 'Profile',
+      description: 'Your Karostartup profile.',
+      url: '/profile.html',
+      type: 'website',
+      noindex: true,
+    });
     await mountChrome('');
     mountFooter();
     const user = await requireAuth();

@@ -59,6 +59,9 @@
   <div id="footer"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/assets/app.js"></script>
-  <script>(async()=>{ mountChrome('').catch(()=>{}); mountFooter(); })();</script>
+  <script>(async()=>{
+    setMeta({ title: 'Cookie Policy', description: 'What cookies Karostartup uses and how you can control them.', url: '/cookies.html' });
+    mountChrome('').catch(()=>{}); mountFooter();
+  })();</script>
 </body>
 </html>

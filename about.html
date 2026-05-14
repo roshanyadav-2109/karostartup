@@ -67,6 +67,19 @@
   <script src="/assets/app.js"></script>
   <script>
   (async () => {
+    setMeta({
+      title: 'About',
+      description: "Karostartup is India's business of business — founder-first journalism for the startup economy.",
+      url: '/about.html',
+      type: 'website',
+      jsonLd: {
+        '@context': 'https://schema.org',
+        '@type': 'AboutPage',
+        name: 'About Karostartup',
+        url: location.origin + '/about.html',
+        mainEntity: { '@type': 'Organization', name: 'Karostartup', url: location.origin },
+      },
+    });
     await mountChrome('');
     mountFooter();
 

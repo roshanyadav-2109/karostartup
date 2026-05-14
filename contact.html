@@ -112,6 +112,12 @@
   <script src="/assets/app.js"></script>
   <script>
   (async () => {
+    setMeta({
+      title: 'Contact',
+      description: 'Get in touch with Karostartup — promote your startup, advertise, send a tip, PR/press, partnerships, careers, or general enquiries.',
+      url: '/contact.html',
+      type: 'website',
+    });
     await mountChrome('');
     mountFooter();
 

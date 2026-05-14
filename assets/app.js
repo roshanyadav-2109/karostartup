@@ -367,6 +367,165 @@ function renderMarkdown(md) {
 }
 
 /* ============================================================
+   SEO META — Open Graph, Twitter Cards, canonical URL, JSON-LD.
+   Every page should call setMeta() once after its data loads.
+   Earlier static <meta> tags in the page <head> are kept as
+   fallbacks; setMeta() upserts/overrides them with live data.
+   ============================================================ */
+const SITE_NAME = 'Karostartup';
+const SITE_DESCRIPTION = "India's business of business — sharp, founder-first journalism on startups, funding, and the operators building India.";
+const SITE_TWITTER = '@karostartup';
+const SITE_DEFAULT_OG_IMAGE = null; // No branded fallback image yet; pages with no cover skip og:image
+
+function _absoluteUrl(u) {
+  if (!u) return null;
+  if (/^https?:\/\//i.test(u)) return u;
+  if (u.startsWith('//')) return location.protocol + u;
+  if (u.startsWith('/')) return location.origin + u;
+  return location.origin + '/' + u;
+}
+
+function _upsertMeta(attrName, attrValue, content) {
+  if (content == null || content === '') return;
+  let el = document.querySelector(`meta[${attrName}="${attrValue}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute(attrName, attrValue);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
+}
+
+function _removeMeta(attrName, attrValue) {
+  document.querySelectorAll(`meta[${attrName}="${attrValue}"]`).forEach(el => el.remove());
+}
+
+function setMeta(opts = {}) {
+  const {
+    title,
+    description = SITE_DESCRIPTION,
+    image,
+    type = 'website',             // 'article' on article pages
+    url,
+    canonical,
+    noindex = false,
+    twitterCard = 'summary_large_image',
+    keywords,                     // optional comma-string
+    article,                      // optional: { author, publishedTime, modifiedTime, section, tags[] }
+    jsonLd,                       // a single object or an array — injected as <script type="application/ld+json">
+  } = opts;
+
+  const pageUrl = _absoluteUrl(canonical || url || location.pathname + location.search);
+  const fullTitle = title ? `${title} · ${SITE_NAME}` : SITE_NAME;
+  document.title = fullTitle;
+
+  // <meta name="description"> + keywords + robots
+  _upsertMeta('name', 'description', description);
+  if (keywords) _upsertMeta('name', 'keywords', keywords);
+  _upsertMeta('name', 'robots', noindex ? 'noindex,nofollow' : 'index,follow,max-image-preview:large');
+  _upsertMeta('name', 'theme-color', '#0a0a0a');
+
+  // Canonical link
+  let canonEl = document.querySelector('link[rel="canonical"]');
+  if (!canonEl) {
+    canonEl = document.createElement('link');
+    canonEl.setAttribute('rel', 'canonical');
+    document.head.appendChild(canonEl);
+  }
+  canonEl.setAttribute('href', pageUrl);
+
+  // Open Graph
+  _upsertMeta('property', 'og:site_name', SITE_NAME);
+  _upsertMeta('property', 'og:type', type);
+  _upsertMeta('property', 'og:url', pageUrl);
+  _upsertMeta('property', 'og:title', title || SITE_NAME);
+  _upsertMeta('property', 'og:description', description);
+  _upsertMeta('property', 'og:locale', 'en_IN');
+  const ogImg = _absoluteUrl(image || SITE_DEFAULT_OG_IMAGE);
+  if (ogImg) {
+    _upsertMeta('property', 'og:image', ogImg);
+    _upsertMeta('property', 'og:image:alt', title || SITE_NAME);
+  } else {
+    _removeMeta('property', 'og:image');
+    _removeMeta('property', 'og:image:alt');
+  }
+
+  // Article-specific OG
+  if (type === 'article' && article) {
+    if (article.publishedTime) _upsertMeta('property', 'article:published_time', article.publishedTime);
+    if (article.modifiedTime)  _upsertMeta('property', 'article:modified_time',  article.modifiedTime);
+    if (article.author)        _upsertMeta('property', 'article:author',         article.author);
+    if (article.section)       _upsertMeta('property', 'article:section',        article.section);
+    document.querySelectorAll('meta[property="article:tag"]').forEach(el => el.remove());
+    (article.tags || []).forEach((t) => {
+      const m = document.createElement('meta');
+      m.setAttribute('property', 'article:tag');
+      m.setAttribute('content', t);
+      document.head.appendChild(m);
+    });
+  }
+
+  // Twitter Cards
+  _upsertMeta('name', 'twitter:card', twitterCard);
+  _upsertMeta('name', 'twitter:site', SITE_TWITTER);
+  _upsertMeta('name', 'twitter:title', title || SITE_NAME);
+  _upsertMeta('name', 'twitter:description', description);
+  if (ogImg) _upsertMeta('name', 'twitter:image', ogImg);
+  else _removeMeta('name', 'twitter:image');
+
+  // JSON-LD — wipe prior and inject fresh. data-k flag marks our scripts
+  // so we never touch any JSON-LD a developer placed by hand.
+  document.querySelectorAll('script[type="application/ld+json"][data-k="1"]').forEach(s => s.remove());
+  if (jsonLd) {
+    const arr = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
+    arr.forEach((schema) => {
+      const s = document.createElement('script');
+      s.type = 'application/ld+json';
+      s.setAttribute('data-k', '1');
+      s.textContent = JSON.stringify(schema);
+      document.head.appendChild(s);
+    });
+  }
+}
+window.setMeta = setMeta;
+
+// Convenience: site-wide Organization + WebSite schemas. Call once
+// from any page (homepage uses it). The schemas are siteName-keyed
+// so duplicates from multiple pages are harmless.
+function siteJsonLd() {
+  const origin = location.origin;
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: origin,
+      logo: `${origin}/assets/og-logo.png`,
+      description: SITE_DESCRIPTION,
+      sameAs: [
+        'https://twitter.com/karostartup',
+        'https://www.linkedin.com/company/karostartup',
+        'https://www.youtube.com/@karostartup',
+        'https://www.instagram.com/karostartup'
+      ]
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: SITE_NAME,
+      url: origin,
+      description: SITE_DESCRIPTION,
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: { '@type': 'EntryPoint', urlTemplate: `${origin}/search.html?q={search_term_string}` },
+        'query-input': 'required name=search_term_string'
+      }
+    }
+  ];
+}
+window.siteJsonLd = siteJsonLd;
+
+/* ============================================================
    TOAST
    ============================================================ */
 function showToast(msg, type = 'success', duration = 3000) {

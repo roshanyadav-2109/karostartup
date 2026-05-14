@@ -35,6 +35,13 @@
   <script src="/assets/app.js"></script>
   <script>
   (async () => {
+    setMeta({
+      title: 'Search',
+      description: 'Search the Karostartup archive — articles, founders, companies, sectors.',
+      url: '/search.html',
+      type: 'website',
+      noindex: true,
+    });
     await mountChrome('');
     mountFooter();
 

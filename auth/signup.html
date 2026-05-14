@@ -54,6 +54,7 @@
   <script src="/assets/app.js"></script>
   <script>
   (async () => {
+    setMeta({ title: 'Create your account', description: 'Create a free Karostartup account to read full articles.', url: '/auth/signup.html', noindex: true });
     document.querySelector('.footer-note').textContent = `© ${new Date().getFullYear()} Karostartup · A new kind of business paper.`;
     const u = await getCurrentUser();
     if (u) { location.href = '/'; return; }

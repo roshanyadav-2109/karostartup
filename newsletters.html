@@ -34,6 +34,12 @@
   <script src="/assets/app.js"></script>
   <script>
   (async () => {
+    setMeta({
+      title: 'Newsletters',
+      description: 'Subscribe to Karostartup newsletters — Morning Brief, Weekly Funding Brief, Founder Memo, and more.',
+      url: '/newsletters.html',
+      type: 'website',
+    });
     await mountChrome('');
     mountFooter();
 

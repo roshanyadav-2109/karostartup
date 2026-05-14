@@ -36,7 +36,44 @@
       document.getElementById('co-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Company not found</h3><a href="/" class="btn btn-primary">Home</a></div>';
       return;
     }
-    document.title = `${company.name} · Karostartup`;
+    const companyUrl = `${location.origin}/company/view.html?slug=${encodeURIComponent(company.slug)}`;
+    const companyDesc = company.description || `${company.name} — company profile, funding history, and coverage on Karostartup.`;
+    setMeta({
+      title: company.name,
+      description: companyDesc.length > 200 ? companyDesc.slice(0, 197) + '…' : companyDesc,
+      image: company.logo_url || null,
+      url: companyUrl,
+      canonical: companyUrl,
+      twitterCard: 'summary',
+      jsonLd: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: company.name,
+          description: company.description || undefined,
+          url: company.website_url || companyUrl,
+          logo: company.logo_url || undefined,
+          foundingDate: company.founded_year ? `${company.founded_year}-01-01` : undefined,
+          founder: (company.founders || []).map(f => ({ '@type': 'Person', name: f })),
+          address: company.headquarters_city ? {
+            '@type': 'PostalAddress',
+            addressLocality: company.headquarters_city,
+            addressRegion: company.headquarters_state || undefined,
+            addressCountry: 'IN',
+          } : undefined,
+          industry: company.sector || undefined,
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: location.origin + '/' },
+            { '@type': 'ListItem', position: 2, name: 'Best Brands', item: location.origin + '/best-brands.html' },
+            { '@type': 'ListItem', position: 3, name: company.name },
+          ],
+        },
+      ],
+    });
 
     const initial = (company.name || '?').charAt(0).toUpperCase();
     const logoHtml = company.logo_url

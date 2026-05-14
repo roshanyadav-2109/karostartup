@@ -41,6 +41,19 @@
   <script src="/assets/app.js"></script>
   <script>
   (async () => {
+    setMeta({
+      title: 'Podcasts',
+      description: 'Karostartup podcasts — long-form conversations with founders, investors, and operators building India.',
+      url: '/podcasts.html',
+      type: 'website',
+      jsonLd: {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: 'Podcasts · Karostartup',
+        description: 'Conversations with the people building India.',
+        url: location.origin + '/podcasts.html',
+      },
+    });
     mountChrome('').catch(() => {});
     mountFooter();
     try {
