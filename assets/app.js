@@ -1008,6 +1008,26 @@ function mountFooter() {
    ============================================================ */
 function articleHref(a) { return `/article/view.html?slug=${encodeURIComponent(a.slug)}`; }
 
+/* Media articles (podcast, video, interview) get a play-icon overlay
+   on the cover image so readers can tell at a glance the story has
+   embedded audio/video. Detected purely by kicker — cheap, no extra
+   DB columns. */
+const _MEDIA_KICKERS = new Set(['PODCAST', 'VIDEO', 'INTERVIEW', 'WATCH', 'LISTEN']);
+function _isMediaArticle(a) {
+  return !!(a && a.kicker && _MEDIA_KICKERS.has(String(a.kicker).toUpperCase()));
+}
+function _coverHtml(a, cover) {
+  const img = `<img src="${escapeAttr(cover)}" class="cover" alt="${escapeAttr(a.title)}" loading="lazy">`;
+  if (!_isMediaArticle(a)) return img;
+  return `<div class="cover-media">${img}<span class="media-play" aria-hidden="true"></span></div>`;
+}
+function _thumbHtml(a, cover, opts = {}) {
+  const cls = opts.className || 'thumb';
+  const img = `<img src="${escapeAttr(cover)}" class="${cls}" alt="${escapeAttr(a.title)}" loading="lazy">`;
+  if (!_isMediaArticle(a)) return img;
+  return `<div class="thumb-media">${img}<span class="media-play media-play-sm" aria-hidden="true"></span></div>`;
+}
+
 function defaultCover(a) {
   // simple solid colored placeholder with title initials
   const seed = (a.title || a.slug || 'k').charCodeAt(0) % 6;
@@ -1023,7 +1043,7 @@ function renderStoryCard(a, opts = {}) {
   const cat = a.categories?.name || '';
   return `
   <a href="${articleHref(a)}" class="${klass} reveal">
-    <img src="${escapeAttr(cover)}" class="cover" alt="${escapeAttr(a.title)}" loading="lazy">
+    ${_coverHtml(a, cover)}
     ${a.kicker ? `<span class="kicker">${escapeHtml(a.kicker)}</span>` : (cat ? `<span class="kicker">${escapeHtml(cat)}</span>` : '')}
     <h2 class="title">${escapeHtml(a.title)}</h2>
     ${!opts.small && a.summary ? `<p class="summary">${escapeHtml(a.summary)}</p>` : ''}
@@ -1047,7 +1067,7 @@ function renderSideCard(a) {
       <h3 class="title">${escapeHtml(a.title)}</h3>
       <div class="meta">${timeAgo(a.published_at || a.created_at)}</div>
     </div>
-    <img src="${escapeAttr(cover)}" class="thumb" alt="${escapeAttr(a.title)}" loading="lazy">
+    ${_thumbHtml(a, cover)}
   </a>`;
 }
 
@@ -1080,16 +1100,17 @@ function renderFeedItem(a) {
         ${a.view_count ? `<span class="dot"></span><span>${formatNumber(a.view_count)} views</span>` : ''}
       </div>
     </div>
-    <img src="${escapeAttr(cover)}" class="thumb" alt="${escapeAttr(a.title)}" loading="lazy">
+    ${_thumbHtml(a, cover)}
   </a>`;
 }
 
 function renderLongreadCard(a) {
   if (!a) return '';
   const cover = a.cover_image_url || defaultCover(a);
+  const isMedia = _isMediaArticle(a);
   return `
   <a href="${articleHref(a)}" class="longread-card reveal">
-    <div class="cover-wrap"><img src="${escapeAttr(cover)}" class="cover" alt="${escapeAttr(a.title)}" loading="lazy"></div>
+    <div class="cover-wrap${isMedia ? ' cover-wrap-media' : ''}"><img src="${escapeAttr(cover)}" class="cover" alt="${escapeAttr(a.title)}" loading="lazy">${isMedia ? '<span class="media-play" aria-hidden="true"></span>' : ''}</div>
     ${a.kicker ? `<span class="kicker">${escapeHtml(a.kicker)}</span>` : ''}
     <h3 class="title">${escapeHtml(a.title)}</h3>
     ${a.summary ? `<p class="summary">${escapeHtml(a.summary)}</p>` : ''}

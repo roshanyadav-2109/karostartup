@@ -90,35 +90,47 @@
       </section>
 
       <div class="container">
-        <div id="featured-slot" style="padding: 32px 0;"></div>
+        <section class="cnn-grid" id="cnn-grid">
+          <div class="cnn-col cnn-col-left">
+            <h3 class="cnn-col-head">Editor's Picks</h3>
+            <div id="cnn-left"><div class="loading-state">Loading…</div></div>
+          </div>
+          <div class="cnn-col cnn-col-mid">
+            <h3 class="cnn-col-head"><span class="live-dot"></span> Latest in ${escapeHtml(cat.name)}</h3>
+            <div id="cnn-mid"><div class="loading-state">Loading…</div></div>
+          </div>
+          <div class="cnn-col cnn-col-right">
+            <h3 class="cnn-col-head">More from ${escapeHtml(cat.name)}</h3>
+            <div id="cnn-right"><div class="loading-state">Loading…</div></div>
+          </div>
+        </section>
       </div>
 
       <div class="container">
         <div class="filter-bar">
-          <button class="filter-tab is-active" data-sort="latest">Latest</button>
+          <button class="filter-tab is-active" data-sort="latest">All stories</button>
           <button class="filter-tab" data-sort="most-read">Most Read · 30d</button>
           <button class="filter-tab" data-sort="top">Top Stories</button>
         </div>
-        <div class="cat-layout">
-          <div>
-            <div id="cat-grid"><div class="loading-state">Loading…</div></div>
-            <div class="pagination" id="pagination"></div>
+        <div id="cat-grid" class="cat-archive-grid"><div class="loading-state" style="grid-column:1/-1;">Loading…</div></div>
+        <div class="pagination" id="pagination"></div>
+      </div>
+
+      <div class="container">
+        <section class="cat-bottom-strips">
+          <div class="cat-bottom-block">
+            <h3 class="cnn-col-head">Top brands in ${escapeHtml(cat.name)}</h3>
+            <div id="cat-companies"><div class="loading-state">Loading…</div></div>
           </div>
-          <aside>
-            <div class="sidebar-block">
-              <h3 class="h-section">Top Companies</h3>
-              <div id="cat-companies"></div>
-            </div>
-            <div class="sidebar-block">
-              <h3 class="h-section">Top Funding</h3>
-              <div id="cat-funding"></div>
-            </div>
-            <div class="sidebar-block">
-              <h3 class="h-section">Related</h3>
-              <ul class="trending-list" id="cat-related"></ul>
-            </div>
-          </aside>
-        </div>
+          <div class="cat-bottom-block">
+            <h3 class="cnn-col-head">Recent funding</h3>
+            <div id="cat-funding"><div class="loading-state">Loading…</div></div>
+          </div>
+          <div class="cat-bottom-block">
+            <h3 class="cnn-col-head">Browse other sections</h3>
+            <ul class="trending-list" id="cat-related"></ul>
+          </div>
+        </section>
       </div>
     `;
 
@@ -167,33 +179,37 @@
       });
     })();
 
-    // Featured
+    // CNN-style 3-col top block — single query, distribute across columns
     try {
-      const { data: feat } = await sb.from('articles')
-        .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,categories(name,slug),profiles!author_id(full_name)')
+      const { data } = await sb.from('articles')
+        .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,view_count,is_featured,categories(name,slug),profiles!author_id(full_name)')
         .eq('status', 'published')
         .eq('category_id', cat.id)
-        .eq('is_featured', true)
         .order('published_at', { ascending: false })
-        .limit(1)
-        .maybeSingle();
-      if (feat) {
-        document.getElementById('featured-slot').innerHTML = `
-          <div class="hero">
-            ${renderStoryCard(feat)}
-            <div class="hero-side" id="featured-side"></div>
-          </div>`;
-        // Side stack: next 3 in category
-        const { data: side } = await sb.from('articles')
-          .select('id,slug,title,kicker,cover_image_url,published_at,categories(name)')
-          .eq('status', 'published')
-          .eq('category_id', cat.id)
-          .neq('id', feat.id)
-          .order('published_at', { ascending: false })
-          .limit(3);
-        document.getElementById('featured-side').innerHTML = (side || []).map(renderSideCard).join('');
+        .limit(14);
+
+      if (!data || !data.length) {
+        document.getElementById('cnn-mid').innerHTML = '<div class="empty-state"><h3>No stories in this section yet</h3><p>Check back soon.</p></div>';
+        document.getElementById('cnn-left').innerHTML = '';
+        document.getElementById('cnn-right').innerHTML = '';
+      } else {
+        // Lead = most recent featured if any, else the most recent overall
+        const lead = data.find(a => a.is_featured) || data[0];
+        const rest = data.filter(a => a.id !== lead.id);
+        const middleMedium = rest.slice(0, 3);
+        const leftSmall    = rest.slice(3, 6);
+        const rightSmall   = rest.slice(6, 9);
+
+        document.getElementById('cnn-mid').innerHTML = `
+          <article class="cnn-lead">${renderStoryCard(lead)}</article>
+          ${middleMedium.length ? `<div class="cnn-medium-stack">${middleMedium.map(a => `<article class="cnn-medium">${renderStoryCard(a, { small: true })}</article>`).join('')}</div>` : ''}
+        `;
+        document.getElementById('cnn-left').innerHTML  = leftSmall.length  ? leftSmall.map(renderSideCard).join('')  : '<span style="color:#9a9a9a;font-size:0.86rem;">Nothing else yet.</span>';
+        document.getElementById('cnn-right').innerHTML = rightSmall.length ? rightSmall.map(renderSideCard).join('') : '<span style="color:#9a9a9a;font-size:0.86rem;">Nothing else yet.</span>';
       }
-    } catch {}
+    } catch (e) {
+      document.getElementById('cnn-mid').innerHTML = `<div class="empty-state"><p>${escapeHtml(e.message)}</p></div>`;
+    }
 
     let page = 1;
     const PER = 12;

@@ -542,6 +542,55 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 /* ============================================================
    STORY CARDS
    ============================================================ */
+/* ============================================================
+   MEDIA PLAY BADGE — overlay on covers/thumbs for podcast, video,
+   interview articles. Pure CSS, no SVG required.
+   ============================================================ */
+.cover-media, .thumb-media {
+  position: relative;
+  display: block;
+  line-height: 0;
+}
+.media-play {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(209, 10, 17, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  transition: background 0.15s ease;
+}
+.media-play::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 16px solid #fff;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  margin-left: 4px;
+}
+.media-play.media-play-sm {
+  width: 34px;
+  height: 34px;
+}
+.media-play.media-play-sm::before {
+  border-left-width: 11px;
+  border-top-width: 7px;
+  border-bottom-width: 7px;
+  margin-left: 3px;
+}
+.cover-wrap-media .media-play {
+  /* used inside .longread-card .cover-wrap which already has overflow:hidden */
+  z-index: 1;
+}
+a:hover .media-play { background: var(--brand); }
+
 .story-card {
   display: block;
   color: inherit;
@@ -2390,6 +2439,110 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   grid-template-columns: repeat(2, 1fr);
   gap: var(--gap);
   row-gap: 40px;
+}
+
+/* ============================================================
+   CATEGORY PAGE — CNN-style 3-col top block
+   Left column = compact small stories
+   Middle column = wide, runs a lead + 3 medium stories
+   Right column = more small stories
+   ============================================================ */
+.cnn-grid {
+  display: grid;
+  grid-template-columns: 3fr 6fr 3fr;
+  gap: 36px;
+  padding: 40px 0 56px;
+  border-bottom: 1px solid var(--hairline);
+}
+.cnn-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.cnn-col-head {
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--brand);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cnn-col-mid .cnn-lead { margin-bottom: 22px; }
+.cnn-col-mid .cnn-lead .story-card .title { font-size: clamp(1.5rem, 2.4vw, 2rem); }
+.cnn-col-mid .cnn-medium-stack {
+  display: flex;
+  flex-direction: column;
+}
+.cnn-col-mid .cnn-medium {
+  padding: 18px 0;
+  border-top: 1px solid var(--hairline);
+}
+.cnn-col-mid .cnn-medium .story-card.small {
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 18px;
+  align-items: start;
+}
+.cnn-col-mid .cnn-medium .story-card.small .cover {
+  order: 2;
+  aspect-ratio: 4 / 3;
+  margin: 0;
+}
+.cnn-col-mid .cnn-medium .story-card.small .cover-media { order: 2; }
+.cnn-col-mid .cnn-medium .story-card.small .kicker,
+.cnn-col-mid .cnn-medium .story-card.small .title,
+.cnn-col-mid .cnn-medium .story-card.small .meta { order: 1; }
+.cnn-col-mid .cnn-medium .story-card.small .title { font-size: 1.15rem; margin: 6px 0 8px; }
+.cnn-col-left .side-card,
+.cnn-col-right .side-card {
+  padding: 14px 0;
+  border-top: 1px solid var(--hairline);
+}
+.cnn-col-left .side-card:first-of-type,
+.cnn-col-right .side-card:first-of-type {
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* Full-width 3-col archive grid below the filter bar */
+.cat-archive-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+  row-gap: 36px;
+  padding-bottom: 32px;
+}
+
+/* Bottom strips: top brands, recent funding, browse other sections */
+.cat-bottom-strips {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+  padding: 32px 0 64px;
+  border-top: 1px solid var(--hairline);
+}
+.cat-bottom-block {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 1100px) {
+  .cnn-grid { grid-template-columns: 1fr; gap: 36px; }
+  .cnn-col-mid .cnn-medium .story-card.small { grid-template-columns: 1fr 140px; }
+  .cat-archive-grid { grid-template-columns: repeat(2, 1fr); }
+  .cat-bottom-strips { grid-template-columns: 1fr; gap: 28px; }
+}
+@media (max-width: 768px) {
+  .cnn-grid { padding: 28px 0 36px; gap: 28px; }
+  .cnn-col-mid .cnn-medium .story-card.small { grid-template-columns: 1fr; }
+  .cnn-col-mid .cnn-medium .story-card.small .cover { aspect-ratio: 16 / 10; }
+  .cat-archive-grid { grid-template-columns: 1fr; gap: 24px; }
 }
 .pagination {
   display: flex;
