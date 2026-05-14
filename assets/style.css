@@ -836,35 +836,6 @@ a:hover .media-play { background: var(--brand); }
   gap: 8px;
   color: var(--ink);
 }
-.hero-updates-nav {
-  display: inline-flex;
-  gap: 6px;
-}
-.hero-updates-arrow {
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--hairline);
-  background: #fff;
-  color: var(--ink);
-  font-size: 1.2rem;
-  line-height: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border-radius: 4px;
-  padding: 0;
-  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
-}
-.hero-updates-arrow:hover:not(:disabled) {
-  background: var(--ink);
-  color: #fff;
-  border-color: var(--ink);
-}
-.hero-updates-arrow:disabled {
-  opacity: 0.35;
-  cursor: default;
-}
 
 .hero-updates-strip {
   display: grid;
@@ -872,14 +843,21 @@ a:hover .media-play { background: var(--brand); }
   grid-auto-columns: minmax(0, 1fr);
   gap: 16px;
   overflow-x: auto;
-  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
   scrollbar-width: thin;
   scrollbar-color: #c8c8cc transparent;
   padding-bottom: 4px;
+  cursor: grab;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  user-select: none;
 }
+.hero-updates-strip.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+.hero-updates-strip.is-dragging .hero-update-card { pointer-events: none; }
 .hero-updates-strip::-webkit-scrollbar { height: 6px; }
 .hero-updates-strip::-webkit-scrollbar-thumb { background: #c8c8cc; border-radius: 3px; }
 .hero-updates-strip::-webkit-scrollbar-track { background: transparent; }
+.hero-update-card { scroll-snap-align: start; }
 
 .hero-update-card {
   display: block;
