@@ -298,20 +298,12 @@
         <aside class="hero-top-stories">
           <div class="hero-promo-rotator" id="hero-promo-rotator">
             <a class="hero-promo-item is-active" data-theme="red" href="/contact.html?type=advertise">
-              <div class="hero-promo-head">
-                <span class="hero-promo-kicker">For Brands</span>
-                <span class="hero-promo-rule"></span>
-                <h4 class="hero-promo-title">Promote with us.</h4>
-              </div>
-              <div class="hero-promo-foot"><span class="hero-promo-cta">Get in touch</span></div>
+              <h4 class="hero-promo-title">Promote with us.</h4>
+              <span class="hero-promo-cta">Get in touch</span>
             </a>
             <a class="hero-promo-item" data-theme="amber" href="/contact.html?type=partnership">
-              <div class="hero-promo-head">
-                <span class="hero-promo-kicker">Editorial</span>
-                <span class="hero-promo-rule"></span>
-                <h4 class="hero-promo-title">Partner with us.</h4>
-              </div>
-              <div class="hero-promo-foot"><span class="hero-promo-cta">Let's talk</span></div>
+              <h4 class="hero-promo-title">Partner with us.</h4>
+              <span class="hero-promo-cta">Let's talk</span>
             </a>
           </div>
 
@@ -354,31 +346,19 @@
       if (items.length < 2) return;
       const themes = items.map(it => it.dataset.theme || 'red');
 
-      // Progress dashes
-      const dots = document.createElement('div');
-      dots.className = 'hero-promo-dots';
-      items.forEach((_, k) => {
-        const d = document.createElement('span');
-        if (k === 0) d.classList.add('is-active');
-        dots.appendChild(d);
-      });
-      rotator.appendChild(dots);
-
       // Initial theme class on rotator
       rotator.classList.add('theme-' + themes[0]);
 
       let i = 0;
-      const CYCLE = 5500;
+      const CYCLE = 6000;
       let timer = setInterval(advance, CYCLE);
 
       function advance() {
         const prev = i;
         items[prev].classList.remove('is-active');
-        dots.children[prev].classList.remove('is-active');
         rotator.classList.remove('theme-' + themes[prev]);
         i = (i + 1) % items.length;
         items[i].classList.add('is-active');
-        dots.children[i].classList.add('is-active');
         rotator.classList.add('theme-' + themes[i]);
       }
 

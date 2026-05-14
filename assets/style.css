@@ -883,26 +883,28 @@ a:hover .media-play { background: var(--brand); }
 }
 
 /* ============================================================
-   ROTATING CTA BLOCK — minimal shadcn/editorial card.
-   Two cards (Promote / Partner). Same elegant dark base; accent
-   colour differentiates them. Subtle fade-up transition every
-   5.5s, pause on hover. Whole card is a link.
+   ROTATING CTA BLOCK — poster-style.
+   Two cards (Promote / Partner). Same charcoal base; accent
+   colour shows as a left vertical bar + corner dot decoration.
+   Big confident serif title. Mono CTA at the bottom.
+   6-second cycle. Pause on hover. Whole card is a link.
    ============================================================ */
 .hero-promo-rotator {
-  --promo-accent: #d10a11;       /* set by .theme-{x} class */
+  --promo-accent: #d10a11;
   position: relative;
   margin: -22px -22px 22px;
   overflow: hidden;
   min-height: 220px;
-  background: #0a0a0e;
+  background: #14141b;
 }
 .hero-promo-rotator.theme-red   { --promo-accent: #d10a11; }
 .hero-promo-rotator.theme-amber { --promo-accent: #d4a017; }
 
 .hero-promo-item {
+  --accent: #d10a11;
   position: absolute;
   inset: 0;
-  padding: 28px 26px 22px;
+  padding: 32px 30px 26px 38px;     /* extra padding-left makes room for the accent bar */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -910,10 +912,12 @@ a:hover .media-play { background: var(--brand); }
   color: inherit;
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.6s ease, transform 0.55s cubic-bezier(.2, .8, .2, 1);
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(.2, .8, .2, 1);
   pointer-events: none;
   z-index: 1;
-  background: linear-gradient(160deg, #0a0a0e 0%, #14141b 65%, #1c1c25 100%);
+  background:
+    radial-gradient(circle at 92% 12%, rgba(255, 255, 255, 0.05), transparent 38%),
+    linear-gradient(135deg, #1c1c24 0%, #14141b 55%, #0d0d12 100%);
 }
 .hero-promo-item.is-active {
   opacity: 1;
@@ -923,45 +927,40 @@ a:hover .media-play { background: var(--brand); }
 .hero-promo-item[data-theme="red"]   { --accent: #d10a11; }
 .hero-promo-item[data-theme="amber"] { --accent: #d4a017; }
 
-.hero-promo-head {
-  position: relative;
-  z-index: 1;
-}
-.hero-promo-kicker {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  margin: 0;
-}
-.hero-promo-rule {
-  display: block;
-  width: 28px;
-  height: 2px;
+/* Vertical accent bar down the left edge — strong identity */
+.hero-promo-item::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
   background: var(--accent);
-  margin: 14px 0 18px;
 }
+/* Hollow circle decoration top-right */
+.hero-promo-item::after {
+  content: "";
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 11px;
+  height: 11px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  opacity: 0.85;
+}
+
 .hero-promo-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.75rem, 2.3vw, 2.15rem);
-  line-height: 1.02;
-  letter-spacing: -0.025em;
+  font-size: clamp(2rem, 2.6vw, 2.4rem);
+  line-height: 0.96;
+  letter-spacing: -0.03em;
   color: #fff;
   margin: 0;
-  font-variation-settings: "opsz" 96;
   max-width: 11ch;
-}
-.hero-promo-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  font-variation-settings: "opsz" 96;
   position: relative;
   z-index: 1;
-  margin-top: auto;
 }
 .hero-promo-cta {
   display: inline-flex;
@@ -972,47 +971,29 @@ a:hover .media-play { background: var(--brand); }
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.88);
+  color: rgba(255, 255, 255, 0.78);
   transition: color 0.18s ease;
+  margin-top: auto;
+  position: relative;
+  z-index: 1;
 }
 .hero-promo-cta::after {
   content: "";
   display: inline-block;
-  width: 26px;
+  width: 28px;
   height: 1px;
   background: currentColor;
-  transition: width 0.22s cubic-bezier(.2,.8,.2,1), background 0.18s ease;
+  transition: width 0.22s cubic-bezier(.2, .8, .2, 1), background 0.18s ease;
 }
 .hero-promo-item:hover .hero-promo-cta { color: var(--accent); }
-.hero-promo-item:hover .hero-promo-cta::after { width: 40px; }
-
-/* Progress dots — top-right, small circles */
-.hero-promo-dots {
-  position: absolute;
-  top: 26px;
-  right: 26px;
-  display: flex;
-  gap: 6px;
-  z-index: 2;
-}
-.hero-promo-dots span {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.22);
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-.hero-promo-dots span.is-active {
-  background: var(--promo-accent);
-  transform: scale(1.15);
-}
+.hero-promo-item:hover .hero-promo-cta::after { width: 46px; }
+.hero-promo-item:hover::after { opacity: 1; transform: scale(1.12); }
 
 @media (max-width: 768px) {
   .hero-promo-rotator { margin: -18px -18px 18px; min-height: 200px; }
-  .hero-promo-item { padding: 22px 20px 20px; }
-  .hero-promo-title { font-size: 1.5rem; }
-  .hero-promo-rule { margin: 10px 0 14px; }
+  .hero-promo-item { padding: 28px 24px 22px 32px; }
+  .hero-promo-title { font-size: 1.7rem; }
+  .hero-promo-item::after { top: 22px; right: 22px; width: 9px; height: 9px; }
 }
 .hero-top-header {
   display: flex;
