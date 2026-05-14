@@ -21,9 +21,16 @@
       </div>
     </section>
 
-    <section>
+    <section class="section latest-news-section">
       <div class="container">
-        <div class="top-strip" id="top-strip-slot"></div>
+        <div class="section-header section-header-live">
+          <div class="section-header-left">
+            <h2 class="h-section">Latest News</h2>
+            <span class="live-pill"><span class="live-dot"></span> Live</span>
+          </div>
+          <a href="#latest-feed" class="more-link">All latest →</a>
+        </div>
+        <div class="latest-news-grid" id="top-strip-slot"></div>
       </div>
     </section>
 
@@ -143,7 +150,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="latest-feed">
       <div class="container">
         <div class="section-header">
           <h2 class="h-section">Latest</h2>
@@ -178,56 +185,87 @@
     // Each section is fired as an independent async task so they run concurrently.
     const run = (fn) => { fn().catch(() => {}); };
 
-    // HERO + side stack
+    // HERO — newsroom-style lead + numbered "Top Stories" sidebar
     run(async () => { try {
-      const { data: featured } = await sb.from('articles')
+      // Pull the most-recent 12 published articles in one go. Lead = first
+      // featured if any, else first overall. Top-stories list = the next 5.
+      // The "Latest News" grid below uses items 6-13 (skip the 6 already
+      // shown in the hero so we don't repeat).
+      const { data } = await sb.from('articles')
         .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,is_featured,categories(name,slug),profiles!author_id(full_name)')
         .eq('status', 'published')
-        .eq('is_featured', true)
         .order('published_at', { ascending: false })
-        .limit(4);
-
-      let hero = (featured || []).slice(0, 4);
-      if (hero.length === 0) {
-        const { data: any } = await sb.from('articles')
-          .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,categories(name,slug),profiles!author_id(full_name)')
-          .eq('status', 'published')
-          .order('published_at', { ascending: false })
-          .limit(4);
-        hero = any || [];
-      }
+        .limit(14);
 
       const heroSlot = document.getElementById('hero-slot');
-      if (!hero.length) {
+      if (!data || !data.length) {
         heroSlot.innerHTML = `<div class="empty-state" style="grid-column: 1 / -1;"><h3>No stories yet</h3><p>Check back soon — our team is gearing up.</p></div>`;
-      } else {
-        const lead = hero[0];
-        const side = hero.slice(1);
-        heroSlot.innerHTML = `
-          <div class="hero-lead">${renderStoryCard(lead)}</div>
-          <div class="hero-side">
-            ${side.map(a => renderSideCard(a)).join('')}
-          </div>`;
-        // beef up the lead card styling
-        const leadCard = heroSlot.querySelector('.hero-lead .story-card');
-        if (leadCard) {
-          const title = leadCard.querySelector('.title');
-          if (title) title.classList.add('hero-title');
-        }
+        return;
       }
+
+      const lead = data.find(a => a.is_featured) || data[0];
+      const topStories = data.filter(a => a.id !== lead.id).slice(0, 5);
+      const leadCover = lead.cover_image_url || defaultCover(lead);
+      const leadAuthor = lead.profiles?.full_name || 'Karostartup';
+      const leadKickerText = lead.kicker || lead.categories?.name || '';
+
+      heroSlot.innerHTML = `
+        <article class="hero-lead-v2">
+          <a href="${articleHref(lead)}">
+            <div class="hero-lead-img">
+              <img src="${escapeAttr(leadCover)}" alt="${escapeAttr(lead.title)}" loading="eager">
+              ${leadKickerText ? `<span class="hero-lead-kicker">${escapeHtml(leadKickerText)}</span>` : ''}
+            </div>
+            <h2 class="hero-lead-title">${escapeHtml(lead.title)}</h2>
+            ${lead.subtitle ? `<p class="hero-lead-dek">${escapeHtml(lead.subtitle)}</p>`
+              : (lead.summary ? `<p class="hero-lead-dek">${escapeHtml(lead.summary.slice(0, 180))}${lead.summary.length > 180 ? '…' : ''}</p>` : '')}
+            <div class="hero-lead-meta">
+              <strong>${escapeHtml(leadAuthor)}</strong>
+              <span class="meta-dot"></span>
+              <time datetime="${escapeAttr(lead.published_at || '')}">${timeAgo(lead.published_at)}</time>
+              ${lead.read_time_minutes ? `<span class="meta-dot"></span><span>${lead.read_time_minutes} min read</span>` : ''}
+            </div>
+          </a>
+        </article>
+
+        <aside class="hero-top-stories">
+          <div class="hero-top-header">
+            <h3><span class="live-dot"></span> Top Stories</h3>
+            <a href="#latest-feed" class="hero-top-more">All →</a>
+          </div>
+          <ol class="hero-top-list">
+            ${topStories.map((a, i) => {
+              const kicker = a.kicker || a.categories?.name || '';
+              return `
+              <li>
+                <a href="${articleHref(a)}">
+                  <span class="ts-num">${String(i + 1).padStart(2, '0')}</span>
+                  <div class="ts-content">
+                    ${kicker ? `<span class="ts-kicker">${escapeHtml(kicker)}</span>` : ''}
+                    <p class="ts-title">${escapeHtml(a.title)}</p>
+                    <span class="ts-time">${timeAgo(a.published_at)}</span>
+                  </div>
+                </a>
+              </li>`;
+            }).join('')}
+          </ol>
+        </aside>`;
     } catch (e) {
       document.getElementById('hero-slot').innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><h3>Unable to load stories</h3></div>';
     } });
 
-    // TOP STRIP — next 5 latest
+    // LATEST NEWS — 4-col grid with thumbnails + timestamps, picks up
+    // where the hero leaves off (skips the 6 stories already shown above)
     run(async () => { try {
       const { data } = await sb.from('articles')
-        .select('id,slug,title,kicker,published_at,categories(name,slug)')
+        .select('id,slug,title,kicker,summary,cover_image_url,published_at,read_time_minutes,categories(name,slug),profiles!author_id(full_name)')
         .eq('status', 'published')
         .order('published_at', { ascending: false })
-        .range(4, 8)
-        .limit(5);
-      document.getElementById('top-strip-slot').innerHTML = (data || []).map(renderStripItem).join('');
+        .range(6, 13)
+        .limit(8);
+      const slot = document.getElementById('top-strip-slot');
+      if (!data || !data.length) { slot.innerHTML = ''; return; }
+      slot.innerHTML = data.map(a => renderStoryCard(a, { small: true })).join('');
     } catch {} });
 
     // FUNDING ROUNDS table + chart
