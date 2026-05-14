@@ -890,13 +890,13 @@ a:hover .media-play { background: var(--brand); }
   position: relative;
   margin: -22px -22px 22px;
   overflow: hidden;
-  min-height: 200px;
+  min-height: 168px;            /* tightened from 200px */
   background: #ececef;
 }
 .hero-promo-item {
   position: absolute;
   inset: 0;
-  padding: 26px 26px 22px;
+  padding: 20px 22px 18px;       /* tightened from 26/22 */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -914,17 +914,17 @@ a:hover .media-play { background: var(--brand); }
   transform: translateY(0);
   pointer-events: auto;
 }
-.hero-promo-head { display: flex; flex-direction: column; gap: 10px; }
+.hero-promo-head { display: flex; flex-direction: column; gap: 8px; }
 .hero-promo-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.45rem, 2vw, 1.75rem);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.3rem, 1.7vw, 1.55rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
   color: var(--ink);
   margin: 0;
-  max-width: 12ch;
-  font-variation-settings: "opsz" 48;
+  font-variation-settings: "opsz" 36;
+  white-space: nowrap;          /* keep titles on a single line */
 }
 .hero-promo-desc {
   font-family: var(--font-ui);
@@ -960,9 +960,9 @@ a:hover .media-play { background: var(--brand); }
 .hero-promo-item:hover .hero-promo-cta::after { transform: translateX(3px); }
 
 @media (max-width: 768px) {
-  .hero-promo-rotator { margin: -18px -18px 18px; min-height: 188px; }
-  .hero-promo-item { padding: 22px 20px 20px; }
-  .hero-promo-title { font-size: 1.35rem; }
+  .hero-promo-rotator { margin: -18px -18px 18px; min-height: 162px; }
+  .hero-promo-item { padding: 18px 18px 16px; }
+  .hero-promo-title { font-size: 1.25rem; }
   .hero-promo-desc { font-size: 0.8rem; }
 }
 .hero-top-header {
