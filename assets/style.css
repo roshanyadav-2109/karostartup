@@ -2424,53 +2424,34 @@ a:hover .media-play { background: var(--brand); }
 }
 
 /* ============================================================
-   IN-COLUMN SUBSCRIBE BLOCK — sits at the bottom of the right
-   CNN column on category pages. Ink-black background, brand-red
-   top accent and submit button. Quiet, doesn't compete with the
-   stories above.
+   IN-COLUMN SUBSCRIBE FORM — minimal: input + button only.
+   Sits at the bottom of the right CNN column on category pages.
+   No heading, no description, no footnote.
    ============================================================ */
 .col-subscribe {
-  margin-top: 24px;
-  padding: 22px 20px 20px;
-  background: var(--ink);
-  color: #fff;
-  border-top: 3px solid var(--brand);
-}
-.col-subscribe h4 {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.08rem;
-  margin: 0 0 6px;
-  color: #fff;
-  letter-spacing: -0.005em;
-}
-.col-subscribe > p {
-  font-size: 0.84rem;
-  color: #c5c5c5;
-  margin: 0 0 14px;
-  line-height: 1.45;
-}
-.col-subscribe-form {
+  margin-top: 20px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.col-subscribe-form input {
-  padding: 11px 12px;
+  flex-wrap: wrap;
+  border: 1px solid var(--ink);
   background: #fff;
+}
+.col-subscribe input {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 12px;
   border: 0;
-  font-size: 0.92rem;
+  outline: 0;
+  font-size: 0.88rem;
   font-family: inherit;
   color: var(--ink);
-  outline: 0;
 }
-.col-subscribe-form input:focus { box-shadow: inset 0 0 0 2px var(--brand); }
-.col-subscribe-form button {
-  background: var(--brand);
+.col-subscribe input:focus { background: var(--paper); }
+.col-subscribe button {
+  background: var(--ink);
   color: #fff;
   border: 0;
-  padding: 12px 16px;
-  font-size: 0.78rem;
+  padding: 0 18px;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -2479,27 +2460,23 @@ a:hover .media-play { background: var(--brand); }
   align-items: center;
   justify-content: center;
   line-height: 1;
+  white-space: nowrap;
 }
-.col-subscribe-form button:hover { background: var(--brand-dark); }
-.col-subscribe-foot {
-  margin: 10px 0 0;
-  font-size: 0.72rem;
-  color: #8a8a8a;
-  letter-spacing: 0.02em;
-}
+.col-subscribe button:hover { background: var(--brand); }
 .col-subscribe .cat-sub-msg {
-  margin-top: 10px;
-  font-size: 0.78rem;
-  color: #c5c5c5;
+  flex: 1 0 100%;
+  border-top: 1px solid var(--hairline);
+  padding: 8px 12px;
+  font-size: 0.74rem;
+  background: var(--paper);
+  color: var(--muted);
 }
-.col-subscribe .cat-sub-msg.success { color: #6cd49a; }
-.col-subscribe .cat-sub-msg.error   { color: #fb7185; }
+.col-subscribe .cat-sub-msg.success { color: var(--up); }
+.col-subscribe .cat-sub-msg.error   { color: var(--down); }
+.col-subscribe .cat-sub-msg:empty { display: none; }
 
-/* When the 3-col grid collapses (≤1100px), the subscribe block ends up
-   alone at the bottom — give it a max-width so it doesn't stretch to the
-   full container width and look forlorn. */
 @media (max-width: 1100px) {
-  .col-subscribe { max-width: 480px; margin-left: auto; margin-right: auto; }
+  .col-subscribe { max-width: 460px; margin-left: auto; margin-right: auto; }
 }
 
 /* ============================================================
@@ -2773,14 +2750,14 @@ a:hover .media-play { background: var(--brand); }
   border-top: 1px solid var(--ink);
   border-bottom: 1px solid var(--ink);
 }
-.cnn-col-mid .cnn-lead { margin-bottom: 22px; }
+.cnn-col-mid .cnn-lead { margin-bottom: 18px; }
 .cnn-col-mid .cnn-lead .story-card .title { font-size: clamp(1.5rem, 2.4vw, 2rem); }
 .cnn-col-mid .cnn-medium-stack {
   display: flex;
   flex-direction: column;
 }
 .cnn-col-mid .cnn-medium {
-  padding: 18px 0;
+  padding: 12px 0;
   border-top: 1px solid var(--hairline);
 }
 /* Newspaper-style row in the CNN middle column:
@@ -2789,18 +2766,21 @@ a:hover .media-play { background: var(--brand); }
      FULL height of the row (grid-row: 1 / 4)
    Title + thumb live in the same row, byline + read time stack below
    the title on the left. */
+/* Compact medium rows — title left, thumbnail right on same row.
+   News-ticker height (~90-100px per row). */
 .cnn-col-mid .cnn-medium .story-card.small {
   display: grid;
-  grid-template-columns: 1fr 220px;
+  grid-template-columns: 1fr 130px;
   grid-template-rows: auto auto auto;
-  column-gap: 24px;
+  column-gap: 16px;
   row-gap: 0;
   align-items: start;
 }
 .cnn-col-mid .cnn-medium .story-card.small > .kicker {
   grid-column: 1;
   grid-row: 1;
-  margin: 0 0 10px;
+  margin: 0 0 4px;
+  font-size: 0.66rem;
   align-self: start;
 }
 .cnn-col-mid .cnn-medium .story-card.small > .title {
@@ -2808,24 +2788,25 @@ a:hover .media-play { background: var(--brand); }
   grid-row: 2;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.32rem;
-  line-height: 1.12;
-  letter-spacing: -0.015em;
-  margin: 0 0 14px;
+  font-size: 1.05rem;
+  line-height: 1.22;
+  letter-spacing: -0.005em;
+  margin: 0 0 6px;
 }
 .cnn-col-mid .cnn-medium .story-card.small > .meta {
   grid-column: 1;
   grid-row: 3;
   margin: 0;
+  font-size: 0.72rem;
 }
-/* Thumb spans all 3 rows on the right — full-length rectangle */
+/* Thumbnail spans all 3 rows on the right */
 .cnn-col-mid .cnn-medium .story-card.small > .cover,
 .cnn-col-mid .cnn-medium .story-card.small > .cover-media {
   grid-column: 2;
   grid-row: 1 / 4;
   width: 100%;
   height: 100%;
-  min-height: 150px;
+  min-height: 86px;
   margin: 0;
   align-self: stretch;
 }
@@ -2837,7 +2818,7 @@ a:hover .media-play { background: var(--brand); }
 .cnn-col-mid .cnn-medium .story-card.small > .cover-media .cover {
   width: 100%;
   height: 100%;
-  min-height: 150px;
+  min-height: 86px;
   object-fit: cover;
   aspect-ratio: auto;
   display: block;
@@ -2893,11 +2874,11 @@ a:hover .media-play { background: var(--brand); }
 @media (max-width: 1100px) {
   .cnn-grid { grid-template-columns: 1fr; gap: 36px; }
   .cnn-col-mid .cnn-medium .story-card.small {
-    grid-template-columns: 1fr 170px;
+    grid-template-columns: 1fr 150px;
   }
   .cnn-col-mid .cnn-medium .story-card.small > .cover,
-  .cnn-col-mid .cnn-medium .story-card.small > .cover-media { min-height: 130px; }
-  .cnn-col-mid .cnn-medium .story-card.small > .cover-media .cover { min-height: 130px; }
+  .cnn-col-mid .cnn-medium .story-card.small > .cover-media { min-height: 100px; }
+  .cnn-col-mid .cnn-medium .story-card.small > .cover-media .cover { min-height: 100px; }
   .cat-archive-grid { grid-template-columns: repeat(2, 1fr); }
   .cat-bottom-strips { grid-template-columns: 1fr; gap: 28px; }
 }
