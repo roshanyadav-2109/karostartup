@@ -976,12 +976,11 @@ function renderFooter() {
         </div>
       </div>
       <div class="footer-bottom">
-        <div>© ${new Date().getFullYear()} Karostartup. All rights reserved.</div>
+        <div>© ${new Date().getFullYear()} Karostartup. All rights reserved. <span class="footer-credit">Built and maintained by <a href="#" rel="noopener">Hebrew Technologies</a>.</span></div>
         <div class="socials">
           <a href="/privacy.html">Privacy</a>
           <a href="/terms.html">Terms</a>
           <a href="/cookies.html">Cookies</a>
-          <a href="/contact.html">Contact editor</a>
         </div>
       </div>
     </div>

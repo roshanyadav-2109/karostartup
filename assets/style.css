@@ -2231,6 +2231,9 @@ a:hover .media-play { background: var(--brand); }
 .footer-bottom a { color: #8a8a8a; }
 .footer-bottom a:hover { color: var(--brand); }
 .footer-bottom .socials { display: flex; gap: 14px; }
+.footer-credit { display: inline; margin-left: 6px; color: #6a6a6a; }
+.footer-credit a { color: #c5c5c5; font-weight: 600; }
+.footer-credit a:hover { color: var(--brand); }
 
 /* ============================================================
    ARTICLE PAGE
