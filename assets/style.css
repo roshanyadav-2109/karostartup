@@ -883,28 +883,20 @@ a:hover .media-play { background: var(--brand); }
 }
 
 /* ============================================================
-   ROTATING CTA BLOCK — poster-style.
-   Two cards (Promote / Partner). Same charcoal base; accent
-   colour shows as a left vertical bar + corner dot decoration.
-   Big confident serif title. Mono CTA at the bottom.
-   6-second cycle. Pause on hover. Whole card is a link.
+   ROTATING CTA BLOCK — light grey card, faded-red filled button.
+   Two cards (Promote / Partner). 6-second cycle, pause on hover.
    ============================================================ */
 .hero-promo-rotator {
-  --promo-accent: #d10a11;
   position: relative;
   margin: -22px -22px 22px;
   overflow: hidden;
-  min-height: 220px;
-  background: #14141b;
+  min-height: 200px;
+  background: #ececef;
 }
-.hero-promo-rotator.theme-red   { --promo-accent: #d10a11; }
-.hero-promo-rotator.theme-amber { --promo-accent: #d4a017; }
-
 .hero-promo-item {
-  --accent: #d10a11;
   position: absolute;
   inset: 0;
-  padding: 32px 30px 26px 38px;     /* extra padding-left makes room for the accent bar */
+  padding: 26px 26px 22px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -915,85 +907,63 @@ a:hover .media-play { background: var(--brand); }
   transition: opacity 0.55s ease, transform 0.55s cubic-bezier(.2, .8, .2, 1);
   pointer-events: none;
   z-index: 1;
-  background:
-    radial-gradient(circle at 92% 12%, rgba(255, 255, 255, 0.05), transparent 38%),
-    linear-gradient(135deg, #1c1c24 0%, #14141b 55%, #0d0d12 100%);
+  background: #ececef;
 }
 .hero-promo-item.is-active {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
-.hero-promo-item[data-theme="red"]   { --accent: #d10a11; }
-.hero-promo-item[data-theme="amber"] { --accent: #d4a017; }
-
-/* Vertical accent bar down the left edge — strong identity */
-.hero-promo-item::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 3px;
-  height: 100%;
-  background: var(--accent);
-}
-/* Hollow circle decoration top-right */
-.hero-promo-item::after {
-  content: "";
-  position: absolute;
-  top: 30px;
-  right: 30px;
-  width: 11px;
-  height: 11px;
-  border: 1.5px solid var(--accent);
-  border-radius: 50%;
-  opacity: 0.85;
-}
-
+.hero-promo-head { display: flex; flex-direction: column; gap: 10px; }
 .hero-promo-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2rem, 2.6vw, 2.4rem);
-  line-height: 0.96;
-  letter-spacing: -0.03em;
-  color: #fff;
+  font-size: clamp(1.45rem, 2vw, 1.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--ink);
   margin: 0;
-  max-width: 11ch;
-  font-variation-settings: "opsz" 96;
-  position: relative;
-  z-index: 1;
+  max-width: 12ch;
+  font-variation-settings: "opsz" 48;
+}
+.hero-promo-desc {
+  font-family: var(--font-ui);
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: #5a5a5a;
+  margin: 0;
 }
 .hero-promo-cta {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+  gap: 8px;
+  background: #e08087;                 /* faded red */
+  color: #fff;
+  padding: 10px 18px;
+  font-family: var(--font-ui);
+  font-size: 0.84rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.78);
-  transition: color 0.18s ease;
-  margin-top: auto;
-  position: relative;
-  z-index: 1;
+  letter-spacing: 0.02em;
+  align-self: flex-start;
+  transition: background 0.18s ease, transform 0.18s ease;
+  margin-top: 4px;
 }
 .hero-promo-cta::after {
-  content: "";
-  display: inline-block;
-  width: 28px;
-  height: 1px;
-  background: currentColor;
-  transition: width 0.22s cubic-bezier(.2, .8, .2, 1), background 0.18s ease;
+  content: "→";
+  font-size: 0.95rem;
+  line-height: 1;
+  transition: transform 0.18s cubic-bezier(.2, .8, .2, 1);
 }
-.hero-promo-item:hover .hero-promo-cta { color: var(--accent); }
-.hero-promo-item:hover .hero-promo-cta::after { width: 46px; }
-.hero-promo-item:hover::after { opacity: 1; transform: scale(1.12); }
+.hero-promo-item:hover .hero-promo-cta {
+  background: var(--brand);            /* full brand red on hover */
+}
+.hero-promo-item:hover .hero-promo-cta::after { transform: translateX(3px); }
 
 @media (max-width: 768px) {
-  .hero-promo-rotator { margin: -18px -18px 18px; min-height: 200px; }
-  .hero-promo-item { padding: 28px 24px 22px 32px; }
-  .hero-promo-title { font-size: 1.7rem; }
-  .hero-promo-item::after { top: 22px; right: 22px; width: 9px; height: 9px; }
+  .hero-promo-rotator { margin: -18px -18px 18px; min-height: 188px; }
+  .hero-promo-item { padding: 22px 20px 20px; }
+  .hero-promo-title { font-size: 1.35rem; }
+  .hero-promo-desc { font-size: 0.8rem; }
 }
 .hero-top-header {
   display: flex;
