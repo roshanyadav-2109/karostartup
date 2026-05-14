@@ -1385,15 +1385,32 @@ a:hover .media-play { background: var(--brand); }
   .eminent-grid { grid-template-columns: repeat(3, 1fr); gap: 56px 32px; }
 }
 @media (max-width: 768px) {
-  .eminent-section { padding: 48px 0 56px; }
-  .eminent-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
-  .em-socials { right: -12px; bottom: 8px; gap: 5px; }
-  .em-social { width: 32px; height: 32px; }
-  .em-social svg { width: 14px; height: 14px; }
-  .em-info { padding: 12px 14px; }
-  .em-name { font-size: 1.04rem; }
-  .em-role { font-size: 0.74rem; }
-  .eminent-section .section-header { margin-bottom: 32px; }
+  .eminent-section { padding: 40px 0 48px; }
+  .eminent-grid { grid-template-columns: repeat(2, 1fr); gap: 28px 14px; }
+  .em-socials { right: -10px; bottom: 8px; gap: 5px; }
+  .em-social { width: 30px; height: 30px; }
+  .em-social svg { width: 13px; height: 13px; }
+  .em-info { padding: 10px 12px; }
+  .em-name { font-size: 0.98rem; }
+  .em-role { font-size: 0.72rem; }
+  .eminent-section .section-header { margin-bottom: 28px; }
+}
+/* Tiny-phone tweaks (320-380px) */
+@media (max-width: 480px) {
+  .hero-lead-title { font-size: 1.6rem !important; }
+  .hero-lead-kicker { font-size: 0.66rem; padding: 4px 9px; }
+  .hero-top-header h3 { font-size: 0.72rem; }
+  .cnn-col-mid .cnn-lead .story-card .title { font-size: 1.35rem; }
+  .cnn-col-mid .cnn-medium .story-card.small > .title { font-size: 1.05rem; }
+  .cat-hero-name { font-size: 2.4rem; }
+  .cat-hero-desc { font-size: 1rem; }
+  .metrics-band .metrics-grid { grid-template-columns: 1fr; gap: 28px; }
+  .metrics-band .metric { border-right: 0; border-bottom: 1px solid #1a1a1a; padding: 0 0 24px; }
+  .metrics-band .metric:last-child { border-bottom: 0; padding-bottom: 0; }
+  .em-info { padding: 10px 10px; }
+  .em-role { font-size: 0.7rem; }
+  .bb-hero h1 { font-size: 2rem; }
+  .bb-stat strong { font-size: 1.5rem; }
 }
 
 /* ============================================================
@@ -2510,10 +2527,20 @@ a:hover .media-play { background: var(--brand); }
   .cat-hero-grid { grid-template-columns: 1fr; gap: 32px; }
 }
 @media (max-width: 768px) {
-  .cat-hero-v2 { padding: 36px 0 0; }
-  .cat-hero-grid { gap: 24px; padding-bottom: 24px; }
+  .cat-hero-v2 { padding: 32px 0 0; }
+  .cat-hero-grid { gap: 22px; padding-bottom: 22px; }
+  .cat-hero-name { line-height: 1; }
   .cat-hero-subscribe { padding: 22px 20px 20px; }
-  .cat-hero-stats { font-size: 0.74rem; gap: 10px; }
+  .cat-hero-subscribe h3 { font-size: 1.08rem; }
+  .cat-hero-stats {
+    font-size: 0.7rem; gap: 8px;
+    flex-wrap: wrap;
+    padding-top: 12px;
+  }
+  /* Subscribe input + button stack vertically on phones — wider tap targets */
+  .cat-sub-card { flex-direction: column; }
+  .cat-sub-card input { padding: 14px 16px; }
+  .cat-sub-card button { padding: 14px; width: 100%; }
 }
 .cat-hero-row {
   display: grid;
@@ -2761,7 +2788,8 @@ a:hover .media-play { background: var(--brand); }
   .cat-bottom-strips { grid-template-columns: 1fr; gap: 28px; }
 }
 @media (max-width: 768px) {
-  .cnn-grid { padding: 28px 0 36px; gap: 28px; }
+  .cnn-grid { padding: 22px 0 28px; gap: 22px; }
+  .cnn-col-head { font-size: 0.7rem; margin-bottom: 14px; padding-bottom: 10px; }
   /* Stack image on top of text on phones */
   .cnn-col-mid .cnn-medium .story-card.small {
     grid-template-columns: 1fr;
@@ -2774,12 +2802,14 @@ a:hover .media-play { background: var(--brand); }
     grid-row: 1;
     aspect-ratio: 16 / 10;
     min-height: 0;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
   .cnn-col-mid .cnn-medium .story-card.small > .cover-media .cover { min-height: 0; }
   .cnn-col-mid .cnn-medium .story-card.small > .kicker { grid-row: 2; }
-  .cnn-col-mid .cnn-medium .story-card.small > .title  { grid-row: 3; font-size: 1.2rem; }
+  .cnn-col-mid .cnn-medium .story-card.small > .title  { grid-row: 3; font-size: 1.18rem; }
   .cnn-col-mid .cnn-medium .story-card.small > .meta   { grid-row: 4; }
+  .cnn-col-mid .cnn-lead .story-card .title { font-size: 1.5rem; }
+  .cnn-col-mid .cnn-medium { padding: 16px 0; }
   .cat-archive-grid { grid-template-columns: 1fr; gap: 24px; }
 }
 .pagination {
@@ -4585,10 +4615,10 @@ a:hover .media-play { background: var(--brand); }
    MOBILE
    ============================================================ */
 @media (max-width: 1100px) {
-  .hero { grid-template-columns: 1fr 1fr; }
-  .hero-side-left { grid-column: 1 / -1; order: 3; padding-top: 20px; border-top: 1px solid var(--hairline); }
-  .hero-lead-v2 { grid-column: 1 / -1; order: 1; }
-  .hero-top-stories { grid-column: 1 / -1; order: 2; margin-top: 4px; }
+  .hero { grid-template-columns: 1fr; gap: 24px; }
+  .hero-side-left { order: 3; padding-top: 20px; border-top: 1px solid var(--hairline); }
+  .hero-lead-v2 { order: 1; }
+  .hero-top-stories { order: 2; }
 }
 @media (max-width: 1024px) {
   .hero-top-stories { margin-top: 8px; }
@@ -4643,8 +4673,11 @@ a:hover .media-play { background: var(--brand); }
   .top-strip { grid-template-columns: 1fr; }
   .latest-news-grid { grid-template-columns: 1fr; gap: 18px; }
   .hero-lead-title { font-size: 1.9rem !important; }
-  .hero-lead-img { aspect-ratio: 16 / 11; margin-bottom: 14px; }
-  .hero-top-stories { padding: 18px; }
+  .hero-lead-img { aspect-ratio: 16 / 11; margin-bottom: 12px; }
+  .hero-top-stories { padding: 16px 18px; }
+  .hero-top-list .ts-title { font-size: 0.92rem; }
+  .hero-top-list .ts-num { font-size: 1.2rem; }
+  .hero-side-head { font-size: 0.7rem; }
   .sector-grid { grid-template-columns: 1fr; }
   .longread-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; gap: 24px; padding-bottom: 24px; }
@@ -4718,6 +4751,11 @@ a:hover .media-play { background: var(--brand); }
   .contact-tabs .contact-tab { padding: 8px 12px; font-size: 0.8rem; }
   .toast { min-width: 240px; }
   .toast-container { left: 16px; right: 16px; }
+  /* Container padding tighter on phones */
+  .container { padding: 0 16px; }
+  /* Section header — smaller heading + label */
+  .h-section { font-size: 1.4rem; }
+  .section-header { margin-bottom: 20px; padding-bottom: 10px; }
   /* Auth-wall modal — nearly full-screen on phones so the CTAs are huge */
   .authwall-modal { padding: 0; }
   .authwall-card {
