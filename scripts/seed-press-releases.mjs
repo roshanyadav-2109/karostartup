@@ -13,8 +13,23 @@
  * publication timestamp. Newest item becomes is_featured + is_breaking;
  * the next two become is_breaking. Idempotent on slug.
  *
+ * Modes:
+ *   - LIVE (default): fetches the top of PIB's English listing
+ *     (~30-40 newest releases). Cheap, runs in <1 min, designed for cron.
+ *
+ *   - BACKFILL: sweeps PRIDs in a range to seed historical data.
+ *       BACKFILL_FROM=2026-01-01 [BACKFILL_TO=2026-05-14] \
+ *         node scripts/seed-press-releases.mjs
+ *     Estimates the start PRID, walks forward, keeps only items whose
+ *     parsed post-date falls in the requested window. Idempotent on
+ *     slug (re-runs safely skip what's already in the DB). Expect this
+ *     to take several hours for a multi-month window — run it locally
+ *     once, then let the 30-min cron keep things fresh going forward.
+ *
  * Usage:
  *   SUPABASE_SERVICE_ROLE_KEY=ey... node scripts/seed-press-releases.mjs
+ *   SUPABASE_SERVICE_ROLE_KEY=ey... BACKFILL_FROM=2026-01-01 \
+ *     node scripts/seed-press-releases.mjs
  *
  * Recommended cron: every 30 minutes (.github/workflows/seed-press-releases.yml)
  */
@@ -252,6 +267,94 @@ function buildArticle(item, catMap, flagFeatured, flagBreaking) {
   };
 }
 
+// ---------------------------------------------------------------------------
+// BACKFILL MODE
+//
+// Sweep PRIDs in an estimated range and keep only those whose parsed
+// post-date falls inside [BACKFILL_FROM, BACKFILL_TO]. PRIDs are roughly
+// monotonic across ALL languages — empirically ~300/day total — so we can
+// estimate the start PRID from the requested date and the highest current
+// PRID, then walk forward.
+// ---------------------------------------------------------------------------
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+async function highestKnownPrid() {
+  const prids = await pibListing();
+  return Math.max(...prids.map(Number));
+}
+
+// Empirically PIB issues ~300 PRIDs/day across all languages combined.
+const PRIDS_PER_DAY = 320;
+
+async function runBackfill(from, to, catMap) {
+  const fromTs = new Date(from + 'T00:00:00Z').getTime();
+  const toTs   = new Date(to   + 'T23:59:59Z').getTime();
+  if (Number.isNaN(fromTs) || Number.isNaN(toTs) || fromTs > toTs) {
+    throw new Error(`Invalid date range: ${from} → ${to}`);
+  }
+
+  const highest = await highestKnownPrid();
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+  const daysAgo = Math.max(0, Math.ceil((today.getTime() - fromTs) / 86_400_000));
+  const startPrid = Math.max(2_000_000, highest - (daysAgo + 2) * PRIDS_PER_DAY);
+  // Sweep a generous buffer past today's highest too, in case more were posted today
+  const endPrid = highest + 80;
+  const total = endPrid - startPrid + 1;
+
+  console.log(`• Backfilling ${from} → ${to}`);
+  console.log(`  highest known PRID: ${highest}`);
+  console.log(`  sweep range: PRID ${startPrid} → ${endPrid} (~${total} fetches)`);
+  console.log(`  est. business-relevant hits: ~${Math.round(total * 0.05)}`);
+  console.log(`  est. wall time at 7 req/s: ~${Math.round(total / 7 / 60)} min\n`);
+
+  let scanned = 0, parsed = 0, kept = 0, inserted = 0, errors = 0;
+  let batch = [];
+
+  const flush = async () => {
+    if (!batch.length) return;
+    const rows = batch.map(it => buildArticle(it, catMap, false, false)).filter(Boolean);
+    if (rows.length) {
+      try {
+        await upsert('articles', rows, 'slug');
+        inserted += rows.length;
+      } catch (e) {
+        console.error('\n  upsert error:', e.message);
+      }
+    }
+    batch = [];
+  };
+
+  for (let prid = startPrid; prid <= endPrid; prid++) {
+    scanned++;
+    try {
+      const item = await pibDetail(String(prid));
+      if (item) parsed++;
+      if (item && MINISTRY_TO_CATEGORY[item.ministry]) {
+        const ts = new Date(item.publishedAt).getTime();
+        if (ts >= fromTs && ts <= toTs) {
+          batch.push(item);
+          kept++;
+          if (batch.length >= 25) await flush();
+        }
+      }
+    } catch (e) {
+      errors++;
+    }
+    if (scanned % 200 === 0) {
+      const pct = ((scanned / total) * 100).toFixed(1);
+      process.stdout.write(`\r  scanned ${scanned}/${total} (${pct}%)  parsed ${parsed}  kept ${kept}  inserted ${inserted}  err ${errors}      `);
+    }
+    // Rate-limit ~7 req/s so we're polite to PIB
+    await sleep(140);
+  }
+  await flush();
+  console.log(`\n• Done. scanned ${scanned}  parsed ${parsed}  kept ${kept}  inserted ${inserted}  errors ${errors}`);
+}
+
+// ---------------------------------------------------------------------------
+// MAIN
+// ---------------------------------------------------------------------------
 (async () => {
   console.log('• Ensuring banking + markets categories…');
   await ensureCategories();
@@ -260,6 +363,14 @@ function buildArticle(item, catMap, flagFeatured, flagBreaking) {
   const cats = await rest('categories?select=id,slug');
   const catMap = Object.fromEntries(cats.map(c => [c.slug, c.id]));
 
+  const from = process.env.BACKFILL_FROM;
+  const to   = process.env.BACKFILL_TO || new Date().toISOString().slice(0, 10);
+  if (from) {
+    await runBackfill(from, to, catMap);
+    return;
+  }
+
+  // ---- LIVE MODE (default, used by cron) ----
   console.log('• Fetching PIB English release listing…');
   const prids = await pibListing();
   console.log(`  ${prids.length} PRIDs found`);
