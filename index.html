@@ -267,6 +267,7 @@
       const remaining = data.filter(a => a.id !== lead.id);
       const leftStories = remaining.slice(0, 3);   // 3 small side cards on the left
       const topStories  = remaining.slice(3, 8);   // 5 numbered top stories on the right
+      const stripUpdates = remaining.slice(8, 14); // 4-6 mini cards under the lead
       const leadCover = lead.cover_image_url || defaultCover(lead);
       const leadAuthor = lead.profiles?.full_name || 'Karostartup';
       const leadKickerText = lead.kicker || lead.categories?.name || '';
@@ -277,23 +278,46 @@
           ${leftStories.map(renderSideCard).join('')}
         </aside>
 
-        <article class="hero-lead-v2">
-          <a href="${articleHref(lead)}">
-            <div class="hero-lead-img">
-              <img src="${escapeAttr(leadCover)}" alt="${escapeAttr(lead.title)}" loading="eager">
-              ${leadKickerText ? `<span class="hero-lead-kicker">${escapeHtml(leadKickerText)}</span>` : ''}
+        <div class="hero-middle">
+          <article class="hero-lead-v2">
+            <a href="${articleHref(lead)}">
+              <div class="hero-lead-img">
+                <img src="${escapeAttr(leadCover)}" alt="${escapeAttr(lead.title)}" loading="eager">
+                ${leadKickerText ? `<span class="hero-lead-kicker">${escapeHtml(leadKickerText)}</span>` : ''}
+              </div>
+              <h2 class="hero-lead-title">${escapeHtml(lead.title)}</h2>
+              ${lead.subtitle ? `<p class="hero-lead-dek">${escapeHtml(lead.subtitle)}</p>`
+                : (lead.summary ? `<p class="hero-lead-dek">${escapeHtml(lead.summary.slice(0, 180))}${lead.summary.length > 180 ? '…' : ''}</p>` : '')}
+              <div class="hero-lead-meta">
+                <strong>${escapeHtml(leadAuthor)}</strong>
+                <span class="meta-dot"></span>
+                <time datetime="${escapeAttr(lead.published_at || '')}">${timeAgo(lead.published_at)}</time>
+                ${lead.read_time_minutes ? `<span class="meta-dot"></span><span>${lead.read_time_minutes} min read</span>` : ''}
+              </div>
+            </a>
+          </article>
+
+          ${stripUpdates.length ? `
+          <section class="hero-updates" aria-label="Latest updates">
+            <div class="hero-updates-head">
+              <h3 class="hero-updates-title"><span class="live-dot"></span> Latest Updates</h3>
+              <a href="#latest-feed" class="hero-updates-more">More →</a>
             </div>
-            <h2 class="hero-lead-title">${escapeHtml(lead.title)}</h2>
-            ${lead.subtitle ? `<p class="hero-lead-dek">${escapeHtml(lead.subtitle)}</p>`
-              : (lead.summary ? `<p class="hero-lead-dek">${escapeHtml(lead.summary.slice(0, 180))}${lead.summary.length > 180 ? '…' : ''}</p>` : '')}
-            <div class="hero-lead-meta">
-              <strong>${escapeHtml(leadAuthor)}</strong>
-              <span class="meta-dot"></span>
-              <time datetime="${escapeAttr(lead.published_at || '')}">${timeAgo(lead.published_at)}</time>
-              ${lead.read_time_minutes ? `<span class="meta-dot"></span><span>${lead.read_time_minutes} min read</span>` : ''}
+            <div class="hero-updates-strip" id="hero-updates-strip">
+              ${stripUpdates.map(a => {
+                const cover = a.cover_image_url || defaultCover(a);
+                const kicker = a.kicker || a.categories?.name || '';
+                return `
+                  <a class="hero-update-card" href="${articleHref(a)}">
+                    <div class="hero-update-thumb"><img src="${escapeAttr(cover)}" alt="${escapeAttr(a.title)}" loading="lazy"></div>
+                    <p class="hero-update-title">
+                      ${kicker ? `<span class="hero-update-kicker">${escapeHtml(kicker)}:</span> ` : ''}${escapeHtml(a.title)}
+                    </p>
+                  </a>`;
+              }).join('')}
             </div>
-          </a>
-        </article>
+          </section>` : ''}
+        </div>
 
         <div class="hero-side-right">
         <div class="hero-promo-rotator" id="hero-promo-rotator">
