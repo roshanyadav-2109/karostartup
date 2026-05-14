@@ -328,8 +328,9 @@
         return `
           <div class="sector-card reveal">
             <div class="sector-name">${escapeHtml(cat.name)}</div>
-            <div class="sector-meta"><a href="/category/view.html?slug=${encodeURIComponent(cat.slug)}">View all →</a></div>
+            <div class="sector-meta"><a href="/category/view.html?slug=${encodeURIComponent(cat.slug)}">All stories →</a></div>
             <div class="sector-stories">${items || '<span style="color:#9a9a9a;font-size:0.9rem;">No stories yet</span>'}</div>
+            <a href="/best-brands.html?sector=${encodeURIComponent(cat.name)}" class="sector-brands-link">Top ${escapeHtml(cat.name)} brands →</a>
           </div>`;
       }).join('');
     } catch {} });
