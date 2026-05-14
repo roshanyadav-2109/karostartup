@@ -70,34 +70,25 @@
     const { count: totalCount } = await sb.from('articles').select('id', { count: 'exact', head: true }).eq('status', 'published').eq('category_id', cat.id);
 
     document.getElementById('cat-main').innerHTML = `
-      <section class="masthead-hero">
+      <section class="cat-bar">
         <div class="container">
-          <div class="masthead-row">
-            <span class="masthead-rule"></span>
-            <h1 class="masthead-title">${escapeHtml(cat.name).toUpperCase()}</h1>
-            <span class="masthead-rule"></span>
-          </div>
-          ${cat.description ? `<p class="masthead-dek">${escapeHtml(cat.description)}</p>` : ''}
-          <p class="masthead-meta">
-            <span><strong>${totalCount || 0}</strong> ${(totalCount || 0) === 1 ? 'story' : 'stories'}</span>
-            <span class="sep">·</span>
-            <span id="cat-hero-brands"><strong>—</strong> brands</span>
-            <span class="sep">·</span>
-            <span id="cat-hero-updated">Updated <strong>—</strong></span>
-          </p>
-        </div>
-      </section>
-
-      <section class="masthead-subscribe-strip">
-        <div class="container">
-          <form class="masthead-sub-form" id="cat-subscribe">
-            <span class="masthead-sub-label">The ${escapeHtml(cat.name)} Weekly · Mondays at 7am IST</span>
-            <div class="masthead-sub-input">
-              <input type="email" name="email" placeholder="your@email.com" required aria-label="Email">
-              <button type="submit">Subscribe</button>
+          <div class="cat-bar-row">
+            <div class="cat-bar-stats">
+              <span><strong>${totalCount || 0}</strong> ${(totalCount || 0) === 1 ? 'story' : 'stories'}</span>
+              <span class="sep">·</span>
+              <span id="cat-hero-brands"><strong>—</strong> brands</span>
+              <span class="sep">·</span>
+              <span id="cat-hero-updated">Updated <strong>—</strong></span>
             </div>
-            <div class="cat-sub-msg" id="cat-sub-msg"></div>
-          </form>
+            <form class="cat-bar-form" id="cat-subscribe">
+              <span class="cat-bar-form-label">Get the ${escapeHtml(cat.name)} Weekly →</span>
+              <div class="cat-bar-input">
+                <input type="email" name="email" placeholder="your@email.com" required aria-label="Email">
+                <button type="submit">Subscribe</button>
+              </div>
+            </form>
+          </div>
+          <div class="cat-sub-msg" id="cat-sub-msg"></div>
         </div>
       </section>
 
