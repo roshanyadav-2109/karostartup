@@ -2170,6 +2170,86 @@ a:hover .media-play { background: var(--brand); }
 }
 
 /* ============================================================
+   MORE TO READ — bottom-of-home: Most Read + Browse by Topic
+   ============================================================ */
+.mtr-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+  gap: 48px;
+  align-items: start;
+}
+.most-read-list .meta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+  display: block;
+}
+
+.topic-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.topic-tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+  background: #0a0a0a;
+  border-radius: 2px;
+  isolation: isolate;
+}
+.topic-tile-img { position: absolute; inset: 0; z-index: 0; }
+.topic-tile-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+  filter: brightness(0.55);
+  transition: transform 400ms ease, filter 250ms ease;
+}
+.topic-tile:hover .topic-tile-img img {
+  transform: scale(1.05);
+  filter: brightness(0.4);
+}
+.topic-tile-overlay {
+  position: absolute; inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 14px;
+  z-index: 1;
+}
+.topic-tile-name {
+  font-size: clamp(1rem, 1.7vw, 1.35rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+.topic-tile-count {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  opacity: 0.88;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .mtr-grid { grid-template-columns: 1fr; gap: 32px; }
+  .topic-tiles { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .topic-tiles { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
    FOOTER
    ============================================================ */
 .footer {

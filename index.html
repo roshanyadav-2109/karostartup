@@ -154,22 +154,20 @@
       </div>
     </section>
 
-    <section class="section" id="latest-feed">
+    <section class="section more-to-read">
       <div class="container">
-        <div class="section-header">
-          <h2 class="h-section">Latest</h2>
-        </div>
-        <div class="latest-layout">
-          <div id="feed-slot"></div>
-          <div>
-            <div class="sidebar-block">
-              <h3 class="h-section">Most Read</h3>
-              <ol class="most-read-list" id="most-read-slot"></ol>
+        <div class="mtr-grid">
+          <div class="mtr-most-read">
+            <div class="section-header">
+              <h2 class="h-section">Most Read This Week</h2>
             </div>
-            <div class="sidebar-block">
-              <h3 class="h-section">Trending Sectors</h3>
-              <ul class="trending-list" id="trending-slot"></ul>
+            <ol class="most-read-list" id="most-read-slot"></ol>
+          </div>
+          <div class="mtr-topics">
+            <div class="section-header">
+              <h2 class="h-section">Browse by Topic</h2>
             </div>
+            <div class="topic-tiles" id="topic-tiles-slot"></div>
           </div>
         </div>
       </div>
@@ -921,33 +919,22 @@
       }
     });
 
-    // FEED (latest 8)
-    run(async () => { try {
-      const { data } = await sb.from('articles')
-        .select('id,slug,title,kicker,summary,cover_image_url,published_at,read_time_minutes,view_count,categories(name),profiles!author_id(full_name)')
-        .eq('status', 'published')
-        .order('published_at', { ascending: false })
-        .range(4, 12)
-        .limit(8);
-      const slot = document.getElementById('feed-slot');
-      if (!data || !data.length) {
-        slot.innerHTML = '<div class="empty-state"><h3>No stories in the feed yet</h3></div>';
-      } else {
-        slot.innerHTML = data.map(renderFeedItem).join('');
-      }
-    } catch (e) { console.warn('[home]', e?.message || e); } });
-
-    // MOST READ (last 7 days, top 5)
+    // MOST READ THIS WEEK — top 5 by view_count over the last 7 days,
+    // falling back to all-time top 5 if nothing has views in the window.
     run(async () => { try {
       const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
       let { data } = await sb.from('articles')
-        .select('id,slug,title,view_count,published_at')
+        .select('id,slug,title,view_count,kicker,categories(name)')
         .eq('status', 'published')
         .gte('published_at', since)
         .order('view_count', { ascending: false })
         .limit(5);
       if (!data || !data.length) {
-        const r = await sb.from('articles').select('id,slug,title,view_count').eq('status', 'published').order('view_count', { ascending: false }).limit(5);
+        const r = await sb.from('articles')
+          .select('id,slug,title,view_count,kicker,categories(name)')
+          .eq('status', 'published')
+          .order('view_count', { ascending: false })
+          .limit(5);
         data = r.data || [];
       }
       const slot = document.getElementById('most-read-slot');
@@ -956,35 +943,54 @@
       } else {
         slot.innerHTML = data.map((a, i) => `
           <li>
-            <span class="num">${i + 1}</span>
+            <span class="num">${String(i + 1).padStart(2, '0')}</span>
             <div>
               <a href="${articleHref(a)}">${escapeHtml(a.title)}</a>
-              <span class="views">${formatNumber(a.view_count || 0)} views</span>
+              <span class="meta">${escapeHtml(a.categories?.name || a.kicker || '')}${a.view_count ? ' · ' + formatNumber(a.view_count) + ' views' : ''}</span>
             </div>
           </li>`).join('');
       }
     } catch (e) { console.warn('[home]', e?.message || e); } });
 
-    // TRENDING SECTORS (last 7d) — count per category in parallel
+    // BROWSE BY TOPIC — top 6 categories by 30-day article count, rendered
+    // as photo tiles using the most-recent article's cover as the visual.
     run(async () => { try {
-      const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const slot = document.getElementById('topic-tiles-slot');
+      const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
       const { data: cats } = await sb.from('categories').select('id,slug,name');
-      const counts = await Promise.all((cats || []).map(async (c) => {
-        const { count } = await sb.from('articles')
-          .select('id', { count: 'exact', head: true })
-          .eq('status', 'published')
-          .eq('category_id', c.id)
-          .gte('published_at', since);
-        return { ...c, count: count || 0 };
-      }));
-      counts.sort((a, b) => b.count - a.count);
-      const top = counts.slice(0, 4);
-      const slot = document.getElementById('trending-slot');
-      if (!top.some(t => t.count > 0)) {
-        slot.innerHTML = '<li><span style="color:#9a9a9a;">Activity will show here as stories are published</span></li>';
-      } else {
-        slot.innerHTML = top.map(t => `<li><a href="/category/view.html?slug=${encodeURIComponent(t.slug)}">${escapeHtml(t.name)}</a><span class="count">${t.count} stories</span></li>`).join('');
+      if (!cats || !cats.length) {
+        slot.innerHTML = '<span style="color:#9a9a9a;font-size:0.86rem;">No topics yet.</span>';
+        return;
       }
+      const enriched = await Promise.all(cats.map(async (c) => {
+        const [{ count }, { data: latest }] = await Promise.all([
+          sb.from('articles').select('id', { count: 'exact', head: true })
+            .eq('status', 'published').eq('category_id', c.id)
+            .gte('published_at', since),
+          sb.from('articles').select('cover_image_url,title,slug')
+            .eq('status', 'published').eq('category_id', c.id)
+            .order('published_at', { ascending: false })
+            .limit(1),
+        ]);
+        return { ...c, count: count || 0, cover: latest?.[0]?.cover_image_url || null };
+      }));
+      enriched.sort((a, b) => b.count - a.count);
+      const top = enriched.filter(t => t.count > 0).slice(0, 6);
+      if (!top.length) {
+        slot.innerHTML = '<span style="color:#9a9a9a;font-size:0.86rem;">Topics will appear as stories are published.</span>';
+        return;
+      }
+      slot.innerHTML = top.map(t => {
+        const cover = t.cover || defaultCover(t);
+        return `
+        <a class="topic-tile" href="/category/view.html?slug=${encodeURIComponent(t.slug)}">
+          <div class="topic-tile-img"><img src="${escapeAttr(cover)}" alt="${escapeAttr(t.name)}" loading="lazy"></div>
+          <div class="topic-tile-overlay">
+            <span class="topic-tile-name">${escapeHtml(t.name)}</span>
+            <span class="topic-tile-count">${t.count} ${t.count === 1 ? 'story' : 'stories'} →</span>
+          </div>
+        </a>`;
+      }).join('');
     } catch (e) { console.warn('[home]', e?.message || e); } });
   })();
   </script>
