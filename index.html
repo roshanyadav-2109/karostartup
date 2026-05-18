@@ -30,18 +30,17 @@
           </div>
           <a href="#latest-feed" class="more-link">All latest →</a>
         </div>
-        <div class="cnn-grid" id="home-cnn-grid">
-          <div class="cnn-col cnn-col-left">
-            <h3 class="cnn-col-head">Editor's Picks</h3>
-            <div id="home-cnn-left"><div class="loading-state">Loading…</div></div>
-          </div>
-          <div class="cnn-col cnn-col-mid">
-            <h3 class="cnn-col-head"><span class="live-dot"></span> Top stories now</h3>
-            <div id="home-cnn-mid"><div class="loading-state">Loading…</div></div>
-          </div>
-          <div class="cnn-col cnn-col-right">
-            <h3 class="cnn-col-head">More to read</h3>
-            <div id="home-cnn-right"><div class="loading-state">Loading…</div></div>
+        <div class="lnews-grid" id="home-lnews-grid">
+          <a class="lnews-feature" id="lnews-feature" href="#" aria-live="polite">
+            <div class="lnews-feature-img"><img id="lnews-feature-img" src="" alt="" loading="eager"></div>
+            <div class="lnews-feature-overlay">
+              <span class="lnews-feature-cat" id="lnews-feature-cat"></span>
+              <h3 class="lnews-feature-title" id="lnews-feature-title"></h3>
+            </div>
+            <div class="lnews-feature-dots" id="lnews-feature-dots" aria-hidden="true"></div>
+          </a>
+          <div class="lnews-side-stack" id="lnews-side">
+            <div class="loading-state" style="min-height:200px;">Loading…</div>
           </div>
         </div>
       </div>
@@ -447,8 +446,9 @@
       }, true);
     }
 
-    // LATEST NEWS — CNN-style 3-col layout (left small + middle lead/medium + right small)
-    // Picks up where the hero leaves off (range 6-15 → 10 items)
+    // LATEST NEWS — CNN-style featured rotator (1 big left + 2 stacked right)
+    // Big frame auto-cycles every 2s through ~5 stories; side cards static.
+    // Picks up where the hero leaves off (range 6-15 → up to 10 items).
     run(async () => { try {
       const { data } = await sb.from('articles')
         .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,view_count,is_featured,categories(name,slug),profiles!author_id(full_name)')
@@ -456,25 +456,89 @@
         .order('published_at', { ascending: false })
         .range(6, 15)
         .limit(10);
-      const midSlot   = document.getElementById('home-cnn-mid');
-      const leftSlot  = document.getElementById('home-cnn-left');
-      const rightSlot = document.getElementById('home-cnn-right');
+
+      const featureEl = document.getElementById('lnews-feature');
+      const imgEl     = document.getElementById('lnews-feature-img');
+      const catEl     = document.getElementById('lnews-feature-cat');
+      const titleEl   = document.getElementById('lnews-feature-title');
+      const dotsEl    = document.getElementById('lnews-feature-dots');
+      const sideEl    = document.getElementById('lnews-side');
+
       if (!data || !data.length) {
-        midSlot.innerHTML  = '<div class="empty-state">No additional stories yet.</div>';
-        leftSlot.innerHTML = '';
-        rightSlot.innerHTML = '';
+        featureEl.style.display = 'none';
+        sideEl.innerHTML = '<div class="empty-state">No additional stories yet.</div>';
         return;
       }
-      const lead         = data[0];
-      const middleMedium = data.slice(1, 4);
-      const leftSmall    = data.slice(4, 7);
-      const rightSmall   = data.slice(7, 10);
-      midSlot.innerHTML = `
-        <article class="cnn-lead">${renderStoryCard(lead)}</article>
-        ${middleMedium.length ? `<div class="cnn-medium-stack">${middleMedium.map(a => `<article class="cnn-medium">${renderStoryCard(a, { small: true })}</article>`).join('')}</div>` : ''}
-      `;
-      leftSlot.innerHTML  = leftSmall.length  ? leftSmall.map(renderSideCard).join('')  : '<span style="color:#9a9a9a;font-size:0.86rem;">Nothing else yet.</span>';
-      rightSlot.innerHTML = rightSmall.length ? rightSmall.map(renderSideCard).join('') : '<span style="color:#9a9a9a;font-size:0.86rem;">Nothing else yet.</span>';
+
+      const rotating    = data.slice(0, Math.min(5, data.length));
+      const sideStories = data.slice(rotating.length, rotating.length + 2);
+
+      // Side cards — image on top, kicker + headline below.
+      sideEl.innerHTML = sideStories.map(a => {
+        const cover = a.cover_image_url || defaultCover(a);
+        const cat   = (a.categories?.name || a.kicker || '').toUpperCase();
+        return `
+        <a class="lnews-side reveal" href="${articleHref(a)}">
+          <div class="lnews-side-img"><img src="${escapeAttr(cover)}" alt="${escapeAttr(a.title)}" loading="lazy"></div>
+          ${cat ? `<span class="lnews-side-cat">${escapeHtml(cat)}</span>` : ''}
+          <h3 class="lnews-side-title">${escapeHtml(a.title)}</h3>
+        </a>`;
+      }).join('') || '<span style="color:#9a9a9a;font-size:0.86rem;">Nothing else yet.</span>';
+
+      // Preload rotator images so swaps don't flash.
+      rotating.forEach(a => { const im = new Image(); im.src = a.cover_image_url || defaultCover(a); });
+
+      // Dots — clickable, indicate position.
+      dotsEl.innerHTML = rotating.map((_, i) =>
+        `<button type="button" class="lnews-dot" data-i="${i}" aria-label="Story ${i + 1}"></button>`
+      ).join('');
+      const dotButtons = [...dotsEl.querySelectorAll('.lnews-dot')];
+
+      let idx = 0;
+      let paused = false;
+      let timer = null;
+
+      function paint(i, instant) {
+        const a = rotating[i];
+        const cover = a.cover_image_url || defaultCover(a);
+        const cat   = (a.categories?.name || a.kicker || '').toUpperCase();
+        const apply = () => {
+          featureEl.href = articleHref(a);
+          imgEl.src      = cover;
+          imgEl.alt      = a.title;
+          catEl.textContent   = cat;
+          catEl.style.display = cat ? 'inline-block' : 'none';
+          titleEl.textContent = a.title;
+          featureEl.classList.remove('is-fading');
+          dotButtons.forEach((d, di) => d.classList.toggle('is-active', di === i));
+        };
+        if (instant) { apply(); return; }
+        featureEl.classList.add('is-fading');
+        setTimeout(apply, 260);
+      }
+
+      paint(0, true);
+
+      function tick()  { idx = (idx + 1) % rotating.length; paint(idx); }
+      function start() { stop(); if (rotating.length > 1) timer = setInterval(() => { if (!paused) tick(); }, 2000); }
+      function stop()  { if (timer) { clearInterval(timer); timer = null; } }
+
+      featureEl.addEventListener('mouseenter', () => { paused = true; });
+      featureEl.addEventListener('mouseleave', () => { paused = false; });
+
+      // Dot click — jump to a specific story; keep clicking the slide open the link.
+      dotButtons.forEach(d => d.addEventListener('click', (e) => {
+        e.preventDefault(); e.stopPropagation();
+        idx = +d.dataset.i;
+        paint(idx);
+      }));
+
+      // Pause when tab is hidden — saves CPU/data.
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stop(); else start();
+      });
+
+      start();
     } catch (e) { console.warn('[home]', e?.message || e); } });
 
     // FUNDING ROUNDS table + chart

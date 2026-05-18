@@ -3179,6 +3179,147 @@ a:hover .media-play { background: var(--brand); }
    Middle column = wide, runs a lead + 3 medium stories
    Right column = more small stories
    ============================================================ */
+
+/* ============================================================
+   LATEST NEWS — CNN-style featured rotator
+   Big feature (auto-rotates every 2s) + 2 stacked side cards
+   ============================================================ */
+.lnews-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 22px;
+  padding: 26px 0 44px;
+  border-bottom: 1px solid var(--hairline);
+  align-items: stretch;
+}
+.lnews-feature {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  background: #0a0a0a;
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+  border-radius: 2px;
+  isolation: isolate;
+}
+.lnews-feature-img {
+  position: absolute; inset: 0;
+}
+.lnews-feature-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+  transition: opacity 260ms ease, transform 8s ease-out;
+  opacity: 1;
+}
+.lnews-feature:hover .lnews-feature-img img { transform: scale(1.03); }
+.lnews-feature::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.88) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+.lnews-feature-overlay {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 26px 30px 28px;
+  z-index: 1;
+  transition: opacity 260ms ease;
+}
+.lnews-feature-cat {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: #fff;
+  background: #d10a11;
+  padding: 5px 10px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.lnews-feature-title {
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  font-weight: 800;
+  line-height: 1.18;
+  color: #fff;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+  letter-spacing: -0.01em;
+}
+.lnews-feature.is-fading .lnews-feature-img img,
+.lnews-feature.is-fading .lnews-feature-overlay { opacity: 0; }
+.lnews-feature-dots {
+  position: absolute; bottom: 14px; right: 18px; z-index: 2;
+  display: flex; gap: 7px;
+}
+.lnews-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  border: 0; padding: 0; cursor: pointer;
+  background: rgba(255,255,255,0.45);
+  transition: background 200ms ease, transform 200ms ease;
+}
+.lnews-dot:hover { background: rgba(255,255,255,0.85); }
+.lnews-dot.is-active { background: #fff; transform: scale(1.35); }
+
+/* Side stack — 2 cards, image on top, headline below */
+.lnews-side-stack {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 18px;
+  min-height: 0;
+}
+.lnews-side {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  text-decoration: none;
+  color: inherit;
+  min-height: 0;
+}
+.lnews-side-img {
+  position: relative;
+  overflow: hidden;
+  background: #f3f3f3;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+}
+.lnews-side-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+  transition: transform 400ms ease;
+}
+.lnews-side:hover .lnews-side-img img { transform: scale(1.04); }
+.lnews-side-cat {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  color: #d10a11;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-top: 10px;
+}
+.lnews-side-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 6px 0 0;
+  color: #0a0a0a;
+  letter-spacing: -0.005em;
+}
+.lnews-side:hover .lnews-side-title { color: #d10a11; }
+
+@media (max-width: 900px) {
+  .lnews-grid { grid-template-columns: 1fr; gap: 18px; }
+  .lnews-side-stack { grid-template-rows: auto; grid-template-columns: 1fr 1fr; gap: 14px; }
+}
+@media (max-width: 600px) {
+  .lnews-side-stack { grid-template-columns: 1fr; }
+  .lnews-feature-overlay { padding: 18px 18px 22px; }
+  .lnews-feature-title { font-size: 1.15rem; line-height: 1.2; }
+  .lnews-feature-cat { font-size: 0.66rem; padding: 4px 8px; margin-bottom: 10px; }
+}
+
 .cnn-grid {
   display: grid;
   grid-template-columns: 3fr 6fr 3fr;
