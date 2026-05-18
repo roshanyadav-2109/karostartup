@@ -70,6 +70,21 @@
       </div>
     </section>
 
+    <section class="podcasts-block" id="podcasts-block">
+      <div class="container">
+        <div class="podcasts-block-head">
+          <div>
+            <span class="eyebrow" style="color:#d10a11;">Karostartup Podcasts</span>
+            <h2 class="podcasts-block-title">Conversations with the people building India.</h2>
+          </div>
+          <a href="/podcasts.html" class="more-link" style="color:#fff;">All episodes →</a>
+        </div>
+      </div>
+      <div class="pod-carousel" id="pod-carousel">
+        <div class="loading-state" style="color:#888;">Loading episodes…</div>
+      </div>
+    </section>
+
     <section class="founder-spotlight" id="founder-spotlight-slot"></section>
 
     <section class="section eminent-section">
@@ -711,6 +726,102 @@
           </div>`;
       }).join('');
     } catch (e) { console.warn('[home]', e?.message || e); } });
+
+    // PODCASTS — YouTube carousel: one centered frame with ~20% peek of
+    // the neighbors on each side, horizontal scroll. Lazy-load: thumbnail
+    // first, swap to the YouTube iframe only when the visitor clicks play.
+    run(async () => { try {
+      const wrap = document.getElementById('pod-carousel');
+      const section = document.getElementById('podcasts-block');
+      const { data } = await sb.from('podcasts')
+        .select('id,title,guest_name,description,youtube_id,thumbnail_url,duration_seconds,episode_number,published_at')
+        .eq('is_published', true)
+        .order('sort_order', { ascending: true })
+        .order('published_at', { ascending: false })
+        .limit(15);
+      if (!data || !data.length) {
+        section.style.display = 'none';
+        return;
+      }
+      wrap.innerHTML = data.map((p, i) => {
+        const thumb = p.thumbnail_url || `https://i.ytimg.com/vi/${encodeURIComponent(p.youtube_id)}/maxresdefault.jpg`;
+        const dur = p.duration_seconds
+          ? `${Math.floor(p.duration_seconds / 60)}:${String(p.duration_seconds % 60).padStart(2, '0')}`
+          : '';
+        return `
+        <div class="pod-slide" data-i="${i}" data-yt="${escapeAttr(p.youtube_id)}">
+          <div class="pod-frame">
+            <img class="pod-thumb" src="${escapeAttr(thumb)}" alt="${escapeAttr(p.title)}" loading="lazy"
+                 onerror="this.src='https://i.ytimg.com/vi/${escapeAttr(p.youtube_id)}/hqdefault.jpg'">
+            <button type="button" class="pod-play" aria-label="Play ${escapeAttr(p.title)}"></button>
+            ${dur ? `<span class="pod-dur">${dur}</span>` : ''}
+          </div>
+          <div class="pod-info">
+            ${p.episode_number ? `<span class="pod-ep">Ep ${p.episode_number}</span>` : ''}
+            <h3 class="pod-title">${escapeHtml(p.title)}</h3>
+            ${p.guest_name ? `<span class="pod-guest">with ${escapeHtml(p.guest_name)}</span>` : ''}
+          </div>
+        </div>`;
+      }).join('');
+
+      // Mark whichever slide's centre is closest to the carousel's centre
+      // as .is-active so the side-peeks fade and shrink visually.
+      const slides = [...wrap.querySelectorAll('.pod-slide')];
+      function updateActive() {
+        const wrapRect = wrap.getBoundingClientRect();
+        const cx = wrapRect.left + wrapRect.width / 2;
+        let bestIdx = 0, bestDist = Infinity;
+        slides.forEach((s, i) => {
+          const r = s.getBoundingClientRect();
+          const d = Math.abs((r.left + r.width / 2) - cx);
+          if (d < bestDist) { bestDist = d; bestIdx = i; }
+        });
+        slides.forEach((s, i) => s.classList.toggle('is-active', i === bestIdx));
+      }
+      updateActive();
+      wrap.addEventListener('scroll', () => {
+        // rAF-throttle so we don't update on every scroll tick.
+        if (wrap._raf) cancelAnimationFrame(wrap._raf);
+        wrap._raf = requestAnimationFrame(updateActive);
+      }, { passive: true });
+      window.addEventListener('resize', updateActive);
+
+      // Click on a peek-card scrolls it to center; click on the centered
+      // play button swaps the thumbnail for the actual YouTube iframe.
+      wrap.querySelectorAll('.pod-slide').forEach((slide) => {
+        const yt = slide.dataset.yt;
+        const play = slide.querySelector('.pod-play');
+        const frame = slide.querySelector('.pod-frame');
+        play.addEventListener('click', (e) => {
+          e.preventDefault(); e.stopPropagation();
+          // First scroll the clicked slide to center; only autoplay if it
+          // was already centered (within 20px) so a side-peek click feels
+          // like "bring this here" rather than "play hidden video".
+          const rect = slide.getBoundingClientRect();
+          const wrapRect = wrap.getBoundingClientRect();
+          const centered = Math.abs((rect.left + rect.width / 2) - (wrapRect.left + wrapRect.width / 2)) < 20;
+          if (!centered) {
+            slide.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            return;
+          }
+          // Swap in the YouTube iframe with autoplay.
+          frame.innerHTML = `
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(yt)}?autoplay=1&rel=0&modestbranding=1"
+              title="${escapeAttr(slide.querySelector('.pod-title')?.textContent || '')}"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>`;
+        });
+        // Clicking anywhere on a peek card (not just the play button) also
+        // scrolls it into center.
+        slide.addEventListener('click', (e) => {
+          if (e.target === play || play.contains(e.target)) return;
+          if (frame.querySelector('iframe')) return;
+          slide.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        });
+      });
+    } catch (e) { console.warn('[podcasts]', e?.message || e); document.getElementById('podcasts-block').style.display = 'none'; } });
 
     // FOUNDER SPOTLIGHT
     run(async () => { try {

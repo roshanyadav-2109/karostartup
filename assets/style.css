@@ -2170,6 +2170,153 @@ a:hover .media-play { background: var(--brand); }
 }
 
 /* ============================================================
+   PODCASTS — black block, one centered YouTube frame, neighbors
+   peek ~20% on each side; horizontal scroll-snap carousel
+   ============================================================ */
+.podcasts-block {
+  background: var(--black);
+  color: #fff;
+  padding: 64px 0 72px;
+}
+.podcasts-block .container { margin-bottom: 28px; }
+.podcasts-block-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+.podcasts-block-title {
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 6px 0 0;
+  max-width: 720px;
+  letter-spacing: -0.01em;
+}
+
+.pod-carousel {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 18%;
+  scroll-padding-inline: 18%;
+}
+.pod-carousel::-webkit-scrollbar { display: none; }
+
+.pod-slide {
+  flex: 0 0 64%;
+  scroll-snap-align: center;
+  padding: 0 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: opacity 300ms ease, transform 300ms ease;
+  opacity: 0.55;
+  transform: scale(0.94);
+}
+.pod-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+  cursor: default;
+}
+.pod-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #000;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+}
+.pod-frame .pod-thumb {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 320ms ease;
+}
+.pod-slide.is-active:hover .pod-thumb { transform: scale(1.02); }
+.pod-frame iframe {
+  width: 100%; height: 100%; border: 0;
+  display: block;
+}
+.pod-play {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 78px; height: 78px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(0,0,0,0.66);
+  cursor: pointer;
+  transition: background 220ms ease, transform 220ms ease;
+}
+.pod-play::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 56%;
+  transform: translate(-50%, -50%);
+  border-style: solid;
+  border-width: 14px 0 14px 22px;
+  border-color: transparent transparent transparent #fff;
+}
+.pod-slide.is-active .pod-play:hover {
+  background: var(--brand);
+  transform: translate(-50%, -50%) scale(1.06);
+}
+.pod-dur {
+  position: absolute;
+  bottom: 12px; right: 12px;
+  background: rgba(0,0,0,0.78);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.pod-info {
+  padding: 16px 4px 0;
+  color: #fff;
+}
+.pod-ep {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: #d10a11;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.pod-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 4px 0 4px;
+  letter-spacing: -0.005em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pod-guest {
+  font-size: 0.86rem;
+  color: rgba(255,255,255,0.7);
+}
+
+@media (max-width: 900px) {
+  .pod-carousel { padding: 0 12%; scroll-padding-inline: 12%; }
+  .pod-slide { flex: 0 0 76%; }
+  .pod-play { width: 64px; height: 64px; }
+  .pod-play::after { border-width: 12px 0 12px 18px; }
+}
+@media (max-width: 600px) {
+  .pod-carousel { padding: 0 8%; scroll-padding-inline: 8%; }
+  .pod-slide { flex: 0 0 84%; padding: 0 6px; }
+  .podcasts-block { padding: 48px 0 56px; }
+}
+
+/* ============================================================
    KAROSTARTUP SHORTS — horizontal strip of 9:16 tiles + lightbox
    ============================================================ */
 .shorts-strip {

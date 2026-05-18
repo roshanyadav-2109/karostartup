@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Podcasts · Admin · Karostartup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .pa-card {
+      display: grid;
+      grid-template-columns: 200px 1fr auto;
+      gap: 18px;
+      align-items: start;
+      padding: 14px;
+      border: 1px solid #e6e6e6;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      background: #fff;
+    }
+    .pa-card-thumb {
+      aspect-ratio: 16 / 9;
+      background: #0a0a0a;
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+    .pa-card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .pa-card-thumb .badge {
+      position: absolute; top: 6px; left: 6px;
+      background: #d10a11; color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem; letter-spacing: 0.08em;
+      padding: 2px 6px; border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .pa-body { display: flex; flex-direction: column; gap: 6px; }
+    .pa-body input, .pa-body textarea {
+      border: 1px solid #e6e6e6; padding: 6px 8px; font: inherit; font-size: 0.86rem;
+    }
+    .pa-body textarea { resize: vertical; min-height: 50px; }
+    .pa-meta-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 0.82rem; }
+    .pa-meta-row input { width: 80px; }
+    .pa-actions { display: flex; flex-direction: column; gap: 6px; }
+    .pa-actions .btn { font-size: 0.78rem; padding: 6px 10px; }
+    .yt-help {
+      background: #fef9c3;
+      border: 1px solid #fde68a;
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 0.86rem;
+      margin: 8px 0 16px;
+      color: #6b4f00;
+    }
+    .yt-help code { background: #fff; padding: 1px 4px; border: 1px solid #fde68a; font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body>
+  <div id="admin-root"><div class="loading-state">Loading…</div></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script src="/admin/shell.js"></script>
+  <script>
+  (async () => {
+    const ok = await requireStaff();
+    if (!ok) return;
+    await renderAdminShell('podcasts', 'Podcasts');
+
+    const main = document.getElementById('admin-content');
+    main.innerHTML = `
+      <h1>Podcasts</h1>
+
+      <div class="yt-help">
+        Paste either a YouTube URL <em>or</em> just the video ID — both work. Examples: <code>https://www.youtube.com/watch?v=dQw4w9WgXcQ</code>, <code>https://youtu.be/dQw4w9WgXcQ</code>, or <code>dQw4w9WgXcQ</code>. Thumbnails are auto-pulled from YouTube; override only if you want a custom poster.
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-head"><h3>Add a podcast</h3></div>
+        <form id="new-form">
+          <div class="form-row">
+            <div class="form-field" style="flex:1;"><label>Title *</label><input type="text" name="title" required placeholder="The Zepto playbook"></div>
+            <div class="form-field" style="max-width:140px;"><label>Guest</label><input type="text" name="guest_name" placeholder="Aadit Palicha"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-field" style="flex:1;"><label>YouTube URL or ID *</label><input type="text" name="youtube_input" required placeholder="https://youtube.com/watch?v=… or just the ID"></div>
+            <div class="form-field" style="max-width:120px;"><label>Episode #</label><input type="number" name="episode_number"></div>
+            <div class="form-field" style="max-width:140px;"><label>Duration (sec)</label><input type="number" name="duration_seconds"></div>
+          </div>
+          <div class="form-field"><label>Description</label><textarea name="description" rows="2" placeholder="Optional summary"></textarea></div>
+          <div class="form-row" style="align-items:center;">
+            <div class="form-field" style="max-width:120px;"><label>Order</label><input type="number" name="sort_order" value="0"></div>
+            <div class="form-field" style="flex:1;"><label>Thumbnail URL (optional)</label><input type="url" name="thumbnail_url" placeholder="Leave blank → YouTube default"></div>
+            <label style="display:flex;align-items:center;gap:6px;margin-top:24px;"><input type="checkbox" name="is_published" checked> Published</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Add podcast</button>
+        </form>
+      </div>
+
+      <div class="admin-card" style="padding:0;">
+        <div class="admin-card-head" style="padding:18px 22px;margin-bottom:0;display:flex;justify-content:space-between;align-items:center;">
+          <h3>All podcasts</h3>
+          <span style="font-size:0.82rem;color:#7a7a7a;" id="pod-count"></span>
+        </div>
+        <div id="pod-list" style="padding:14px 22px;"><div class="loading-state">Loading…</div></div>
+      </div>`;
+
+    // Accepts a YouTube URL or bare ID and returns the 11-char video ID.
+    function parseYouTube(input) {
+      if (!input) return null;
+      const s = input.trim();
+      // youtu.be/<id>
+      let m = s.match(/youtu\.be\/([\w-]{11})/);
+      if (m) return m[1];
+      // youtube.com/watch?v=<id>
+      m = s.match(/[?&]v=([\w-]{11})/);
+      if (m) return m[1];
+      // youtube.com/embed/<id> or /shorts/<id>
+      m = s.match(/(?:embed|shorts)\/([\w-]{11})/);
+      if (m) return m[1];
+      // Bare 11-char ID
+      if (/^[\w-]{11}$/.test(s)) return s;
+      return null;
+    }
+
+    document.getElementById('new-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const yt = parseYouTube(fd.get('youtube_input')?.toString());
+      if (!yt) { alert('Could not extract a YouTube video ID from that input.'); return; }
+      const row = {
+        title: fd.get('title')?.toString().trim(),
+        guest_name: fd.get('guest_name')?.toString().trim() || null,
+        description: fd.get('description')?.toString().trim() || null,
+        youtube_id: yt,
+        thumbnail_url: fd.get('thumbnail_url')?.toString().trim() || null,
+        duration_seconds: fd.get('duration_seconds') ? parseInt(fd.get('duration_seconds'), 10) : null,
+        episode_number: fd.get('episode_number') ? parseInt(fd.get('episode_number'), 10) : null,
+        sort_order: parseInt(fd.get('sort_order') || '0', 10) || 0,
+        is_published: fd.get('is_published') === 'on',
+      };
+      const { error } = await sb.from('podcasts').insert(row);
+      if (error) { alert('Save failed: ' + error.message); return; }
+      e.target.reset();
+      load();
+    });
+
+    async function load() {
+      const slot = document.getElementById('pod-list');
+      const countEl = document.getElementById('pod-count');
+      const { data, error } = await sb.from('podcasts')
+        .select('*')
+        .order('sort_order', { ascending: true })
+        .order('published_at', { ascending: false });
+      if (error) { slot.innerHTML = `<div class="empty-state"><p>${escapeHtml(error.message)}</p></div>`; return; }
+      if (!data || !data.length) {
+        slot.innerHTML = '<div class="empty-state"><p>No podcasts yet. Add one above.</p></div>';
+        countEl.textContent = '';
+        return;
+      }
+      countEl.textContent = `${data.length} podcast${data.length === 1 ? '' : 's'}`;
+      slot.innerHTML = data.map(p => {
+        const thumb = p.thumbnail_url || `https://i.ytimg.com/vi/${p.youtube_id}/hqdefault.jpg`;
+        return `
+        <div class="pa-card" data-id="${p.id}">
+          <div class="pa-card-thumb">
+            <img src="${escapeAttr(thumb)}" alt="${escapeAttr(p.title)}">
+            ${p.is_published ? '' : '<span class="badge">Draft</span>'}
+          </div>
+          <div class="pa-body">
+            <input type="text" data-field="title" value="${escapeAttr(p.title || '')}" placeholder="Title">
+            <div class="pa-meta-row">
+              <input type="text" data-field="guest_name" value="${escapeAttr(p.guest_name || '')}" placeholder="Guest" style="width:180px;">
+              <span style="color:#7a7a7a;">Ep</span><input type="number" data-field="episode_number" value="${p.episode_number || ''}">
+              <span style="color:#7a7a7a;">Dur</span><input type="number" data-field="duration_seconds" value="${p.duration_seconds || ''}" placeholder="sec">
+              <span style="color:#7a7a7a;">Order</span><input type="number" data-field="sort_order" value="${p.sort_order || 0}">
+            </div>
+            <input type="text" data-field="youtube_id" value="${escapeAttr(p.youtube_id)}" placeholder="YouTube ID" class="mono">
+            <textarea data-field="description" placeholder="Description">${escapeHtml(p.description || '')}</textarea>
+            <label style="font-size:0.84rem;"><input type="checkbox" data-field="is_published" ${p.is_published ? 'checked' : ''}> Published</label>
+          </div>
+          <div class="pa-actions">
+            <button type="button" class="btn btn-primary" data-act="save">Save</button>
+            <a class="btn" target="_blank" rel="noopener" href="https://youtu.be/${p.youtube_id}" style="border:1px solid #e6e6e6;">YouTube ↗</a>
+            <button type="button" class="btn" data-act="delete" style="color:#d10a11;border:1px solid #f3c2c2;">Delete</button>
+          </div>
+        </div>`;
+      }).join('');
+      slot.querySelectorAll('[data-id]').forEach(wire);
+    }
+
+    function wire(card) {
+      const id = card.dataset.id;
+      card.querySelector('[data-act="save"]').addEventListener('click', async () => {
+        const fields = {};
+        card.querySelectorAll('[data-field]').forEach(el => {
+          const k = el.dataset.field;
+          if (el.type === 'checkbox') fields[k] = el.checked;
+          else if (el.type === 'number') fields[k] = el.value === '' ? null : parseInt(el.value, 10);
+          else fields[k] = el.value.trim() || null;
+        });
+        const btn = card.querySelector('[data-act="save"]');
+        const orig = btn.textContent;
+        btn.textContent = 'Saving…';
+        const { error } = await sb.from('podcasts').update(fields).eq('id', id);
+        btn.textContent = error ? 'Failed' : 'Saved ✓';
+        setTimeout(() => { btn.textContent = orig; }, 1400);
+        if (error) alert(error.message);
+      });
+      card.querySelector('[data-act="delete"]').addEventListener('click', async () => {
+        if (!confirm('Delete this podcast?')) return;
+        const { error } = await sb.from('podcasts').delete().eq('id', id);
+        if (error) { alert(error.message); return; }
+        card.remove();
+      });
+    }
+
+    load();
+  })();
+  </script>
+</body>
+</html>
