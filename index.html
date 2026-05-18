@@ -510,7 +510,7 @@
         let touching = false;
         let rafId = null;
         let lastT = performance.now();
-        const SPEED = 22;
+        const SPEED = 12;  // px/s — matches the original CSS-marquee pace (~10 px/s)
 
         const halfH = () => trackEl.scrollHeight / 2;
 
