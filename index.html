@@ -39,8 +39,10 @@
             </div>
             <div class="lnews-feature-dots" id="lnews-feature-dots" aria-hidden="true"></div>
           </a>
-          <div class="lnews-side-stack" id="lnews-side">
-            <div class="loading-state" style="min-height:200px;">Loading…</div>
+          <div class="lnews-side-wrap" id="lnews-side-wrap">
+            <div class="lnews-side-track" id="lnews-side-track">
+              <div class="loading-state" style="min-height:200px;">Loading…</div>
+            </div>
           </div>
         </div>
       </div>
@@ -462,28 +464,45 @@
       const catEl     = document.getElementById('lnews-feature-cat');
       const titleEl   = document.getElementById('lnews-feature-title');
       const dotsEl    = document.getElementById('lnews-feature-dots');
-      const sideEl    = document.getElementById('lnews-side');
+      const trackEl   = document.getElementById('lnews-side-track');
+      const wrapEl    = document.getElementById('lnews-side-wrap');
 
       if (!data || !data.length) {
         featureEl.style.display = 'none';
-        sideEl.innerHTML = '<div class="empty-state">No additional stories yet.</div>';
+        trackEl.innerHTML = '<div class="empty-state">No additional stories yet.</div>';
         return;
       }
 
       const rotating    = data.slice(0, Math.min(5, data.length));
-      const sideStories = data.slice(rotating.length, rotating.length + 2);
+      // Everything not in the rotator goes in the scrolling rail.
+      const sideStories = data.slice(rotating.length);
 
-      // Side cards — image on top, kicker + headline below.
-      sideEl.innerHTML = sideStories.map(a => {
+      // Compact horizontal cards (thumb left, headline right) — better for a
+      // vertical scrolling rail than image-on-top cards.
+      const renderSideItem = (a) => {
         const cover = a.cover_image_url || defaultCover(a);
         const cat   = (a.categories?.name || a.kicker || '').toUpperCase();
         return `
-        <a class="lnews-side reveal" href="${articleHref(a)}">
+        <a class="lnews-side" href="${articleHref(a)}">
           <div class="lnews-side-img"><img src="${escapeAttr(cover)}" alt="${escapeAttr(a.title)}" loading="lazy"></div>
-          ${cat ? `<span class="lnews-side-cat">${escapeHtml(cat)}</span>` : ''}
-          <h3 class="lnews-side-title">${escapeHtml(a.title)}</h3>
+          <div class="lnews-side-text">
+            ${cat ? `<span class="lnews-side-cat">${escapeHtml(cat)}</span>` : ''}
+            <h4 class="lnews-side-title">${escapeHtml(a.title)}</h4>
+          </div>
         </a>`;
-      }).join('') || '<span style="color:#9a9a9a;font-size:0.86rem;">Nothing else yet.</span>';
+      };
+      if (sideStories.length) {
+        // Duplicate the list once so the CSS marquee can loop seamlessly:
+        // animating translateY(0) → translateY(-50%) wraps without a jump.
+        const html = sideStories.map(renderSideItem).join('');
+        trackEl.innerHTML = html + html;
+        // Slow scroll — ~9s per item so the user can actually read each one.
+        trackEl.style.animationDuration = `${Math.max(28, sideStories.length * 9)}s`;
+      } else {
+        trackEl.innerHTML = '<span style="color:#9a9a9a;font-size:0.86rem;padding:14px;">Nothing else yet.</span>';
+      }
+      wrapEl.addEventListener('mouseenter', () => trackEl.style.animationPlayState = 'paused');
+      wrapEl.addEventListener('mouseleave', () => trackEl.style.animationPlayState = 'running');
 
       // Preload rotator images so swaps don't flash.
       rotating.forEach(a => { const im = new Image(); im.src = a.cover_image_url || defaultCover(a); });

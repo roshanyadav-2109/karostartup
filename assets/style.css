@@ -3262,62 +3262,95 @@ a:hover .media-play { background: var(--brand); }
 .lnews-dot:hover { background: rgba(255,255,255,0.85); }
 .lnews-dot.is-active { background: #fff; transform: scale(1.35); }
 
-/* Side stack — 2 cards, image on top, headline below */
-.lnews-side-stack {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  gap: 18px;
+/* Side rail — vertical auto-scrolling marquee of compact headline cards.
+   .lnews-side-wrap is height-matched to the feature via grid stretch and
+   overflow-hidden clips items as they scroll past. .lnews-side-track holds
+   2× the items (rendered twice by JS) so translateY(0)→-50% loops seamlessly. */
+.lnews-side-wrap {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
   min-height: 0;
+  background: #fafafa;
+  border: 1px solid var(--hairline);
+  /* Fade top + bottom so cards softly enter and exit instead of cutting hard */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+.lnews-side-track {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px;
+  will-change: transform;
+  animation: lnews-marquee 40s linear infinite;
+}
+@keyframes lnews-marquee {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
 }
 .lnews-side {
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto auto;
+  grid-template-columns: 100px 1fr;
+  gap: 12px;
+  align-items: start;
   text-decoration: none;
   color: inherit;
-  min-height: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--hairline);
+  flex-shrink: 0;
 }
 .lnews-side-img {
-  position: relative;
-  overflow: hidden;
-  background: #f3f3f3;
-  min-height: 0;
   aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #efefef;
 }
 .lnews-side-img img {
   width: 100%; height: 100%; object-fit: cover;
   display: block;
   transition: transform 400ms ease;
 }
-.lnews-side:hover .lnews-side-img img { transform: scale(1.04); }
+.lnews-side:hover .lnews-side-img img { transform: scale(1.05); }
+.lnews-side-text {
+  display: flex; flex-direction: column; gap: 4px;
+  min-width: 0;
+}
 .lnews-side-cat {
-  display: inline-block;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.66rem;
+  font-size: 0.62rem;
   letter-spacing: 0.12em;
   color: #d10a11;
   text-transform: uppercase;
   font-weight: 700;
-  margin-top: 10px;
 }
 .lnews-side-title {
-  font-size: 1.05rem;
+  font-size: 0.92rem;
   font-weight: 700;
   line-height: 1.25;
-  margin: 6px 0 0;
+  margin: 0;
   color: #0a0a0a;
   letter-spacing: -0.005em;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .lnews-side:hover .lnews-side-title { color: #d10a11; }
 
+@media (prefers-reduced-motion: reduce) {
+  .lnews-side-track { animation: none; }
+}
+
 @media (max-width: 900px) {
   .lnews-grid { grid-template-columns: 1fr; gap: 18px; }
-  .lnews-side-stack { grid-template-rows: auto; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .lnews-side-wrap { height: 320px; }
 }
 @media (max-width: 600px) {
-  .lnews-side-stack { grid-template-columns: 1fr; }
   .lnews-feature-overlay { padding: 18px 18px 22px; }
   .lnews-feature-title { font-size: 1.15rem; line-height: 1.2; }
   .lnews-feature-cat { font-size: 0.66rem; padding: 4px 8px; margin-bottom: 10px; }
+  .lnews-side { grid-template-columns: 84px 1fr; gap: 10px; }
+  .lnews-side-title { font-size: 0.86rem; }
 }
 
 .cnn-grid {
