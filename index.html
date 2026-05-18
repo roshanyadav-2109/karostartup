@@ -116,16 +116,6 @@
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="h-section">Opinion</h2>
-          <a href="#" class="more-link">All columnists →</a>
-        </div>
-        <div class="opinion-row" id="opinion-slot"></div>
-      </div>
-    </section>
-
     <section class="plus-cta-block">
       <div class="container">
         <div>
@@ -888,28 +878,6 @@
         document.getElementById('movers-slot').innerHTML = renderMovers(btn.dataset.tab === 'gainers' ? gainers : losers, btn.dataset.tab);
       });
     });
-
-    // OPINION
-    run(async () => { try {
-      const { data } = await sb.from('articles')
-        .select('id,slug,title,summary,profiles!author_id(full_name,avatar_url)')
-        .eq('status', 'published')
-        .or('kicker.eq.OPINION,kicker.eq.COLUMN,kicker.eq.PERSPECTIVE')
-        .order('published_at', { ascending: false })
-        .limit(3);
-      const slot = document.getElementById('opinion-slot');
-      if (!data || !data.length) {
-        const { data: fallback } = await sb.from('articles')
-          .select('id,slug,title,summary,profiles!author_id(full_name,avatar_url)')
-          .eq('status', 'published')
-          .order('published_at', { ascending: false })
-          .range(11, 13)
-          .limit(3);
-        slot.innerHTML = (fallback || []).map(renderOpinionCard).join('') || '<div class="empty-state" style="grid-column:1/-1;"><h3>No columns yet</h3></div>';
-      } else {
-        slot.innerHTML = data.map(renderOpinionCard).join('');
-      }
-    } catch (e) { console.warn('[home]', e?.message || e); } });
 
     // NEWSLETTER FORM
     const newsletterForm = document.getElementById('newsletter-form');
