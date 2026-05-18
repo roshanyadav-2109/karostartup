@@ -654,7 +654,9 @@
         modalVideo.src = s.video_url;
         modalVideo.poster = s.thumbnail_url || '';
         modalTitle.textContent = s.title || '';
-        modalCap.textContent = s.caption || '';
+        // Strip the internal "ig:{media_id}" dedupe marker the sync script
+        // prefixes to captions — readers should never see it.
+        modalCap.textContent = (s.caption || '').replace(/^ig:[^\n]*\n?/, '').trim();
         modal.classList.add('is-open');
         document.body.style.overflow = 'hidden';
         modalVideo.play?.().catch(() => {});
