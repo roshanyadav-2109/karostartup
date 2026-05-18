@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Pull recent reels from the @karostartup Instagram Business/Creator
- * account and upsert them into public.shorts.
+ * Pull recent reels from the @karo_startup_ Instagram Business/Creator
+ * account (https://www.instagram.com/karo_startup_/) and upsert them
+ * into public.shorts.
  *
  * Required env:
  *   SUPABASE_SERVICE_ROLE_KEY   service-role JWT
