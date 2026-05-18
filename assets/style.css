@@ -3270,28 +3270,30 @@ a:hover .media-play { background: var(--brand); }
    .lnews-side-wrap is height-matched to the feature via grid stretch and
    overflow-hidden clips items as they scroll past. .lnews-side-track holds
    2× the items (rendered twice by JS) so translateY(0)→-50% loops seamlessly. */
+/* Wrap is a real scroll container — wheel/touch scroll naturally, the JS
+   rAF loop nudges scrollTop for the auto-scroll, and scrollTop modulo
+   gives a seamless loop because the track renders its items twice. */
 .lnews-side-wrap {
   position: relative;
-  overflow: hidden;
   height: 440px;
   min-width: 0;
   background: #fafafa;
   border: 1px solid var(--hairline);
-  /* Fade top + bottom so cards softly enter and exit instead of cutting hard */
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+  /* Native smooth-scroll would fight the rAF tick — keep instantaneous. */
+  scroll-behavior: auto;
   -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 8%, #000 92%, transparent 100%);
           mask-image: linear-gradient(180deg, transparent 0, #000 8%, #000 92%, transparent 100%);
 }
+.lnews-side-wrap::-webkit-scrollbar { display: none; }
 .lnews-side-track {
   display: flex;
   flex-direction: column;
   gap: 14px;
   padding: 14px;
-  will-change: transform;
-  animation: lnews-marquee 40s linear infinite;
-}
-@keyframes lnews-marquee {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-50%); }
 }
 .lnews-side {
   display: grid;
@@ -3341,9 +3343,6 @@ a:hover .media-play { background: var(--brand); }
 }
 .lnews-side:hover .lnews-side-title { color: #d10a11; }
 
-@media (prefers-reduced-motion: reduce) {
-  .lnews-side-track { animation: none; }
-}
 
 @media (max-width: 1100px) {
   .lnews-feature, .lnews-side-wrap { height: 380px; }

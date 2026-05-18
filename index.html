@@ -492,17 +492,75 @@
         </a>`;
       };
       if (sideStories.length) {
-        // Duplicate the list once so the CSS marquee can loop seamlessly:
-        // animating translateY(0) → translateY(-50%) wraps without a jump.
+        // Render items twice so the scroller can wrap around seamlessly:
+        // when scrollTop crosses half the track's height, we subtract half
+        // and the user can't see the jump (the second copy is right there).
         const html = sideStories.map(renderSideItem).join('');
         trackEl.innerHTML = html + html;
-        // Slow scroll — ~9s per item so the user can actually read each one.
-        trackEl.style.animationDuration = `${Math.max(28, sideStories.length * 9)}s`;
       } else {
         trackEl.innerHTML = '<span style="color:#9a9a9a;font-size:0.86rem;padding:14px;">Nothing else yet.</span>';
       }
-      wrapEl.addEventListener('mouseenter', () => trackEl.style.animationPlayState = 'paused');
-      wrapEl.addEventListener('mouseleave', () => trackEl.style.animationPlayState = 'running');
+
+      // Auto-scroll the rail with rAF. The wrap is a real overflow:auto
+      // container — wheel/touch scroll just changes scrollTop natively,
+      // we pause the auto-tick during interaction, and seamless looping
+      // uses the same modulo on scrollTop whether the user or rAF moved it.
+      if (sideStories.length > 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        let hovering = false;
+        let manualUntil = 0;          // unix-ms; auto-tick is suppressed until this passes
+        let rafId = null;
+        let lastT = performance.now();
+        const SPEED = 22;             // px per second — slow read-along pace
+        const RESUME_DELAY_MS = 1800; // how long after manual interaction before auto resumes
+
+        const halfH = () => trackEl.scrollHeight / 2;
+
+        function wrap() {
+          // Modulo so it loops in either direction (manual scroll-up included).
+          const h = halfH();
+          if (h <= 0) return;
+          if (wrapEl.scrollTop >= h)     wrapEl.scrollTop -= h;
+          else if (wrapEl.scrollTop < 0) wrapEl.scrollTop += h;
+        }
+
+        function step(t) {
+          const dt = Math.min(64, t - lastT);
+          lastT = t;
+          if (!hovering && performance.now() > manualUntil) {
+            wrapEl.scrollTop += (SPEED * dt) / 1000;
+          }
+          wrap();
+          rafId = requestAnimationFrame(step);
+        }
+
+        function start() { if (!rafId) { lastT = performance.now(); rafId = requestAnimationFrame(step); } }
+        function stop()  { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
+
+        wrapEl.addEventListener('mouseenter', () => { hovering = true; });
+        wrapEl.addEventListener('mouseleave', () => { hovering = false; });
+
+        // Mark a manual-control window on any user-initiated scroll input.
+        const markManual = () => { manualUntil = performance.now() + RESUME_DELAY_MS; };
+        wrapEl.addEventListener('wheel',      markManual, { passive: true });
+        wrapEl.addEventListener('touchstart', markManual, { passive: true });
+        wrapEl.addEventListener('touchmove',  markManual, { passive: true });
+        wrapEl.addEventListener('pointerdown', markManual);
+        // Keyboard scrolling (PgUp/Down, arrows) when the rail has focus.
+        wrapEl.addEventListener('keydown', markManual);
+        wrapEl.tabIndex = 0;
+        wrapEl.setAttribute('role', 'region');
+        wrapEl.setAttribute('aria-label', 'Latest stories — scrolling. Scroll to browse, click to read.');
+
+        // Always wrap on any scroll (manual or auto), so user can scroll
+        // past either end of the track without hitting a wall.
+        wrapEl.addEventListener('scroll', wrap, { passive: true });
+
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) stop(); else start();
+        });
+
+        start();
+      }
 
       // Preload rotator images so swaps don't flash.
       rotating.forEach(a => { const im = new Image(); im.src = a.cover_image_url || defaultCover(a); });
