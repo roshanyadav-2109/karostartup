@@ -501,22 +501,20 @@
         trackEl.innerHTML = '<span style="color:#9a9a9a;font-size:0.86rem;padding:14px;">Nothing else yet.</span>';
       }
 
-      // Auto-scroll the rail with rAF. The wrap is a real overflow:auto
-      // container — wheel/touch scroll just changes scrollTop natively,
-      // we pause the auto-tick during interaction, and seamless looping
-      // uses the same modulo on scrollTop whether the user or rAF moved it.
+      // Auto-scroll: rAF nudges scrollTop ~22 px/s. The only thing that
+      // pauses it is the user hovering (desktop) or actively touching the
+      // rail (mobile). While paused they can wheel/swipe/keyboard-scroll
+      // freely — when the cursor leaves or the finger lifts, auto resumes.
       if (sideStories.length > 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
         let hovering = false;
-        let manualUntil = 0;          // unix-ms; auto-tick is suppressed until this passes
+        let touching = false;
         let rafId = null;
         let lastT = performance.now();
-        const SPEED = 22;             // px per second — slow read-along pace
-        const RESUME_DELAY_MS = 1800; // how long after manual interaction before auto resumes
+        const SPEED = 22;
 
         const halfH = () => trackEl.scrollHeight / 2;
 
         function wrap() {
-          // Modulo so it loops in either direction (manual scroll-up included).
           const h = halfH();
           if (h <= 0) return;
           if (wrapEl.scrollTop >= h)     wrapEl.scrollTop -= h;
@@ -526,7 +524,7 @@
         function step(t) {
           const dt = Math.min(64, t - lastT);
           lastT = t;
-          if (!hovering && performance.now() > manualUntil) {
+          if (!hovering && !touching) {
             wrapEl.scrollTop += (SPEED * dt) / 1000;
           }
           wrap();
@@ -538,21 +536,18 @@
 
         wrapEl.addEventListener('mouseenter', () => { hovering = true; });
         wrapEl.addEventListener('mouseleave', () => { hovering = false; });
+        wrapEl.addEventListener('touchstart', () => { touching = true; }, { passive: true });
+        wrapEl.addEventListener('touchend',   () => { touching = false; }, { passive: true });
+        wrapEl.addEventListener('touchcancel',() => { touching = false; }, { passive: true });
 
-        // Mark a manual-control window on any user-initiated scroll input.
-        const markManual = () => { manualUntil = performance.now() + RESUME_DELAY_MS; };
-        wrapEl.addEventListener('wheel',      markManual, { passive: true });
-        wrapEl.addEventListener('touchstart', markManual, { passive: true });
-        wrapEl.addEventListener('touchmove',  markManual, { passive: true });
-        wrapEl.addEventListener('pointerdown', markManual);
-        // Keyboard scrolling (PgUp/Down, arrows) when the rail has focus.
-        wrapEl.addEventListener('keydown', markManual);
+        // Keep the rail keyboard-accessible too — focus pauses, blur resumes.
         wrapEl.tabIndex = 0;
         wrapEl.setAttribute('role', 'region');
         wrapEl.setAttribute('aria-label', 'Latest stories — scrolling. Scroll to browse, click to read.');
+        wrapEl.addEventListener('focusin',  () => { hovering = true; });
+        wrapEl.addEventListener('focusout', () => { hovering = false; });
 
-        // Always wrap on any scroll (manual or auto), so user can scroll
-        // past either end of the track without hitting a wall.
+        // Loop on any scroll source.
         wrapEl.addEventListener('scroll', wrap, { passive: true });
 
         document.addEventListener('visibilitychange', () => {
