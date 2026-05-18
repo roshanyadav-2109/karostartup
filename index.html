@@ -501,21 +501,26 @@
         trackEl.innerHTML = '<span style="color:#9a9a9a;font-size:0.86rem;padding:14px;">Nothing else yet.</span>';
       }
 
-      // Auto-scroll: rAF nudges scrollTop ~22 px/s. The only thing that
-      // pauses it is the user hovering (desktop) or actively touching the
-      // rail (mobile). While paused they can wheel/swipe/keyboard-scroll
-      // freely — when the cursor leaves or the finger lifts, auto resumes.
-      if (sideStories.length > 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // Auto-scroll: rAF accumulates sub-pixel deltas and commits whole
+      // pixels to scrollTop (some browsers ignore fractional scrollTop
+      // when the scrollbar is hidden, which was making slow rates feel
+      // frozen). Only hover, active touch, or keyboard focus on the rail
+      // pause the tick — the moment any of those release, auto resumes.
+      if (sideStories.length >= 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
         let hovering = false;
         let touching = false;
         let rafId = null;
         let lastT = performance.now();
-        const SPEED = 12;  // px/s — matches the original CSS-marquee pace (~10 px/s)
+        let acc = 0;                 // sub-pixel accumulator
+        const SPEED = 30;            // px/s — slow but visibly moving
 
-        const halfH = () => trackEl.scrollHeight / 2;
+        function loopPoint() {
+          // Modulo at half-track height (track = items rendered 2×).
+          return trackEl.scrollHeight / 2;
+        }
 
         function wrap() {
-          const h = halfH();
+          const h = loopPoint();
           if (h <= 0) return;
           if (wrapEl.scrollTop >= h)     wrapEl.scrollTop -= h;
           else if (wrapEl.scrollTop < 0) wrapEl.scrollTop += h;
@@ -525,7 +530,12 @@
           const dt = Math.min(64, t - lastT);
           lastT = t;
           if (!hovering && !touching) {
-            wrapEl.scrollTop += (SPEED * dt) / 1000;
+            acc += (SPEED * dt) / 1000;
+            if (acc >= 1) {
+              const px = Math.floor(acc);
+              acc -= px;
+              wrapEl.scrollTop += px;
+            }
           }
           wrap();
           rafId = requestAnimationFrame(step);
@@ -540,19 +550,16 @@
         wrapEl.addEventListener('touchend',   () => { touching = false; }, { passive: true });
         wrapEl.addEventListener('touchcancel',() => { touching = false; }, { passive: true });
 
-        // Keep the rail keyboard-accessible too — focus pauses, blur resumes.
         wrapEl.tabIndex = 0;
         wrapEl.setAttribute('role', 'region');
         wrapEl.setAttribute('aria-label', 'Latest stories — scrolling. Scroll to browse, click to read.');
         wrapEl.addEventListener('focusin',  () => { hovering = true; });
         wrapEl.addEventListener('focusout', () => { hovering = false; });
 
-        // Loop on any scroll source.
         wrapEl.addEventListener('scroll', wrap, { passive: true });
 
-        document.addEventListener('visibilitychange', () => {
-          if (document.hidden) stop(); else start();
-        });
+        // rAF is already throttled when the tab is hidden — no manual
+        // visibilitychange wiring needed.
 
         start();
       }
