@@ -48,19 +48,14 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section shorts-section">
       <div class="container">
         <div class="section-header">
-          <h2 class="h-section">Funding Tracker</h2>
-          <a href="#" class="more-link">All deals →</a>
+          <h2 class="h-section">Karostartup Shorts</h2>
+          <span class="more-link" style="color:#7a7a7a;cursor:default;">Quick reads on video</span>
         </div>
-        <div class="deals-grid">
-          <div>
-            <div id="deals-table-slot"><div class="loading-state">Loading deals…</div></div>
-          </div>
-          <div>
-            <div class="chart-card" id="funding-chart-slot"></div>
-          </div>
+        <div class="shorts-strip" id="shorts-strip">
+          <div class="loading-state">Loading shorts…</div>
         </div>
       </div>
     </section>
@@ -597,80 +592,91 @@
       start();
     } catch (e) { console.warn('[home]', e?.message || e); } });
 
-    // FUNDING ROUNDS table + chart
+    // KAROSTARTUP SHORTS — horizontal strip of vertical (9:16) tiles.
+    // Clicking a tile opens a full-screen modal that plays the video.
     run(async () => { try {
-      const { data: rounds } = await sb.from('funding_rounds')
-        .select('id,round_type,amount_usd,amount_inr,announced_date,lead_investor,companies(name,slug,logo_url)')
-        .order('announced_date', { ascending: false })
-        .limit(8);
-
-      const slot = document.getElementById('deals-table-slot');
-      if (!rounds || !rounds.length) {
-        slot.innerHTML = `<div class="empty-state"><h3>No deals tracked yet</h3><p>The latest funding rounds will appear here.</p></div>`;
-      } else {
-        slot.innerHTML = `
-          <div class="deals-table-wrap">
-          <table class="deals-table">
-            <thead><tr><th>Company</th><th>Round</th><th>Amount</th><th>Lead investor</th><th>Date</th></tr></thead>
-            <tbody>
-              ${rounds.map(r => {
-                const c = r.companies || {};
-                const initial = (c.name || '?').charAt(0).toUpperCase();
-                const logoHtml = c.logo_url
-                  ? `<img src="${escapeAttr(c.logo_url)}" alt="${escapeAttr(c.name)}" class="company-logo">`
-                  : `<span class="company-logo">${escapeHtml(initial)}</span>`;
-                return `<tr>
-                  <td><div class="company-cell">${logoHtml}<a href="/company/view.html?slug=${encodeURIComponent(c.slug || '')}">${escapeHtml(c.name || '—')}</a></div></td>
-                  <td><span class="round-pill ${roundPillClass(r.round_type)}">${escapeHtml(r.round_type || '—')}</span></td>
-                  <td class="amount">${r.amount_inr ? formatINR(r.amount_inr) : formatUSD(r.amount_usd)}</td>
-                  <td>${escapeHtml(r.lead_investor || '—')}</td>
-                  <td class="date">${formatDate(r.announced_date)}</td>
-                </tr>`;
-              }).join('')}
-            </tbody>
-          </table>
-          </div>`;
+      const strip = document.getElementById('shorts-strip');
+      const { data } = await sb.from('shorts')
+        .select('id,title,caption,video_url,thumbnail_url,duration_seconds,sort_order')
+        .eq('is_published', true)
+        .order('sort_order', { ascending: true })
+        .order('created_at', { ascending: false })
+        .limit(12);
+      if (!data || !data.length) {
+        strip.innerHTML = '<div class="empty-state" style="width:100%;"><h3>Shorts coming soon</h3><p>Karostartup Shorts will appear here as the team publishes them.</p></div>';
+        return;
       }
+      strip.innerHTML = data.map((s, i) => {
+        const thumb = s.thumbnail_url || defaultCover(s);
+        const dur = s.duration_seconds
+          ? `${Math.floor(s.duration_seconds / 60)}:${String(s.duration_seconds % 60).padStart(2, '0')}`
+          : '';
+        return `
+        <button type="button" class="short-tile" data-i="${i}" aria-label="Play ${escapeAttr(s.title)}">
+          <div class="short-tile-thumb">
+            <img src="${escapeAttr(thumb)}" alt="${escapeAttr(s.title)}" loading="lazy">
+            <span class="short-tile-play" aria-hidden="true"></span>
+            ${dur ? `<span class="short-tile-dur">${dur}</span>` : ''}
+          </div>
+          <h4 class="short-tile-title">${escapeHtml(s.title)}</h4>
+        </button>`;
+      }).join('');
 
-      // Build a weekly aggregate chart from these rounds
-      const buckets = {};
-      (rounds || []).forEach(r => {
-        if (!r.announced_date) return;
-        const d = new Date(r.announced_date);
-        const week = `${d.getFullYear()}-W${Math.ceil((d.getDate() + 6) / 7)}-${d.getMonth() + 1}`;
-        const amt = r.amount_inr || (r.amount_usd ? r.amount_usd * 83 : 0);
-        buckets[week] = (buckets[week] || 0) + amt;
+      // Lazy-build the modal once on first click — no reason to render it
+      // for visitors who don't tap a short.
+      let modal, modalVideo, modalTitle, modalCap, modalClose;
+      function buildModal() {
+        if (modal) return;
+        modal = document.createElement('div');
+        modal.className = 'shorts-modal';
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
+        modal.innerHTML = `
+          <button class="shorts-modal-close" type="button" aria-label="Close">&times;</button>
+          <div class="shorts-modal-stage">
+            <video class="shorts-modal-video" controls playsinline></video>
+            <div class="shorts-modal-text">
+              <h3></h3>
+              <p></p>
+            </div>
+          </div>`;
+        document.body.appendChild(modal);
+        modalVideo = modal.querySelector('.shorts-modal-video');
+        modalTitle = modal.querySelector('.shorts-modal-text h3');
+        modalCap   = modal.querySelector('.shorts-modal-text p');
+        modalClose = modal.querySelector('.shorts-modal-close');
+        modalClose.addEventListener('click', closeShort);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeShort(); });
+      }
+      function openShort(i) {
+        buildModal();
+        const s = data[i];
+        modalVideo.src = s.video_url;
+        modalVideo.poster = s.thumbnail_url || '';
+        modalTitle.textContent = s.title || '';
+        modalCap.textContent = s.caption || '';
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+        modalVideo.play?.().catch(() => {});
+      }
+      function closeShort() {
+        if (!modal) return;
+        modal.classList.remove('is-open');
+        document.body.style.overflow = '';
+        modalVideo.pause?.();
+        modalVideo.removeAttribute('src');
+        modalVideo.load?.();
+      }
+      strip.querySelectorAll('.short-tile').forEach(btn => {
+        btn.addEventListener('click', () => openShort(+btn.dataset.i));
       });
-      const entries = Object.entries(buckets).slice(-6);
-      const max = Math.max(1, ...entries.map(e => e[1]));
-      const total = entries.reduce((s, e) => s + e[1], 0);
-      const chartSlot = document.getElementById('funding-chart-slot');
-      chartSlot.innerHTML = `
-        <div class="chart-card-header">
-          <div>
-            <div class="title">Weekly raised</div>
-            <span class="eyebrow">Last 6 weeks · ₹ Cr</span>
-          </div>
-          <div>
-            <div class="big-num">${formatINR(total)}</div>
-            <span class="chg up">▲ Total</span>
-          </div>
-        </div>
-        <svg viewBox="0 0 320 140" preserveAspectRatio="none">
-          ${entries.map((e, i) => {
-            const w = 320 / Math.max(1, entries.length);
-            const h = (e[1] / max) * 120;
-            const x = i * w + 6;
-            return `<rect x="${x}" y="${130 - h}" width="${w - 12}" height="${h}" fill="${i === entries.length - 1 ? '#d10a11' : '#0a0a0a'}"/>`;
-          }).join('')}
-          <line x1="0" y1="130" x2="320" y2="130" stroke="#e6e6e6" stroke-width="1"/>
-        </svg>
-        <div class="chart-card-footer">
-          <span>${entries.length} data points</span>
-          <span class="mono">Source: Karostartup</span>
-        </div>`;
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal?.classList.contains('is-open')) closeShort();
+      });
     } catch (e) {
-      document.getElementById('deals-table-slot').innerHTML = '<div class="empty-state"><h3>Couldn\'t load deals</h3></div>';
+      const strip = document.getElementById('shorts-strip');
+      if (strip) strip.innerHTML = '<div class="empty-state" style="width:100%;"><h3>Couldn\'t load shorts</h3></div>';
+      console.warn('[shorts]', e?.message || e);
     } });
 
     // SECTOR PULSE — fetch all 4 sectors in parallel
