@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shorts · Admin · Karostartup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .shorts-admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 18px;
+    }
+    .sa-card {
+      border: 1px solid #e6e6e6;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+    .sa-card-thumb {
+      position: relative;
+      aspect-ratio: 9 / 16;
+      background: #0a0a0a;
+      overflow: hidden;
+    }
+    .sa-card-thumb img, .sa-card-thumb video {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .sa-card-thumb .badge {
+      position: absolute;
+      top: 8px; left: 8px;
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      padding: 3px 7px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .sa-card-thumb .badge.is-draft { background: #d10a11; }
+    .sa-card-body { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .sa-card-body input, .sa-card-body textarea {
+      width: 100%;
+      border: 1px solid #e6e6e6;
+      padding: 6px 8px;
+      font: inherit;
+      font-size: 0.85rem;
+    }
+    .sa-card-body textarea { resize: vertical; min-height: 56px; }
+    .sa-card-body .row {
+      display: flex; gap: 6px; align-items: center;
+      font-size: 0.8rem;
+    }
+    .sa-card-body label.tog { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .sa-card-actions { display: flex; gap: 6px; padding: 0 12px 12px; }
+    .sa-card-actions .btn { font-size: 0.78rem; padding: 6px 10px; }
+    .sa-empty {
+      padding: 40px 20px;
+      text-align: center;
+      color: #7a7a7a;
+      border: 2px dashed #e6e6e6;
+      border-radius: 4px;
+    }
+    .upload-row { display: flex; gap: 8px; align-items: center; }
+    .upload-row input[type="url"] { flex: 1; }
+    .upload-row .upload-btn {
+      font-size: 0.8rem; padding: 6px 12px;
+      border: 1px solid #0a0a0a;
+      background: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .upload-row .upload-btn:hover { background: #0a0a0a; color: #fff; }
+    .upload-row .upload-btn.is-uploading { opacity: 0.6; pointer-events: none; }
+    .ig-card {
+      border: 1px solid #e6e6e6;
+      border-radius: 4px;
+      padding: 18px 22px;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #fdf2f8 0%, #fff 100%);
+    }
+    .ig-card h3 { margin: 0 0 6px; }
+    .ig-card p { margin: 0 0 12px; color: #5a5a5a; font-size: 0.9rem; }
+    .ig-card code {
+      background: #fff;
+      border: 1px solid #e6e6e6;
+      padding: 2px 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="admin-root"><div class="loading-state">Loading…</div></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script src="/admin/shell.js"></script>
+  <script>
+  (async () => {
+    const ok = await requireStaff();
+    if (!ok) return;
+    await renderAdminShell('shorts', 'Shorts');
+
+    const main = document.getElementById('admin-content');
+    main.innerHTML = `
+      <h1>Karostartup Shorts</h1>
+
+      <div class="ig-card">
+        <h3>Instagram auto-sync</h3>
+        <p>To pull reels automatically from <strong>@karostartup</strong>, the IG account must be a Business/Creator account linked to a Facebook Page. Once that's set up and the secrets <code>IG_USER_ID</code> and <code>IG_ACCESS_TOKEN</code> are added to the GitHub repo, the cron workflow <code>.github/workflows/sync-instagram-reels.yml</code> upserts new reels every 6 hours. Until then, add shorts manually below.</p>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-head"><h3>Add a short</h3></div>
+        <form id="new-form">
+          <div class="form-row">
+            <div class="form-field" style="flex:1;"><label>Title *</label><input type="text" name="title" required placeholder="How Zepto went dark-store"></div>
+            <div class="form-field" style="max-width:120px;"><label>Order</label><input type="number" name="sort_order" value="0"></div>
+            <div class="form-field" style="max-width:140px;"><label>Duration (sec)</label><input type="number" name="duration_seconds"></div>
+          </div>
+          <div class="form-field"><label>Caption</label><textarea name="caption" rows="2" placeholder="Optional one-liner"></textarea></div>
+
+          <div class="form-field">
+            <label>Video (mp4) *</label>
+            <div class="upload-row">
+              <input type="url" name="video_url" required placeholder="https://… (paste URL or upload mp4)">
+              <input type="file" id="video-file" accept="video/mp4,video/quicktime,video/webm" style="display:none;">
+              <button type="button" class="upload-btn" id="video-upload-btn">Upload mp4</button>
+            </div>
+            <small id="video-upload-status" style="color:#7a7a7a;font-size:0.78rem;"></small>
+          </div>
+
+          <div class="form-field">
+            <label>Thumbnail (jpg / png)</label>
+            <div class="upload-row">
+              <input type="url" name="thumbnail_url" placeholder="https://… (paste URL or upload image)">
+              <input type="file" id="thumb-file" accept="image/jpeg,image/png,image/webp" style="display:none;">
+              <button type="button" class="upload-btn" id="thumb-upload-btn">Upload image</button>
+            </div>
+            <small id="thumb-upload-status" style="color:#7a7a7a;font-size:0.78rem;"></small>
+          </div>
+
+          <div class="form-row" style="align-items:center;">
+            <label class="tog"><input type="checkbox" name="is_published" checked> Published</label>
+            <button type="submit" class="btn btn-primary" style="margin-left:auto;">Add short</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="admin-card" style="padding:0;">
+        <div class="admin-card-head" style="padding:18px 22px;margin-bottom:0;display:flex;justify-content:space-between;align-items:center;">
+          <h3>All shorts</h3>
+          <span style="font-size:0.82rem;color:#7a7a7a;" id="shorts-count"></span>
+        </div>
+        <div id="shorts-list" style="padding:18px 22px;"><div class="loading-state">Loading…</div></div>
+      </div>`;
+
+    // --- Storage helpers ----------------------------------------------------
+    async function uploadToStorage(bucket, file, statusEl) {
+      const ext  = (file.name.split('.').pop() || 'bin').toLowerCase();
+      const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      statusEl.textContent = `Uploading ${file.name} (${(file.size / 1024 / 1024).toFixed(1)} MB)…`;
+      const { data, error } = await sb.storage.from(bucket).upload(path, file, {
+        cacheControl: '3600',
+        upsert: false,
+        contentType: file.type || undefined,
+      });
+      if (error) { statusEl.textContent = `Error: ${error.message}`; statusEl.style.color = '#d10a11'; throw error; }
+      const { data: pub } = sb.storage.from(bucket).getPublicUrl(data.path);
+      statusEl.textContent = `Uploaded.`;
+      statusEl.style.color = '#0a7a3b';
+      return pub.publicUrl;
+    }
+
+    function wireUpload(triggerId, fileId, urlInputName, statusId) {
+      const btn = document.getElementById(triggerId);
+      const fileInput = document.getElementById(fileId);
+      const statusEl = document.getElementById(statusId);
+      btn.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', async () => {
+        const file = fileInput.files?.[0];
+        if (!file) return;
+        btn.classList.add('is-uploading');
+        try {
+          const url = await uploadToStorage('shorts', file, statusEl);
+          document.querySelector(`#new-form [name="${urlInputName}"]`).value = url;
+        } catch (e) {
+          console.error(e);
+        } finally {
+          btn.classList.remove('is-uploading');
+          fileInput.value = '';
+        }
+      });
+    }
+    wireUpload('video-upload-btn', 'video-file', 'video_url', 'video-upload-status');
+    wireUpload('thumb-upload-btn', 'thumb-file', 'thumbnail_url', 'thumb-upload-status');
+
+    // --- Add form -----------------------------------------------------------
+    document.getElementById('new-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const row = {
+        title: fd.get('title')?.toString().trim(),
+        caption: fd.get('caption')?.toString().trim() || null,
+        video_url: fd.get('video_url')?.toString().trim(),
+        thumbnail_url: fd.get('thumbnail_url')?.toString().trim() || null,
+        sort_order: parseInt(fd.get('sort_order') || '0', 10) || 0,
+        duration_seconds: fd.get('duration_seconds') ? parseInt(fd.get('duration_seconds'), 10) : null,
+        is_published: fd.get('is_published') === 'on',
+      };
+      if (!row.title || !row.video_url) { alert('Title and video URL are required.'); return; }
+      const { error } = await sb.from('shorts').insert(row);
+      if (error) { alert('Save failed: ' + error.message); return; }
+      e.target.reset();
+      document.getElementById('video-upload-status').textContent = '';
+      document.getElementById('thumb-upload-status').textContent = '';
+      load();
+    });
+
+    // --- List + inline edit -------------------------------------------------
+    async function load() {
+      const slot = document.getElementById('shorts-list');
+      const countEl = document.getElementById('shorts-count');
+      try {
+        const { data, error } = await sb.from('shorts')
+          .select('*')
+          .order('sort_order', { ascending: true })
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+        if (!data || !data.length) {
+          slot.innerHTML = '<div class="sa-empty">No shorts yet. Add one above to get started.</div>';
+          countEl.textContent = '';
+          return;
+        }
+        countEl.textContent = `${data.length} short${data.length === 1 ? '' : 's'}`;
+        slot.innerHTML = `<div class="shorts-admin-grid">${data.map(renderCard).join('')}</div>`;
+        slot.querySelectorAll('[data-id]').forEach(wireCard);
+      } catch (e) {
+        slot.innerHTML = `<div class="empty-state"><h3>Couldn't load</h3><p>${escapeHtml(e.message || String(e))}</p></div>`;
+      }
+    }
+
+    function renderCard(s) {
+      const thumb = s.thumbnail_url
+        ? `<img src="${escapeAttr(s.thumbnail_url)}" alt="">`
+        : `<video src="${escapeAttr(s.video_url)}" muted preload="metadata"></video>`;
+      return `
+      <div class="sa-card" data-id="${s.id}">
+        <div class="sa-card-thumb">
+          ${thumb}
+          ${s.is_published ? '' : '<span class="badge is-draft">Draft</span>'}
+        </div>
+        <div class="sa-card-body">
+          <input type="text" data-field="title" value="${escapeAttr(s.title || '')}" placeholder="Title">
+          <textarea data-field="caption" placeholder="Caption">${escapeHtml(s.caption || '')}</textarea>
+          <div class="row">
+            <label>Order <input type="number" data-field="sort_order" value="${s.sort_order || 0}" style="width:60px;"></label>
+            <label>Dur. <input type="number" data-field="duration_seconds" value="${s.duration_seconds || ''}" style="width:60px;" placeholder="sec"></label>
+          </div>
+          <label class="tog"><input type="checkbox" data-field="is_published" ${s.is_published ? 'checked' : ''}> Published</label>
+        </div>
+        <div class="sa-card-actions">
+          <button type="button" class="btn btn-primary" data-act="save">Save</button>
+          <a class="btn" target="_blank" rel="noopener" href="${escapeAttr(s.video_url)}" style="border:1px solid #e6e6e6;">Open</a>
+          <button type="button" class="btn" data-act="delete" style="margin-left:auto;color:#d10a11;border:1px solid #f3c2c2;">Delete</button>
+        </div>
+      </div>`;
+    }
+
+    function wireCard(card) {
+      const id = card.dataset.id;
+      card.querySelector('[data-act="save"]').addEventListener('click', async () => {
+        const fields = {};
+        card.querySelectorAll('[data-field]').forEach(el => {
+          const k = el.dataset.field;
+          if (el.type === 'checkbox') fields[k] = el.checked;
+          else if (el.type === 'number') fields[k] = el.value === '' ? null : parseInt(el.value, 10);
+          else fields[k] = el.value.trim() || null;
+        });
+        const btn = card.querySelector('[data-act="save"]');
+        const orig = btn.textContent;
+        btn.textContent = 'Saving…';
+        const { error } = await sb.from('shorts').update(fields).eq('id', id);
+        btn.textContent = error ? 'Failed' : 'Saved ✓';
+        setTimeout(() => { btn.textContent = orig; }, 1400);
+        if (error) alert(error.message);
+      });
+      card.querySelector('[data-act="delete"]').addEventListener('click', async () => {
+        if (!confirm('Delete this short?')) return;
+        const { error } = await sb.from('shorts').delete().eq('id', id);
+        if (error) { alert(error.message); return; }
+        card.remove();
+      });
+    }
+
+    load();
+  })();
+  </script>
+</body>
+</html>
