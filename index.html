@@ -78,7 +78,6 @@
     <section class="metrics-band">
       <div class="container">
         <div class="metrics-grid" id="metrics-grid">
-          <div class="metric"><div class="metric-num" id="m-articles">—</div><div class="metric-label">Published stories</div></div>
           <div class="metric"><div class="metric-num" id="m-companies">—</div><div class="metric-label">Brands tracked</div></div>
           <div class="metric"><div class="metric-num" id="m-funding">—</div><div class="metric-label">Funding logged</div></div>
           <div class="metric"><div class="metric-num" id="m-subs">—</div><div class="metric-label">Newsletter subscribers</div></div>
@@ -772,14 +771,12 @@
     // METRICS BAND — real numbers pulled from the DB
     run(async () => {
       try {
-        const [articleC, companyC, subC, fundRows] = await Promise.all([
-          sb.from('articles').select('id', { count: 'exact', head: true }).eq('status', 'published'),
+        const [companyC, subC, fundRows] = await Promise.all([
           sb.from('companies').select('id', { count: 'exact', head: true }),
           sb.from('newsletter_subscribers').select('id', { count: 'exact', head: true }),
           sb.from('funding_rounds').select('amount_usd'),
         ]);
         const setM = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-        setM('m-articles',  formatNumber(articleC.count || 0));
         setM('m-companies', formatNumber(companyC.count || 0));
         const totalFunding = (fundRows.data || []).reduce((s, r) => s + (Number(r.amount_usd) || 0), 0);
         setM('m-funding',   totalFunding ? formatUSD(totalFunding) : '—');
