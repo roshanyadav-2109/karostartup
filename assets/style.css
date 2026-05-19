@@ -6269,11 +6269,11 @@ a:hover .media-play { background: var(--brand); }
   width: auto;
   max-width: 100%;
 }
-.masthead .logo img       { height: 48px; }
-.k-drawer-logo img        { height: 36px; }
-.footer-brand .logo img   { height: 44px; }
-.auth-brand .logo img     { height: 56px; }
-.admin-sidebar .logo img  { height: 36px; }
+.masthead .logo img       { height: 36px; }
+.k-drawer-logo img        { height: 26px; }
+.footer-brand .logo img   { height: 32px; }
+.auth-brand .logo img     { height: 40px; }
+.admin-sidebar .logo img  { height: 26px; }
 
 /* Dark-surface backdrop so the black-on-transparent wordmark stays readable */
 .footer-brand .logo,
@@ -6290,8 +6290,8 @@ a:hover .media-play { background: var(--brand); }
 }
 
 @media (max-width: 768px) {
-  .masthead .logo img      { height: 40px; }
-  .footer-brand .logo img  { height: 38px; }
-  .auth-brand .logo img    { height: 48px; }
-  .admin-sidebar .logo img { height: 32px; }
+  .masthead .logo img      { height: 30px; }
+  .footer-brand .logo img  { height: 28px; }
+  .auth-brand .logo img    { height: 34px; }
+  .admin-sidebar .logo img { height: 22px; }
 }
