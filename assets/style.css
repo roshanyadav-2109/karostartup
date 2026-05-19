@@ -4248,12 +4248,7 @@ a:hover .media-play { background: var(--brand); }
   overflow-y: auto;
 }
 .admin-sidebar .logo {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.4rem;
-  color: #fff;
-  padding: 0 24px 18px 24px;
-  border-bottom: 1px solid #1a1a1a;
+  /* text-mode styling kept as fallback; image-mode rules append at end of file */
 }
 .admin-sidebar .logo .dot {
   display: inline-block; width: 6px; height: 6px;
@@ -6096,7 +6091,7 @@ a:hover .media-play { background: var(--brand); }
   .admin-sidebar nav { flex-direction: row; overflow-x: auto; padding: 8px; }
   .admin-sidebar nav a { padding: 6px 12px; border-left: 0; border-bottom: 2px solid transparent; white-space: nowrap; }
   .admin-sidebar nav a.is-active { border-left: 0; border-bottom-color: var(--brand); }
-  .admin-sidebar .logo { padding: 0 16px 12px 16px; font-size: 1.2rem; }
+  .admin-sidebar .logo { margin: 0 16px 12px 16px; }
   .admin-content { padding: 20px 16px; }
   .related-grid { grid-template-columns: 1fr; }
   .benefits-grid { grid-template-columns: 1fr; }
@@ -6253,4 +6248,50 @@ a:hover .media-play { background: var(--brand); }
   .cookie-banner .cookie-actions .btn { padding: 13px 16px; min-height: 44px; }
   /* Avoid horizontal overflow */
   body { overflow-x: hidden; }
+}
+
+/* Image-based brand mark (logo + wordmark PNG) replaces the old text+dot logo
+   in masthead, drawer, footer, auth-brand, and admin-sidebar. Dark surfaces
+   get a small white pill behind the mark so the black wordmark stays legible. */
+.masthead .logo,
+.k-drawer-logo,
+.footer-brand .logo,
+.auth-brand .logo,
+.admin-sidebar .logo {
+  line-height: 0;
+}
+.masthead .logo img,
+.k-drawer-logo img,
+.footer-brand .logo img,
+.auth-brand .logo img,
+.admin-sidebar .logo img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+}
+.masthead .logo img       { height: 48px; }
+.k-drawer-logo img        { height: 36px; }
+.footer-brand .logo img   { height: 44px; }
+.auth-brand .logo img     { height: 56px; }
+.admin-sidebar .logo img  { height: 36px; }
+
+/* Dark-surface backdrop so the black-on-transparent wordmark stays readable */
+.footer-brand .logo,
+.auth-brand .logo,
+.admin-sidebar .logo {
+  display: inline-block;
+  background: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+.admin-sidebar .logo {
+  margin: 0 24px 18px 24px;
+  padding: 6px 10px;
+}
+
+@media (max-width: 768px) {
+  .masthead .logo img      { height: 40px; }
+  .footer-brand .logo img  { height: 38px; }
+  .auth-brand .logo img    { height: 48px; }
+  .admin-sidebar .logo img { height: 32px; }
 }

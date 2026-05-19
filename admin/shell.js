@@ -26,7 +26,7 @@ async function renderAdminShell(activeKey, breadcrumb) {
   root.innerHTML = `
   <div class="admin-shell">
     <aside class="admin-sidebar">
-      <a href="/" class="logo">Karostartup<span class="dot"></span></a>
+      <a href="/" class="logo" aria-label="Karostartup home"><img src="/assets/logo-wordmark.png" alt="Karostartup"></a>
       <div class="role-chip">${escapeHtml((profile?.role || 'staff').toUpperCase())}</div>
       <nav>
         ${navItems.filter(n => !n.adminOnly || admin).map(n => `

@@ -378,7 +378,7 @@ function renderMarkdown(md) {
 const SITE_NAME = 'Karostartup';
 const SITE_DESCRIPTION = "India's business of business — sharp, founder-first journalism on startups, funding, and the operators building India.";
 const SITE_TWITTER = '@karostartup';
-const SITE_DEFAULT_OG_IMAGE = null; // No branded fallback image yet; pages with no cover skip og:image
+const SITE_DEFAULT_OG_IMAGE = '/assets/logo-wordmark.png';
 
 function _absoluteUrl(u) {
   if (!u) return null;
@@ -503,7 +503,7 @@ function siteJsonLd() {
       '@type': 'Organization',
       name: SITE_NAME,
       url: origin,
-      logo: `${origin}/assets/og-logo.png`,
+      logo: `${origin}/assets/logo-wordmark.png`,
       description: SITE_DESCRIPTION,
       sameAs: [
         'https://twitter.com/karostartup',
@@ -663,7 +663,7 @@ function renderMasthead() {
         <a href="/newsletters.html" class="masthead-link">Newsletters</a>
         <a href="/contact.html" class="masthead-link">Contact</a>
       </div>
-      <a href="/" class="logo">Karostartup<span class="dot"></span></a>
+      <a href="/" class="logo" aria-label="Karostartup home"><img src="/assets/logo-wordmark.png" alt="Karostartup"></a>
       <div class="masthead-right">
         <a href="/plus.html" class="plus-link">Plus</a>
         <button class="search-btn" id="search-trigger" type="button" aria-label="Search">${ICON.search} <span>Search</span></button>
@@ -926,7 +926,7 @@ function renderFooter() {
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <div class="logo">Karostartup<span class="dot"></span></div>
+          <div class="logo"><img src="/assets/logo-wordmark.png" alt="Karostartup"></div>
           <p>India's business of business. Founder-first journalism from the frontlines of the startup economy.</p>
           <a href="/plus.html" class="btn btn-red btn-sm">Join Plus</a>
         </div>
@@ -1005,7 +1005,7 @@ function mountMobileDrawer(activeSlug, cats) {
   drawer.setAttribute('aria-hidden', 'true');
   drawer.innerHTML = `
     <div class="k-drawer-head">
-      <a href="/" class="k-drawer-logo">Karostartup<span class="dot"></span></a>
+      <a href="/" class="k-drawer-logo" aria-label="Karostartup home"><img src="/assets/logo-wordmark.png" alt="Karostartup"></a>
       <button class="k-drawer-close" id="k-drawer-close" aria-label="Close menu">×</button>
     </div>
 
