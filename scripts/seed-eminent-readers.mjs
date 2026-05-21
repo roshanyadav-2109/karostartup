@@ -30,7 +30,7 @@ const readers = [
     facebook_url:  'https://www.facebook.com/narendramodi',
     order_index: 1 },
   { name: 'Nithin Kamath',     designation: 'Founder & CEO, Zerodha',
-    photo_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Nithin_Kamath_%28Zerodha_Broking_Limited%29.jpg/250px-Nithin_Kamath_%28Zerodha_Broking_Limited%29.jpg',
+    photo_url: 'https://i.ibb.co/S4NMV44p/image.png',
     linkedin_url: 'https://www.linkedin.com/in/nithinkamath/',
     twitter_url:  'https://twitter.com/Nithin0dha',
     instagram_url: null,
