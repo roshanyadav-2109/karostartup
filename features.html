@@ -94,36 +94,40 @@
       flex-direction: column;
       gap: 0;
     }
-    /* Each feature: image left, kicker+title+summary stacked on the right.
-       renderLongreadCard outputs 4 sibling children (cover-wrap, kicker,
-       title, summary). Pin all text children to column 2 and span the
-       cover image across every row so the title always sits beside the
-       image, never below it. */
+    /* Each feature is a flat row: image + text block side-by-side, both
+       vertically centered so the image isn't perched above the title.
+       No border on the row itself — only a single bottom hairline as a
+       divider (and none after the last one). */
     .features-grid .longread-card {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      column-gap: 24px;
-      padding: 22px 0;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 18px 0;
       border: 0;
       border-bottom: 1px solid var(--hairline);
       background: transparent;
       text-decoration: none;
       color: var(--ink);
-      transition: transform .15s;
+      transition: opacity .15s;
     }
     .features-grid .longread-card:last-child { border-bottom: 0; }
-    .features-grid .longread-card:hover .title { color: var(--brand); }
+    .features-grid .longread-card:hover { opacity: 0.75; }
+    .features-grid .longread-card:hover .title { color: #2a2a2a; }
     .features-grid .longread-card .cover-wrap {
-      grid-column: 1;
-      grid-row: 1 / -1;
+      flex: 0 0 240px;
       aspect-ratio: 16/10;
       overflow: hidden;
       background: #f2f2f2;
-      align-self: start;
     }
     .features-grid .longread-card .cover { width: 100%; height: 100%; object-fit: cover; }
+    .features-grid .longread-card .longread-text {
+      flex: 1 1 auto;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
     .features-grid .longread-card .kicker {
-      grid-column: 2;
       display: block;
       margin: 0;
       padding: 0;
@@ -135,24 +139,22 @@
       text-transform: uppercase;
     }
     .features-grid .longread-card .title {
-      grid-column: 2;
-      margin: 6px 0 0;
+      margin: 4px 0 0;
       padding: 0;
       font-family: var(--font-display);
       font-weight: 600;
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       line-height: 1.3;
       color: var(--ink);
     }
     .features-grid .longread-card .summary {
-      grid-column: 2;
-      margin: 10px 0 0;
+      margin: 8px 0 0;
       padding: 0;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--muted);
       line-height: 1.5;
       display: -webkit-box;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -181,14 +183,8 @@
       .features-aside { position: static; max-height: none; }
     }
     @media (max-width: 600px) {
-      .features-grid .longread-card {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-      .features-grid .longread-card .kicker,
-      .features-grid .longread-card .title,
-      .features-grid .longread-card .summary { padding-left: 16px; padding-right: 16px; }
-      .features-grid .longread-card .kicker { padding-top: 14px; }
+      .features-grid .longread-card { flex-direction: column; align-items: stretch; gap: 12px; }
+      .features-grid .longread-card .cover-wrap { flex-basis: auto; width: 100%; }
     }
   </style>
 </head>

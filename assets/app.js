@@ -1416,9 +1416,11 @@ function renderLongreadCard(a) {
   return `
   <a href="${articleHref(a)}" class="longread-card reveal">
     <div class="cover-wrap${isMedia ? ' cover-wrap-media' : ''}"><img src="${escapeAttr(cover)}" class="cover" alt="${escapeAttr(a.title)}" loading="lazy">${isMedia ? '<span class="media-play" aria-hidden="true"></span>' : ''}</div>
-    ${a.kicker ? `<span class="kicker">${escapeHtml(a.kicker)}</span>` : ''}
-    <h3 class="title">${escapeHtml(a.title)}</h3>
-    ${a.summary ? `<p class="summary">${escapeHtml(a.summary)}</p>` : ''}
+    <div class="longread-text">
+      ${a.kicker ? `<span class="kicker">${escapeHtml(a.kicker)}</span>` : ''}
+      <h3 class="title">${escapeHtml(a.title)}</h3>
+      ${a.summary ? `<p class="summary">${escapeHtml(a.summary)}</p>` : ''}
+    </div>
   </a>`;
 }
 
