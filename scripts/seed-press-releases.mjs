@@ -125,41 +125,26 @@ function parsePibDate(raw) {
 }
 
 // -- Ministry → category mapping -------------------------------------------
-// Maps each PIB-issuing ministry to one of our category slugs. Anything
-// not in the map is dropped so we only surface business-relevant items.
+// Tight allowlist: only ministries that actually issue business / finance /
+// MSME / tech / industry / markets news relevant to founders. Everything
+// else (railways, petroleum/coal/power/steel PSU news, civil aviation,
+// road/housing/cooperation/agriculture/consumer-affairs, govt PR via
+// Information & Broadcasting / Communications / PIB Headquarters,
+// heavy industries, renewable-energy PSU items) is intentionally dropped.
 const MINISTRY_TO_CATEGORY = {
-  // Finance / monetary / tax / fiscal
+  // Finance / monetary / tax / fiscal / markets
   'Ministry of Finance':                              'banking',
   'Ministry of Corporate Affairs':                    'markets',
   'Ministry of Statistics & Programme Implementation':'markets',
-  // Industry / commerce
+  // Industry / commerce / MSME
   'Ministry of Commerce & Industry':                  'policy',
   'Department for Promotion of Industry and Internal Trade': 'policy',
   'Ministry of Micro, Small & Medium Enterprises':    'policy',
-  'Ministry of Heavy Industries':                     'policy',
-  // Tech / digital / startups
+  // Tech / digital
   'Ministry of Electronics & IT':                     'ai',
-  'Ministry of Communications':                       'policy',
-  'Ministry of Information & Broadcasting':           'policy',
-  // Infra / sectors
-  'Ministry of Power':                                'climate',
-  'Ministry of New and Renewable Energy':             'climate',
-  'Ministry of Petroleum & Natural Gas':              'climate',
-  'Ministry of Coal':                                 'climate',
-  'Ministry of Mines':                                'policy',
-  'Ministry of Steel':                                'policy',
-  'Ministry of Railways':                             'policy',
-  'Ministry of Civil Aviation':                       'policy',
-  'Ministry of Shipping':                             'policy',
-  'Ministry of Road Transport & Highways':            'policy',
-  'Ministry of Housing & Urban Affairs':              'policy',
-  // Niti, planning, economic advisory
+  // Economic policy / planning
   'NITI Aayog':                                       'policy',
-  'PIB Headquarters':                                 'policy',
-  // Cooperation / agri-economy
-  'Ministry of Cooperation':                          'policy',
-  'Ministry of Agriculture & Farmers Welfare':        'policy',
-  'Ministry of Consumer Affairs, Food & Public Distribution': 'policy',
+  // Business-sector industries (D2C / consumer brand surface)
   'Ministry of Food Processing Industries':           'd2c',
   'Ministry of Textiles':                             'd2c',
 };
