@@ -2842,6 +2842,37 @@ a:hover .media-play { background: var(--brand); }
 }
 .article-body a { color: var(--brand); border-bottom: 1px solid var(--brand-tint); }
 .article-body a:hover { background: var(--brand-tint); }
+/* Legacy imported HTML often has <img width="720" height="480" …> with
+   explicit pixel attributes. Force responsive sizing. */
+.article-body img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.6em auto;
+  border: 1px solid var(--hairline);
+}
+.article-body figure { margin: 1.8em 0; }
+.article-body figure img { margin: 0 auto 8px auto; }
+.article-body figcaption {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+}
+.article-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.4em 0;
+  font-size: 0.95em;
+}
+.article-body th, .article-body td {
+  border: 1px solid var(--hairline);
+  padding: 8px 12px;
+  text-align: left;
+}
+.article-body th {
+  background: #fafafa;
+  font-weight: 600;
+}
 .article-body ul, .article-body ol { padding-left: 1.4em; margin: 0 0 1.4em 0; }
 .article-body li { margin-bottom: 0.5em; }
 .article-body hr { border: 0; border-top: 1px solid var(--hairline); margin: 2em 0; }

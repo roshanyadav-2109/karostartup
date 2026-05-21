@@ -283,8 +283,91 @@ function _mediaEmbedFor(url) {
   return null;
 }
 
+// Strip dangerous tags + ugly Google-Docs inline styles from imported
+// legacy HTML so it renders as readable prose instead of as escaped tags.
+// Browser-side only — uses DOMParser. Trusted-source content only (the
+// legacy karostartup MySQL dump); not designed for arbitrary user input.
+const _SAFE_TAGS = new Set([
+  'p','br','hr','div','span',
+  'h1','h2','h3','h4','h5','h6',
+  'ul','ol','li','dl','dt','dd',
+  'blockquote','pre','code','em','i','strong','b','u','s','del','ins','sub','sup','small','mark',
+  'a','img','figure','figcaption',
+  'table','thead','tbody','tfoot','tr','td','th','caption','colgroup','col',
+]);
+function sanitizeImportedHtml(html) {
+  try {
+    const doc = new DOMParser().parseFromString(`<div id="__root">${html}</div>`, 'text/html');
+    const root = doc.getElementById('__root');
+    const walk = (node) => {
+      // children snapshot so we can mutate while iterating
+      const kids = [...node.childNodes];
+      for (const child of kids) {
+        if (child.nodeType === 1 /* element */) {
+          const tag = child.tagName.toLowerCase();
+          if (!_SAFE_TAGS.has(tag)) {
+            // Replace disallowed element with its text (drop scripts/iframes
+            // completely; keep text content for everything else)
+            if (tag === 'script' || tag === 'style' || tag === 'iframe' ||
+                tag === 'object' || tag === 'embed' || tag === 'form' ||
+                tag === 'input' || tag === 'link' || tag === 'meta') {
+              child.remove();
+            } else {
+              const text = doc.createTextNode(child.textContent || '');
+              child.replaceWith(text);
+            }
+            continue;
+          }
+          // Strip dangerous + noisy attributes
+          for (const attr of [...child.attributes]) {
+            const name = attr.name.toLowerCase();
+            const val  = attr.value;
+            if (name.startsWith('on'))                            { child.removeAttribute(attr.name); continue; }
+            if (name === 'style')                                 { child.removeAttribute(attr.name); continue; }
+            if (name === 'class')                                 { child.removeAttribute(attr.name); continue; }
+            if (name === 'dir' || name === 'lang' || name === 'id'){ child.removeAttribute(attr.name); continue; }
+            if ((name === 'href' || name === 'src') &&
+                /^\s*javascript:/i.test(val))                     { child.removeAttribute(attr.name); continue; }
+            // Image srcset/lazy attrs etc are fine; leave them
+          }
+          // Make external links open in a new tab safely
+          if (tag === 'a' && child.getAttribute('href')) {
+            child.setAttribute('target', '_blank');
+            child.setAttribute('rel', 'noopener noreferrer');
+          }
+          // Drop completely empty paragraphs/spans/divs (Google-Docs litter)
+          if ((tag === 'p' || tag === 'span' || tag === 'div') &&
+              !child.textContent.trim() &&
+              !child.querySelector('img,iframe,video,audio,br,hr')) {
+            child.remove();
+            continue;
+          }
+          walk(child);
+          // After recursion, unwrap useless single-child <span> wrappers
+          if (tag === 'span' && child.attributes.length === 0) {
+            while (child.firstChild) child.parentNode.insertBefore(child.firstChild, child);
+            child.remove();
+          }
+        }
+      }
+    };
+    walk(root);
+    return root.innerHTML;
+  } catch (e) {
+    console.warn('[sanitizeImportedHtml]', e?.message || e);
+    return escapeHtml(html);
+  }
+}
+
 function renderMarkdown(md) {
   if (!md) return '';
+  // Imported legacy articles store full HTML. Detect that — anything starting
+  // with a structural HTML tag goes through the sanitizer instead of the
+  // markdown pass (otherwise escapeHtml() shows the raw <p>/<span> markup).
+  const stripped = String(md).trim();
+  if (/^<(p|div|h[1-6]|ul|ol|table|blockquote|img|figure|section|article)\b/i.test(stripped)) {
+    return sanitizeImportedHtml(stripped);
+  }
   const rawLines = md.split(/\r?\n/);
   // First pass: handle bare-URL lines BEFORE escaping, so iframe HTML survives.
   // Build a marker list that the per-line renderer below treats as a passthrough.
