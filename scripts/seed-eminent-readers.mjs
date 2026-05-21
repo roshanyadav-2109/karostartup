@@ -36,7 +36,7 @@ const readers = [
     instagram_url: null,
     order_index: 2 },
   { name: 'Falguni Nayar',     designation: 'Founder & CEO, Nykaa',
-    // No free-license portrait available; use placeholder until provided.
+    photo_url: 'https://i.ibb.co/67dN2dFD/image.png',
     linkedin_url: 'https://www.linkedin.com/in/falguninayar/',
     twitter_url:  'https://twitter.com/falguni_nayar',
     instagram_url: 'https://www.instagram.com/mynykaa/',
