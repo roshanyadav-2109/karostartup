@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Features · Karostartup</title>
+  <meta name="description" content="All Karostartup features — long reads, deep dives, founder stories, analysis.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/favicon.ico">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    /* Features-page-specific layout: filters left, card grid right. */
+    .features-shell {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 40px;
+      margin-top: 24px;
+    }
+    .features-aside {
+      position: sticky;
+      top: 88px;
+      align-self: start;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+    .filter-block { margin-bottom: 28px; }
+    .filter-block h4 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin: 0 0 12px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .filter-search {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--hairline);
+      font-size: 0.92rem;
+      font-family: inherit;
+      background: #fff;
+    }
+    .filter-search:focus { outline: none; border-color: var(--brand); }
+    .filter-checks { display: flex; flex-direction: column; gap: 6px; }
+    .filter-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.92rem;
+      cursor: pointer;
+      padding: 4px 0;
+      color: var(--ink);
+    }
+    .filter-check input { accent-color: var(--brand); }
+    .filter-check .n {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+    }
+    .filter-radios { display: flex; flex-direction: column; gap: 6px; }
+    .filter-clear {
+      width: 100%;
+      margin-top: 8px;
+      padding: 10px;
+      background: var(--ink);
+      color: #fff;
+      border: 0;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .filter-clear:hover { background: var(--brand); }
+
+    .features-main { min-width: 0; }
+    .features-count {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+      font-family: var(--font-mono);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .features-grid .longread-card {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border: 1px solid var(--hairline);
+      background: #fff;
+      text-decoration: none;
+      color: var(--ink);
+      transition: border-color .15s, transform .15s;
+    }
+    .features-grid .longread-card:hover {
+      border-color: var(--ink);
+      transform: translateY(-2px);
+    }
+    .features-grid .longread-card .cover-wrap {
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      background: #f2f2f2;
+    }
+    .features-grid .longread-card .cover { width: 100%; height: 100%; object-fit: cover; }
+    .features-grid .longread-card .kicker {
+      display: block;
+      padding: 14px 16px 0;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--brand);
+      text-transform: uppercase;
+    }
+    .features-grid .longread-card .title {
+      padding: 6px 16px 0;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.05rem;
+      line-height: 1.3;
+      color: var(--ink);
+      margin: 0;
+    }
+    .features-grid .longread-card .summary {
+      padding: 8px 16px 16px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.45;
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .features-pager {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 40px 0 60px;
+    }
+    .features-pager button {
+      padding: 8px 14px;
+      border: 1px solid var(--hairline);
+      background: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .features-pager button:hover:not(:disabled) { border-color: var(--ink); }
+    .features-pager button:disabled { color: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .features-pager .info { color: var(--muted); font-family: var(--font-mono); font-size: 0.85rem; padding: 0 12px; }
+
+    @media (max-width: 900px) {
+      .features-shell { grid-template-columns: 1fr; }
+      .features-aside { position: static; max-height: none; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="chrome"></div>
+  <main>
+    <section class="about-hero">
+      <div class="container">
+        <span class="kicker">Features</span>
+        <h1>Long reads, deep dives &amp; founder stories</h1>
+        <p style="max-width:680px;color:var(--muted);font-size:1.05rem;">
+          Every published feature on Karostartup. Filter by category, search by keyword, sort by date or popularity.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 16px;">
+      <div class="container">
+        <div class="features-shell">
+          <aside class="features-aside">
+            <div class="filter-block">
+              <h4>Search</h4>
+              <input type="search" id="f-q" class="filter-search" placeholder="Title or summary…" autocomplete="off">
+            </div>
+            <div class="filter-block">
+              <h4>Category</h4>
+              <div class="filter-checks" id="f-cats"></div>
+            </div>
+            <div class="filter-block">
+              <h4>Time</h4>
+              <div class="filter-radios" id="f-time">
+                <label class="filter-check"><input type="radio" name="time" value="all" checked> All time</label>
+                <label class="filter-check"><input type="radio" name="time" value="7d"> Last 7 days</label>
+                <label class="filter-check"><input type="radio" name="time" value="30d"> Last 30 days</label>
+                <label class="filter-check"><input type="radio" name="time" value="90d"> Last 90 days</label>
+                <label class="filter-check"><input type="radio" name="time" value="1y"> Last year</label>
+              </div>
+            </div>
+            <div class="filter-block">
+              <h4>Sort</h4>
+              <div class="filter-radios" id="f-sort">
+                <label class="filter-check"><input type="radio" name="sort" value="latest" checked> Latest</label>
+                <label class="filter-check"><input type="radio" name="sort" value="oldest"> Oldest</label>
+                <label class="filter-check"><input type="radio" name="sort" value="popular"> Most read</label>
+              </div>
+            </div>
+            <button class="filter-clear" id="f-clear" type="button">Clear filters</button>
+          </aside>
+
+          <div class="features-main">
+            <div class="features-count" id="f-count">Loading…</div>
+            <div class="features-grid" id="f-grid"></div>
+            <div class="features-pager" id="f-pager"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script>
+  (async () => {
+    document.body.dataset.page = 'features';
+    setMeta({
+      title: 'Features',
+      description: 'All Karostartup features — long reads, deep dives, founder stories, analysis.',
+      url: '/features.html',
+      canonical: location.origin + '/features.html',
+      type: 'website',
+      keywords: 'long reads, features, deep dive, analysis, founder stories, karostartup',
+    });
+    await mountChrome('');
+    mountFooter();
+
+    const PAGE_SIZE = 24;
+    const state = { q: '', cats: new Set(), time: 'all', sort: 'latest', page: 0 };
+
+    // ----- Build the category list (with counts) -----
+    const catCheckSlot = document.getElementById('f-cats');
+    let categories = [];
+    try {
+      const { data } = await sb.from('categories').select('id,slug,name').order('name');
+      categories = data || [];
+    } catch {}
+    // pre-fetch counts (one query per category — cheap with the head:true count)
+    const counts = {};
+    await Promise.all(categories.map(async (c) => {
+      try {
+        const { count } = await sb.from('articles')
+          .select('id', { count: 'exact', head: true })
+          .eq('status', 'published')
+          .eq('category_id', c.id);
+        counts[c.id] = count || 0;
+      } catch { counts[c.id] = 0; }
+    }));
+    catCheckSlot.innerHTML = categories
+      .filter(c => counts[c.id] > 0)
+      .sort((a, b) => counts[b.id] - counts[a.id])
+      .map(c => `
+        <label class="filter-check">
+          <input type="checkbox" data-cat="${escapeAttr(c.id)}">
+          <span>${escapeHtml(c.name)}</span>
+          <span class="n">${counts[c.id]}</span>
+        </label>`).join('');
+
+    // ----- URL <-> state ----
+    function syncStateFromUrl() {
+      const u = new URLSearchParams(location.search);
+      state.q = u.get('q') || '';
+      state.cats = new Set((u.get('cats') || '').split(',').filter(Boolean));
+      state.time = u.get('time') || 'all';
+      state.sort = u.get('sort') || 'latest';
+      state.page = Math.max(0, Number(u.get('page') || 0));
+      document.getElementById('f-q').value = state.q;
+      catCheckSlot.querySelectorAll('input[type=checkbox]').forEach(cb => {
+        cb.checked = state.cats.has(cb.dataset.cat);
+      });
+      document.querySelectorAll('input[name=time]').forEach(r => r.checked = r.value === state.time);
+      document.querySelectorAll('input[name=sort]').forEach(r => r.checked = r.value === state.sort);
+    }
+    function pushUrl() {
+      const u = new URL(location);
+      const set = (k, v) => v ? u.searchParams.set(k, v) : u.searchParams.delete(k);
+      set('q', state.q);
+      set('cats', state.cats.size ? [...state.cats].join(',') : '');
+      set('time', state.time === 'all' ? '' : state.time);
+      set('sort', state.sort === 'latest' ? '' : state.sort);
+      set('page', state.page > 0 ? state.page : '');
+      history.replaceState({}, '', u);
+    }
+
+    // ----- Fetch + render -----
+    function timeCutoff() {
+      if (state.time === 'all') return null;
+      const days = { '7d': 7, '30d': 30, '90d': 90, '1y': 365 }[state.time] || 0;
+      return new Date(Date.now() - days * 86400000).toISOString();
+    }
+
+    async function load() {
+      const grid = document.getElementById('f-grid');
+      const countEl = document.getElementById('f-count');
+      const pagerEl = document.getElementById('f-pager');
+      grid.innerHTML = '<div class="loading-state" style="grid-column:1/-1;">Loading…</div>';
+      pagerEl.innerHTML = '';
+
+      try {
+        let q = sb.from('articles')
+          .select('id,slug,title,kicker,summary,cover_image_url,published_at,read_time_minutes,view_count,categories(name)', { count: 'exact' })
+          .eq('status', 'published');
+
+        if (state.q) {
+          const safe = state.q.replace(/[%_]/g, '');
+          q = q.or(`title.ilike.%${safe}%,summary.ilike.%${safe}%,subtitle.ilike.%${safe}%`);
+        }
+        if (state.cats.size) q = q.in('category_id', [...state.cats]);
+        const since = timeCutoff();
+        if (since) q = q.gte('published_at', since);
+        if (state.sort === 'latest')  q = q.order('published_at', { ascending: false });
+        if (state.sort === 'oldest')  q = q.order('published_at', { ascending: true });
+        if (state.sort === 'popular') q = q.order('view_count',   { ascending: false });
+
+        const from = state.page * PAGE_SIZE;
+        const to   = from + PAGE_SIZE - 1;
+        q = q.range(from, to);
+
+        const { data, count, error } = await q;
+        if (error) throw error;
+        if (!data || !data.length) {
+          grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><h3>No matches</h3><p>Try clearing some filters.</p></div>';
+          countEl.textContent = '0 results';
+          return;
+        }
+
+        grid.innerHTML = data.map(renderLongreadCard).join('');
+        initReveal();
+        countEl.textContent = `${count.toLocaleString()} feature${count === 1 ? '' : 's'}`;
+
+        // Pager
+        const totalPages = Math.max(1, Math.ceil((count || 0) / PAGE_SIZE));
+        const cur = state.page + 1;
+        pagerEl.innerHTML = `
+          <button id="pg-prev" ${cur === 1 ? 'disabled' : ''}>&larr; Prev</button>
+          <span class="info">Page ${cur} of ${totalPages}</span>
+          <button id="pg-next" ${cur === totalPages ? 'disabled' : ''}>Next &rarr;</button>
+        `;
+        document.getElementById('pg-prev').addEventListener('click', () => { state.page = Math.max(0, state.page - 1); pushUrl(); window.scrollTo({ top: 0, behavior: 'smooth' }); load(); });
+        document.getElementById('pg-next').addEventListener('click', () => { state.page = state.page + 1;          pushUrl(); window.scrollTo({ top: 0, behavior: 'smooth' }); load(); });
+      } catch (e) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><h3>Could not load features</h3><p>${escapeHtml(e?.message || String(e))}</p></div>`;
+        countEl.textContent = '';
+      }
+    }
+
+    // ----- Wire events -----
+    let debounceTimer;
+    document.getElementById('f-q').addEventListener('input', (e) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => { state.q = e.target.value.trim(); state.page = 0; pushUrl(); load(); }, 250);
+    });
+    catCheckSlot.addEventListener('change', (e) => {
+      const cb = e.target.closest('input[data-cat]');
+      if (!cb) return;
+      if (cb.checked) state.cats.add(cb.dataset.cat); else state.cats.delete(cb.dataset.cat);
+      state.page = 0; pushUrl(); load();
+    });
+    document.getElementById('f-time').addEventListener('change', (e) => {
+      if (e.target.name === 'time') { state.time = e.target.value; state.page = 0; pushUrl(); load(); }
+    });
+    document.getElementById('f-sort').addEventListener('change', (e) => {
+      if (e.target.name === 'sort') { state.sort = e.target.value; state.page = 0; pushUrl(); load(); }
+    });
+    document.getElementById('f-clear').addEventListener('click', () => {
+      state.q = ''; state.cats.clear(); state.time = 'all'; state.sort = 'latest'; state.page = 0;
+      syncStateFromUrl(); // resets DOM
+      pushUrl(); load();
+    });
+
+    syncStateFromUrl();
+    load();
+  })();
+  </script>
+</body>
+</html>
