@@ -1439,6 +1439,11 @@ a:hover .media-play { background: var(--brand); }
   padding: 22px;
   background: #fff;
 }
+/* TradingView widgets bring their own internal chrome — drop the card
+   padding when one is inside, otherwise the widget gets squished. */
+.chart-card:has(.tradingview-widget-container) { padding: 0; overflow: hidden; }
+.tradingview-widget-container,
+.tradingview-widget-container__widget { width: 100%; min-height: 420px; }
 .chart-card-header {
   display: flex;
   justify-content: space-between;
