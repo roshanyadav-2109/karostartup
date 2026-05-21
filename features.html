@@ -90,19 +90,22 @@
       font-family: var(--font-mono);
     }
     .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-    }
-    .features-grid .longread-card {
       display: flex;
       flex-direction: column;
+      gap: 20px;
+    }
+    /* Each feature: full-width horizontal card — image left, text right. */
+    .features-grid .longread-card {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
       padding: 0;
       border: 1px solid var(--hairline);
       background: #fff;
       text-decoration: none;
       color: var(--ink);
       transition: border-color .15s, transform .15s;
+      overflow: hidden;
     }
     .features-grid .longread-card:hover {
       border-color: var(--ink);
@@ -116,7 +119,7 @@
     .features-grid .longread-card .cover { width: 100%; height: 100%; object-fit: cover; }
     .features-grid .longread-card .kicker {
       display: block;
-      padding: 14px 16px 0;
+      padding: 18px 20px 0 0;
       font-family: var(--font-display);
       font-weight: 700;
       font-size: 0.72rem;
@@ -125,19 +128,19 @@
       text-transform: uppercase;
     }
     .features-grid .longread-card .title {
-      padding: 6px 16px 0;
+      padding: 6px 20px 0 0;
       font-family: var(--font-display);
       font-weight: 600;
-      font-size: 1.05rem;
+      font-size: 1.25rem;
       line-height: 1.3;
       color: var(--ink);
       margin: 0;
     }
     .features-grid .longread-card .summary {
-      padding: 8px 16px 16px;
-      font-size: 0.88rem;
+      padding: 10px 20px 18px 0;
+      font-size: 0.95rem;
       color: var(--muted);
-      line-height: 1.45;
+      line-height: 1.5;
       margin: 0;
       display: -webkit-box;
       -webkit-line-clamp: 3;
@@ -167,27 +170,23 @@
     @media (max-width: 900px) {
       .features-shell { grid-template-columns: 1fr; }
       .features-aside { position: static; max-height: none; }
-      .features-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 600px) {
-      .features-grid { grid-template-columns: 1fr; }
+      .features-grid .longread-card {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .features-grid .longread-card .kicker,
+      .features-grid .longread-card .title,
+      .features-grid .longread-card .summary { padding-left: 16px; padding-right: 16px; }
+      .features-grid .longread-card .kicker { padding-top: 14px; }
     }
   </style>
 </head>
 <body>
   <div id="chrome"></div>
   <main>
-    <section class="about-hero">
-      <div class="container">
-        <span class="kicker">Features</span>
-        <h1>Long reads, deep dives &amp; founder stories</h1>
-        <p style="max-width:680px;color:var(--muted);font-size:1.05rem;">
-          Every published feature on Karostartup. Filter by category, search by keyword, sort by date or popularity.
-        </p>
-      </div>
-    </section>
-
-    <section class="section" style="padding-top: 16px;">
+    <section class="section" style="padding-top: 32px;">
       <div class="container">
         <div class="features-shell">
           <aside class="features-aside">
