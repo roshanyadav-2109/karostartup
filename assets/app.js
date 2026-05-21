@@ -238,28 +238,50 @@ function escapeAttr(s) { return escapeHtml(s); }
    Supports: ## ### headings, **bold**, *italic*, > blockquote,
              [link](url), paragraphs, hr ---, lists - / 1.
    ============================================================ */
+// Build a YouTube / Vimeo embed iframe with autoplay (muted) params. Browsers
+// require muted autoplay for unattended play, so all autoplay embeds start
+// muted and the user can unmute.
+function _ytEmbed(id) {
+  const src = `https://www.youtube.com/embed/${encodeURIComponent(id)}?autoplay=1&mute=1&rel=0&playsinline=1`;
+  return `<div class="embed-video"><iframe src="${src}" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+}
+function _vimeoEmbed(id) {
+  const src = `https://player.vimeo.com/video/${encodeURIComponent(id)}?autoplay=1&muted=1`;
+  return `<div class="embed-video"><iframe src="${src}" title="Vimeo video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+}
+// Return the video ID for a YouTube URL (any of the common shapes), or null.
+function _ytIdFromUrl(url) {
+  try {
+    const u = new URL(url);
+    const host = u.hostname.replace(/^www\./, '');
+    if (host === 'youtu.be') return u.pathname.slice(1).split('/')[0] || null;
+    if (host === 'youtube.com' || host === 'm.youtube.com') {
+      if (u.searchParams.get('v')) return u.searchParams.get('v');
+      if (u.pathname.startsWith('/shorts/')) return u.pathname.split('/')[2] || null;
+      if (u.pathname.startsWith('/embed/'))  return u.pathname.split('/')[2] || null;
+    }
+  } catch {}
+  return null;
+}
+function _vimeoIdFromUrl(url) {
+  try {
+    const u = new URL(url);
+    if (u.hostname.replace(/^www\./, '') !== 'vimeo.com') return null;
+    const id = u.pathname.split('/').filter(Boolean)[0];
+    return id && /^\d+$/.test(id) ? id : null;
+  } catch { return null; }
+}
+
 // Convert a bare media URL on its own line to an embed iframe HTML.
 // Returns null if the URL isn't recognised as embeddable.
 function _mediaEmbedFor(url) {
   try {
+    const ytId = _ytIdFromUrl(url);
+    if (ytId) return _ytEmbed(ytId);
+    const vmId = _vimeoIdFromUrl(url);
+    if (vmId) return _vimeoEmbed(vmId);
     const u = new URL(url);
     const host = u.hostname.replace(/^www\./, '');
-    // YouTube — watch?v=, youtu.be/, /shorts/, /embed/
-    if (host === 'youtube.com' || host === 'm.youtube.com') {
-      let id = u.searchParams.get('v');
-      if (!id && u.pathname.startsWith('/shorts/')) id = u.pathname.split('/')[2];
-      if (!id && u.pathname.startsWith('/embed/')) id = u.pathname.split('/')[2];
-      if (id) return `<div class="embed-video"><iframe src="https://www.youtube.com/embed/${encodeURIComponent(id)}" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
-    }
-    if (host === 'youtu.be') {
-      const id = u.pathname.slice(1).split('/')[0];
-      if (id) return `<div class="embed-video"><iframe src="https://www.youtube.com/embed/${encodeURIComponent(id)}" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
-    }
-    // Vimeo
-    if (host === 'vimeo.com') {
-      const id = u.pathname.split('/').filter(Boolean)[0];
-      if (id && /^\d+$/.test(id)) return `<div class="embed-video"><iframe src="https://player.vimeo.com/video/${encodeURIComponent(id)}" title="Vimeo video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
-    }
     // Spotify — episodes, shows, tracks
     if (host === 'open.spotify.com') {
       const parts = u.pathname.split('/').filter(Boolean);
@@ -299,55 +321,98 @@ function sanitizeImportedHtml(html) {
   try {
     const doc = new DOMParser().parseFromString(`<div id="__root">${html}</div>`, 'text/html');
     const root = doc.getElementById('__root');
+
+    // Helper: build an embed iframe element from a video URL, or null.
+    const videoEmbedElement = (url) => {
+      const embedHtml = _mediaEmbedFor(url);
+      if (!embedHtml) return null;
+      const wrap = doc.createElement('div');
+      wrap.innerHTML = embedHtml;
+      return wrap.firstElementChild;
+    };
+
     const walk = (node) => {
       // children snapshot so we can mutate while iterating
       const kids = [...node.childNodes];
       for (const child of kids) {
-        if (child.nodeType === 1 /* element */) {
-          const tag = child.tagName.toLowerCase();
-          if (!_SAFE_TAGS.has(tag)) {
-            // Replace disallowed element with its text (drop scripts/iframes
-            // completely; keep text content for everything else)
-            if (tag === 'script' || tag === 'style' || tag === 'iframe' ||
-                tag === 'object' || tag === 'embed' || tag === 'form' ||
-                tag === 'input' || tag === 'link' || tag === 'meta') {
-              child.remove();
-            } else {
-              const text = doc.createTextNode(child.textContent || '');
-              child.replaceWith(text);
+        if (child.nodeType === 3 /* text */) {
+          // Look for a bare YouTube/Vimeo URL inside the text and split it
+          // off into an embed.
+          const text = child.nodeValue || '';
+          const m = text.match(/https?:\/\/(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)[\w-]+|youtu\.be\/[\w-]+|vimeo\.com\/\d+)[^\s<)\]]*/i);
+          if (m) {
+            const embed = videoEmbedElement(m[0]);
+            if (embed) {
+              const before = doc.createTextNode(text.slice(0, m.index));
+              const after  = doc.createTextNode(text.slice(m.index + m[0].length));
+              child.replaceWith(before, embed, after);
             }
-            continue;
           }
-          // Strip dangerous + noisy attributes
-          for (const attr of [...child.attributes]) {
-            const name = attr.name.toLowerCase();
-            const val  = attr.value;
-            if (name.startsWith('on'))                            { child.removeAttribute(attr.name); continue; }
-            if (name === 'style')                                 { child.removeAttribute(attr.name); continue; }
-            if (name === 'class')                                 { child.removeAttribute(attr.name); continue; }
-            if (name === 'dir' || name === 'lang' || name === 'id'){ child.removeAttribute(attr.name); continue; }
-            if ((name === 'href' || name === 'src') &&
-                /^\s*javascript:/i.test(val))                     { child.removeAttribute(attr.name); continue; }
-            // Image srcset/lazy attrs etc are fine; leave them
+          continue;
+        }
+        if (child.nodeType !== 1 /* element */) continue;
+
+        const tag = child.tagName.toLowerCase();
+
+        // <iframe> from a trusted video host — keep, rewrite src for autoplay.
+        if (tag === 'iframe') {
+          const src = child.getAttribute('src') || '';
+          const embed = videoEmbedElement(src);
+          if (embed) { child.replaceWith(embed); continue; }
+          child.remove();
+          continue;
+        }
+
+        // <a href="video"> — replace with embed if href is a video URL.
+        if (tag === 'a') {
+          const href = child.getAttribute('href') || '';
+          if (href) {
+            const embed = videoEmbedElement(href);
+            if (embed) { child.replaceWith(embed); continue; }
           }
-          // Make external links open in a new tab safely
-          if (tag === 'a' && child.getAttribute('href')) {
-            child.setAttribute('target', '_blank');
-            child.setAttribute('rel', 'noopener noreferrer');
-          }
-          // Drop completely empty paragraphs/spans/divs (Google-Docs litter)
-          if ((tag === 'p' || tag === 'span' || tag === 'div') &&
-              !child.textContent.trim() &&
-              !child.querySelector('img,iframe,video,audio,br,hr')) {
+        }
+
+        if (!_SAFE_TAGS.has(tag)) {
+          // Replace disallowed element with its text (drop scripts/styles/forms
+          // completely; keep text content for everything else)
+          if (tag === 'script' || tag === 'style' || tag === 'object' ||
+              tag === 'embed'  || tag === 'form'  || tag === 'input'  ||
+              tag === 'link'   || tag === 'meta') {
             child.remove();
-            continue;
+          } else {
+            const text = doc.createTextNode(child.textContent || '');
+            child.replaceWith(text);
           }
-          walk(child);
-          // After recursion, unwrap useless single-child <span> wrappers
-          if (tag === 'span' && child.attributes.length === 0) {
-            while (child.firstChild) child.parentNode.insertBefore(child.firstChild, child);
-            child.remove();
-          }
+          continue;
+        }
+        // Strip dangerous + noisy attributes
+        for (const attr of [...child.attributes]) {
+          const name = attr.name.toLowerCase();
+          const val  = attr.value;
+          if (name.startsWith('on'))                            { child.removeAttribute(attr.name); continue; }
+          if (name === 'style')                                 { child.removeAttribute(attr.name); continue; }
+          if (name === 'class')                                 { child.removeAttribute(attr.name); continue; }
+          if (name === 'dir' || name === 'lang' || name === 'id'){ child.removeAttribute(attr.name); continue; }
+          if ((name === 'href' || name === 'src') &&
+              /^\s*javascript:/i.test(val))                     { child.removeAttribute(attr.name); continue; }
+        }
+        // Make external links open in a new tab safely
+        if (tag === 'a' && child.getAttribute('href')) {
+          child.setAttribute('target', '_blank');
+          child.setAttribute('rel', 'noopener noreferrer');
+        }
+        // Drop completely empty paragraphs/spans/divs (Google-Docs litter)
+        if ((tag === 'p' || tag === 'span' || tag === 'div') &&
+            !child.textContent.trim() &&
+            !child.querySelector('img,iframe,video,audio,br,hr')) {
+          child.remove();
+          continue;
+        }
+        walk(child);
+        // After recursion, unwrap useless single-child <span> wrappers
+        if (tag === 'span' && child.attributes.length === 0) {
+          while (child.firstChild) child.parentNode.insertBefore(child.firstChild, child);
+          child.remove();
         }
       }
     };
