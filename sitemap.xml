@@ -68,6 +68,24 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://karostartup.com/article/view.html?slug=new-delhi-hosts-68th-apo-governing-body-meeting-with-focus-on-regional-productiv-pib-2263921</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=1600&amp;q=80</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://karostartup.com/article/view.html?slug=dfs-reiterates-its-commitment-towards-promoting-accessible-and-inclusive-financi-pib-2263850</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=1600&amp;q=80</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://karostartup.com/article/view.html?slug=unincorporated-establishments-surge-beyond-9-crore-powering-economic-growth-pib-2263720</loc>
     <lastmod>2026-05-21</lastmod>
     <changefreq>hourly</changefreq>
@@ -79,7 +97,7 @@
   <url>
     <loc>https://karostartup.com/article/view.html?slug=india-and-america-are-working-as-natural-partners-there-is-complementarity-and-t-pib-2263649</loc>
     <lastmod>2026-05-21</lastmod>
-    <changefreq>hourly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=1600&amp;q=80</image:loc>
@@ -88,7 +106,7 @@
   <url>
     <loc>https://karostartup.com/article/view.html?slug=sebi-nism-and-iica-sign-mou-to-advance-corporate-governance-esg-and-capital-mark-pib-2263645</loc>
     <lastmod>2026-05-21</lastmod>
-    <changefreq>hourly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1600&amp;q=80</image:loc>
@@ -700,7 +718,7 @@
   <url>
     <loc>https://karostartup.com/article/view.html?slug=seminar-cum-webinar-on-decoding-automation-of-sez-clearances-through-courier-mod-pib-2261235</loc>
     <lastmod>2026-05-19</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=1600&amp;q=80</image:loc>
@@ -9047,24 +9065,6 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/e814c47b-cbba-4456-8b5a-69e6eaa27236-.jpeg</image:loc>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://karostartup.com/article/view.html?slug=mind-reading-startup-deepinder-goyals-temple-raises-54m-to-make-it-real</loc>
-    <lastmod>2026-05-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/26817f3a-d481-4def-b895-b06566ecd4e6-.png</image:loc>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://karostartup.com/article/view.html?slug=shree-tmt-joins-indian-green-building-council-igbc</loc>
-    <lastmod>2026-05-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/992a3b8e-b2c5-4b6f-81ca-4f4e077117ac-.jpeg</image:loc>
     </image:image>
   </url>
   <url>
