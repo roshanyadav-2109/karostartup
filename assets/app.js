@@ -331,22 +331,44 @@ function sanitizeImportedHtml(html) {
       return wrap.firstElementChild;
     };
 
+    // Block-level tags whose siblings make natural insertion points for
+    // video embeds — when a link or bare URL appears inside one of these,
+    // the embed is appended AFTER the block so the surrounding text flows
+    // uninterrupted.
+    const _BLOCK_TAGS = new Set(['p','h1','h2','h3','h4','h5','h6','li','blockquote','div','figure','section','article']);
+    const closestBlockAncestor = (node) => {
+      let n = node.parentNode;
+      while (n && n !== root) {
+        if (n.nodeType === 1 && _BLOCK_TAGS.has(n.tagName.toLowerCase())) return n;
+        n = n.parentNode;
+      }
+      return null;
+    };
+    // Queue + dedupe (per-block per-URL) so multiple references to the same
+    // video in one paragraph still produce only one embed below it.
+    const pending = []; // { block, url, embed }
+    const seen = new WeakMap();
+    const queueEmbedAfter = (block, url, embed) => {
+      if (!block || !url || !embed) return;
+      let urls = seen.get(block);
+      if (!urls) { urls = new Set(); seen.set(block, urls); }
+      if (urls.has(url)) return; // dedupe
+      urls.add(url);
+      pending.push({ block, embed });
+    };
+
     const walk = (node) => {
       // children snapshot so we can mutate while iterating
       const kids = [...node.childNodes];
       for (const child of kids) {
         if (child.nodeType === 3 /* text */) {
-          // Look for a bare YouTube/Vimeo URL inside the text and split it
-          // off into an embed.
+          // Bare YouTube/Vimeo URL in text — leave the URL as-is in the
+          // paragraph; the embed goes AFTER the parent block.
           const text = child.nodeValue || '';
           const m = text.match(/https?:\/\/(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)[\w-]+|youtu\.be\/[\w-]+|vimeo\.com\/\d+)[^\s<)\]]*/i);
           if (m) {
-            const embed = videoEmbedElement(m[0]);
-            if (embed) {
-              const before = doc.createTextNode(text.slice(0, m.index));
-              const after  = doc.createTextNode(text.slice(m.index + m[0].length));
-              child.replaceWith(before, embed, after);
-            }
+            const block = closestBlockAncestor(child);
+            queueEmbedAfter(block, m[0], videoEmbedElement(m[0]));
           }
           continue;
         }
@@ -354,7 +376,8 @@ function sanitizeImportedHtml(html) {
 
         const tag = child.tagName.toLowerCase();
 
-        // <iframe> from a trusted video host — keep, rewrite src for autoplay.
+        // <iframe> from a trusted video host — replace inline (it was
+        // already meant to be an embed, just normalize + add autoplay).
         if (tag === 'iframe') {
           const src = child.getAttribute('src') || '';
           const embed = videoEmbedElement(src);
@@ -363,12 +386,13 @@ function sanitizeImportedHtml(html) {
           continue;
         }
 
-        // <a href="video"> — replace with embed if href is a video URL.
+        // <a href="video"> — keep the link as text in the paragraph; the
+        // embed goes AFTER the parent block, not in place of the link.
         if (tag === 'a') {
           const href = child.getAttribute('href') || '';
           if (href) {
-            const embed = videoEmbedElement(href);
-            if (embed) { child.replaceWith(embed); continue; }
+            const block = closestBlockAncestor(child);
+            if (block) queueEmbedAfter(block, href, videoEmbedElement(href));
           }
         }
 
@@ -417,6 +441,12 @@ function sanitizeImportedHtml(html) {
       }
     };
     walk(root);
+    // Flush queued embeds: each one goes immediately after its block.
+    // Multiple pending embeds for the same block append in insertion order.
+    for (const { block, embed } of pending) {
+      if (!block || !block.parentNode) continue;
+      block.parentNode.insertBefore(embed, block.nextSibling);
+    }
     return root.innerHTML;
   } catch (e) {
     console.warn('[sanitizeImportedHtml]', e?.message || e);
