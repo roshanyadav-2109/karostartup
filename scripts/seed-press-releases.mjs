@@ -124,6 +124,30 @@ function parsePibDate(raw) {
   return ist.toISOString();
 }
 
+// -- Title denylist --------------------------------------------------------
+// Even within "business" ministries (Finance especially) PIB publishes a lot
+// of items that aren't business/finance news for founders: drug/customs
+// seizures, govt outreach campaigns (PRARAMBH), inauguration ceremonies,
+// review meetings, foundation-day events, capacity-building training. Drop
+// titles that contain any of these substrings (case-insensitive).
+const TITLE_DENY_RE = new RegExp([
+  'seiz', 'smuggl', 'raid', 'crackdown', 'contraband', 'illicit',
+  'narcot', 'drug', 'opium', 'heroin', 'cocaine', 'hashish', 'ganja', 'cannabis',
+  'cigarette', 'vape', 'e-cigarette',
+  'prarambh',
+  'outreach programme', 'outreach program',
+  'awareness programme', 'awareness program',
+  'literacy camp', 'literacy programme', 'literacy program',
+  'capacity building',
+  'training programme', 'training program',
+  'mou for training',
+  'review meeting',
+  'inaugurat', 'bhawan',
+  'keynote address', 'valedictory',
+  'foundation day', 'anniversary celebr',
+  'swearing-in',
+].join('|'), 'i');
+
 // -- Ministry → category mapping -------------------------------------------
 // Tight allowlist: only ministries that actually issue business / finance /
 // MSME / tech / industry / markets news relevant to founders. Everything
@@ -238,6 +262,7 @@ function buildArticle(item, catMap, flagFeatured, flagBreaking) {
   const slug = item.source === 'PIB' ? slugify(item.title, `pib-${item.prid}`) : slugify(item.title);
   const categorySlug = MINISTRY_TO_CATEGORY[item.ministry] || null;
   if (!categorySlug) return null;
+  if (TITLE_DENY_RE.test(item.title)) return null;
   const cover = COVER_BY_CATEGORY[categorySlug] || COVER_BY_CATEGORY.policy;
   const summary = (item.body || '').slice(0, 240).replace(/\s+\S*$/, '').trim() + '…';
   const kicker = item.ministry
@@ -329,7 +354,7 @@ async function runBackfill(from, to, catMap) {
     try {
       const item = await pibDetail(String(prid));
       if (item) parsed++;
-      if (item && MINISTRY_TO_CATEGORY[item.ministry]) {
+      if (item && MINISTRY_TO_CATEGORY[item.ministry] && !TITLE_DENY_RE.test(item.title)) {
         const ts = new Date(item.publishedAt).getTime();
         if (ts >= fromTs && ts <= toTs) {
           batch.push(item);
@@ -378,7 +403,7 @@ async function runBackfill(from, to, catMap) {
   for (const prid of prids.slice(0, 40)) {            // cap per run
     try {
       const item = await pibDetail(prid);
-      if (item && MINISTRY_TO_CATEGORY[item.ministry]) {
+      if (item && MINISTRY_TO_CATEGORY[item.ministry] && !TITLE_DENY_RE.test(item.title)) {
         items.push(item);
         process.stdout.write('.');
       } else {
