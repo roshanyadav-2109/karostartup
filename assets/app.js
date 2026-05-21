@@ -1434,6 +1434,13 @@ function defaultCover(a) {
   const colors = ['#0a0a0a', '#d10a11', '#1a1a1a', '#0b5394', '#8a3ffc', '#0a7a3b'];
   return `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 10'><rect width='16' height='10' fill='${colors[seed]}'/><text x='8' y='5.8' font-family='Georgia' font-size='4' fill='white' text-anchor='middle' font-weight='bold'>K.</text></svg>`)}`;
 }
+// Karostartup brand wordmark — used as the default author avatar so a
+// byline never shows a generic "K." letter placeholder. The matching
+// CSS rule (.is-default-avatar) flips object-fit to `contain` and adds
+// a white background so the horizontal wordmark fits cleanly inside the
+// circular avatar slot.
+const DEFAULT_AUTHOR_AVATAR = '/assets/logo-wordmark.png';
+function defaultAuthorAvatar() { return DEFAULT_AUTHOR_AVATAR; }
 
 function renderStoryCard(a, opts = {}) {
   if (!a) return '';
@@ -1522,13 +1529,14 @@ function renderLongreadCard(a) {
 function renderOpinionCard(a) {
   if (!a) return '';
   const author = a.profiles || {};
-  const avatar = author.avatar_url || defaultCover({title: author.full_name || 'A'});
+  const isDefault = !author.avatar_url;
+  const avatar = author.avatar_url || DEFAULT_AUTHOR_AVATAR;
   return `
   <a href="${articleHref(a)}" class="opinion-card reveal">
     <div class="author-row">
-      <img src="${escapeAttr(avatar)}" class="author-avatar" alt="${escapeAttr(author.full_name || '')}">
+      <img src="${escapeAttr(avatar)}" class="author-avatar${isDefault ? ' is-default-avatar' : ''}" alt="${escapeAttr(author.full_name || 'Karostartup')}">
       <div>
-        <div class="author-name">${escapeHtml(author.full_name || 'Columnist')}</div>
+        <div class="author-name">${escapeHtml(author.full_name || 'Karostartup')}</div>
         <div class="author-role">Opinion</div>
       </div>
     </div>

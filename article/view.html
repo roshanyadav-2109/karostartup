@@ -155,7 +155,8 @@
     const isAuthWalled = !user;
 
     const author = article.profiles || {};
-    const authorAvatar = author.avatar_url || defaultCover({title: author.full_name || 'A'});
+    const authorAvatar = author.avatar_url || DEFAULT_AUTHOR_AVATAR;
+    const isDefaultAvatar = !author.avatar_url;
 
     // Compute pill tag: BREAKING NEWS > TOP STORIES > LATEST UPDATE > none.
     // No other kicker/tag is shown — the article.kicker field is intentionally
@@ -192,7 +193,7 @@
           <div class="byline-row">
             <div class="byline-author">
               <span class="byline-by">By</span>
-              <img src="${escapeAttr(authorAvatar)}" class="byline-avatar" alt="${escapeAttr(author.full_name || '')}">
+              <img src="${escapeAttr(authorAvatar)}" class="byline-avatar${isDefaultAvatar ? ' is-default-avatar' : ''}" alt="${escapeAttr(author.full_name || 'Karostartup')}">
               <span class="byline-name">${escapeHtml(author.full_name || 'Karostartup')}</span>
             </div>
             <div class="byline-actions">
@@ -228,7 +229,7 @@
       <div id="companies-strip"></div>
 
       <div class="author-card">
-        <img src="${escapeAttr(authorAvatar)}" class="author-card-avatar" alt="${escapeAttr(author.full_name || '')}">
+        <img src="${escapeAttr(authorAvatar)}" class="author-card-avatar${isDefaultAvatar ? ' is-default-avatar' : ''}" alt="${escapeAttr(author.full_name || 'Karostartup')}">
         <div>
           <div class="author-card-name">${escapeHtml(author.full_name || 'Karostartup')}</div>
           <div class="author-card-role">${escapeHtml((author.role || '').replace(/^./, c => c.toUpperCase()))} ${author.twitter_handle ? `· <a href="https://twitter.com/${encodeURIComponent(author.twitter_handle.replace(/^@/, ''))}" target="_blank" rel="noopener">@${escapeHtml(author.twitter_handle.replace(/^@/, ''))}</a>` : ''}</div>
