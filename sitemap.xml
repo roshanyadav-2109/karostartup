@@ -68,6 +68,15 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://karostartup.com/article/view.html?slug=india-and-ethiopia-sign-bilateral-accession-protocol-for-ethiopia-s-wto-membersh-pib-2264383</loc>
+    <lastmod>2026-05-22</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=1600&amp;q=80</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://karostartup.com/article/view.html?slug=ctil-and-ficci-organise-conference-on-india-europe-trade-partnerships-under-next-pib-2264258</loc>
     <lastmod>2026-05-22</lastmod>
     <changefreq>hourly</changefreq>
@@ -9056,15 +9065,6 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/ada2cb25-62d7-4671-b400-d3851bf57c4a-.jpeg</image:loc>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://karostartup.com/article/view.html?slug=from-cyber-threats-to-cognitive-warfare-prof-dr-simmy-kataria</loc>
-    <lastmod>2026-05-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/0768d797-02ca-418d-b9be-665f548e7e94-.jpeg</image:loc>
     </image:image>
   </url>
   <url>
