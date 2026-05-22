@@ -68,6 +68,24 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://karostartup.com/article/view.html?slug=ctil-and-ficci-organise-conference-on-india-europe-trade-partnerships-under-next-pib-2264258</loc>
+    <lastmod>2026-05-22</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=1600&amp;q=80</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://karostartup.com/article/view.html?slug=media-interaction-on-pmfme-scheme-by-shri-devesh-deval-highlights-achievements-i-pib-2264199</loc>
+    <lastmod>2026-05-22</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1556742044-3c52d6e88c62?w=1600&amp;q=80</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://karostartup.com/article/view.html?slug=new-delhi-hosts-68th-apo-governing-body-meeting-with-focus-on-regional-productiv-pib-2263921</loc>
     <lastmod>2026-05-21</lastmod>
     <changefreq>hourly</changefreq>
@@ -565,7 +583,7 @@
   <url>
     <loc>https://karostartup.com/article/view.html?slug=agriculture-emerges-as-the-career-of-the-future-kaveri-university-launches-next-gen-agritech-program</loc>
     <lastmod>2026-05-21</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/3c1bcb15-efaa-4964-b016-a0e9c3472e51-.jpeg</image:loc>
@@ -9047,24 +9065,6 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/0768d797-02ca-418d-b9be-665f548e7e94-.jpeg</image:loc>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://karostartup.com/article/view.html?slug=smallest-ai-collaborates-with-ai-grants-india</loc>
-    <lastmod>2026-05-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/1f3b7516-5dce-4b01-b7f2-10d56d822dae-.jpg</image:loc>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://karostartup.com/article/view.html?slug=minutes-matter-star-hospitals-global-standard-emergency-handbook</loc>
-    <lastmod>2026-05-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/e814c47b-cbba-4456-8b5a-69e6eaa27236-.jpeg</image:loc>
     </image:image>
   </url>
   <url>
