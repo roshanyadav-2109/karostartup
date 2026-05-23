@@ -4,12 +4,19 @@ on:
   schedule:
     # Every 30 minutes — picks up new PIB English releases as they post
     - cron: "*/30 * * * *"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      fix_covers:
+        description: "One-shot: refresh cover_image_url on existing PIB articles"
+        type: boolean
+        default: false
 
 jobs:
   seed:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    # fix_covers walks every PIB article (~thousands) at ~7 req/s, so it
+    # needs a much longer budget than the 30-min cron pass.
+    timeout-minutes: ${{ inputs.fix_covers && 350 || 8 }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -18,4 +25,5 @@ jobs:
       - name: Run seeder
         env:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          FIX_COVERS: ${{ inputs.fix_covers && '1' || '' }}
         run: node scripts/seed-press-releases.mjs
