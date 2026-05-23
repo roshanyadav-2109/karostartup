@@ -68,6 +68,15 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://karostartup.com/article/view.html?slug=68th-session-of-the-governing-body-meeting-of-the-asian-productivity-organisatio-pib-2264444</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=1600&amp;q=80</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://karostartup.com/article/view.html?slug=india-and-ethiopia-sign-bilateral-accession-protocol-for-ethiopia-s-wto-membersh-pib-2264383</loc>
     <lastmod>2026-05-22</lastmod>
     <changefreq>hourly</changefreq>
@@ -78,7 +87,7 @@
   </url>
   <url>
     <loc>https://karostartup.com/article/view.html?slug=ctil-and-ficci-organise-conference-on-india-europe-trade-partnerships-under-next-pib-2264258</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>hourly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -565,7 +574,7 @@
   <url>
     <loc>https://karostartup.com/article/view.html?slug=how-two-mothers-turned-everyday-kitchen-worries-into-a-500-crore-brand</loc>
     <lastmod>2026-05-21</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/16f15575-c597-48d1-b51f-de6fc12c1d44-.png</image:loc>
@@ -574,7 +583,7 @@
   <url>
     <loc>https://karostartup.com/article/view.html?slug=from-a-childhood-hair-oiling-ritual-to-a-global-beauty-brand-the-inde-wild-success-story</loc>
     <lastmod>2026-05-21</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/d4ece026-6d51-4d5d-baa3-6f8be3646288-.png</image:loc>
@@ -583,7 +592,7 @@
   <url>
     <loc>https://karostartup.com/article/view.html?slug=is-artificial-intelligence-making-the-current-generation-dumber-experts-and-data-say-the-risk-is-rea</loc>
     <lastmod>2026-05-21</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/812a7f5c-3b5f-4683-9366-ea3dc5ace4bb-.jpeg</image:loc>
@@ -9056,15 +9065,6 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/1e9eb243-1164-45a4-bac1-6475c660560d-.jpeg</image:loc>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://karostartup.com/article/view.html?slug=build-beyond-edition-ii-growth-stage-founders-share</loc>
-    <lastmod>2026-05-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/ada2cb25-62d7-4671-b400-d3851bf57c4a-.jpeg</image:loc>
     </image:image>
   </url>
   <url>
