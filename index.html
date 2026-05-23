@@ -271,7 +271,23 @@
 
       const lead = data.find(a => a.is_featured) || data[0];
       const remaining = data.filter(a => a.id !== lead.id);
-      const leftStories = remaining.slice(0, 3);   // 3 small side cards on the left
+
+      // Editor's Picks = latest startup-features only (category 'startups').
+      // Separate query so the lead + top-stories rail still draws from all
+      // categories. Falls back to "remaining" if the startups bucket is empty.
+      let leftStories = [];
+      try {
+        const { data: picks } = await sb.from('articles')
+          .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,categories!inner(name,slug),profiles!author_id(full_name)')
+          .eq('status', 'published')
+          .eq('categories.slug', 'startups')
+          .neq('id', lead.id)
+          .order('published_at', { ascending: false })
+          .limit(3);
+        leftStories = picks || [];
+      } catch {}
+      if (!leftStories.length) leftStories = remaining.slice(0, 3);
+
       const topStories  = remaining.slice(3, 8);   // 5 numbered top stories on the right
       const stripUpdates = remaining.slice(8, 14); // 4-6 mini cards under the lead
       const leadCover = lead.cover_image_url || defaultCover(lead);
