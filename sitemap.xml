@@ -68,6 +68,15 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://karostartup.com/article/view.html?slug=union-minister-of-commerce-industry-shri-piyush-goyal-to-visit-canada-for-high-l-pib-2264617</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://static.pib.gov.in/WriteReadData/userfiles/socialmedianew/email1.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://karostartup.com/article/view.html?slug=dpiit-releases-guidelines-for-implementation-of-bhavya-scheme-pib-2264533</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>hourly</changefreq>
@@ -9056,15 +9065,6 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/2786afec-ab69-419e-b7ac-65510e273cab-.png</image:loc>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://karostartup.com/article/view.html?slug=real-altf-coworking-is-building-premium-office-spaces</loc>
-    <lastmod>2026-05-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/37f1024b-c08c-4169-9f88-1327792c66ab-.jpeg</image:loc>
     </image:image>
   </url>
   <url>
