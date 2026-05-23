@@ -34,7 +34,7 @@
         </div>
         <div class="lnews-grid" id="home-lnews-grid">
           <a class="lnews-feature" id="lnews-feature" href="#" aria-live="polite">
-            <div class="lnews-feature-img" id="lnews-feature-img-wrap" style="display:none;"><img id="lnews-feature-img" alt="" loading="eager"></div>
+            <div class="lnews-feature-img" id="lnews-feature-img-wrap"><img id="lnews-feature-img" alt="" loading="eager" style="display:none;" onerror="this.style.display='none';"></div>
             <div class="lnews-feature-overlay">
               <span class="lnews-feature-cat" id="lnews-feature-cat"></span>
               <h3 class="lnews-feature-title" id="lnews-feature-title"></h3>
@@ -604,16 +604,24 @@
         const cat   = (a.categories?.name || a.kicker || '').toUpperCase();
         const apply = () => {
           featureEl.href = articleHref(a);
-          const wrap = document.getElementById('lnews-feature-img-wrap');
+          // Wrapper always stays visible — its gradient is the placeholder.
+          // The <img> only reveals once it loads at a sane size; otherwise it
+          // stays hidden so the gradient + title overlay reads cleanly.
           if (cover) {
-            imgEl.src = cover;
+            imgEl.style.display = 'none';
+            imgEl.onload = () => {
+              if (imgEl.naturalWidth >= 200 && imgEl.naturalHeight >= 120) {
+                imgEl.style.display = '';
+              }
+            };
+            imgEl.onerror = () => { imgEl.style.display = 'none'; };
             imgEl.alt = a.title;
-            imgEl.style.display = '';
-            if (wrap) wrap.style.display = '';
+            imgEl.src = cover;
           } else {
+            imgEl.onload = null;
+            imgEl.onerror = null;
             imgEl.removeAttribute('src');
             imgEl.style.display = 'none';
-            if (wrap) wrap.style.display = 'none';
           }
           catEl.textContent   = cat;
           catEl.style.display = cat ? 'inline-block' : 'none';
