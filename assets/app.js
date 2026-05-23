@@ -11,6 +11,30 @@ const sb = window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_K
 });
 window.sb = sb;
 
+// If a cover/thumb image fails to load, hide the image AND its immediate
+// wrapper so the card collapses instead of showing the browser's broken-image
+// "envelope" placeholder. Covers any <img> nested in a known cover/thumb wrap
+// class. Anchored profile/logo avatars are excluded — they have their own
+// fallback styling and shouldn't collapse.
+const _IMG_HIDE_WRAP_CLASSES = [
+  'hero-lead-img', 'hero-update-thumb', 'lnews-side-img', 'lnews-feature-img',
+  'topic-tile-img', 'pod-cover-wrap', 'cover-wrap', 'cover-media', 'thumb-media',
+  'short-tile-thumb',
+];
+window.addEventListener('error', (e) => {
+  const t = e.target;
+  if (!(t instanceof HTMLImageElement)) return;
+  // Avoid loops if a fallback also fails.
+  if (t.dataset.errorHandled) return;
+  t.dataset.errorHandled = '1';
+  t.style.display = 'none';
+  t.removeAttribute('src');
+  const parent = t.parentElement;
+  if (parent && _IMG_HIDE_WRAP_CLASSES.some(c => parent.classList && parent.classList.contains(c))) {
+    parent.style.display = 'none';
+  }
+}, true);
+
 /* ============================================================
    INLINE SVG ICONS (used in place of emojis)
    ============================================================ */

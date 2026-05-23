@@ -34,7 +34,7 @@
         </div>
         <div class="lnews-grid" id="home-lnews-grid">
           <a class="lnews-feature" id="lnews-feature" href="#" aria-live="polite">
-            <div class="lnews-feature-img"><img id="lnews-feature-img" src="" alt="" loading="eager"></div>
+            <div class="lnews-feature-img" id="lnews-feature-img-wrap" style="display:none;"><img id="lnews-feature-img" alt="" loading="eager"></div>
             <div class="lnews-feature-overlay">
               <span class="lnews-feature-cat" id="lnews-feature-cat"></span>
               <h3 class="lnews-feature-title" id="lnews-feature-title"></h3>
@@ -604,13 +604,16 @@
         const cat   = (a.categories?.name || a.kicker || '').toUpperCase();
         const apply = () => {
           featureEl.href = articleHref(a);
+          const wrap = document.getElementById('lnews-feature-img-wrap');
           if (cover) {
             imgEl.src = cover;
             imgEl.alt = a.title;
             imgEl.style.display = '';
+            if (wrap) wrap.style.display = '';
           } else {
             imgEl.removeAttribute('src');
             imgEl.style.display = 'none';
+            if (wrap) wrap.style.display = 'none';
           }
           catEl.textContent   = cat;
           catEl.style.display = cat ? 'inline-block' : 'none';
