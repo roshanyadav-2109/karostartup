@@ -1417,23 +1417,23 @@ function _isMediaArticle(a) {
   return !!(a && a.kicker && _MEDIA_KICKERS.has(String(a.kicker).toUpperCase()));
 }
 function _coverHtml(a, cover) {
+  if (!cover) return '';
   const img = `<img src="${escapeAttr(cover)}" class="cover" alt="${escapeAttr(a.title)}" loading="lazy">`;
   if (!_isMediaArticle(a)) return img;
   return `<div class="cover-media">${img}<span class="media-play" aria-hidden="true"></span></div>`;
 }
 function _thumbHtml(a, cover, opts = {}) {
+  if (!cover) return '';
   const cls = opts.className || 'thumb';
   const img = `<img src="${escapeAttr(cover)}" class="${cls}" alt="${escapeAttr(a.title)}" loading="lazy">`;
   if (!_isMediaArticle(a)) return img;
   return `<div class="thumb-media">${img}<span class="media-play media-play-sm" aria-hidden="true"></span></div>`;
 }
 
-function defaultCover(a) {
-  // simple solid colored placeholder with title initials
-  const seed = (a.title || a.slug || 'k').charCodeAt(0) % 6;
-  const colors = ['#0a0a0a', '#d10a11', '#1a1a1a', '#0b5394', '#8a3ffc', '#0a7a3b'];
-  return `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 10'><rect width='16' height='10' fill='${colors[seed]}'/><text x='8' y='5.8' font-family='Georgia' font-size='4' fill='white' text-anchor='middle' font-weight='bold'>K.</text></svg>`)}`;
-}
+// Returns the real cover URL for an article, or null when there isn't one.
+// Site policy: never substitute a stock/SVG placeholder — callers should
+// branch on null and skip the image element entirely.
+function defaultCover(a) { return null; }
 // Karostartup brand wordmark — used as the default author avatar so a
 // byline never shows a generic "K." letter placeholder. The matching
 // CSS rule (.is-default-avatar) flips object-fit to `contain` and adds
@@ -1513,11 +1513,11 @@ function renderFeedItem(a) {
 
 function renderLongreadCard(a) {
   if (!a) return '';
-  const cover = a.cover_image_url || defaultCover(a);
+  const cover = a.cover_image_url || null;
   const isMedia = _isMediaArticle(a);
   return `
-  <a href="${articleHref(a)}" class="longread-card reveal">
-    <div class="cover-wrap${isMedia ? ' cover-wrap-media' : ''}"><img src="${escapeAttr(cover)}" class="cover" alt="${escapeAttr(a.title)}" loading="lazy">${isMedia ? '<span class="media-play" aria-hidden="true"></span>' : ''}</div>
+  <a href="${articleHref(a)}" class="longread-card${cover ? '' : ' longread-card-no-cover'} reveal">
+    ${cover ? `<div class="cover-wrap${isMedia ? ' cover-wrap-media' : ''}"><img src="${escapeAttr(cover)}" class="cover" alt="${escapeAttr(a.title)}" loading="lazy">${isMedia ? '<span class="media-play" aria-hidden="true"></span>' : ''}</div>` : ''}
     <div class="longread-text">
       ${a.kicker ? `<span class="kicker">${escapeHtml(a.kicker)}</span>` : ''}
       <h3 class="title">${escapeHtml(a.title)}</h3>

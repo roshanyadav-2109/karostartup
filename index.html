@@ -290,7 +290,7 @@
 
       const topStories  = remaining.slice(3, 8);   // 5 numbered top stories on the right
       const stripUpdates = remaining.slice(8, 14); // 4-6 mini cards under the lead
-      const leadCover = lead.cover_image_url || defaultCover(lead);
+      const leadCover = lead.cover_image_url || null;
       const leadAuthor = lead.profiles?.full_name || 'Karostartup';
       const leadKickerText = lead.kicker || lead.categories?.name || '';
 
@@ -301,12 +301,12 @@
         </aside>
 
         <div class="hero-middle">
-          <article class="hero-lead-v2">
+          <article class="hero-lead-v2${leadCover ? '' : ' hero-lead-v2-no-img'}">
             <a href="${articleHref(lead)}">
-              <div class="hero-lead-img">
+              ${leadCover ? `<div class="hero-lead-img">
                 <img src="${escapeAttr(leadCover)}" alt="${escapeAttr(lead.title)}" loading="eager">
                 ${leadKickerText ? `<span class="hero-lead-kicker">${escapeHtml(leadKickerText)}</span>` : ''}
-              </div>
+              </div>` : (leadKickerText ? `<span class="hero-lead-kicker hero-lead-kicker-inline">${escapeHtml(leadKickerText)}</span>` : '')}
               <h2 class="hero-lead-title">${escapeHtml(lead.title)}</h2>
               ${lead.subtitle ? `<p class="hero-lead-dek">${escapeHtml(lead.subtitle)}</p>`
                 : (lead.summary ? `<p class="hero-lead-dek">${escapeHtml(lead.summary.slice(0, 180))}${lead.summary.length > 180 ? '…' : ''}</p>` : '')}
@@ -326,11 +326,11 @@
             </div>
             <div class="hero-updates-strip" id="hero-updates-strip">
               ${stripUpdates.map(a => {
-                const cover = a.cover_image_url || defaultCover(a);
+                const cover = a.cover_image_url || null;
                 const kicker = a.kicker || a.categories?.name || '';
                 return `
-                  <a class="hero-update-card" href="${articleHref(a)}">
-                    <div class="hero-update-thumb"><img src="${escapeAttr(cover)}" alt="${escapeAttr(a.title)}" loading="lazy"></div>
+                  <a class="hero-update-card${cover ? '' : ' hero-update-card-no-img'}" href="${articleHref(a)}">
+                    ${cover ? `<div class="hero-update-thumb"><img src="${escapeAttr(cover)}" alt="${escapeAttr(a.title)}" loading="lazy"></div>` : ''}
                     <p class="hero-update-title">
                       ${kicker ? `<span class="hero-update-kicker">${escapeHtml(kicker)}:</span> ` : ''}${escapeHtml(a.title)}
                     </p>
@@ -501,11 +501,11 @@
       // Compact horizontal cards (thumb left, headline right) — better for a
       // vertical scrolling rail than image-on-top cards.
       const renderSideItem = (a) => {
-        const cover = a.cover_image_url || defaultCover(a);
+        const cover = a.cover_image_url || null;
         const cat   = (a.categories?.name || a.kicker || '').toUpperCase();
         return `
-        <a class="lnews-side" href="${articleHref(a)}">
-          <div class="lnews-side-img"><img src="${escapeAttr(cover)}" alt="${escapeAttr(a.title)}" loading="lazy"></div>
+        <a class="lnews-side${cover ? '' : ' lnews-side-no-img'}" href="${articleHref(a)}">
+          ${cover ? `<div class="lnews-side-img"><img src="${escapeAttr(cover)}" alt="${escapeAttr(a.title)}" loading="lazy"></div>` : ''}
           <div class="lnews-side-text">
             ${cat ? `<span class="lnews-side-cat">${escapeHtml(cat)}</span>` : ''}
             <h4 class="lnews-side-title">${escapeHtml(a.title)}</h4>
@@ -585,8 +585,8 @@
         start();
       }
 
-      // Preload rotator images so swaps don't flash.
-      rotating.forEach(a => { const im = new Image(); im.src = a.cover_image_url || defaultCover(a); });
+      // Preload rotator images so swaps don't flash. Skip articles with no cover.
+      rotating.forEach(a => { if (a.cover_image_url) { const im = new Image(); im.src = a.cover_image_url; } });
 
       // Dots — clickable, indicate position.
       dotsEl.innerHTML = rotating.map((_, i) =>
@@ -600,12 +600,18 @@
 
       function paint(i, instant) {
         const a = rotating[i];
-        const cover = a.cover_image_url || defaultCover(a);
+        const cover = a.cover_image_url || null;
         const cat   = (a.categories?.name || a.kicker || '').toUpperCase();
         const apply = () => {
           featureEl.href = articleHref(a);
-          imgEl.src      = cover;
-          imgEl.alt      = a.title;
+          if (cover) {
+            imgEl.src = cover;
+            imgEl.alt = a.title;
+            imgEl.style.display = '';
+          } else {
+            imgEl.removeAttribute('src');
+            imgEl.style.display = 'none';
+          }
           catEl.textContent   = cat;
           catEl.style.display = cat ? 'inline-block' : 'none';
           titleEl.textContent = a.title;
@@ -656,14 +662,14 @@
         return;
       }
       strip.innerHTML = data.map((s, i) => {
-        const thumb = s.thumbnail_url || defaultCover(s);
+        const thumb = s.thumbnail_url || null;
         const dur = s.duration_seconds
           ? `${Math.floor(s.duration_seconds / 60)}:${String(s.duration_seconds % 60).padStart(2, '0')}`
           : '';
         return `
         <button type="button" class="short-tile" data-i="${i}" aria-label="Play ${escapeAttr(s.title)}">
-          <div class="short-tile-thumb">
-            <img src="${escapeAttr(thumb)}" alt="${escapeAttr(s.title)}" loading="lazy">
+          <div class="short-tile-thumb${thumb ? '' : ' short-tile-thumb-no-img'}">
+            ${thumb ? `<img src="${escapeAttr(thumb)}" alt="${escapeAttr(s.title)}" loading="lazy">` : ''}
             <span class="short-tile-play" aria-hidden="true"></span>
             ${dur ? `<span class="short-tile-dur">${dur}</span>` : ''}
           </div>
@@ -880,10 +886,10 @@
       if (!profile) {
         slot.style.display = 'none';
       } else {
-        const photo = profile.cover_image_url || defaultCover(profile);
+        const photo = profile.cover_image_url || null;
         slot.innerHTML = `
-          <div class="container">
-            <img src="${escapeAttr(photo)}" class="founder-photo" alt="${escapeAttr(profile.title)}">
+          <div class="container${photo ? '' : ' founder-spotlight-no-img'}">
+            ${photo ? `<img src="${escapeAttr(photo)}" class="founder-photo" alt="${escapeAttr(profile.title)}">` : ''}
             <div class="founder-content">
               <span class="eyebrow" style="color:#d10a11;">Founder Profile</span>
               <p class="founder-quote">${escapeHtml(profile.summary || profile.title)}</p>
@@ -1183,10 +1189,10 @@
         return;
       }
       slot.innerHTML = top.map(t => {
-        const cover = t.cover || defaultCover(t);
+        const cover = t.cover || null;
         return `
-        <a class="topic-tile" href="/category/view.html?slug=${encodeURIComponent(t.slug)}">
-          <div class="topic-tile-img"><img src="${escapeAttr(cover)}" alt="${escapeAttr(t.name)}" loading="lazy"></div>
+        <a class="topic-tile${cover ? '' : ' topic-tile-no-img'}" href="/category/view.html?slug=${encodeURIComponent(t.slug)}">
+          ${cover ? `<div class="topic-tile-img"><img src="${escapeAttr(cover)}" alt="${escapeAttr(t.name)}" loading="lazy"></div>` : ''}
           <span class="topic-tile-label">${escapeHtml(t.name)}</span>
         </a>`;
       }).join('');

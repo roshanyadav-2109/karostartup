@@ -173,91 +173,9 @@ const MINISTRY_TO_CATEGORY = {
   'Ministry of Textiles':                             'd2c',
 };
 
-// Cover image pools by category slug (Unsplash, public). Each PIB release picks
-// one deterministically from the pool via a hash of its slug, so the homepage
-// + category pages don't show the same Unsplash photo on every card.
-const COVER_POOL_BY_CATEGORY = {
-  banking: [
-    'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=1600&q=80', // bank columns
-    'https://images.unsplash.com/photo-1607863680198-23d4b2565df0?w=1600&q=80', // RBI-style facade
-    'https://images.unsplash.com/photo-1601597111158-2fceff292cdc?w=1600&q=80', // INR notes
-    'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=1600&q=80', // currency macro
-    'https://images.unsplash.com/photo-1593672715438-d88a70629abe?w=1600&q=80', // calculator + coins
-    'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1600&q=80', // ledger / book
-  ],
-  markets: [
-    'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1600&q=80', // ticker
-    'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=1600&q=80', // candlesticks
-    'https://images.unsplash.com/photo-1535320903710-d993d3d77d29?w=1600&q=80', // newspaper finance
-    'https://images.unsplash.com/photo-1642543492481-44e81e3914a7?w=1600&q=80', // trading screen
-    'https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=1600&q=80', // print stocks
-    'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1600&q=80', // chart trend
-  ],
-  policy: [
-    'https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=1600&q=80', // parliament-style facade
-    'https://images.unsplash.com/photo-1575503802870-45de6a6217c8?w=1600&q=80', // India gate
-    'https://images.unsplash.com/photo-1554475901-4538ddfbccc2?w=1600&q=80', // govt building
-    'https://images.unsplash.com/photo-1589994965851-a8f479c573a9?w=1600&q=80', // indian flag
-    'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1600&q=80', // documents
-    'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1600&q=80', // policy book
-  ],
-  ai: [
-    'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1600&q=80', // neural blue
-    'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1600&q=80', // robot
-    'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1600&q=80', // gpu/server abstract
-    'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&q=80', // circuit board
-    'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1600&q=80', // code blue
-    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&q=80', // dashboard
-  ],
-  climate: [
-    'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1600&q=80', // wind turbines
-    'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=1600&q=80', // solar farm
-    'https://images.unsplash.com/photo-1473773508845-188df298d2d1?w=1600&q=80', // forest canopy
-    'https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=1600&q=80', // green leaf
-    'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=80', // earth
-    'https://images.unsplash.com/photo-1473445730015-841f29a9490b?w=1600&q=80', // wind farm
-  ],
-  d2c: [
-    'https://images.unsplash.com/photo-1556742044-3c52d6e88c62?w=1600&q=80', // packaging boxes
-    'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1600&q=80', // textile fabric
-    'https://images.unsplash.com/photo-1542838132-92c53300491e?w=1600&q=80', // food market
-    'https://images.unsplash.com/photo-1542838686-37da4a9fd1b3?w=1600&q=80', // spices market
-    'https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=1600&q=80', // shop facade
-    'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=1600&q=80', // beauty products
-  ],
-  fintech: [
-    'https://images.unsplash.com/photo-1601597111158-2fceff292cdc?w=1600&q=80', // INR
-    'https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=1600&q=80', // phone payment
-    'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1600&q=80', // card stack
-    'https://images.unsplash.com/photo-1565514020179-026b92b84bb6?w=1600&q=80', // contactless
-    'https://images.unsplash.com/photo-1592495981480-7d0fe7c4b5e4?w=1600&q=80', // mobile banking
-    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&q=80', // analytics
-  ],
-  saas: [
-    'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&q=80', // circuit
-    'https://images.unsplash.com/photo-1551434678-e076c223a692?w=1600&q=80', // team standup
-    'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=1600&q=80', // laptop code
-    'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1600&q=80', // dev workspace
-    'https://images.unsplash.com/photo-1518186233392-c232efbf2373?w=1600&q=80', // dashboard chart
-    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1600&q=80', // analytics screen
-  ],
-};
-
-// Stable 32-bit hash of a string (FNV-1a). Used to pick a deterministic
-// fallback cover per article so the same slug always lands on the same image.
-function _hash32(s) {
-  let h = 0x811c9dc5;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0;
-  }
-  return h >>> 0;
-}
-
-function pickFallbackCover(slug, categorySlug) {
-  const pool = COVER_POOL_BY_CATEGORY[categorySlug] || COVER_POOL_BY_CATEGORY.policy;
-  return pool[_hash32(slug || 'x') % pool.length];
-}
+// Site policy: if PIB didn't publish a real image with the release, leave
+// cover_image_url null. The frontend renders these cards without an image
+// rather than substituting a stock photo.
 
 // Extract the first content image from a PIB release page. PIB hosts its own
 // images under /WriteReadData/userfiles/image/... so we prefer those; only
@@ -370,7 +288,9 @@ function buildArticle(item, catMap, flagFeatured, flagBreaking) {
   const categorySlug = MINISTRY_TO_CATEGORY[item.ministry] || null;
   if (!categorySlug) return null;
   if (TITLE_DENY_RE.test(item.title)) return null;
-  const cover = item.heroImage || pickFallbackCover(slug, categorySlug);
+  // Only set a cover when PIB actually published one for this release.
+  // The site is configured to render no image at all when this is null.
+  const cover = item.heroImage || null;
   const summary = (item.body || '').slice(0, 240).replace(/\s+\S*$/, '').trim() + '…';
   const kicker = item.ministry
     .replace(/^Ministry of\s+/i, '')
@@ -541,13 +461,15 @@ async function runFixCovers() {
       await sleep(140);
     }
 
-    if (!newCover) { newCover = pickFallbackCover(slug, cat); fallback++; }
-    if (newCover && newCover !== a.cover_image_url) {
+    // If no real PIB image was found, clear any existing fake cover so the
+    // card simply renders without an image. We never substitute a stock photo.
+    if (!newCover) { newCover = null; fallback++; }
+    if (newCover !== a.cover_image_url) {
       updates.push({ id: a.id, cover_image_url: newCover });
     }
 
     if ((refetched + fallback) % 50 === 0) {
-      process.stdout.write(`\r  processed ${refetched + fallback}/${all.length}  real ${foundReal}  fallback ${fallback}  err ${errors}      `);
+      process.stdout.write(`\r  processed ${refetched + fallback}/${all.length}  real ${foundReal}  cleared ${fallback}  err ${errors}      `);
     }
   }
 
