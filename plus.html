@@ -20,7 +20,7 @@
         <span class="kicker" style="color:#d10a11;">Karostartup Plus</span>
         <h1>For the operators<br>building India<span class="dot"></span></h1>
         <p>Unlimited Plus stories. Weekly Funding Brief. Founder Memo. Research reports. The signal beneath the noise — for ₹4,999 a year.</p>
-        <a href="#price" class="btn btn-red btn-lg" style="margin-top:32px;">Become a Member</a>
+        <a href="#price" class="btn btn-red btn-lg" style="margin-top:32px;display:none;">Become a Member</a>
       </div>
     </section>
 
@@ -54,7 +54,7 @@
       </div>
     </section>
 
-    <section class="section" style="background:var(--paper);" id="price">
+    <section class="section" style="background:var(--paper);display:none;" id="price">
       <div class="container" style="max-width:560px;text-align:center;">
         <span class="kicker">Membership</span>
         <h2 class="h-display" style="font-size:clamp(2.4rem,4.4vw,3.4rem);margin:16px 0 8px 0;">₹4,999<span style="color:#5a5a5a;font-size:0.4em;font-weight:400;"> /year</span></h2>
@@ -114,7 +114,7 @@
     });
     await mountChrome('');
     mountFooter();
-    document.getElementById('become-btn').addEventListener('click', () => {
+    document.getElementById('become-btn')?.addEventListener('click', () => {
       alert("Payments aren't wired up in this build. Email hello@karostartup.com or use the contact form and we'll set you up manually.");
       location.href = '/contact.html?type=general';
     });
