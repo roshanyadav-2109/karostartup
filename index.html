@@ -301,12 +301,12 @@
         </aside>
 
         <div class="hero-middle">
-          <article class="hero-lead-v2${leadCover ? '' : ' hero-lead-v2-no-img'}">
+          <article class="hero-lead-v2">
             <a href="${articleHref(lead)}">
-              ${leadCover ? `<div class="hero-lead-img">
-                <img src="${escapeAttr(leadCover)}" alt="${escapeAttr(lead.title)}" loading="eager">
+              <div class="hero-lead-img">
+                ${leadCover ? `<img src="${escapeAttr(leadCover)}" alt="${escapeAttr(lead.title)}" loading="eager" style="display:none;" onload="if(this.naturalWidth>=200&&this.naturalHeight>=120){this.style.display='';}" onerror="this.style.display='none';">` : ''}
                 ${leadKickerText ? `<span class="hero-lead-kicker">${escapeHtml(leadKickerText)}</span>` : ''}
-              </div>` : (leadKickerText ? `<span class="hero-lead-kicker hero-lead-kicker-inline">${escapeHtml(leadKickerText)}</span>` : '')}
+              </div>
               <h2 class="hero-lead-title">${escapeHtml(lead.title)}</h2>
               ${lead.subtitle ? `<p class="hero-lead-dek">${escapeHtml(lead.subtitle)}</p>`
                 : (lead.summary ? `<p class="hero-lead-dek">${escapeHtml(lead.summary.slice(0, 180))}${lead.summary.length > 180 ? '…' : ''}</p>` : '')}
