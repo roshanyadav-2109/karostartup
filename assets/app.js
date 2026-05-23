@@ -555,7 +555,7 @@ function renderMarkdown(md) {
    ============================================================ */
 const SITE_NAME = 'Karostartup';
 const SITE_DESCRIPTION = "India's business of business — sharp, founder-first journalism on startups, funding, and the operators building India.";
-const SITE_TWITTER = '@karostartup';
+const SITE_TWITTER = '@karo_startup';
 const SITE_DEFAULT_OG_IMAGE = '/assets/logo-wordmark.png';
 
 function _absoluteUrl(u) {
@@ -684,10 +684,11 @@ function siteJsonLd() {
       logo: `${origin}/assets/logo-wordmark.png`,
       description: SITE_DESCRIPTION,
       sameAs: [
-        'https://twitter.com/karostartup',
-        'https://www.linkedin.com/company/karostartup',
+        'https://twitter.com/karo_startup',
+        'https://www.linkedin.com/company/karo-startup',
         'https://www.youtube.com/@karostartup',
-        'https://www.instagram.com/karostartup'
+        'https://www.instagram.com/karo_startup_',
+        'https://www.facebook.com/karostartup'
       ]
     },
     {
@@ -1144,10 +1145,10 @@ function renderFooter() {
         <div class="footer-col">
           <h4>Follow</h4>
           <div class="footer-socials">
-            <a href="https://twitter.com/karostartup" target="_blank" rel="noopener" aria-label="X (Twitter)" class="footer-social">${ICON.twitter}</a>
-            <a href="https://www.linkedin.com/company/karostartup" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-social">${ICON.linkedinSm}</a>
+            <a href="https://twitter.com/karo_startup" target="_blank" rel="noopener" aria-label="X (Twitter)" class="footer-social">${ICON.twitter}</a>
+            <a href="https://www.linkedin.com/company/karo-startup" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-social">${ICON.linkedinSm}</a>
             <a href="https://www.youtube.com/@karostartup" target="_blank" rel="noopener" aria-label="YouTube" class="footer-social">${ICON.youtube}</a>
-            <a href="https://www.instagram.com/karostartup" target="_blank" rel="noopener" aria-label="Instagram" class="footer-social">${ICON.instagram}</a>
+            <a href="https://www.instagram.com/karo_startup_" target="_blank" rel="noopener" aria-label="Instagram" class="footer-social">${ICON.instagram}</a>
             <a href="https://www.facebook.com/karostartup" target="_blank" rel="noopener" aria-label="Facebook" class="footer-social">${ICON.facebook}</a>
           </div>
           <p style="font-size:0.78rem;color:#9a9a9a;margin:16px 0 0;line-height:1.45;">Newsroom alerts:<br><a href="https://wa.me/919315194393" target="_blank" rel="noopener" style="color:#c5c5c5;">WhatsApp →</a></p>
