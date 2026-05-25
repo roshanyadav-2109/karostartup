@@ -68,6 +68,15 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://karostartup.com/article/view.html?slug=union-minister-for-finance-and-corporate-affairs-minister-calls-for-stronger-tex-pib-2265050</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://static.pib.gov.in/WriteReadData/userfiles/image/1QZ2E.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://karostartup.com/article/view.html?slug=press-note-on-release-of-the-report-of-the-technical-advisory-committee-on-base--pib-2264966</loc>
     <lastmod>2026-05-25</lastmod>
     <changefreq>hourly</changefreq>
@@ -88,7 +97,7 @@
   <url>
     <loc>https://karostartup.com/article/view.html?slug=ministry-of-electronics-it-and-indian-school-of-business-convene-the-governance--pib-2264873</loc>
     <lastmod>2026-05-25</lastmod>
-    <changefreq>hourly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://static.pib.gov.in/WriteReadData/userfiles/image/Pic_IIJHQ9.jpg</image:loc>
@@ -445,7 +454,7 @@
   <url>
     <loc>https://karostartup.com/article/view.html?slug=backed-by-science-indulekha-bringha-hair-growth-serum-completes-second-clinical-trial-proves-new-hai</loc>
     <lastmod>2026-05-21</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/004dbef4-fb92-4082-a8f5-a51f56834bbf-.jpg</image:loc>
@@ -454,7 +463,7 @@
   <url>
     <loc>https://karostartup.com/article/view.html?slug=the-power-of-purpose-passion-perspective-turns-vision-into-impact</loc>
     <lastmod>2026-05-21</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/7a8f98b6-4b24-471f-b96c-5f39293eba77-.png</image:loc>
@@ -9053,15 +9062,6 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/7250c18c-9726-45db-9f75-67821ede600b-.jpg</image:loc>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://karostartup.com/article/view.html?slug=india-gourmet-style-with-celebrity-masterchef-shipra-khanna</loc>
-    <lastmod>2026-05-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/47d67904-43b2-4461-8015-6ebe986ab93e-.jpeg</image:loc>
     </image:image>
   </url>
   <url>
