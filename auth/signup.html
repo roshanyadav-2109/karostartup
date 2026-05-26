@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Create your account · Karostartup</title>
-  <meta name="description" content="Create a Karostartup account.">
+  <meta name="description" content="Create your Karostartup account.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
@@ -17,97 +17,44 @@
     <aside class="auth-brand">
       <a href="/" style="color:#fff;text-decoration:none;" aria-label="Karostartup home"><div class="logo"><img src="/assets/logo-wordmark.png" alt="Karostartup"></div></a>
       <div>
-        <h2 class="tagline">Read the people <span class="accent">building India.</span></h2>
-        <p style="color:#aaa;font-size:1rem;max-width:380px;">Free account for free stories, bookmarks, and the Morning Brief. Upgrade to Plus when you're ready.</p>
+        <h2 class="tagline">Join the people <span class="accent">building India.</span></h2>
+        <p style="color:#aaa;font-size:1rem;max-width:380px;">One tap with Google. No passwords to remember. Bookmark stories, follow newsletters, and never miss the signal.</p>
       </div>
       <div class="footer-note">© Karostartup · A new kind of business paper.</div>
     </aside>
     <section class="auth-form-pane" style="position:relative;">
       <div class="top-link">Already have an account? <a href="/auth/signin.html">Sign in →</a></div>
-      <form class="auth-form" id="signup-form">
+      <div class="auth-form">
         <h1>Create your account</h1>
-        <p class="sub">It's free. Takes 30 seconds.</p>
+        <p class="sub">Continue with Google — we'll set everything up automatically.</p>
         <div id="msg-slot"></div>
-        <div class="form-field">
-          <label for="full_name">Full name</label>
-          <input type="text" name="full_name" id="full_name" required autocomplete="name">
-        </div>
-        <div class="form-field">
-          <label for="email">Email</label>
-          <input type="email" name="email" id="email" required autocomplete="email">
-        </div>
-        <div class="form-row">
-          <div class="form-field">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required autocomplete="new-password" minlength="8">
-            <div class="hint">Minimum 8 characters</div>
-          </div>
-          <div class="form-field">
-            <label for="confirm">Confirm</label>
-            <input type="password" name="confirm" id="confirm" required minlength="8">
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary submit-btn" id="submit-btn">Create account</button>
-        <div class="form-foot">By signing up you agree to our terms. We'll never spam you.</div>
-      </form>
+        <a id="google-btn" class="google-btn" href="#">
+          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.997 8.997 0 0 0 0 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.962L3.964 7.294C4.672 5.167 6.656 3.58 9 3.58z"/></svg>
+          <span>Continue with Google</span>
+        </a>
+        <p class="auth-fineprint">By continuing you agree to our <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
+      </div>
     </section>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="/assets/app.js"></script>
   <script>
   (async () => {
-    setMeta({ title: 'Create your account', description: 'Create a free Karostartup account to read full articles.', url: '/auth/signup.html', noindex: true });
+    setMeta({ title: 'Create your account', description: 'Create your Karostartup account.', url: '/auth/signup.html', noindex: true });
     document.querySelector('.footer-note').textContent = `© ${new Date().getFullYear()} Karostartup · A new kind of business paper.`;
-    const u = await getCurrentUser();
-    if (u) { location.href = '/'; return; }
 
-    const form = document.getElementById('signup-form');
-    const msgSlot = document.getElementById('msg-slot');
-    const submitBtn = document.getElementById('submit-btn');
+    const params = new URLSearchParams(location.search);
+    const next = params.get('next') || '/';
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      msgSlot.innerHTML = '';
-      const pw = form.password.value;
-      const confirm = form.confirm.value;
-      if (pw !== confirm) {
-        msgSlot.innerHTML = `<div class="form-msg error">Passwords don't match.</div>`;
-        return;
-      }
-      if (pw.length < 8) {
-        msgSlot.innerHTML = `<div class="form-msg error">Password must be at least 8 characters.</div>`;
-        return;
-      }
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Creating account…';
-      try {
-        const { data, error } = await sb.auth.signUp({
-          email: form.email.value.trim(),
-          password: pw,
-          options: { data: { full_name: form.full_name.value.trim() } }
-        });
-        if (error) {
-          msgSlot.innerHTML = `<div class="form-msg error">${escapeHtml(error.message)}</div>`;
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Create account';
-          return;
-        }
-        if (data.session) {
-          location.href = '/';
-        } else {
-          form.style.display = 'none';
-          msgSlot.innerHTML = `
-            <div class="form-msg success" style="text-align:center;padding:24px;">
-              <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.4rem;margin:0 0 8px 0;color:#0a7a3b;">Check your email</h2>
-              <p style="margin:0;">We sent a confirmation link to <strong>${escapeHtml(form.email.value.trim())}</strong>. Click it to activate your account.</p>
-            </div>`;
-        }
-      } catch (err) {
-        msgSlot.innerHTML = `<div class="form-msg error">${escapeHtml(err.message || 'Sign up failed.')}</div>`;
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Create account';
-      }
-    });
+    const [g, u] = await Promise.all([getGoogleUser(), getCurrentUser()]);
+    if (g || u) { location.href = next.startsWith('/') && !next.startsWith('//') ? next : '/'; return; }
+
+    if (params.get('error')) {
+      document.getElementById('msg-slot').innerHTML =
+        `<div class="form-msg error">${escapeHtml('Sign-in failed. Please try again.')}</div>`;
+    }
+
+    document.getElementById('google-btn').href = '/api/auth/google/start?next=' + encodeURIComponent(next);
   })();
   </script>
 </body>
