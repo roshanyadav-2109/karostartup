@@ -46,28 +46,26 @@
     const params = new URLSearchParams(location.search);
     const next = params.get('next') || '/';
 
-    // Already signed in? Bounce.
-    const u = await getCurrentUser();
-    if (u) { location.href = next.startsWith('/') && !next.startsWith('//') ? next : '/'; return; }
+    // Already signed in (Google or staff)? Bounce.
+    const [g, u] = await Promise.all([getGoogleUser(), getCurrentUser()]);
+    if (g || u) { location.href = next.startsWith('/') && !next.startsWith('//') ? next : '/'; return; }
 
-    // Surface any OAuth error Supabase passed back in the URL.
-    const err = params.get('error_description') || params.get('error');
+    // Surface any OAuth error passed back from the callback.
+    const err = params.get('error');
     if (err) {
+      const labels = {
+        bad_state: 'Your sign-in link expired. Please try again.',
+        store_failed: 'We could not save your account. Please try again.',
+        token_exchange_failed: 'Google sign-in failed. Please try again.',
+        no_email: 'Google did not share an email address.',
+        access_denied: 'Sign-in was cancelled.',
+      };
       document.getElementById('msg-slot').innerHTML =
-        `<div class="form-msg error">${escapeHtml(err)}</div>`;
+        `<div class="form-msg error">${escapeHtml(labels[err] || 'Sign-in failed. Please try again.')}</div>`;
     }
 
     const btn = document.getElementById('google-btn');
-    btn.addEventListener('click', async (e) => {
-      e.preventDefault();
-      btn.querySelector('span').textContent = 'Redirecting to Google…';
-      const { error } = await signInWithGoogle(next);
-      if (error) {
-        document.getElementById('msg-slot').innerHTML =
-          `<div class="form-msg error">${escapeHtml(error.message)}</div>`;
-        btn.querySelector('span').textContent = 'Continue with Google';
-      }
-    });
+    btn.href = '/api/auth/google/start?next=' + encodeURIComponent(next);
   })();
   </script>
 </body>

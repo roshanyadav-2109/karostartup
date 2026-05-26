@@ -100,17 +100,20 @@ async function getCurrentUser() {
   } catch { return null; }
 }
 
-// Start Google OAuth via Supabase Auth. Returns to `next` (a same-site path)
-// after the round-trip through Google + the Supabase callback.
-async function signInWithGoogle(next = '/') {
-  const safe = (typeof next === 'string' && next.startsWith('/') && !next.startsWith('//')) ? next : '/';
-  return sb.auth.signInWithOAuth({
-    provider: 'google',
-    options: {
-      redirectTo: location.origin + safe,
-      queryParams: { prompt: 'select_account' },
-    },
-  });
+// Public visitors sign in with Google. Their session lives in an HttpOnly
+// cookie set by /api/auth/* — read it via /api/auth/me. Cached per page load.
+let _ksUserPromise;
+async function getGoogleUser() {
+  if (_ksUserPromise !== undefined) return _ksUserPromise;
+  _ksUserPromise = (async () => {
+    try {
+      const r = await fetch('/api/auth/me', { credentials: 'same-origin', cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      return j && j.user ? j.user : null;
+    } catch { return null; }
+  })();
+  return _ksUserPromise;
 }
 
 async function getCurrentProfile() {
@@ -176,9 +179,17 @@ async function requireStaff() {
 }
 
 async function signOut() {
-  await sb.auth.signOut();
+  // Clear the Google session cookie (public visitors)…
+  try {
+    await fetch('/api/auth/signout', {
+      method: 'POST', headers: { Accept: 'application/json' }, credentials: 'same-origin',
+    });
+  } catch { /* ignore */ }
+  // …and the Supabase session (staff / admin).
+  try { await sb.auth.signOut(); } catch { /* ignore */ }
   _profileCache = null;
   _profileCachedFor = null;
+  _ksUserPromise = undefined;
   location.href = '/';
 }
 
@@ -1303,7 +1314,7 @@ function mountMobileDrawer(activeSlug, cats) {
   }
 
   // Auth swap inside drawer — sits directly under the search input
-  getCurrentSession().then((session) => {
+  getCurrentSession().then(async (session) => {
     const slot = document.getElementById('k-drawer-auth');
     if (!slot) return;
     if (session?.user) {
@@ -1314,6 +1325,17 @@ function mountMobileDrawer(activeSlug, cats) {
         <h4>Account</h4>
         ${staffLink}
         <a href="/profile.html" class="k-drawer-link sub">Your profile</a>
+        <a href="#" class="k-drawer-link sub" id="k-drawer-signout">Sign out</a>`;
+      const so = document.getElementById('k-drawer-signout');
+      if (so) so.addEventListener('click', (e) => { e.preventDefault(); signOut(); });
+      return;
+    }
+    const g = await getGoogleUser();
+    if (g) {
+      slot.innerHTML = `
+        <h4>Account</h4>
+        <div class="k-drawer-link sub" style="opacity:.7;">${escapeHtml(g.email || '')}</div>
+        <a href="/profile.html" class="k-drawer-link sub">Your account</a>
         <a href="#" class="k-drawer-link sub" id="k-drawer-signout">Sign out</a>`;
       const so = document.getElementById('k-drawer-signout');
       if (so) so.addEventListener('click', (e) => { e.preventDefault(); signOut(); });
@@ -1359,6 +1381,15 @@ async function mountChrome(activeSlug = '') {
     authSlot.innerHTML = `${staffLink}<a href="/profile.html">Profile</a> <a href="#" id="signout-link">Sign out</a>`;
     const so = document.getElementById('signout-link');
     if (so) so.addEventListener('click', (e) => { e.preventDefault(); signOut(); });
+  } else if (authSlot) {
+    // No Supabase staff session — check for a Google (public visitor) session.
+    getGoogleUser().then((g) => {
+      if (!g) return; // leave the default "Sign in" link in place
+      const label = escapeHtml(g.name || g.email || 'Account');
+      authSlot.innerHTML = `<a href="/profile.html" title="${escapeAttr(g.email || '')}">${label}</a> <a href="#" id="signout-link">Sign out</a>`;
+      const so = document.getElementById('signout-link');
+      if (so) so.addEventListener('click', (e) => { e.preventDefault(); signOut(); });
+    });
   }
 
   // 3. In the background, refresh the data in parallel and patch the DOM.
@@ -1641,7 +1672,7 @@ document.addEventListener('DOMContentLoaded', () => {
    EXPORTS (already on window)
    ============================================================ */
 window.k = {
-  sb, getCurrentUser, signInWithGoogle, getCurrentSession, getCurrentProfile, isStaff, isEditorOrAdmin, isAdmin,
+  sb, getCurrentUser, getGoogleUser, getCurrentSession, getCurrentProfile, isStaff, isEditorOrAdmin, isAdmin,
   requireAuth, requireStaff, signOut,
   formatINR, formatUSD, formatNumber, timeAgo, formatDate, formatDateLong, formatTimeIST,
   slugify, escapeHtml, escapeAttr, renderMarkdown, showToast, initReveal,
