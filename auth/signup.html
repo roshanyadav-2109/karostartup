@@ -46,15 +46,26 @@
     const params = new URLSearchParams(location.search);
     const next = params.get('next') || '/';
 
-    const [g, u] = await Promise.all([getGoogleUser(), getCurrentUser()]);
-    if (g || u) { location.href = next.startsWith('/') && !next.startsWith('//') ? next : '/'; return; }
+    const u = await getCurrentUser();
+    if (u) { location.href = next.startsWith('/') && !next.startsWith('//') ? next : '/'; return; }
 
-    if (params.get('error')) {
+    const err = params.get('error_description') || params.get('error');
+    if (err) {
       document.getElementById('msg-slot').innerHTML =
-        `<div class="form-msg error">${escapeHtml('Sign-in failed. Please try again.')}</div>`;
+        `<div class="form-msg error">${escapeHtml(err)}</div>`;
     }
 
-    document.getElementById('google-btn').href = '/api/auth/google/start?next=' + encodeURIComponent(next);
+    const btn = document.getElementById('google-btn');
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      btn.querySelector('span').textContent = 'Redirecting to Google…';
+      const { error } = await signInWithGoogle(next);
+      if (error) {
+        document.getElementById('msg-slot').innerHTML =
+          `<div class="form-msg error">${escapeHtml(error.message)}</div>`;
+        btn.querySelector('span').textContent = 'Continue with Google';
+      }
+    });
   })();
   </script>
 </body>
