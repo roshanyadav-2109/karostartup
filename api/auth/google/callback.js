@@ -98,6 +98,6 @@ module.exports = async (req, res) => {
 
   res.setHeader('Set-Cookie', serializeCookie('ks_oauth', '', { path: '/', maxAge: 0 }));
   res.statusCode = 302;
-  res.setHeader('Location', `/auth/finish.html?next=${encodeURIComponent(next)}#${hash}`);
+  res.setHeader('Location', `/auth/finish?next=${encodeURIComponent(next)}#${hash}`);
   res.end();
 };
