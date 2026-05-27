@@ -148,6 +148,12 @@ async function isAdmin() {
   return p?.role === 'admin';
 }
 
+// "editor" -> "Editor". Used to label the staff link in the navbar by role.
+function _roleLabel(role) {
+  if (!role) return 'Staff';
+  return role.charAt(0).toUpperCase() + role.slice(1);
+}
+
 async function requireAuth(redirect = '/auth/signin.html') {
   const user = await getCurrentUser();
   if (!user) {
@@ -1320,7 +1326,7 @@ function mountMobileDrawer(activeSlug, cats) {
     if (session?.user) {
       const profile = _cacheGet('profile:' + session.user.id, 120);
       const staffLink = profile && ['author', 'editor', 'admin'].includes(profile.role)
-        ? `<a href="/admin/" class="k-drawer-link sub">Admin dashboard</a>` : '';
+        ? `<a href="/admin/" class="k-drawer-link sub">${_roleLabel(profile.role)} dashboard</a>` : '';
       slot.innerHTML = `
         <h4>Account</h4>
         ${staffLink}
@@ -1377,7 +1383,7 @@ async function mountChrome(activeSlug = '') {
   if (authSlot && session?.user) {
     const cachedProfile = _cacheGet('profile:' + session.user.id, 120);
     const staffLink = cachedProfile && ['author', 'editor', 'admin'].includes(cachedProfile.role)
-      ? `<a href="/admin/">Admin</a>` : '';
+      ? `<a href="/admin/">${_roleLabel(cachedProfile.role)}</a>` : '';
     authSlot.innerHTML = `${staffLink}<a href="/profile.html">Profile</a> <a href="#" id="signout-link">Sign out</a>`;
     const so = document.getElementById('signout-link');
     if (so) so.addEventListener('click', (e) => { e.preventDefault(); signOut(); });
@@ -1446,7 +1452,7 @@ async function mountChrome(activeSlug = '') {
       const slot2 = document.getElementById('utility-auth-slot');
       if (slot2 && ['author', 'editor', 'admin'].includes(pRes.data.role) && !slot2.querySelector('a[href="/admin/"]')) {
         const sl = document.getElementById('signout-link');
-        slot2.insertAdjacentHTML('afterbegin', `<a href="/admin/">Admin</a> `);
+        slot2.insertAdjacentHTML('afterbegin', `<a href="/admin/">${_roleLabel(pRes.data.role)}</a> `);
         // re-wire signout (since innerHTML wasn't re-set, link still exists)
       }
     }
