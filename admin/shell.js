@@ -20,7 +20,7 @@ async function renderAdminShell(activeKey, breadcrumb) {
     { key: 'comments', label: 'Comments', href: '/admin/comments.html' },
     { key: 'submissions', label: 'Submissions', href: '/admin/submissions.html' },
     { key: 'newsletters', label: 'Newsletters', href: '/admin/newsletters.html', adminOnly: true },
-    { key: 'users', label: 'Users', href: '/admin/users.html', adminOnly: true }
+    { key: 'users', label: 'Employees', href: '/admin/users.html', adminOnly: true }
   ];
 
   root.innerHTML = `
