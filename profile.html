@@ -55,10 +55,36 @@
           <div class="admin-card">
             <div class="admin-card-head"><h3>Your account</h3></div>
             <p style="color:#5a5a5a;margin:0 0 6px 0;">You're signed in with Google as <strong>${escapeHtml(g.email || '')}</strong>.</p>
-            <p style="color:#5a5a5a;margin:0;">Browse the latest stories on the <a href="/" style="color:#d10a11;font-weight:600;">homepage</a> or explore our <a href="/newsletters.html" style="color:#d10a11;font-weight:600;">newsletters</a>.</p>
+            <p style="color:#5a5a5a;margin:0 0 18px 0;">Browse the latest stories on the <a href="/" style="color:#d10a11;font-weight:600;">homepage</a> or explore our <a href="/newsletters.html" style="color:#d10a11;font-weight:600;">newsletters</a>.</p>
+            <div class="form-field">
+              <label for="lookup-email">Email</label>
+              <input type="email" id="lookup-email" autocomplete="email" value="${escapeAttr(g.email || '')}" placeholder="you@example.com">
+            </div>
+            <div id="uid-result" style="font-size:0.9rem;color:#5a5a5a;min-height:1.3em;"></div>
           </div>
         </section>`;
       document.getElementById('signout-tab').addEventListener('click', (e) => { e.preventDefault(); signOut(); });
+
+      // Email → auth.users UID lookup (server-side, session-gated).
+      const emailInput = document.getElementById('lookup-email');
+      const resultEl = document.getElementById('uid-result');
+      let _t;
+      async function doLookup() {
+        const email = emailInput.value.trim();
+        if (!email) { resultEl.textContent = ''; return; }
+        resultEl.textContent = 'Looking up…';
+        try {
+          const r = await fetch('/api/users/lookup?email=' + encodeURIComponent(email), { credentials: 'same-origin', cache: 'no-store' });
+          const j = await r.json();
+          if (j.found) {
+            resultEl.innerHTML = `User ID: <code style="color:#1a1a1a;background:#f0f0f0;padding:2px 6px;border-radius:4px;">${escapeHtml(j.uid)}</code>`;
+          } else {
+            resultEl.textContent = 'No account found for that email.';
+          }
+        } catch { resultEl.textContent = 'Lookup failed.'; }
+      }
+      emailInput.addEventListener('input', () => { clearTimeout(_t); _t = setTimeout(doLookup, 500); });
+      doLookup(); // auto-run for the prefilled email
     }
 
     const user = await getCurrentUser();
