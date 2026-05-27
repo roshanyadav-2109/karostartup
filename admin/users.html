@@ -36,7 +36,8 @@
         <div class="admin-card-head"><h3>Add a user</h3></div>
         <div id="add-msg"></div>
         <form id="add-form" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
-          <div class="form-field" style="margin:0;flex:1;min-width:240px;"><label>Email</label><input type="email" id="add-email" required placeholder="person@example.com"></div>
+          <div class="form-field" style="margin:0;flex:1;min-width:200px;"><label>Full name</label><input type="text" id="add-name" placeholder="Jane Doe"></div>
+          <div class="form-field" style="margin:0;flex:1;min-width:220px;"><label>Email</label><input type="email" id="add-email" required placeholder="person@example.com"></div>
           <div class="form-field" style="margin:0;"><label>Role</label>
             <select id="add-role"><option value="reader">reader</option><option value="author">author</option><option value="editor">editor</option><option value="admin">admin</option></select>
           </div>
@@ -53,6 +54,7 @@
 
     document.getElementById('add-form').addEventListener('submit', async (e) => {
       e.preventDefault();
+      const fullName = document.getElementById('add-name').value.trim();
       const email = document.getElementById('add-email').value.trim();
       const newRole = document.getElementById('add-role').value;
       const btn = document.getElementById('add-btn');
@@ -65,11 +67,12 @@
         const r = await fetch('/api/admin/create-user', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
-          body: JSON.stringify({ email, role: newRole }),
+          body: JSON.stringify({ email, role: newRole, full_name: fullName }),
         });
         const j = await r.json();
         if (!r.ok || !j.ok) throw new Error(j.error || 'Could not add user');
-        msg.innerHTML = `<div class="form-msg success">Added ${escapeHtml(j.email)} as ${escapeHtml(j.role)}.</div>`;
+        msg.innerHTML = `<div class="form-msg success">Added ${escapeHtml(j.full_name || j.email)} as ${escapeHtml(j.role)}.</div>`;
+        document.getElementById('add-name').value = '';
         document.getElementById('add-email').value = '';
         load();
       } catch (err) {

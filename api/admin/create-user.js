@@ -50,11 +50,12 @@ module.exports = async (req, res) => {
   // 4. Body.
   let raw = '';
   for await (const chunk of req) raw += chunk;
-  let email, role;
+  let email, role, fullName;
   try {
     const b = JSON.parse(raw || '{}');
     email = String(b.email || '').trim().toLowerCase();
     role = ROLES.includes(b.role) ? b.role : null;
+    fullName = String(b.full_name || '').trim();
   } catch { return json(res, 400, { error: 'bad_body' }); }
   if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json(res, 400, { error: 'invalid_email' });
 
@@ -64,7 +65,11 @@ module.exports = async (req, res) => {
     const r = await fetch(`${SUPABASE_URL}/auth/v1/admin/users`, {
       method: 'POST',
       headers: { apikey: SERVICE_ROLE, Authorization: `Bearer ${SERVICE_ROLE}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, email_confirm: true }),
+      body: JSON.stringify({
+        email,
+        email_confirm: true,
+        ...(fullName ? { user_metadata: { full_name: fullName } } : {}),
+      }),
     });
     newUser = await r.json();
     if (!r.ok) {
@@ -74,8 +79,11 @@ module.exports = async (req, res) => {
     return json(res, 500, { error: 'create_error' });
   }
 
-  // 6. Set role if requested (profile row was auto-created by the trigger).
-  if (role && newUser.id) {
+  // 6. Set role / full name (profile row was auto-created by the trigger).
+  const patch = {};
+  if (role) patch.role = role;
+  if (fullName) patch.full_name = fullName;
+  if (newUser.id && Object.keys(patch).length) {
     try {
       await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${newUser.id}`, {
         method: 'PATCH',
@@ -83,10 +91,10 @@ module.exports = async (req, res) => {
           apikey: SERVICE_ROLE, Authorization: `Bearer ${SERVICE_ROLE}`,
           'Content-Type': 'application/json', Prefer: 'return=minimal',
         },
-        body: JSON.stringify({ role }),
+        body: JSON.stringify(patch),
       });
-    } catch { /* role can be set later in the UI */ }
+    } catch { /* can be set later in the UI */ }
   }
 
-  return json(res, 200, { ok: true, id: newUser.id, email, role: role || 'reader' });
+  return json(res, 200, { ok: true, id: newUser.id, email, role: role || 'reader', full_name: fullName || null });
 };
