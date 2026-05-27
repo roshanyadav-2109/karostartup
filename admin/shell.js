@@ -12,13 +12,7 @@ async function renderAdminShell(activeKey, breadcrumb) {
     { key: 'dashboard', label: 'Dashboard', href: '/admin/' },
     { key: 'articles', label: 'Articles', href: '/admin/articles.html' },
     { key: 'categories', label: 'Categories', href: '/admin/categories.html' },
-    { key: 'companies', label: 'Companies', href: '/admin/companies.html' },
-    { key: 'funding', label: 'Funding', href: '/admin/funding.html' },
-    { key: 'tickers', label: 'Tickers', href: '/admin/tickers.html' },
-    { key: 'shorts', label: 'Shorts', href: '/admin/shorts.html' },
-    { key: 'podcasts', label: 'Podcasts', href: '/admin/podcasts.html' },
     { key: 'comments', label: 'Comments', href: '/admin/comments.html' },
-    { key: 'submissions', label: 'Submissions', href: '/admin/submissions.html' },
     { key: 'newsletters', label: 'Newsletters', href: '/admin/newsletters.html', adminOnly: true },
     { key: 'users', label: 'Employees', href: '/admin/users.html', adminOnly: true }
   ];
