@@ -23,10 +23,12 @@ module.exports = async (req, res) => {
   } catch { /* keep default */ }
 
   const state = randomHex(16);
-  const nonce = randomHex(16);
 
-  // Short-lived signed cookie binds this browser to the state+nonce+next.
-  const stateToken = signToken({ state, nonce, next }, sessionSecret, 600);
+  // Short-lived signed cookie binds this browser to the state+next (CSRF).
+  // No nonce: we exchange the resulting Google id_token for a Supabase
+  // session, and Supabase's id_token grant would reject a Google-echoed
+  // (unhashed) nonce. State is sufficient CSRF protection here.
+  const stateToken = signToken({ state, next }, sessionSecret, 600);
   res.setHeader('Set-Cookie', serializeCookie('ks_oauth', stateToken, {
     path: '/', httpOnly: true, secure: true, sameSite: 'Lax', maxAge: 600,
   }));
@@ -37,7 +39,6 @@ module.exports = async (req, res) => {
     response_type: 'code',
     scope: 'openid email profile',
     state,
-    nonce,
     access_type: 'online',
     prompt: 'select_account',
   });

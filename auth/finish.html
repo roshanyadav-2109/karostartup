@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Signing you in…</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div style="min-height:60vh;display:flex;align-items:center;justify-content:center;font-family:Inter,system-ui,sans-serif;color:#1a1a1a;">
+    <div id="msg" style="text-align:center;">Signing you in…</div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+  (async () => {
+    const SUPABASE_URL = 'https://svwpvqmqmisoffbnnjdc.supabase.co';
+    const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2d3B2cW1xbWlzb2ZmYm5uamRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2ODYyNTEsImV4cCI6MjA5NDI2MjI1MX0.ZYBWcOGiVKV9HM3Ho2GjJ-r4XJvMITvsEK7vlEFlzVw';
+    const msg = document.getElementById('msg');
+    // Own client (detectSessionInUrl off so we control parsing); same URL+key
+    // means it writes to the same localStorage key the rest of the site reads.
+    const sb = supabase.createClient(SUPABASE_URL, ANON, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false },
+    });
+
+    const h = new URLSearchParams(location.hash.slice(1));
+    const access_token = h.get('access_token');
+    const refresh_token = h.get('refresh_token');
+
+    let next = new URLSearchParams(location.search).get('next') || '/';
+    if (!(next.startsWith('/') && !next.startsWith('//'))) next = '/';
+
+    if (!access_token || !refresh_token) {
+      msg.textContent = 'Sign-in link was incomplete. Please try again.';
+      return;
+    }
+    try {
+      const { error } = await sb.auth.setSession({ access_token, refresh_token });
+      if (error) throw error;
+      location.replace(next);
+    } catch (e) {
+      msg.textContent = 'Sign-in failed: ' + (e && e.message ? e.message : e);
+    }
+  })();
+  </script>
+</body>
+</html>
