@@ -26,6 +26,8 @@
       return;
     }
     await renderAdminShell('users', 'Users');
+    const me = await getCurrentUser();
+    const myId = me?.id || '';
 
     const main = document.getElementById('admin-content');
     main.innerHTML = `
@@ -111,7 +113,10 @@
                 </select></td>
                 <td><label style="cursor:pointer;"><input type="checkbox" data-plus="${u.id}" ${u.is_plus_member ? 'checked' : ''}> Plus</label></td>
                 <td class="mono" style="font-size:0.74rem;color:#5a5a5a;">${formatDate(u.created_at)}</td>
-                <td><button class="danger" data-save="${u.id}" style="color:#0a7a3b;background:none;border:0;cursor:pointer;font-weight:600;">Save</button></td>
+                <td><div style="display:flex;gap:12px;align-items:center;">
+                  <button data-save="${u.id}" style="color:#0a7a3b;background:none;border:0;cursor:pointer;font-weight:600;">Save</button>
+                  ${u.id === myId ? '<span style="color:#9a9a9a;font-size:0.74rem;">you</span>' : `<button data-del="${u.id}" data-email="${escapeAttr(u.email || '')}" style="color:#d10a11;background:none;border:0;cursor:pointer;font-weight:600;">Remove</button>`}
+                </div></td>
               </tr>`;
             }).join('')}</tbody>
           </table>`;
@@ -121,6 +126,24 @@
           const plus = document.querySelector(`[data-plus="${id}"]`).checked;
           try { await sb.from('profiles').update({ role, is_plus_member: plus }).eq('id', id); showToast('Saved'); }
           catch (e) { showToast(e.message, 'error'); }
+        }));
+        document.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
+          const id = b.dataset.del;
+          const email = b.dataset.email || 'this user';
+          if (!confirm(`Remove ${email}? This permanently deletes their account.`)) return;
+          try {
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) throw new Error('Session expired — sign in again.');
+            const r = await fetch('/api/admin/delete-user', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+              body: JSON.stringify({ id }),
+            });
+            const j = await r.json();
+            if (!r.ok || !j.ok) throw new Error(j.error || 'Could not remove user');
+            showToast('Removed');
+            load();
+          } catch (e) { showToast(e.message, 'error'); }
         }));
       } catch (e) {
         slot.innerHTML = `<div class="empty-state"><p>${escapeHtml(e.message)}</p></div>`;
