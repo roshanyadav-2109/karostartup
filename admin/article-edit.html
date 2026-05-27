@@ -89,7 +89,13 @@
             <div id="preview-pane" class="preview-panel" style="display:none;"></div>
           </div>
 
-          <div class="form-field"><label>Cover image URL</label><input type="url" id="cover_image_url" value="${escapeAttr(article.cover_image_url||'')}"></div>
+          <div class="form-field">
+            <label>Cover image</label>
+            <input type="file" id="cover_file" accept="image/*">
+            <input type="hidden" id="cover_image_url" value="${escapeAttr(article.cover_image_url||'')}">
+            <div id="cover_preview" style="margin-top:10px;">${article.cover_image_url ? `<img src="${escapeAttr(article.cover_image_url)}" style="max-width:260px;border-radius:6px;display:block;">` : ''}</div>
+            <div class="hint" id="cover_hint">Upload an image — it's stored in the <code>covers</code> bucket.</div>
+          </div>
           <div class="form-field"><label>Cover caption</label><input type="text" id="cover_caption" value="${escapeAttr(article.cover_caption||'')}"></div>
 
           <div class="form-field">
@@ -142,6 +148,27 @@
           </div>
         </div>
       </div>`;
+
+    // Cover image upload → covers bucket → fill hidden URL
+    const coverFile = document.getElementById('cover_file');
+    coverFile.addEventListener('change', async () => {
+      const file = coverFile.files[0];
+      if (!file) return;
+      const hint = document.getElementById('cover_hint');
+      hint.textContent = 'Uploading…';
+      try {
+        const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const path = `${editId || 'new'}/${Date.now()}.${ext || 'jpg'}`;
+        const { error } = await sb.storage.from('covers').upload(path, file, { upsert: true, contentType: file.type || 'image/jpeg' });
+        if (error) throw error;
+        const { data } = sb.storage.from('covers').getPublicUrl(path);
+        document.getElementById('cover_image_url').value = data.publicUrl;
+        document.getElementById('cover_preview').innerHTML = `<img src="${escapeAttr(data.publicUrl)}" style="max-width:260px;border-radius:6px;display:block;">`;
+        hint.textContent = 'Uploaded ✓';
+      } catch (e) {
+        hint.textContent = 'Upload failed: ' + (e.message || e);
+      }
+    });
 
     // Auto-slug from title
     const titleEl = document.getElementById('title');
