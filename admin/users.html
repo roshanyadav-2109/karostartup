@@ -31,6 +31,18 @@
     main.innerHTML = `
       <h1>Users</h1>
       <p style="color:#5a5a5a;font-size:0.9rem;margin-bottom:18px;">Manage roles and Plus membership. Emails are synced into <code>profiles</code> from <code>auth.users</code> and shown below (admin-only; hidden from the public).</p>
+      <div class="admin-card" style="margin-bottom:18px;">
+        <div class="admin-card-head"><h3>Add a user</h3></div>
+        <p style="color:#5a5a5a;font-size:0.84rem;margin:0 0 12px 0;">Creates the account by email (no email is sent). Their profile is created automatically; when they sign in with Google it links to this account.</p>
+        <div id="add-msg"></div>
+        <form id="add-form" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+          <div class="form-field" style="margin:0;flex:1;min-width:240px;"><label>Email</label><input type="email" id="add-email" required placeholder="person@example.com"></div>
+          <div class="form-field" style="margin:0;"><label>Role</label>
+            <select id="add-role"><option value="reader">reader</option><option value="author">author</option><option value="editor">editor</option><option value="admin">admin</option></select>
+          </div>
+          <button type="submit" class="btn btn-primary" id="add-btn">Add user</button>
+        </form>
+      </div>
       <div class="admin-toolbar">
         <input type="search" id="search" class="search" placeholder="Search name, username or email…">
         <select id="role-filter"><option value="">All roles</option>
@@ -38,6 +50,34 @@
         </select>
       </div>
       <div class="admin-card" style="padding:0;" id="slot"><div class="loading-state">Loading…</div></div>`;
+
+    document.getElementById('add-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('add-email').value.trim();
+      const newRole = document.getElementById('add-role').value;
+      const btn = document.getElementById('add-btn');
+      const msg = document.getElementById('add-msg');
+      if (!email) return;
+      btn.disabled = true; btn.textContent = 'Adding…'; msg.innerHTML = '';
+      try {
+        const { data: { session } } = await sb.auth.getSession();
+        if (!session) throw new Error('Your session expired — sign in again.');
+        const r = await fetch('/api/admin/create-user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+          body: JSON.stringify({ email, role: newRole }),
+        });
+        const j = await r.json();
+        if (!r.ok || !j.ok) throw new Error(j.error || 'Could not add user');
+        msg.innerHTML = `<div class="form-msg success">Added ${escapeHtml(j.email)} as ${escapeHtml(j.role)}.</div>`;
+        document.getElementById('add-email').value = '';
+        load();
+      } catch (err) {
+        msg.innerHTML = `<div class="form-msg error">${escapeHtml(err.message || 'Could not add user')}</div>`;
+      } finally {
+        btn.disabled = false; btn.textContent = 'Add user';
+      }
+    });
 
     let q = '', role = '', searchTimer;
     document.getElementById('search').addEventListener('input', (e) => {
