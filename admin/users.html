@@ -30,9 +30,9 @@
     const main = document.getElementById('admin-content');
     main.innerHTML = `
       <h1>Users</h1>
-      <p style="color:#5a5a5a;font-size:0.9rem;margin-bottom:18px;">Manage roles and Plus membership. Email addresses live in <code>auth.users</code> and aren't queryable from the client — use Supabase Studio for that.</p>
+      <p style="color:#5a5a5a;font-size:0.9rem;margin-bottom:18px;">Manage roles and Plus membership. Emails are synced into <code>profiles</code> from <code>auth.users</code> and shown below (admin-only; hidden from the public).</p>
       <div class="admin-toolbar">
-        <input type="search" id="search" class="search" placeholder="Search name or username…">
+        <input type="search" id="search" class="search" placeholder="Search name, username or email…">
         <select id="role-filter"><option value="">All roles</option>
           <option value="reader">Reader</option><option value="author">Author</option><option value="editor">Editor</option><option value="admin">Admin</option>
         </select>
@@ -50,7 +50,7 @@
       const slot = document.getElementById('slot');
       slot.innerHTML = '<div class="loading-state">Loading…</div>';
       let qb = sb.from('profiles').select('*');
-      if (q) qb = qb.or(`full_name.ilike.%${q.replace(/[%_]/g, '')}%,username.ilike.%${q.replace(/[%_]/g, '')}%`);
+      if (q) { const s = q.replace(/[%_]/g, ''); qb = qb.or(`full_name.ilike.%${s}%,username.ilike.%${s}%,email.ilike.%${s}%`); }
       if (role) qb = qb.eq('role', role);
       qb = qb.order('created_at', { ascending: false }).limit(200);
       try {
@@ -58,7 +58,7 @@
         if (!data || !data.length) { slot.innerHTML = '<div class="empty-state"><h3>No users match</h3></div>'; return; }
         slot.innerHTML = `
           <table class="admin-table">
-            <thead><tr><th>User</th><th>Username</th><th>Role</th><th>Plus</th><th>Joined</th><th></th></tr></thead>
+            <thead><tr><th>User</th><th>Email</th><th>Username</th><th>Role</th><th>Plus</th><th>Joined</th><th></th></tr></thead>
             <tbody>${data.map(u => {
               const init = (u.full_name || u.username || '?').charAt(0).toUpperCase();
               const av = u.avatar_url
@@ -66,6 +66,7 @@
                 : `<div style="width:32px;height:32px;border-radius:50%;background:#d10a11;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;">${escapeHtml(init)}</div>`;
               return `<tr data-id="${u.id}">
                 <td><div style="display:flex;align-items:center;gap:10px;">${av}<strong>${escapeHtml(u.full_name || 'Unnamed')}</strong></div></td>
+                <td style="font-size:0.82rem;">${escapeHtml(u.email || '—')}</td>
                 <td>${escapeHtml(u.username || '—')}</td>
                 <td><select data-role="${u.id}">
                   ${['reader','author','editor','admin'].map(r => `<option value="${r}" ${r === u.role ? 'selected' : ''}>${r}</option>`).join('')}
