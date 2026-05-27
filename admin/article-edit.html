@@ -46,13 +46,10 @@
       };
     }
 
-    const [{ data: categories }, { data: authors }, { data: companies }, { data: linkedCompanies }] = await Promise.all([
+    const [{ data: categories }, { data: authors }] = await Promise.all([
       sb.from('categories').select('id,name').order('order_index'),
       sb.from('profiles').select('id,full_name').in('role', ['author', 'editor', 'admin']),
-      sb.from('companies').select('id,name').order('name'),
-      editId ? sb.from('article_companies').select('company_id').eq('article_id', editId) : Promise.resolve({ data: [] })
     ]);
-    const linkedSet = new Set((linkedCompanies || []).map(j => j.company_id));
 
     main.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
@@ -100,13 +97,6 @@
             <input type="text" id="tags" value="${escapeAttr((article.tags||[]).join(', '))}">
           </div>
 
-          <div class="form-field">
-            <label>Companies mentioned</label>
-            <select id="companies" multiple size="6" style="height:auto;">
-              ${(companies || []).map(c => `<option value="${c.id}" ${linkedSet.has(c.id) ? 'selected' : ''}>${escapeHtml(c.name)}</option>`).join('')}
-            </select>
-            <div class="hint">Ctrl/Cmd+click for multiple. Links the article to those companies.</div>
-          </div>
         </div>
 
         <div class="editor-side">
@@ -203,7 +193,6 @@
         return;
       }
       const tags = document.getElementById('tags').value.split(',').map(s => s.trim()).filter(Boolean);
-      const selectedCompanies = Array.from(document.getElementById('companies').selectedOptions).map(o => o.value);
       const publishedAtInput = document.getElementById('published_at').value;
       let newStatus = article.status;
       let publishedAt = publishedAtInput ? new Date(publishedAtInput).toISOString() : article.published_at;
@@ -242,14 +231,6 @@
         } else {
           const { error } = await sb.from('articles').update(payload).eq('id', editId);
           if (error) throw error;
-        }
-        // Sync companies
-        if (savedId) {
-          if (!isNew) await sb.from('article_companies').delete().eq('article_id', savedId);
-          if (selectedCompanies.length) {
-            const rows = selectedCompanies.map(cid => ({ article_id: savedId, company_id: cid }));
-            await sb.from('article_companies').insert(rows);
-          }
         }
         showToast(action === 'publish' ? 'Published' : action === 'review' ? 'Sent for review' : action === 'unpublish' ? 'Unpublished' : 'Saved');
         article.status = newStatus;
