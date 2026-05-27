@@ -1634,10 +1634,22 @@ function roundPillClass(r) {
    COOKIE CONSENT BANNER
    ============================================================ */
 const COOKIE_LS_KEY = 'k:cookie-consent';
+// Read consent from localStorage OR the cookie (so it survives cleared
+// localStorage and is shared across apex + www).
+function _getCookieConsent() {
+  try { const v = localStorage.getItem(COOKIE_LS_KEY); if (v) return v; } catch {}
+  const m = document.cookie.match(/(?:^|;\s*)k_cookie_consent=([^;]+)/);
+  return m ? decodeURIComponent(m[1]) : null;
+}
+// Persist in both, with a 1-year domain-wide cookie.
+function _saveCookieConsent(v) {
+  try { localStorage.setItem(COOKIE_LS_KEY, v); } catch {}
+  let dom = '';
+  if (/(^|\.)karostartup\.com$/i.test(location.hostname)) dom = '; Domain=.karostartup.com';
+  try { document.cookie = `k_cookie_consent=${encodeURIComponent(v)}; Max-Age=31536000; Path=/${dom}; SameSite=Lax`; } catch {}
+}
 function mountCookieBanner() {
-  try {
-    if (localStorage.getItem(COOKIE_LS_KEY)) return; // already responded
-  } catch {}
+  if (_getCookieConsent()) return; // already responded
   const el = document.createElement('div');
   el.className = 'cookie-banner';
   el.setAttribute('role', 'dialog');
@@ -1654,7 +1666,7 @@ function mountCookieBanner() {
   requestAnimationFrame(() => el.classList.add('is-visible'));
   el.querySelectorAll('[data-cookie]').forEach(btn => {
     btn.addEventListener('click', () => {
-      try { localStorage.setItem(COOKIE_LS_KEY, btn.dataset.cookie); } catch {}
+      _saveCookieConsent(btn.dataset.cookie);
       el.classList.remove('is-visible');
       setTimeout(() => el.remove(), 320);
     });
