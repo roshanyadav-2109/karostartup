@@ -6220,7 +6220,16 @@ a:hover .media-play { background: var(--brand); }
   .admin-bar { padding: 10px 16px; flex-wrap: wrap; gap: 8px; }
   .admin-bar .breadcrumb { font-size: 0.78rem; }
   .admin-bar .user-menu { gap: 10px; font-size: 0.78rem; flex-wrap: wrap; }
-  .admin-content { padding: 20px 16px; }
+  .admin-content { padding: 20px 14px; }
+  /* Tighten admin cards on mobile and let any wide table inside scroll
+     horizontally so every column stays reachable. */
+  .admin-card { padding: 14px; margin-bottom: 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .admin-card-head { margin-bottom: 12px; padding-bottom: 8px; }
+  .admin-table { font-size: 0.82rem; width: max-content; min-width: 100%; }
+  .admin-table th, .admin-table td { padding: 9px 8px; white-space: nowrap; }
+  .admin-toolbar { gap: 8px; }
+  .admin-toolbar .search { min-width: 0; width: 100%; flex: 1 1 100%; }
+  .admin-toolbar select { flex: 1 1 auto; }
   .related-grid { grid-template-columns: 1fr; }
   .benefits-grid { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: repeat(2, 1fr); }
