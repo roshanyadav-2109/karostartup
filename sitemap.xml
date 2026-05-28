@@ -68,6 +68,15 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://karostartup.com/article/view.html?slug=insolvency-and-bankruptcy-code-ibc-completes-10-years-pib-2266350</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://static.pib.gov.in/WriteReadData/userfiles/socialmedianew/email1.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://karostartup.com/article/view.html?slug=union-minister-shri-ashwini-vaishnaw-holds-a-high-level-meeting-with-the-industr-pib-2266233</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>hourly</changefreq>
@@ -88,7 +97,7 @@
   <url>
     <loc>https://karostartup.com/article/view.html?slug=union-minister-of-commerce-and-industry-shri-piyush-goyal-concludes-landmark-can-pib-2266120</loc>
     <lastmod>2026-05-28</lastmod>
-    <changefreq>hourly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://static.pib.gov.in/WriteReadData/userfiles/socialmedianew/email1.png</image:loc>
@@ -231,7 +240,7 @@
   </url>
   <url>
     <loc>https://karostartup.com/article/view.html?slug=union-minister-of-commerce-and-industry-shri-piyush-goyal-leads-business-delegat-pib-2264511</loc>
-    <lastmod>2026-05-27</lastmod>
+    <lastmod>2026-05-28</lastmod>
     <changefreq>hourly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -5412,7 +5421,7 @@
   </url>
   <url>
     <loc>https://karostartup.com/article/view.html?slug=mcdonalds-india-story-of-mrs-bectors</loc>
-    <lastmod>2026-05-21</lastmod>
+    <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -9053,15 +9062,6 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/d27e040c-166d-4c00-b6ac-99f614d9f3cd-.jpeg</image:loc>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://karostartup.com/article/view.html?slug=inspired-fragrances-and-perfume-oils-accessible-across-india</loc>
-    <lastmod>2026-05-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/0c5a2b71-9cd3-48d3-a90b-302a0e979103-.png</image:loc>
     </image:image>
   </url>
   <url>
