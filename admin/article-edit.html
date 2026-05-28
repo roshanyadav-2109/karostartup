@@ -115,11 +115,10 @@
                 <button type="button" data-cmd="insertOrderedList" title="Numbered list">1. List</button>
                 <span class="rt-sep"></span>
                 <button type="button" data-link title="Insert link">Link</button>
-                <button type="button" data-video title="Embed video (YouTube/Vimeo)">Video</button>
                 <button type="button" data-cmd="removeFormat" title="Clear formatting">Clear</button>
               </div>
               <div id="content_editor" class="rt-editor" contenteditable="true" spellcheck="true"></div>
-              <div class="editor-stats"><span id="word-count">0 words</span><span id="est-read">~0 min read</span><span class="rt-hint">Tip: paste a YouTube or Vimeo URL on its own line — it embeds automatically when published.</span></div>
+              <div class="editor-stats"><span id="word-count">0 words</span><span id="est-read">~0 min read</span><span class="rt-hint">Paste a YouTube or Vimeo link anywhere — it embeds automatically.</span></div>
             </div>
             <div id="preview-pane" class="preview-panel" style="display:none;"></div>
           </div>
@@ -264,20 +263,27 @@
         }
         return;
       }
-      if (btn.hasAttribute('data-video')) {
-        const url = prompt('Paste a YouTube or Vimeo URL'); if (!url) return;
-        focusEditor();
-        const safe = String(url).trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        document.execCommand('insertHTML', false, `<p>${safe}</p><p><br></p>`);
+    });
+    // YouTube / Vimeo detector — paste-aware. Returns the trimmed URL if the
+    // entire pasted text is a video link, else null.
+    const VIDEO_RE = /^https?:\/\/(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)[\w-]+|youtu\.be\/[\w-]+|vimeo\.com\/\d+)\S*$/i;
+    function detectVideoUrl(s) {
+      const t = String(s || '').trim();
+      return VIDEO_RE.test(t) ? t : null;
+    }
+    function escHtml(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    // Keep paste clean — strip styles/scripts. If the pasted content is just a
+    // video URL, drop it on its own paragraph so the published renderer embeds it.
+    contentEl.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+      const videoUrl = detectVideoUrl(text);
+      if (videoUrl) {
+        document.execCommand('insertHTML', false, `<p>${escHtml(videoUrl)}</p><p><br></p>`);
         recount();
         return;
       }
-    });
-    // Keep paste clean — strip styles/scripts, keep basic formatting.
-    contentEl.addEventListener('paste', (e) => {
-      e.preventDefault();
       const html = (e.clipboardData || window.clipboardData).getData('text/html');
-      const text = (e.clipboardData || window.clipboardData).getData('text/plain');
       if (html) {
         const tmp = document.createElement('div'); tmp.innerHTML = html;
         tmp.querySelectorAll('script, style, meta, link, iframe').forEach(n => n.remove());
