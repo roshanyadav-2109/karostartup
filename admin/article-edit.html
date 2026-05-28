@@ -10,6 +10,24 @@
   <link rel="icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/assets/favicon.ico">
   <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .rt-toolbar { display:flex; flex-wrap:wrap; gap:4px; padding:6px; border:1px solid #0a0a0a; border-bottom:0; background:#fafaf8; }
+    .rt-toolbar button { background:#fff; border:1px solid #d0d0c8; color:#0a0a0a; font:600 0.86rem/1 Inter, sans-serif; padding:6px 10px; cursor:pointer; border-radius:3px; }
+    .rt-toolbar button:hover { background:#f0eee8; }
+    .rt-toolbar button:active, .rt-toolbar button.is-active { background:#0a0a0a; color:#fff; border-color:#0a0a0a; }
+    .rt-toolbar .rt-sep { width:1px; background:#d0d0c8; margin:2px 4px; }
+    .rt-editor { min-height:380px; padding:14px 16px; border:1px solid #0a0a0a; background:#fff; font:400 1rem/1.6 'Source Serif 4', Georgia, serif; outline:none; overflow-wrap:break-word; }
+    .rt-editor:focus { border-color:#d10a11; box-shadow:0 0 0 2px rgba(209,10,17,0.12); }
+    .rt-editor p { margin:0 0 0.9em; }
+    .rt-editor h2 { font:700 1.4rem/1.25 Inter, sans-serif; margin:1.1em 0 0.4em; }
+    .rt-editor h3 { font:700 1.15rem/1.3 Inter, sans-serif; margin:1em 0 0.4em; }
+    .rt-editor blockquote { margin:1em 0; padding:0.4em 0 0.4em 14px; border-left:3px solid #d10a11; color:#3a3a3a; font-style:italic; }
+    .rt-editor ul, .rt-editor ol { margin:0 0 0.9em 1.4em; }
+    .rt-editor a { color:#d10a11; text-decoration:underline; }
+    .rt-editor:empty::before { content: attr(data-placeholder); color:#9a9a9a; pointer-events:none; }
+    .rt-hint { color:#7a7a7a; font-size:0.78rem; margin-left:auto; }
+    .editor-stats { display:flex; gap:14px; align-items:center; padding:6px 2px; font-size:0.78rem; color:#5a5a5a; flex-wrap:wrap; }
+  </style>
 </head>
 <body>
   <div id="admin-root"><div class="loading-state">Loading…</div></div>
@@ -77,14 +95,31 @@
           <div class="form-field"><label>Summary</label><textarea id="summary" rows="3">${escapeHtml(article.summary||'')}</textarea><div class="hint">Used on cards and as meta description.</div></div>
 
           <div class="form-field">
-            <label>Content (Markdown)</label>
+            <label>Content</label>
             <div class="editor-tabs">
               <button type="button" class="editor-tab is-active" data-pane="write">Write</button>
               <button type="button" class="editor-tab" data-pane="preview">Preview</button>
             </div>
             <div id="write-pane">
-              <textarea id="content" rows="18" placeholder="## Heading&#10;&#10;Body text. **Bold** and *italic*. &gt; Pull quote.&#10;&#10;- Bullet&#10;- Bullet&#10;&#10;[Link](https://example.com)">${escapeHtml(article.content||'')}</textarea>
-              <div class="editor-stats"><span id="word-count">0 words</span><span id="est-read">~0 min read</span></div>
+              <div class="rt-toolbar" id="rt-toolbar">
+                <button type="button" data-cmd="bold" title="Bold (Ctrl+B)"><b>B</b></button>
+                <button type="button" data-cmd="italic" title="Italic (Ctrl+I)"><i>I</i></button>
+                <button type="button" data-cmd="underline" title="Underline (Ctrl+U)"><u>U</u></button>
+                <span class="rt-sep"></span>
+                <button type="button" data-block="h2" title="Heading">H2</button>
+                <button type="button" data-block="h3" title="Subheading">H3</button>
+                <button type="button" data-block="p" title="Paragraph">¶</button>
+                <button type="button" data-block="blockquote" title="Quote">&ldquo;&rdquo;</button>
+                <span class="rt-sep"></span>
+                <button type="button" data-cmd="insertUnorderedList" title="Bulleted list">&bull; List</button>
+                <button type="button" data-cmd="insertOrderedList" title="Numbered list">1. List</button>
+                <span class="rt-sep"></span>
+                <button type="button" data-link title="Insert link">Link</button>
+                <button type="button" data-video title="Embed video (YouTube/Vimeo)">Video</button>
+                <button type="button" data-cmd="removeFormat" title="Clear formatting">Clear</button>
+              </div>
+              <div id="content_editor" class="rt-editor" contenteditable="true" spellcheck="true"></div>
+              <div class="editor-stats"><span id="word-count">0 words</span><span id="est-read">~0 min read</span><span class="rt-hint">Tip: paste a YouTube or Vimeo URL on its own line — it embeds automatically when published.</span></div>
             </div>
             <div id="preview-pane" class="preview-panel" style="display:none;"></div>
           </div>
@@ -179,13 +214,27 @@
       if (!slugTouched) slugEl.value = slugify(titleEl.value);
     });
 
-    // Word count
-    const contentEl = document.getElementById('content');
+    // Rich-text editor
+    const contentEl = document.getElementById('content_editor');
+    contentEl.setAttribute('data-placeholder', 'Start writing your story…');
+    try { document.execCommand('defaultParagraphSeparator', false, 'p'); } catch {}
+    // Seed editor: existing HTML loads as-is; legacy markdown is rendered to HTML so the writer never sees markup.
+    (function seedEditor() {
+      const raw = (article.content || '').trim();
+      if (!raw) { contentEl.innerHTML = ''; return; }
+      if (/^<(p|div|h[1-6]|ul|ol|table|blockquote|img|figure|section|article)\b/i.test(raw)) {
+        contentEl.innerHTML = raw;
+      } else {
+        contentEl.innerHTML = renderMarkdown(raw);
+      }
+    })();
+
     const wordCountEl = document.getElementById('word-count');
     const readEl = document.getElementById('est-read');
     const readInput = document.getElementById('read_time');
+    function getContentText() { return (contentEl.innerText || contentEl.textContent || '').replace(/ /g, ' '); }
     function recount() {
-      const words = (contentEl.value.trim().split(/\s+/).filter(Boolean)).length;
+      const words = getContentText().trim().split(/\s+/).filter(Boolean).length;
       const mins = Math.max(1, Math.round(words / 200));
       wordCountEl.textContent = `${words} words`;
       readEl.textContent = `~${mins} min read`;
@@ -193,6 +242,52 @@
     }
     contentEl.addEventListener('input', recount);
     recount();
+
+    // Toolbar
+    const toolbar = document.getElementById('rt-toolbar');
+    function focusEditor() { contentEl.focus(); }
+    function exec(cmd, val) { focusEditor(); try { document.execCommand(cmd, false, val ?? null); } catch {} recount(); }
+    toolbar.addEventListener('mousedown', (e) => { if (e.target.closest('button')) e.preventDefault(); }); // keep selection
+    toolbar.addEventListener('click', (e) => {
+      const btn = e.target.closest('button'); if (!btn) return;
+      if (btn.dataset.cmd) return exec(btn.dataset.cmd);
+      if (btn.dataset.block) return exec('formatBlock', btn.dataset.block);
+      if (btn.hasAttribute('data-link')) {
+        const url = prompt('Link URL'); if (!url) return;
+        focusEditor();
+        const sel = window.getSelection();
+        if (sel && sel.toString()) exec('createLink', url);
+        else {
+          const a = document.createElement('a'); a.href = url; a.textContent = url; a.target = '_blank'; a.rel = 'noopener';
+          document.execCommand('insertHTML', false, a.outerHTML + '&nbsp;');
+          recount();
+        }
+        return;
+      }
+      if (btn.hasAttribute('data-video')) {
+        const url = prompt('Paste a YouTube or Vimeo URL'); if (!url) return;
+        focusEditor();
+        const safe = String(url).trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        document.execCommand('insertHTML', false, `<p>${safe}</p><p><br></p>`);
+        recount();
+        return;
+      }
+    });
+    // Keep paste clean — strip styles/scripts, keep basic formatting.
+    contentEl.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const html = (e.clipboardData || window.clipboardData).getData('text/html');
+      const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+      if (html) {
+        const tmp = document.createElement('div'); tmp.innerHTML = html;
+        tmp.querySelectorAll('script, style, meta, link, iframe').forEach(n => n.remove());
+        tmp.querySelectorAll('*').forEach(n => { n.removeAttribute('style'); n.removeAttribute('class'); n.removeAttribute('id'); });
+        document.execCommand('insertHTML', false, tmp.innerHTML);
+      } else {
+        document.execCommand('insertText', false, text);
+      }
+      recount();
+    });
 
     // Tabs
     document.querySelectorAll('.editor-tab').forEach(t => t.addEventListener('click', () => {
@@ -202,7 +297,7 @@
       document.getElementById('write-pane').style.display = pane === 'write' ? 'block' : 'none';
       const preview = document.getElementById('preview-pane');
       preview.style.display = pane === 'preview' ? 'block' : 'none';
-      if (pane === 'preview') preview.innerHTML = renderMarkdown(contentEl.value);
+      if (pane === 'preview') preview.innerHTML = renderMarkdown(contentEl.innerHTML);
     }));
 
     const msgSlot = document.getElementById('msg-slot');
@@ -214,8 +309,9 @@
     async function save(action) {
       const title = titleEl.value.trim();
       let slug = slugEl.value.trim() || slugify(title);
-      const content = contentEl.value;
-      if (action === 'publish' && (!title || !slug || !content)) {
+      const content = (contentEl.innerHTML || '').trim();
+      const contentText = getContentText().trim();
+      if (action === 'publish' && (!title || !slug || !contentText)) {
         showMsg('Title, slug, and content are required to publish.', 'error');
         return;
       }
