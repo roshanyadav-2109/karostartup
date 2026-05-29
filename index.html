@@ -502,8 +502,8 @@
       let editorsChoice = [];
       try {
         const { data: ec } = await sb.from('articles')
-          .select('id,slug,title,kicker,cover_image_url,is_featured,categories(name,slug)')
-          .eq('status', 'published').eq('is_featured', true)
+          .select('id,slug,title,kicker,cover_image_url,categories(name,slug)')
+          .eq('status', 'published').eq('is_editors_choice', true)
           .order('published_at', { ascending: false }).limit(6);
         editorsChoice = (ec || []).map(a => ({ ...a, _ec: true }));
       } catch {}

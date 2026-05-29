@@ -59,7 +59,7 @@
       article = {
         title: '', slug: '', kicker: '', subtitle: '', summary: '', content: '',
         cover_image_url: '', cover_caption: '', tags: [],
-        status: 'draft', is_featured: false, is_breaking: false, is_premium: false, is_exclusive: false,
+        status: 'draft', is_editors_choice: false, is_featured: false, is_breaking: false, is_premium: false, is_exclusive: false,
         author_id: me?.id, category_id: null, published_at: null
       };
     }
@@ -185,6 +185,7 @@
           <div class="admin-card">
             <div class="admin-card-head"><h3>Flags</h3></div>
             <div class="checkbox-group">
+              <label><input type="checkbox" id="is_editors_choice" ${article.is_editors_choice ? 'checked' : ''}> Editor's Choice</label>
               <label><input type="checkbox" id="is_featured" ${article.is_featured ? 'checked' : ''}> Featured</label>
               <label><input type="checkbox" id="is_breaking" ${article.is_breaking ? 'checked' : ''}> Breaking</label>
               <label><input type="checkbox" id="is_premium" ${article.is_premium ? 'checked' : ''}> Plus (premium)</label>
@@ -410,6 +411,7 @@
         category_id: document.getElementById('category_id').value || null,
         author_id: document.getElementById('author_id').value || me?.id,
         published_at: publishedAt,
+        is_editors_choice: document.getElementById('is_editors_choice').checked,
         is_featured: document.getElementById('is_featured').checked,
         is_breaking: document.getElementById('is_breaking').checked,
         is_premium: document.getElementById('is_premium').checked,
