@@ -383,9 +383,12 @@ async function enrichSummaries(rows) {
 
   for (const row of rows) {
     const prev = existing[row.slug];
-    if (prev && prev.ai_summarized && prev.summary && prev.summary.trim()) {
-      row.summary = prev.summary;       // reuse — no API call
-      row.ai_summarized = true;
+    // Already has a summary (heuristic, AI, or hand-written by staff)? Reuse it
+    // — never spend an API call on the same release twice, and never clobber a
+    // manual edit.
+    if (prev && prev.summary && prev.summary.trim()) {
+      row.summary = prev.summary;
+      row.ai_summarized = prev.ai_summarized || false;
       continue;
     }
     const ai = await aiSummary(row.title, row.content);
