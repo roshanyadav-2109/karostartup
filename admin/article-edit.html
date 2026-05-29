@@ -96,9 +96,13 @@
             <label>Summary <span style="font-weight:400;color:#9a9a9a;">(optional)</span></label>
             <div class="rt-toolbar" id="summary-toolbar" style="border-bottom:0;">
               <button type="button" data-sumlink title="Link selected text (Ctrl+K)">Link</button>
+              <button type="button" data-sumcmd="insertUnorderedList" title="Bullet list">&bull; List</button>
+              <span class="rt-sep"></span>
+              <button type="button" data-sumpreview title="Toggle preview">Preview</button>
             </div>
-            <textarea id="summary" rows="3" placeholder="One key point per line for a bulleted summary." style="border-top:0;">${escapeHtml(article.summary||'')}</textarea>
-            <div class="hint">Optional. Shows as a highlighted <strong>Summary</strong> box below the cover — one line per bullet. To add a link, select the words and click <strong>Link</strong> (or Ctrl+K). Also used on cards and as the meta description.</div>
+            <div id="summary_editor" class="rt-editor" contenteditable="true" data-placeholder="Short summary — select words and click Link to add a link." style="min-height:96px;border-top:0;font-size:1rem;line-height:1.6;"></div>
+            <div id="summary_preview" class="article-summary" style="display:none;margin:10px 0 0;"><div class="article-summary-title">Summary</div><div id="summary_preview_body"></div></div>
+            <div class="hint">Optional. Shows as a highlighted <strong>Summary</strong> box below the cover. Select words and click <strong>Link</strong> (or Ctrl+K) — the link shows inline, no brackets. Also used on cards and as the meta description.</div>
           </div>
 
           <div class="form-field">
@@ -272,11 +276,12 @@
       if (/^(https?:|mailto:|tel:|\/|#)/i.test(u)) return u;
       return 'https://' + u;
     }
-    function insertLink() {
+    function insertLink(el) {
+      el = el || contentEl;
       const saved = saveRange();
       const selectedText = saved && !saved.collapsed ? saved.toString().trim() : '';
       const url = prompt(selectedText ? `Link for “${selectedText}”` : 'Link URL (https://…)');
-      focusEditor();
+      el.focus();
       restoreRange(saved);
       if (!url) return;
       const href = normUrl(url);
@@ -286,33 +291,43 @@
         document.execCommand('insertHTML', false, `<a href="${escHtml(href)}" target="_blank" rel="noopener">${escHtml(url.trim())}</a>&nbsp;`);
       }
       // execCommand('createLink') doesn't set target/rel — apply to every anchor.
-      contentEl.querySelectorAll('a').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
-      recount();
+      el.querySelectorAll('a').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
+      if (el === contentEl) recount();
     }
     contentEl.addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); insertLink(); }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); insertLink(contentEl); }
     });
 
-    // Summary is plain text (reused on cards + meta), so a link is stored as
-    // markdown [text](url). Select words → Link/Ctrl+K wraps the selection.
-    const summaryEl = document.getElementById('summary');
-    function summaryInsertLink() {
-      const start = summaryEl.selectionStart, end = summaryEl.selectionEnd;
-      const sel = summaryEl.value.slice(start, end);
-      const url = prompt(sel ? `Link for “${sel}”` : 'Link URL (https://…)');
-      summaryEl.focus();
-      if (!url) return;
-      const u = url.trim();
-      const href = /^(https?:|mailto:|tel:|\/|#)/i.test(u) ? u : 'https://' + u;
-      const md = `[${sel || u}](${href})`;
-      summaryEl.value = summaryEl.value.slice(0, start) + md + summaryEl.value.slice(end);
-      const pos = start + md.length;
-      summaryEl.setSelectionRange(pos, pos);
-    }
-    document.getElementById('summary-toolbar').addEventListener('mousedown', (e) => { if (e.target.closest('button')) e.preventDefault(); });
-    document.getElementById('summary-toolbar').addEventListener('click', (e) => { if (e.target.closest('[data-sumlink]')) summaryInsertLink(); });
+    // Summary — a small rich editor so links show inline (no [text](url)).
+    // Stored as HTML; plainText() strips it back to text on cards/meta.
+    const summaryEl = document.getElementById('summary_editor');
+    (function seedSummary() {
+      const raw = (article.summary || '').trim();
+      if (!raw) { summaryEl.innerHTML = ''; return; }
+      if (/<[a-z][\s\S]*>/i.test(raw)) { summaryEl.innerHTML = raw; return; } // already HTML
+      // legacy markdown/plain text → render to HTML so the box looks the same
+      const f = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+        .replace(/(^|[\s(])(https?:\/\/[^\s<]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+      const lines = raw.split(/\r?\n/).map(x => x.replace(/^[\s•\-\*]+/, '').trim()).filter(Boolean);
+      summaryEl.innerHTML = lines.length > 1 ? `<ul>${lines.map(l => `<li>${f(l)}</li>`).join('')}</ul>` : `<p>${f(raw)}</p>`;
+    })();
+    const summaryToolbar = document.getElementById('summary-toolbar');
+    const summaryPreview = document.getElementById('summary_preview');
+    const summaryPreviewBody = document.getElementById('summary_preview_body');
+    summaryToolbar.addEventListener('mousedown', (e) => { if (e.target.closest('button')) e.preventDefault(); });
+    summaryToolbar.addEventListener('click', (e) => {
+      const btn = e.target.closest('button'); if (!btn) return;
+      if (btn.hasAttribute('data-sumlink')) return insertLink(summaryEl);
+      if (btn.dataset.sumcmd) { summaryEl.focus(); try { document.execCommand(btn.dataset.sumcmd); } catch {} return; }
+      if (btn.hasAttribute('data-sumpreview')) {
+        const showing = summaryPreview.style.display !== 'none';
+        if (showing) { summaryPreview.style.display = 'none'; summaryEl.style.display = ''; btn.textContent = 'Preview'; }
+        else { summaryPreviewBody.innerHTML = summaryEl.innerHTML || '<span style="color:#9a9a9a;">Nothing to preview yet.</span>'; summaryPreview.style.display = ''; summaryEl.style.display = 'none'; btn.textContent = 'Edit'; }
+      }
+    });
     summaryEl.addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); summaryInsertLink(); }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); insertLink(summaryEl); }
     });
     // YouTube / Vimeo detector — paste-aware. Returns the trimmed URL if the
     // entire pasted text is a video link, else null.
@@ -387,7 +402,7 @@
         title, slug,
         kicker: document.getElementById('kicker').value || null,
         subtitle: document.getElementById('subtitle').value || null,
-        summary: document.getElementById('summary').value || null,
+        summary: (summaryEl.textContent || '').trim() ? summaryEl.innerHTML.trim() : null,
         content,
         cover_image_url: document.getElementById('cover_image_url').value || null,
         cover_caption: document.getElementById('cover_caption').value || null,

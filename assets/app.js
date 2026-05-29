@@ -287,14 +287,23 @@ function escapeHtml(s) {
 
 function escapeAttr(s) { return escapeHtml(s); }
 
-// Summaries are authored as plain text but may contain markdown links
-// [text](url) / emphasis. For card/search/meta contexts we want the visible
-// text only — strip the markup so "[Acme](https://acme.com)" reads "Acme".
+// Summaries are authored in a small rich editor (HTML, with inline links) and
+// legacy ones are markdown/plain. For card/search/meta contexts we want the
+// visible text only — strip HTML tags and any leftover markdown so a summary
+// reads "Acme", not "<a href=…>Acme</a>" or "[Acme](https://acme.com)".
 function plainText(s) {
-  return String(s == null ? '' : s)
+  let str = String(s == null ? '' : s);
+  if (/<[a-z][\s\S]*>/i.test(str)) {
+    const d = document.createElement('div');
+    d.innerHTML = str;
+    str = d.textContent || d.innerText || '';
+  }
+  return str
     .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')   // [text](url) -> text
     .replace(/\*\*([^*]+)\*\*/g, '$1')          // **bold** -> bold
-    .replace(/(^|\s)\*([^*]+)\*(?=\s|$)/g, '$1$2'); // *italic* -> italic
+    .replace(/(^|\s)\*([^*]+)\*(?=\s|$)/g, '$1$2') // *italic* -> italic
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 /* ============================================================

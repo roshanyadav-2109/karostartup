@@ -219,17 +219,20 @@
         <aside class="article-summary">
           <div class="article-summary-title">Summary</div>
           ${(() => {
-            // Escape, then linkify [text](url) and bare URLs so summaries can link out.
+            const raw = article.summary.trim();
+            // New summaries are HTML (links inline) — sanitize and render as-is.
+            if (/<[a-z][\s\S]*>/i.test(raw)) return sanitizeImportedHtml(raw);
+            // Legacy plain/markdown summaries: escape, linkify, one line per bullet.
             const fmt = (s) => {
               let h = escapeHtml(s);
               h = h.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
               h = h.replace(/(^|[\s(])(https?:\/\/[^\s<]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
               return h;
             };
-            const lines = article.summary.split(/\r?\n/).map(s => s.replace(/^[\s•\-\*]+/, '').trim()).filter(Boolean);
+            const lines = raw.split(/\r?\n/).map(s => s.replace(/^[\s•\-\*]+/, '').trim()).filter(Boolean);
             return lines.length > 1
               ? `<ul>${lines.map(l => `<li>${fmt(l)}</li>`).join('')}</ul>`
-              : `<p>${fmt(article.summary.trim())}</p>`;
+              : `<p>${fmt(raw)}</p>`;
           })()}
         </aside>` : ''}
 
