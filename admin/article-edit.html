@@ -358,8 +358,11 @@
           if (error) throw error;
           savedId = data.id;
         } else {
-          const { error } = await sb.from('articles').update(payload).eq('id', editId);
+          // .select() so we can tell a real save from an RLS-blocked no-op
+          // (a blocked update returns no error but changes 0 rows).
+          const { data, error } = await sb.from('articles').update(payload).eq('id', editId).select('id');
           if (error) throw error;
+          if (!data || !data.length) throw new Error("Nothing was saved — you may not have permission to edit this article, or your session expired. Try signing out and back in.");
         }
         showToast(action === 'publish' ? 'Published' : action === 'review' ? 'Sent for review' : action === 'unpublish' ? 'Unpublished' : 'Saved');
         article.status = newStatus;
