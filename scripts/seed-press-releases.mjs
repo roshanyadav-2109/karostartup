@@ -31,6 +31,12 @@
  *   SUPABASE_SERVICE_ROLE_KEY=ey... BACKFILL_FROM=2026-01-01 \
  *     node scripts/seed-press-releases.mjs
  *
+ * Optional AI summaries (Google Gemini, free tier — get a key at
+ * https://aistudio.google.com/apikey):
+ *   GEMINI_API_KEY=... SUPABASE_SERVICE_ROLE_KEY=ey... node scripts/seed-press-releases.mjs
+ *   (GEMINI_MODEL overrides the default gemini-2.0-flash.) If unset or
+ *   rate-limited, the seeder falls back to the heuristic summary.
+ *
  * Recommended cron: every 30 minutes (.github/workflows/seed-press-releases.yml)
  */
 
@@ -311,6 +317,66 @@ function makeSummary(item) {
   return out + (text.length > out.length + 20 ? ' …' : '');
 }
 
+// ---------------------------------------------------------------------------
+// AI SUMMARIES (optional) — Google Gemini Flash, free tier.
+// Set GEMINI_API_KEY to enable. If the key is missing or any call fails /
+// rate-limits, we silently fall back to the heuristic makeSummary() above, so
+// the import never breaks.
+// ---------------------------------------------------------------------------
+const GEMINI_KEY   = process.env.GEMINI_API_KEY || '';
+const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
+let _aiDisabled = false;   // trips on auth/quota errors so we stop hammering
+
+async function aiSummary(title, body) {
+  if (!GEMINI_KEY || _aiDisabled) return null;
+  const text = (body || '').replace(/\s+/g, ' ').trim().slice(0, 6000);
+  if (text.length < 80) return null;
+  const prompt =
+    `Summarize this Indian government press release for a business-news reader in 1–2 plain, neutral sentences (max ~45 words). ` +
+    `State the concrete facts (who/what/figures). No preamble, no "this press release", no markdown.\n\n` +
+    `Headline: ${title}\n\nBody:\n${text}`;
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 20000);
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.3, maxOutputTokens: 160 },
+        }),
+        signal: ctrl.signal,
+      },
+    ).finally(() => clearTimeout(t));
+    if (r.status === 429 || r.status === 403) {
+      _aiDisabled = true; // quota/auth — stop trying this run
+      console.warn(`\n  [ai] ${r.status} — disabling AI summaries for this run, using fallback`);
+      return null;
+    }
+    if (!r.ok) return null;
+    const j = await r.json();
+    const out = j?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('').trim();
+    if (!out) return null;
+    // Strip wrapping quotes / stray markdown the model sometimes adds.
+    return out.replace(/^["'“]+|["'”]+$/g, '').replace(/\*\*/g, '').trim();
+  } catch {
+    return null;
+  }
+}
+
+// Replace each row's summary with an AI one where possible (in place).
+async function enrichSummaries(rows) {
+  if (!GEMINI_KEY || _aiDisabled || !rows.length) return;
+  for (const row of rows) {
+    const ai = await aiSummary(row.title, row.content);
+    if (ai) row.summary = ai;
+    await sleep(1200); // stay well under the free-tier rate limit
+    if (_aiDisabled) break;
+  }
+}
+
 function buildArticle(item, catMap, flagFeatured, flagBreaking) {
   const slug = item.source === 'PIB' ? slugify(item.title, `pib-${item.prid}`) : slugify(item.title);
   const categorySlug = MINISTRY_TO_CATEGORY[item.ministry] || null;
@@ -395,6 +461,7 @@ async function runBackfill(from, to, catMap) {
     const rows = batch.map(it => buildArticle(it, catMap, false, false)).filter(Boolean);
     if (rows.length) {
       try {
+        if (GEMINI_KEY) await enrichSummaries(rows);
         await upsert('articles', rows, 'slug');
         inserted += rows.length;
       } catch (e) {
@@ -571,6 +638,11 @@ async function runFixCovers() {
   const rows = items
     .map((it, i) => buildArticle(it, catMap, i === 0, i < 3))
     .filter(Boolean);
+
+  if (GEMINI_KEY) {
+    console.log(`• Generating AI summaries (${GEMINI_MODEL})…`);
+    await enrichSummaries(rows);
+  }
 
   console.log(`• Upserting ${rows.length} articles…`);
   await upsert('articles', rows, 'slug');

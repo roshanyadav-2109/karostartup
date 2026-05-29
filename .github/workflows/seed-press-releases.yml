@@ -25,5 +25,8 @@ jobs:
       - name: Run seeder
         env:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          # Optional: set this repo secret to enable AI summaries (Google
+          # Gemini, free tier). If absent, the seeder uses its heuristic.
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           FIX_COVERS: ${{ inputs.fix_covers && '1' || '' }}
         run: node scripts/seed-press-releases.mjs
