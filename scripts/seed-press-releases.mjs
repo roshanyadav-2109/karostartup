@@ -283,6 +283,34 @@ async function ensureCategories() {
   await upsert('categories', cats, 'slug');
 }
 
+// Build a readable summary: prefer PIB's own subtitle (it's written as a
+// one-line gist), else assemble the first complete sentences of the body up
+// to ~320 chars. Never cut mid-word/mid-sentence.
+function makeSummary(item) {
+  const sub = (item.subtitle || '').replace(/\s+/g, ' ').trim();
+  if (sub && sub.length >= 40) return sub;
+
+  const text = (item.body || '').replace(/\s+/g, ' ').trim();
+  if (!text) return sub || null;
+
+  const sentences = text.match(/[^.!?]+[.!?]+(?:\s|$)/g);
+  if (!sentences || !sentences.length) {
+    // No sentence punctuation — fall back to a clean word-boundary cut.
+    if (text.length <= 320) return text;
+    return text.slice(0, 300).replace(/\s+\S*$/, '').trim() + '…';
+  }
+  let out = '';
+  for (const s of sentences) {
+    if (out && (out + s).length > 340) break;
+    out += s;
+    if (out.length >= 220) break;
+  }
+  out = out.trim();
+  if (!out) out = sentences[0].trim();
+  // Append an ellipsis only if there is meaningfully more text after it.
+  return out + (text.length > out.length + 20 ? ' …' : '');
+}
+
 function buildArticle(item, catMap, flagFeatured, flagBreaking) {
   const slug = item.source === 'PIB' ? slugify(item.title, `pib-${item.prid}`) : slugify(item.title);
   const categorySlug = MINISTRY_TO_CATEGORY[item.ministry] || null;
@@ -291,7 +319,7 @@ function buildArticle(item, catMap, flagFeatured, flagBreaking) {
   // Only set a cover when PIB actually published one for this release.
   // The site is configured to render no image at all when this is null.
   const cover = item.heroImage || null;
-  const summary = (item.body || '').slice(0, 240).replace(/\s+\S*$/, '').trim() + '…';
+  const summary = makeSummary(item);
   const kicker = item.ministry
     .replace(/^Ministry of\s+/i, '')
     .replace(/^Department for\s+/i, '')
