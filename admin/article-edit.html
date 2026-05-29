@@ -114,7 +114,7 @@
                 <button type="button" data-cmd="insertUnorderedList" title="Bulleted list">&bull; List</button>
                 <button type="button" data-cmd="insertOrderedList" title="Numbered list">1. List</button>
                 <span class="rt-sep"></span>
-                <button type="button" data-link title="Insert link">Link</button>
+                <button type="button" data-link title="Link selected text (Ctrl+K)">Link</button>
                 <button type="button" data-cmd="removeFormat" title="Clear formatting">Clear</button>
               </div>
               <div id="content_editor" class="rt-editor" contenteditable="true" spellcheck="true"></div>
@@ -251,18 +251,39 @@
       const btn = e.target.closest('button'); if (!btn) return;
       if (btn.dataset.cmd) return exec(btn.dataset.cmd);
       if (btn.dataset.block) return exec('formatBlock', btn.dataset.block);
-      if (btn.hasAttribute('data-link')) {
-        const url = prompt('Link URL'); if (!url) return;
-        focusEditor();
-        const sel = window.getSelection();
-        if (sel && sel.toString()) exec('createLink', url);
-        else {
-          const a = document.createElement('a'); a.href = url; a.textContent = url; a.target = '_blank'; a.rel = 'noopener';
-          document.execCommand('insertHTML', false, a.outerHTML + '&nbsp;');
-          recount();
-        }
-        return;
+      if (btn.hasAttribute('data-link')) return insertLink();
+    });
+
+    // Link insertion — works on a selection (link the chosen word/phrase) and
+    // via Ctrl/Cmd+K. The selection must be captured BEFORE prompt() because
+    // opening the dialog collapses it, which previously made "link a word" fail.
+    function saveRange() { const s = window.getSelection(); return (s && s.rangeCount) ? s.getRangeAt(0).cloneRange() : null; }
+    function restoreRange(r) { if (!r) return; const s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+    function normUrl(u) {
+      u = String(u).trim();
+      if (!u) return '';
+      if (/^(https?:|mailto:|tel:|\/|#)/i.test(u)) return u;
+      return 'https://' + u;
+    }
+    function insertLink() {
+      const saved = saveRange();
+      const selectedText = saved && !saved.collapsed ? saved.toString().trim() : '';
+      const url = prompt(selectedText ? `Link for “${selectedText}”` : 'Link URL (https://…)');
+      focusEditor();
+      restoreRange(saved);
+      if (!url) return;
+      const href = normUrl(url);
+      if (selectedText) {
+        document.execCommand('createLink', false, href);
+      } else {
+        document.execCommand('insertHTML', false, `<a href="${escHtml(href)}" target="_blank" rel="noopener">${escHtml(url.trim())}</a>&nbsp;`);
       }
+      // execCommand('createLink') doesn't set target/rel — apply to every anchor.
+      contentEl.querySelectorAll('a').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
+      recount();
+    }
+    contentEl.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); insertLink(); }
     });
     // YouTube / Vimeo detector — paste-aware. Returns the trimmed URL if the
     // entire pasted text is a video link, else null.
