@@ -2830,9 +2830,9 @@ a:hover .media-play { background: var(--brand); }
   padding: 18px 20px;
   background: #fdf0f0;
   border: 1px solid #f3c9cb;
-  border-left: 4px solid var(--brand);
   border-radius: 4px;
 }
+.article-summary a { color: var(--brand); text-decoration: underline; }
 .article-summary-title {
   font-family: var(--font-display);
   font-weight: 700;
