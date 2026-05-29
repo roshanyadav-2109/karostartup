@@ -287,6 +287,16 @@ function escapeHtml(s) {
 
 function escapeAttr(s) { return escapeHtml(s); }
 
+// Summaries are authored as plain text but may contain markdown links
+// [text](url) / emphasis. For card/search/meta contexts we want the visible
+// text only — strip the markup so "[Acme](https://acme.com)" reads "Acme".
+function plainText(s) {
+  return String(s == null ? '' : s)
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')   // [text](url) -> text
+    .replace(/\*\*([^*]+)\*\*/g, '$1')          // **bold** -> bold
+    .replace(/(^|\s)\*([^*]+)\*(?=\s|$)/g, '$1$2'); // *italic* -> italic
+}
+
 /* ============================================================
    MARKDOWN RENDERER (minimal)
    Supports: ## ### headings, **bold**, *italic*, > blockquote,
@@ -998,7 +1008,7 @@ function mountSearchOverlay() {
                 <span class="k-sr-date">${fmtDate(a.published_at)}</span>
               </div>
               <div class="k-sr-title">${highlight(a.title, q)}</div>
-              ${a.summary ? `<div class="k-sr-summary">${highlight(a.summary.slice(0, 140), q)}${a.summary.length > 140 ? '…' : ''}</div>` : ''}
+              ${a.summary ? (() => { const s = plainText(a.summary); return `<div class="k-sr-summary">${highlight(s.slice(0, 140), q)}${s.length > 140 ? '…' : ''}</div>`; })() : ''}
             </div>
           </a>`).join('')}
       </div>` : '';
@@ -1533,7 +1543,7 @@ function renderStoryCard(a, opts = {}) {
     ${_coverHtml(a, cover)}
     ${a.kicker ? `<span class="kicker">${escapeHtml(a.kicker)}</span>` : (cat ? `<span class="kicker">${escapeHtml(cat)}</span>` : '')}
     <h2 class="title">${escapeHtml(a.title)}</h2>
-    ${!opts.small && a.summary ? `<p class="summary">${escapeHtml(a.summary)}</p>` : ''}
+    ${!opts.small && a.summary ? `<p class="summary">${escapeHtml(plainText(a.summary))}</p>` : ''}
     <div class="meta">
       ${author ? `<span class="author">${escapeHtml(author)}</span>` : ''}
       ${author ? '<span class="dot"></span>' : ''}
@@ -1579,7 +1589,7 @@ function renderFeedItem(a) {
     <div>
       ${a.kicker ? `<span class="kicker">${escapeHtml(a.kicker)}</span>` : (cat ? `<span class="kicker">${escapeHtml(cat)}</span>` : '')}
       <h3 class="title">${escapeHtml(a.title)}</h3>
-      ${a.summary ? `<p class="summary">${escapeHtml(a.summary)}</p>` : ''}
+      ${a.summary ? `<p class="summary">${escapeHtml(plainText(a.summary))}</p>` : ''}
       <div class="meta">
         ${author ? `<span style="color:#0a0a0a;font-weight:600;">${escapeHtml(author)}</span><span class="dot"></span>` : ''}
         <span>${timeAgo(a.published_at || a.created_at)}</span>
@@ -1601,7 +1611,7 @@ function renderLongreadCard(a) {
     <div class="longread-text">
       ${a.kicker ? `<span class="kicker">${escapeHtml(a.kicker)}</span>` : ''}
       <h3 class="title">${escapeHtml(a.title)}</h3>
-      ${a.summary ? `<p class="summary">${escapeHtml(a.summary)}</p>` : ''}
+      ${a.summary ? `<p class="summary">${escapeHtml(plainText(a.summary))}</p>` : ''}
     </div>
   </a>`;
 }
@@ -1621,7 +1631,7 @@ function renderOpinionCard(a) {
       </div>
     </div>
     <h3 class="title">${escapeHtml(a.title)}</h3>
-    ${a.summary ? `<p class="dek">${escapeHtml(a.summary)}</p>` : ''}
+    ${a.summary ? `<p class="dek">${escapeHtml(plainText(a.summary))}</p>` : ''}
   </a>`;
 }
 

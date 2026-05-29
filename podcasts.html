@@ -83,7 +83,7 @@
             <div class="pod-meta">
               <span class="kicker">Episode</span>
               <h3 class="pod-title">${escapeHtml(a.title)}</h3>
-              ${a.subtitle ? `<p class="pod-dek">${escapeHtml(a.subtitle)}</p>` : (a.summary ? `<p class="pod-dek">${escapeHtml(a.summary.slice(0, 140))}…</p>` : '')}
+              ${a.subtitle ? `<p class="pod-dek">${escapeHtml(a.subtitle)}</p>` : (a.summary ? `<p class="pod-dek">${escapeHtml(plainText(a.summary).slice(0, 140))}…</p>` : '')}
               <div class="pod-foot">
                 <span>${escapeHtml(a.profiles?.full_name || 'Karostartup')}</span>
                 <span class="dot"></span>

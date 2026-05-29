@@ -92,7 +92,14 @@
             <div class="form-field"><label>Read time (auto)</label><input type="number" id="read_time" value="${article.read_time_minutes||''}" readonly style="background:#fafaf8;"></div>
           </div>
           <div class="form-field"><label>Subtitle / Dek</label><input type="text" id="subtitle" value="${escapeAttr(article.subtitle||'')}"></div>
-          <div class="form-field"><label>Summary <span style="font-weight:400;color:#9a9a9a;">(optional)</span></label><textarea id="summary" rows="3" placeholder="One key point per line for a bulleted summary.">${escapeHtml(article.summary||'')}</textarea><div class="hint">Optional. If filled, it shows as a highlighted <strong>Summary</strong> box below the cover image — one line per bullet. Also used on cards and as the meta description.</div></div>
+          <div class="form-field">
+            <label>Summary <span style="font-weight:400;color:#9a9a9a;">(optional)</span></label>
+            <div class="rt-toolbar" id="summary-toolbar" style="border-bottom:0;">
+              <button type="button" data-sumlink title="Link selected text (Ctrl+K)">Link</button>
+            </div>
+            <textarea id="summary" rows="3" placeholder="One key point per line for a bulleted summary." style="border-top:0;">${escapeHtml(article.summary||'')}</textarea>
+            <div class="hint">Optional. Shows as a highlighted <strong>Summary</strong> box below the cover — one line per bullet. To add a link, select the words and click <strong>Link</strong> (or Ctrl+K). Also used on cards and as the meta description.</div>
+          </div>
 
           <div class="form-field">
             <label>Content</label>
@@ -284,6 +291,28 @@
     }
     contentEl.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); insertLink(); }
+    });
+
+    // Summary is plain text (reused on cards + meta), so a link is stored as
+    // markdown [text](url). Select words → Link/Ctrl+K wraps the selection.
+    const summaryEl = document.getElementById('summary');
+    function summaryInsertLink() {
+      const start = summaryEl.selectionStart, end = summaryEl.selectionEnd;
+      const sel = summaryEl.value.slice(start, end);
+      const url = prompt(sel ? `Link for “${sel}”` : 'Link URL (https://…)');
+      summaryEl.focus();
+      if (!url) return;
+      const u = url.trim();
+      const href = /^(https?:|mailto:|tel:|\/|#)/i.test(u) ? u : 'https://' + u;
+      const md = `[${sel || u}](${href})`;
+      summaryEl.value = summaryEl.value.slice(0, start) + md + summaryEl.value.slice(end);
+      const pos = start + md.length;
+      summaryEl.setSelectionRange(pos, pos);
+    }
+    document.getElementById('summary-toolbar').addEventListener('mousedown', (e) => { if (e.target.closest('button')) e.preventDefault(); });
+    document.getElementById('summary-toolbar').addEventListener('click', (e) => { if (e.target.closest('[data-sumlink]')) summaryInsertLink(); });
+    summaryEl.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); summaryInsertLink(); }
     });
     // YouTube / Vimeo detector — paste-aware. Returns the trimmed URL if the
     // entire pasted text is a video link, else null.
