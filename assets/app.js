@@ -510,11 +510,16 @@ function sanitizeImportedHtml(html) {
 
 function renderMarkdown(md) {
   if (!md) return '';
-  // Imported legacy articles store full HTML. Detect that — anything starting
-  // with a structural HTML tag goes through the sanitizer instead of the
-  // markdown pass (otherwise escapeHtml() shows the raw <p>/<span> markup).
+  // Content authored in the rich-text editor (and legacy imported articles) is
+  // stored as HTML. Route it through the sanitizer instead of the markdown pass
+  // — otherwise escapeHtml() turns the tags into visible <p>/<strong> markup.
+  // Detection is deliberately broad: the contentEditable output can begin with
+  // a bare text node or an inline tag, so we treat the string as HTML if it
+  // *starts with* any HTML tag OR *contains* a recognizable block/format tag.
   const stripped = String(md).trim();
-  if (/^<(p|div|h[1-6]|ul|ol|table|blockquote|img|figure|section|article)\b/i.test(stripped)) {
+  const startsWithTag = /^<[a-z][a-z0-9]*\b[^>]*>/i.test(stripped);
+  const hasHtmlTag = /<(\/?(p|div|h[1-6]|ul|ol|li|table|blockquote|figure|section|article|span|strong|em|b|i|u|a|br|img|iframe))\b[^>]*>/i.test(stripped);
+  if (startsWithTag || hasHtmlTag) {
     return sanitizeImportedHtml(stripped);
   }
   const rawLines = md.split(/\r?\n/);
