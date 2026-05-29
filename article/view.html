@@ -215,6 +215,17 @@
           ${article.cover_caption ? `<div class="cover-caption">${escapeHtml(article.cover_caption)}</div>` : ''}
         </div>` : ''}
 
+      ${article.summary && article.summary.trim() ? `
+        <aside class="article-summary">
+          <div class="article-summary-title">Summary</div>
+          ${(() => {
+            const lines = article.summary.split(/\r?\n/).map(s => s.replace(/^[\s•\-\*]+/, '').trim()).filter(Boolean);
+            return lines.length > 1
+              ? `<ul>${lines.map(l => `<li>${escapeHtml(l)}</li>`).join('')}</ul>`
+              : `<p>${escapeHtml(article.summary.trim())}</p>`;
+          })()}
+        </aside>` : ''}
+
       <article class="article-body" id="article-body">
         ${isAuthWalled
           ? `<div class="authwall-teaser">${renderMarkdown(teaserContent(article.content || ''))}</div>`

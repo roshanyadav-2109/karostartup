@@ -92,7 +92,7 @@
             <div class="form-field"><label>Read time (auto)</label><input type="number" id="read_time" value="${article.read_time_minutes||''}" readonly style="background:#fafaf8;"></div>
           </div>
           <div class="form-field"><label>Subtitle / Dek</label><input type="text" id="subtitle" value="${escapeAttr(article.subtitle||'')}"></div>
-          <div class="form-field"><label>Summary</label><textarea id="summary" rows="3">${escapeHtml(article.summary||'')}</textarea><div class="hint">Used on cards and as meta description.</div></div>
+          <div class="form-field"><label>Summary <span style="font-weight:400;color:#9a9a9a;">(optional)</span></label><textarea id="summary" rows="3" placeholder="One key point per line for a bulleted summary.">${escapeHtml(article.summary||'')}</textarea><div class="hint">Optional. If filled, it shows as a highlighted <strong>Summary</strong> box below the cover image — one line per bullet. Also used on cards and as the meta description.</div></div>
 
           <div class="form-field">
             <label>Content</label>
