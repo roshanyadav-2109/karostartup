@@ -327,6 +327,26 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 .masthead .search-btn:hover { color: var(--brand); }
 .masthead .search-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
+/* Mobile-only inline search bar (NDTV-style) — hidden on desktop, shown below
+   the logo row on small screens (see the 768px block). */
+.mobile-search { display: none; }
+.mobile-search-ico {
+  display: inline-flex;
+  color: var(--muted);
+  flex: 0 0 auto;
+}
+.mobile-search-ico svg { width: 18px; height: 18px; }
+.mobile-search input {
+  flex: 1 1 auto;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--ink);
+  padding: 0;
+  outline: none;
+}
+
 /* ============================================================
    NAV
    ============================================================ */
@@ -3785,6 +3805,14 @@ a:hover .media-play { background: var(--brand); }
   text-transform: uppercase;
   font-weight: 700;
 }
+.lnews-side-cat.lnews-ec {
+  display: inline-block;
+  background: #d10a11;
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.08em;
+}
 .lnews-side-title {
   font-size: 0.92rem;
   font-weight: 700;
@@ -6208,9 +6236,21 @@ a:hover .media-play { background: var(--brand); }
   .masthead-left .masthead-link { display: none; }
   .nav-mobile-btn { display: inline-flex; }
   .k-drawer-scrim { display: block; }
-  .masthead-right .plus-link { display: none; }
-  .masthead .search-btn span { display: none; }
-  .masthead .search-btn { padding: 10px; }
+  .masthead-right { display: none; }        /* Plus + search button both hidden on mobile */
+  .masthead .search-btn { display: none; }  /* replaced by the inline bar below the logo */
+  .masthead .container { grid-template-columns: auto 1fr; }
+  .masthead .logo { justify-self: center; }
+  /* Full-width NDTV-style search bar in the row below the logo. */
+  .mobile-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 12px 0 2px;
+    padding: 10px 14px;
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+  }
   .nav { display: none; }                  /* category bar hidden on mobile — drawer covers it */
   .nav-links { gap: 18px; }
   .top-strip { grid-template-columns: 1fr; }

@@ -495,8 +495,27 @@
       }
 
       const rotating    = data.slice(0, Math.min(5, data.length));
-      // Everything not in the rotator goes in the scrolling rail.
-      const sideStories = data.slice(rotating.length);
+
+      // Editor's Choice = featured stories. Surface them in the scrolling rail
+      // too (tagged), on top of the latest stories. Separate query so it isn't
+      // limited to the latest-15 window.
+      let editorsChoice = [];
+      try {
+        const { data: ec } = await sb.from('articles')
+          .select('id,slug,title,kicker,cover_image_url,is_featured,categories(name,slug)')
+          .eq('status', 'published').eq('is_featured', true)
+          .order('published_at', { ascending: false }).limit(6);
+        editorsChoice = (ec || []).map(a => ({ ...a, _ec: true }));
+      } catch {}
+
+      // Everything not in the rotator goes in the scrolling rail: Editor's
+      // Choice first, then the latest stories — deduped against the rotator
+      // and each other.
+      const seenIds = new Set(rotating.map(a => a.id));
+      const sideStories = [];
+      [...editorsChoice, ...data.slice(rotating.length)].forEach(a => {
+        if (!seenIds.has(a.id)) { seenIds.add(a.id); sideStories.push(a); }
+      });
 
       // Compact horizontal cards (thumb left, headline right) — better for a
       // vertical scrolling rail than image-on-top cards.
@@ -507,7 +526,7 @@
         <a class="lnews-side${cover ? '' : ' lnews-side-no-img'}" href="${articleHref(a)}">
           ${cover ? `<div class="lnews-side-img"><img src="${escapeAttr(cover)}" alt="${escapeAttr(a.title)}" loading="lazy"></div>` : ''}
           <div class="lnews-side-text">
-            ${cat ? `<span class="lnews-side-cat">${escapeHtml(cat)}</span>` : ''}
+            ${a._ec ? `<span class="lnews-side-cat lnews-ec">★ Editor's Choice</span>` : (cat ? `<span class="lnews-side-cat">${escapeHtml(cat)}</span>` : '')}
             <h4 class="lnews-side-title">${escapeHtml(a.title)}</h4>
           </div>
         </a>`;

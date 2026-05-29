@@ -926,6 +926,10 @@ function renderMasthead() {
         <button class="search-btn" id="search-trigger" type="button" aria-label="Search">${ICON.search} <span>Search</span></button>
       </div>
     </div>
+    <form class="mobile-search" id="mobile-search-form" role="search">
+      <span class="mobile-search-ico" aria-hidden="true">${ICON.search}</span>
+      <input type="search" id="mobile-search-input" placeholder="Search Karostartup…" autocomplete="off" enterkeyhint="search">
+    </form>
   </div>`;
 }
 
@@ -1074,6 +1078,14 @@ function mountSearchOverlay() {
     o.classList.add('is-open');
     document.body.style.overflow = 'hidden';
     setTimeout(() => input.focus(), 60);
+  });
+
+  // Mobile inline search bar → route to the full search page on submit.
+  const mForm = document.getElementById('mobile-search-form');
+  if (mForm) mForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = (document.getElementById('mobile-search-input').value || '').trim();
+    if (q) location.href = '/search.html?q=' + encodeURIComponent(q);
   });
 }
 
