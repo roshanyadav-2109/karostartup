@@ -95,9 +95,10 @@
           <div class="form-field">
             <label>Summary <span style="font-weight:400;color:#9a9a9a;">(optional)</span></label>
             <div class="rt-toolbar" id="summary-toolbar" style="border-bottom:0;">
+              <button type="button" data-sumai title="Generate a summary from the content using AI" style="font-weight:700;color:#d10a11;">✦ Summarise</button>
+              <span class="rt-sep"></span>
               <button type="button" data-sumlink title="Link selected text (Ctrl+K)">Link</button>
               <button type="button" data-sumcmd="insertUnorderedList" title="Bullet list">&bull; List</button>
-              <span class="rt-sep"></span>
               <button type="button" data-sumpreview title="Toggle preview">Preview</button>
             </div>
             <div id="summary_editor" class="rt-editor" contenteditable="true" data-placeholder="Short summary — select words and click Link to add a link." style="min-height:96px;border-top:0;font-size:1rem;line-height:1.6;"></div>
@@ -317,8 +318,39 @@
     const summaryPreview = document.getElementById('summary_preview');
     const summaryPreviewBody = document.getElementById('summary_preview_body');
     summaryToolbar.addEventListener('mousedown', (e) => { if (e.target.closest('button')) e.preventDefault(); });
+    async function summariseWithAI(btn) {
+      const contentText = (contentEl.innerText || contentEl.textContent || '').trim();
+      if (contentText.length < 80) {
+        alert('Write the article content first — there isn\'t enough text to summarise yet.');
+        return;
+      }
+      // Confirmation popup — each click is one AI call.
+      if (!confirm('Generate the summary from your content using AI?\n\nMake sure you\'ve finished writing the content — run this once it\'s ready. Each click uses one AI request. You can still edit or write the summary by hand afterwards.')) return;
+      const orig = btn.textContent;
+      btn.disabled = true; btn.textContent = '✦ Summarising…';
+      try {
+        const { data: { session } } = await sb.auth.getSession();
+        if (!session) throw new Error('Your session expired — sign in again.');
+        const r = await fetch('/api/ai/summarize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+          body: JSON.stringify({ title: titleEl.value.trim(), content: contentText }),
+        });
+        const j = await r.json();
+        if (!r.ok || !j.ok) throw new Error(j.error || 'Could not generate a summary.');
+        // Fill the summary editor (replaces existing — it's a fresh AI summary).
+        summaryEl.innerHTML = `<p>${j.summary.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>`;
+        if (summaryPreview.style.display !== 'none') summaryPreviewBody.innerHTML = summaryEl.innerHTML;
+        showToast('Summary generated');
+      } catch (err) {
+        alert(err.message || 'Could not generate a summary.');
+      } finally {
+        btn.disabled = false; btn.textContent = orig;
+      }
+    }
     summaryToolbar.addEventListener('click', (e) => {
       const btn = e.target.closest('button'); if (!btn) return;
+      if (btn.hasAttribute('data-sumai')) return summariseWithAI(btn);
       if (btn.hasAttribute('data-sumlink')) return insertLink(summaryEl);
       if (btn.dataset.sumcmd) { summaryEl.focus(); try { document.execCommand(btn.dataset.sumcmd); } catch {} return; }
       if (btn.hasAttribute('data-sumpreview')) {

@@ -324,7 +324,7 @@ function makeSummary(item) {
 // the import never breaks.
 // ---------------------------------------------------------------------------
 const GEMINI_KEY   = process.env.GEMINI_API_KEY || '';
-const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
+const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash-lite';
 let _aiDisabled = false;   // trips on auth/quota errors so we stop hammering
 
 async function aiSummary(title, body) {
@@ -367,11 +367,29 @@ async function aiSummary(title, body) {
 }
 
 // Replace each row's summary with an AI one where possible (in place).
+// Already-summarized articles are skipped so we never spend an AI call on the
+// same release twice — the stored summary is reused.
 async function enrichSummaries(rows) {
   if (!GEMINI_KEY || _aiDisabled || !rows.length) return;
+
+  // Which of these slugs already have a non-empty AI summary in the DB?
+  // Those keep their existing summary; we don't call the API again.
+  const existing = {};
+  try {
+    const slugs = rows.map(r => `"${r.slug}"`).join(',');
+    const have = await rest(`articles?slug=in.(${slugs})&select=slug,summary,ai_summarized`);
+    for (const a of have) existing[a.slug] = a;
+  } catch { /* if the lookup fails, fall through and (re)generate */ }
+
   for (const row of rows) {
+    const prev = existing[row.slug];
+    if (prev && prev.ai_summarized && prev.summary && prev.summary.trim()) {
+      row.summary = prev.summary;       // reuse — no API call
+      row.ai_summarized = true;
+      continue;
+    }
     const ai = await aiSummary(row.title, row.content);
-    if (ai) row.summary = ai;
+    if (ai) { row.summary = ai; row.ai_summarized = true; }
     await sleep(1200); // stay well under the free-tier rate limit
     if (_aiDisabled) break;
   }
@@ -406,6 +424,7 @@ function buildArticle(item, catMap, flagFeatured, flagBreaking) {
     is_breaking: !!flagBreaking,
     is_premium: false,
     is_exclusive: false,
+    ai_summarized: false,
     published_at: item.publishedAt,
     read_time_minutes: Math.max(2, Math.round((item.body || '').split(/\s+/).length / 200)),
     tags: [item.source.toLowerCase(), categorySlug, kicker.toLowerCase().replace(/[^a-z]+/g, '-').slice(0, 30)],
