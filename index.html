@@ -257,12 +257,12 @@
       // featured if any, else first overall. Top-stories list = the next 5.
       // The "Latest News" grid below uses items 6-13 (skip the 6 already
       // shown in the hero so we don't repeat).
-      const { data } = await sbPublic.from('articles')
+      const data = await cachedFetch('home:hero', 180, () => sbPublic.from('articles')
         .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,is_featured,categories(name,slug),profiles!author_id(full_name)')
         .eq('status', 'published')
         .order('published_at', { ascending: false })
         .order('id', { ascending: false })
-        .limit(14);
+        .limit(14).then(r => r.data));
 
       const heroSlot = document.getElementById('hero-slot');
       if (!data || !data.length) {
@@ -278,13 +278,13 @@
       // categories. Falls back to "remaining" if the startups bucket is empty.
       let leftStories = [];
       try {
-        const { data: picks } = await sbPublic.from('articles')
+        const picks = await cachedFetch('home:picks', 180, () => sbPublic.from('articles')
           .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,categories!inner(name,slug),profiles!author_id(full_name)')
           .eq('status', 'published')
           .eq('categories.slug', 'startups')
           .neq('id', lead.id)
           .order('published_at', { ascending: false })
-          .limit(3);
+          .limit(3).then(r => r.data));
         leftStories = picks || [];
       } catch {}
       if (!leftStories.length) leftStories = remaining.slice(0, 3);
@@ -478,13 +478,13 @@
     // The id tiebreaker makes the order deterministic across both queries so
     // tied published_at timestamps can't shuffle an item into both sections.
     run(async () => { try {
-      const { data } = await sbPublic.from('articles')
-        .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,view_count,is_featured,categories(name,slug),profiles!author_id(full_name)')
+      const data = await cachedFetch('home:rotator', 180, () => sbPublic.from('articles')
+        .select('id,slug,title,kicker,cover_image_url,published_at,read_time_minutes,is_featured,categories(name,slug),profiles!author_id(full_name)')
         .eq('status', 'published')
         .order('published_at', { ascending: false })
         .order('id', { ascending: false })
         .range(14, 48)
-        .limit(35);
+        .limit(35).then(r => r.data));
 
       const featureEl = document.getElementById('lnews-feature');
       const imgEl     = document.getElementById('lnews-feature-img');
@@ -507,10 +507,10 @@
       // limited to the latest-15 window.
       let editorsChoice = [];
       try {
-        const { data: ec } = await sbPublic.from('articles')
+        const ec = await cachedFetch('home:rotator-ec', 180, () => sbPublic.from('articles')
           .select('id,slug,title,kicker,cover_image_url,categories(name,slug)')
           .eq('status', 'published').eq('is_editors_choice', true)
-          .order('published_at', { ascending: false }).limit(6);
+          .order('published_at', { ascending: false }).limit(6).then(r => r.data));
         editorsChoice = (ec || []).map(a => ({ ...a, _ec: true }));
       } catch {}
 
@@ -687,12 +687,12 @@
     // Clicking a tile opens a full-screen modal that plays the video.
     run(async () => { try {
       const strip = document.getElementById('shorts-strip');
-      const { data } = await sb.from('shorts')
+      const data = await cachedFetch('home:shorts', 600, () => sb.from('shorts')
         .select('id,title,caption,video_url,thumbnail_url,duration_seconds,sort_order')
         .eq('is_published', true)
         .order('sort_order', { ascending: true })
         .order('created_at', { ascending: false })
-        .limit(12);
+        .limit(12).then(r => r.data));
       if (!data || !data.length) {
         strip.innerHTML = '<div class="empty-state" style="width:100%;"><h3>Shorts coming soon</h3><p>Karostartup Shorts will appear here as the team publishes them.</p></div>';
         return;
@@ -775,21 +775,23 @@
     // SECTOR PULSE — fetch all 4 sectors in parallel
     run(async () => { try {
       const sectorSlugs = ['fintech', 'd2c', 'saas', 'ai'];
-      const { data: cats } = await sb.from('categories')
-        .select('id,slug,name')
-        .in('slug', sectorSlugs);
       const slot = document.getElementById('sector-grid-slot');
-      const sectorData = await Promise.all(sectorSlugs.map(async (slug) => {
-        const cat = (cats || []).find(c => c.slug === slug);
-        if (!cat) return { slug, cat: null, stories: [] };
-        const { data: stories } = await sbPublic.from('articles')
-          .select('id,slug,title')
-          .eq('status', 'published')
-          .eq('category_id', cat.id)
-          .order('published_at', { ascending: false })
-          .limit(3);
-        return { slug, cat, stories: stories || [] };
-      }));
+      const sectorData = await cachedFetch('home:sectors', 180, async () => {
+        const { data: cats } = await sb.from('categories')
+          .select('id,slug,name')
+          .in('slug', sectorSlugs);
+        return Promise.all(sectorSlugs.map(async (slug) => {
+          const cat = (cats || []).find(c => c.slug === slug);
+          if (!cat) return { slug, cat: null, stories: [] };
+          const { data: stories } = await sbPublic.from('articles')
+            .select('id,slug,title')
+            .eq('status', 'published')
+            .eq('category_id', cat.id)
+            .order('published_at', { ascending: false })
+            .limit(3);
+          return { slug, cat, stories: stories || [] };
+        }));
+      });
       slot.innerHTML = sectorData.map(({ slug, cat, stories }) => {
         if (!cat) return `<div class="sector-card"><div class="sector-name">${slug.toUpperCase()}</div><div class="sector-meta">No category configured</div></div>`;
         const items = stories.map(s => `<a href="/article/view.html?slug=${encodeURIComponent(s.slug)}">${escapeHtml(s.title)}</a>`).join('');
@@ -809,12 +811,12 @@
     run(async () => { try {
       const wrap = document.getElementById('pod-carousel');
       const section = document.getElementById('podcasts-block');
-      const { data } = await sb.from('podcasts')
+      const data = await cachedFetch('home:podcasts', 600, () => sb.from('podcasts')
         .select('id,title,guest_name,description,youtube_id,thumbnail_url,duration_seconds,episode_number,published_at')
         .eq('is_published', true)
         .order('sort_order', { ascending: true })
         .order('published_at', { ascending: false })
-        .limit(15);
+        .limit(15).then(r => r.data));
       if (!data || !data.length) {
         section.style.display = 'none';
         return;
@@ -901,13 +903,13 @@
 
     // FOUNDER SPOTLIGHT
     run(async () => { try {
-      let { data: profile } = await sbPublic.from('articles')
+      let profile = await cachedFetch('home:founder', 300, () => sbPublic.from('articles')
         .select('id,slug,title,summary,cover_image_url,kicker,profiles!author_id(full_name)')
         .eq('status', 'published')
         .eq('kicker', 'FOUNDER PROFILE')
         .order('published_at', { ascending: false })
         .limit(1)
-        .maybeSingle();
+        .maybeSingle().then(r => r.data));
       if (!profile) {
         const { data: ex } = await sbPublic.from('articles')
           .select('id,slug,title,summary,cover_image_url,kicker,profiles!author_id(full_name)')
@@ -953,12 +955,11 @@
         : '';
       const pad2 = (n) => String(n).padStart(2, '0');
       try {
-        const { data, error } = await sb.from('eminent_readers')
+        const data = await cachedFetch('home:eminent', 3600, () => sb.from('eminent_readers')
           .select('name,designation,photo_url,linkedin_url,twitter_url,instagram_url,facebook_url,order_index')
           .eq('active', true)
           .order('order_index', { ascending: true })
-          .limit(12);
-        if (error) throw error;
+          .limit(12).then(r => r.data));
         if (!data || !data.length) {
           slot.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><p>No eminent readers configured yet. Run scripts/seed-eminent-readers.mjs.</p></div>';
           return;
@@ -989,12 +990,12 @@
 
     // LONG READS
     run(async () => { try {
-      const { data } = await sbPublic.from('articles')
+      const data = await cachedFetch('home:longreads', 180, () => sbPublic.from('articles')
         .select('id,slug,title,kicker,summary,cover_image_url,published_at,categories(name)')
         .eq('status', 'published')
         .in('kicker', ['DEEP DIVE', 'ANALYSIS', 'RESEARCH', 'WEEKLY ROUNDUP'])
         .order('published_at', { ascending: false })
-        .limit(3);
+        .limit(3).then(r => r.data));
       const slot = document.getElementById('longread-slot');
       if (!data || !data.length) {
         // fallback: 3 latest
@@ -1027,17 +1028,16 @@
 
       // 1) Main NIFTY 50 card — 90-day history + live current value
       try {
-        const { data: history, error: hErr } = await sb
+        const history = await cachedFetch('home:nifty-hist', 600, () => sb
           .from('ticker_history')
           .select('close_date,close_value')
           .eq('symbol', 'NIFTY 50')
-          .order('close_date', { ascending: true });
-        if (hErr) throw hErr;
-        const { data: live } = await sb
+          .order('close_date', { ascending: true }).then(r => r.data));
+        const live = await cachedFetch('home:nifty-live', 300, () => sb
           .from('market_tickers')
           .select('value,change_value,change_percent,updated_at')
           .eq('symbol', 'NIFTY 50')
-          .maybeSingle();
+          .maybeSingle().then(r => r.data));
 
         const slot = document.getElementById('nifty-chart-slot');
         if (history?.length && slot) {
@@ -1086,10 +1086,13 @@
         ];
         const since = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
         const symNames = SYMS.map(s => s.sym);
-        const [{ data: hist }, { data: ticks }] = await Promise.all([
-          sb.from('ticker_history').select('symbol,close_date,close_value').in('symbol', symNames).gte('close_date', since).order('close_date', { ascending: true }),
-          sb.from('market_tickers').select('symbol,value,change_percent').in('symbol', symNames),
-        ]);
+        const [hist, ticks] = await cachedFetch('home:mkt-overview', 300, async () => {
+          const [h, t] = await Promise.all([
+            sb.from('ticker_history').select('symbol,close_date,close_value').in('symbol', symNames).gte('close_date', since).order('close_date', { ascending: true }),
+            sb.from('market_tickers').select('symbol,value,change_percent').in('symbol', symNames),
+          ]);
+          return [h.data, t.data];
+        });
         const histBySym = {};
         for (const r of (hist || [])) (histBySym[r.symbol] ||= []).push(Number(r.close_value));
         const liveBySym = Object.fromEntries((ticks || []).map(t => [t.symbol, t]));
@@ -1167,12 +1170,12 @@
     // falling back to all-time top 5 if nothing has views in the window.
     run(async () => { try {
       const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-      let { data } = await sbPublic.from('articles')
+      let data = await cachedFetch('home:mostread', 180, () => sbPublic.from('articles')
         .select('id,slug,title,view_count,kicker,categories(name)')
         .eq('status', 'published')
         .gte('published_at', since)
         .order('view_count', { ascending: false })
-        .limit(5);
+        .limit(5).then(r => r.data));
       if (!data || !data.length) {
         const r = await sbPublic.from('articles')
           .select('id,slug,title,view_count,kicker,categories(name)')
@@ -1200,27 +1203,26 @@
     // as photo tiles using the most-recent article's cover as the visual.
     run(async () => { try {
       const slot = document.getElementById('topic-tiles-slot');
-      const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-      const { data: cats } = await sb.from('categories').select('id,slug,name');
-      if (!cats || !cats.length) {
-        slot.innerHTML = '<span style="color:#9a9a9a;font-size:0.86rem;">No topics yet.</span>';
-        return;
-      }
-      const enriched = await Promise.all(cats.map(async (c) => {
-        const [{ count }, { data: latest }] = await Promise.all([
-          sbPublic.from('articles').select('id', { count: 'exact', head: true })
-            .eq('status', 'published').eq('category_id', c.id)
-            .gte('published_at', since),
-          sbPublic.from('articles').select('cover_image_url,title,slug')
-            .eq('status', 'published').eq('category_id', c.id)
-            .order('published_at', { ascending: false })
-            .limit(1),
-        ]);
-        return { ...c, count: count || 0, cover: latest?.[0]?.cover_image_url || null };
-      }));
-      enriched.sort((a, b) => b.count - a.count);
-      const top = enriched.filter(t => t.count > 0).slice(0, 6);
-      if (!top.length) {
+      const top = await cachedFetch('home:topics', 600, async () => {
+        const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const { data: cats } = await sb.from('categories').select('id,slug,name');
+        if (!cats || !cats.length) return [];
+        const enriched = await Promise.all(cats.map(async (c) => {
+          const [{ count }, { data: latest }] = await Promise.all([
+            sbPublic.from('articles').select('id', { count: 'exact', head: true })
+              .eq('status', 'published').eq('category_id', c.id)
+              .gte('published_at', since),
+            sbPublic.from('articles').select('cover_image_url,title,slug')
+              .eq('status', 'published').eq('category_id', c.id)
+              .order('published_at', { ascending: false })
+              .limit(1),
+          ]);
+          return { ...c, count: count || 0, cover: latest?.[0]?.cover_image_url || null };
+        }));
+        enriched.sort((a, b) => b.count - a.count);
+        return enriched.filter(t => t.count > 0).slice(0, 6);
+      });
+      if (!top || !top.length) {
         slot.innerHTML = '<span style="color:#9a9a9a;font-size:0.86rem;">Topics will appear as stories are published.</span>';
         return;
       }

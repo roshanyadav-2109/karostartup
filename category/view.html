@@ -169,12 +169,12 @@
 
     // CNN-style 3-col top block — single query, distribute across columns
     try {
-      const { data } = await sbPublic.from('articles')
+      const data = await cachedFetch('cat:' + cat.slug + ':cnn', 180, () => sbPublic.from('articles')
         .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,view_count,is_featured,categories(name,slug),profiles!author_id(full_name)')
         .eq('status', 'published')
         .eq('category_id', cat.id)
         .order('published_at', { ascending: false })
-        .limit(14);
+        .limit(14).then(r => r.data));
 
       if (!data || !data.length) {
         document.getElementById('cnn-mid').innerHTML = '<div class="empty-state"><h3>No stories in this section yet</h3><p>Check back soon.</p></div>';

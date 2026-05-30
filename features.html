@@ -261,16 +261,21 @@
       categories = data || [];
     } catch {}
     // pre-fetch counts (one query per category — cheap with the head:true count)
-    const counts = {};
-    await Promise.all(categories.map(async (c) => {
-      try {
-        const { count } = await sbPublic.from('articles')
-          .select('id', { count: 'exact', head: true })
-          .eq('status', 'published')
-          .eq('category_id', c.id);
-        counts[c.id] = count || 0;
-      } catch { counts[c.id] = 0; }
-    }));
+    // Cache the per-category counts (one N-query fan-out) for 10 min so this
+    // fires at most once per session instead of on every /features load.
+    const counts = await cachedFetch('features:catcounts', 600, async () => {
+      const m = {};
+      await Promise.all(categories.map(async (c) => {
+        try {
+          const { count } = await sbPublic.from('articles')
+            .select('id', { count: 'exact', head: true })
+            .eq('status', 'published')
+            .eq('category_id', c.id);
+          m[c.id] = count || 0;
+        } catch { m[c.id] = 0; }
+      }));
+      return m;
+    });
     catCheckSlot.innerHTML = categories
       .filter(c => counts[c.id] > 0)
       .sort((a, b) => counts[b.id] - counts[a.id])

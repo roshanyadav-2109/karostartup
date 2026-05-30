@@ -59,7 +59,7 @@
     let article;
     try {
       const { data, error } = await sbPublic.from('articles')
-        .select('*, categories(name,slug), profiles!author_id(id,full_name,avatar_url,username,bio,twitter_handle,role)')
+        .select('id,slug,title,subtitle,kicker,summary,content,cover_image_url,cover_caption,category_id,published_at,updated_at,read_time_minutes,view_count,is_breaking,is_featured,tags,categories(name,slug),profiles!author_id(id,full_name,avatar_url,username,bio,twitter_handle,role)')
         .eq('slug', slug)
         .eq('status', 'published')
         .maybeSingle();

@@ -86,6 +86,18 @@ function _cacheGet(key, maxAgeSec) {
 function _cacheSet(key, v) {
   try { sessionStorage.setItem('k:' + key, JSON.stringify({ t: Date.now(), v })); } catch {}
 }
+// Cache the resolved RESULT of an async fetch in sessionStorage for `ttl`
+// seconds, so back/forward and quick re-visits don't re-hit the API (cuts
+// cached egress). fn() resolves to the value to cache (e.g. a rows array);
+// null/undefined is never cached, so failed fetches retry next time.
+async function cachedFetch(key, ttl, fn) {
+  const hit = _cacheGet(key, ttl);
+  if (hit != null) return hit;
+  const v = await fn();
+  if (v != null) _cacheSet(key, v);
+  return v;
+}
+window.cachedFetch = cachedFetch;
 
 /* ============================================================
    AUTH HELPERS
@@ -884,9 +896,16 @@ function renderTicker(tickers) {
 // Called on an interval so values refresh whenever the cron job writes new ones.
 async function refreshTickers() {
   try {
-    const { data } = await sb.from('market_tickers').select('*').order('order_index', { ascending: true });
+    // Cache-aware: serve from the 5-min sessionStorage cache when fresh so
+    // repeated ticks (and other pages) don't re-hit the API. Backend writes
+    // tickers every 5 min, so a 300s cache never shows staler data.
+    let data = _cacheGet('tickers', 300);
+    if (!data) {
+      const res = await sb.from('market_tickers').select('*').order('order_index', { ascending: true });
+      data = res.data;
+      if (data && data.length) _cacheSet('tickers', data);
+    }
     if (!data || !data.length) return;
-    _cacheSet('tickers', data);
     for (const t of data) {
       const items = document.querySelectorAll(`.ticker-item[data-symbol="${CSS.escape ? CSS.escape(t.symbol) : t.symbol.replace(/[^a-zA-Z0-9_-]/g, '\\$&')}"]`);
       items.forEach((el) => {
@@ -1404,9 +1423,9 @@ async function mountChrome(activeSlug = '') {
   if (!slot) return;
 
   // 1. Read sessionStorage cache and local session SYNCHRONOUSLY for instant first paint.
-  const cachedTickers = _cacheGet('tickers', 60);
-  const cachedCats = _cacheGet('categories', 300);
-  const cachedBreaking = _cacheGet('breaking', 60);
+  const cachedTickers = _cacheGet('tickers', 300);
+  const cachedCats = _cacheGet('categories', 3600);
+  const cachedBreaking = _cacheGet('breaking', 600);
 
   // 2. First paint with whatever we have (or skeletons).
   slot.innerHTML =
@@ -1451,7 +1470,8 @@ async function mountChrome(activeSlug = '') {
       sb.from('market_tickers').select('*').order('order_index', { ascending: true }),
     cachedCats ? Promise.resolve({ data: cachedCats }) :
       sb.from('categories').select('slug,name').order('order_index', { ascending: true }),
-    sbPublic.from('articles').select('slug,title').eq('is_breaking', true).eq('status', 'published').gte('published_at', since24h).order('published_at', { ascending: false }).limit(6),
+    cachedBreaking ? Promise.resolve({ data: cachedBreaking }) :
+      sbPublic.from('articles').select('slug,title').eq('is_breaking', true).eq('status', 'published').gte('published_at', since24h).order('published_at', { ascending: false }).limit(6),
     session?.user && !_cacheGet('profile:' + session.user.id, 120)
       ? sb.from('profiles').select('*').eq('id', session.user.id).maybeSingle()
       : Promise.resolve({ data: null })
@@ -1463,7 +1483,7 @@ async function mountChrome(activeSlug = '') {
     const breaking = bRes.data || [];
     if (!cachedTickers) _cacheSet('tickers', tickers);
     if (!cachedCats) _cacheSet('categories', cats);
-    _cacheSet('breaking', breaking);
+    if (!cachedBreaking) _cacheSet('breaking', breaking);
 
     // Patch ticker bar
     const tickerEls = slot.querySelectorAll('.ticker-bar, .utility-bar');
@@ -1509,7 +1529,7 @@ function mountFooter() {
   const slot = document.getElementById('footer');
   if (slot) slot.innerHTML = renderFooter();
   // Use cached categories if we have them; else fetch.
-  const cached = _cacheGet('categories', 300);
+  const cached = _cacheGet('categories', 3600);
   const apply = (cats) => {
     const ul = document.getElementById('footer-cats');
     if (!ul || !cats || !cats.length) return;
@@ -1724,10 +1744,12 @@ function mountCookieBanner() {
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(initReveal, 100);
-  // Auto-refresh ticker values every 60s. The CSS animation keeps
-  // running because we update the inner spans in place, not the
-  // animated .ticker-track parent.
-  setInterval(() => refreshTickers(), 60_000);
+  // Auto-refresh ticker values only while the tab is VISIBLE, at the backend's
+  // 5-minute write cadence. refreshTickers() reads the 5-min cache, so this is
+  // cheap and backgrounded tabs generate zero egress. The CSS animation keeps
+  // running because we patch the inner spans in place, not the animated parent.
+  setInterval(() => { if (!document.hidden) refreshTickers(); }, 300_000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshTickers(); });
   // Show consent banner if user hasn't responded yet.
   setTimeout(mountCookieBanner, 600);
 });
