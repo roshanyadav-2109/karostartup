@@ -78,7 +78,7 @@
       slot.innerHTML = data.map(a => {
         const cover = a.cover_image_url || null;
         return `
-          <a href="/article/view.html?slug=${encodeURIComponent(a.slug)}" class="podcast-card${cover ? '' : ' podcast-card-no-img'}">
+          <a href="/${encodeURIComponent(a.slug)}" class="podcast-card${cover ? '' : ' podcast-card-no-img'}">
             ${cover ? `<div class="pod-cover-wrap"><img src="${escapeAttr(cover)}" alt="${escapeAttr(a.title)}" class="pod-cover" loading="lazy"></div>` : ''}
             <div class="pod-meta">
               <span class="kicker">Episode</span>

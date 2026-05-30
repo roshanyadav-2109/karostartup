@@ -18,4 +18,4 @@ Disallow: /contact.html?
 # Give crawlers a healthy delay (Bingbot etc.)
 Crawl-delay: 1
 
-Sitemap: https://karostartup.com/sitemap.xml
+Sitemap: https://www.karostartup.com/sitemap.xml

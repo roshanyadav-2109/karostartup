@@ -127,7 +127,7 @@
         : '<span style="color:#9a9a9a;">No description yet.</span>';
       const hq = [c.headquarters_city, c.headquarters_state].filter(Boolean).join(', ');
       return `
-        <a href="/company/view.html?slug=${encodeURIComponent(c.slug)}" class="bb-card">
+        <a href="/company/${encodeURIComponent(c.slug)}" class="bb-card">
           <div class="bb-card-head">
             <div class="bb-logo">${logoHtml}</div>
             <div class="bb-card-head-text">

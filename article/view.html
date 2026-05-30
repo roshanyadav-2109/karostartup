@@ -54,7 +54,7 @@
     document.body.dataset.page = 'article';
     const params = new URLSearchParams(location.search);
     const slug = params.get('slug');
-    if (!slug) { document.title = 'Not found · Karostartup'; await mountChrome(''); mountFooter(); document.getElementById('article-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Article not found</h3><p>The link you followed is missing a slug.</p><a href="/" class="btn btn-primary">Go home</a></div>'; return; }
+    if (!slug) { setMeta({ title: 'Not found', noindex: true }); await mountChrome(''); mountFooter(); document.getElementById('article-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Article not found</h3><p>The link you followed is missing a slug.</p><a href="/" class="btn btn-primary">Go home</a></div>'; return; }
 
     let article;
     try {
@@ -71,23 +71,23 @@
     mountFooter();
 
     if (!article) {
-      document.title = 'Not found · Karostartup';
+      setMeta({ title: 'Not found', noindex: true });
       document.getElementById('article-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Story not found</h3><p>This article may have been removed or is not yet published.</p><a href="/" class="btn btn-primary">Back to homepage</a></div>';
       return;
     }
 
     // SEO meta — NewsArticle + BreadcrumbList with the live article data
-    const articleUrl = `${location.origin}/article/view.html?slug=${encodeURIComponent(article.slug)}`;
+    const articleUrl = `${window.CANONICAL_ORIGIN}/${encodeURIComponent(article.slug)}`;
     const articleDesc = plainText(article.summary) || article.subtitle || article.title;
     const authorName = article.profiles?.full_name || 'Karostartup';
     const breadcrumbItems = [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: location.origin + '/' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: window.CANONICAL_ORIGIN + '/' },
     ];
     if (article.categories) {
       breadcrumbItems.push({
         '@type': 'ListItem', position: 2,
         name: article.categories.name,
-        item: `${location.origin}/category/view.html?slug=${encodeURIComponent(article.categories.slug)}`,
+        item: `${window.CANONICAL_ORIGIN}/category/${encodeURIComponent(article.categories.slug)}`,
       });
     }
     breadcrumbItems.push({ '@type': 'ListItem', position: breadcrumbItems.length + 1, name: article.title });
@@ -121,7 +121,7 @@
           publisher: {
             '@type': 'Organization',
             name: 'Karostartup',
-            logo: { '@type': 'ImageObject', url: `${location.origin}/assets/og-logo.png` },
+            logo: { '@type': 'ImageObject', url: `${window.CANONICAL_ORIGIN}/assets/og-logo.png` },
           },
           mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
           articleSection: article.categories?.name || undefined,
@@ -178,7 +178,7 @@
       <section class="article-hero">
         <div class="container">
           <div class="article-crumb">
-            ${article.categories ? `<a href="/category/view.html?slug=${encodeURIComponent(article.categories.slug)}">${escapeHtml(article.categories.name.toUpperCase())}</a>` : ''}
+            ${article.categories ? `<a href="/category/${encodeURIComponent(article.categories.slug)}">${escapeHtml(article.categories.name.toUpperCase())}</a>` : ''}
             ${article.categories ? `<span class="crumb-dot">·</span>` : ''}
             <span class="crumb-read">${article.read_time_minutes || 5} MIN READ</span>
           </div>
@@ -420,7 +420,7 @@
                 const logo = c.logo_url
                   ? `<img src="${escapeAttr(c.logo_url)}" class="company-logo" alt="${escapeAttr(c.name)}" style="border:0;background:transparent;">`
                   : `<span class="company-logo">${escapeHtml(initial)}</span>`;
-                return `<a href="/company/view.html?slug=${encodeURIComponent(c.slug)}" class="company-chip">${logo}<span>${escapeHtml(c.name)}</span></a>`;
+                return `<a href="/company/${encodeURIComponent(c.slug)}" class="company-chip">${logo}<span>${escapeHtml(c.name)}</span></a>`;
               }).join('')}
             </div>
           </div>`;

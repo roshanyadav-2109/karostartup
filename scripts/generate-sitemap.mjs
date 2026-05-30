@@ -26,7 +26,11 @@ const __dirname  = dirname(__filename);
 
 const BASE = 'https://svwpvqmqmisoffbnnjdc.supabase.co';
 const KEY  = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const SITE = (process.env.SITE_URL || 'https://karostartup.com').replace(/\/$/, '');
+// Canonical host is www. Force apex -> www so the sitemap is always correct
+// even if SITE_URL (e.g. the CI fallback) is the bare apex domain.
+const SITE = (process.env.SITE_URL || 'https://www.karostartup.com')
+  .replace(/\/$/, '')
+  .replace(/^https?:\/\/karostartup\.com/i, 'https://www.karostartup.com');
 if (!KEY) { console.error('Set SUPABASE_SERVICE_ROLE_KEY'); process.exit(1); }
 
 async function rest(path) {
@@ -71,17 +75,17 @@ function isoDate(d) {
 
   // Static pages — pinned set of URLs we know exist
   const staticUrls = [
-    { path: '/',                priority: '1.0', changefreq: 'hourly'  },
-    { path: '/best-brands.html', priority: '0.8', changefreq: 'daily'   },
-    { path: '/newsletters.html', priority: '0.6', changefreq: 'weekly'  },
-    { path: '/podcasts.html',    priority: '0.7', changefreq: 'weekly'  },
-    { path: '/plus.html',        priority: '0.5', changefreq: 'monthly' },
-    { path: '/share-your-startup.html', priority: '0.7', changefreq: 'monthly' },
-    { path: '/internship.html',  priority: '0.6', changefreq: 'monthly' },
-    { path: '/contact.html',     priority: '0.4', changefreq: 'monthly' },
-    { path: '/privacy.html',     priority: '0.2', changefreq: 'yearly'  },
-    { path: '/terms.html',       priority: '0.2', changefreq: 'yearly'  },
-    { path: '/cookies.html',     priority: '0.2', changefreq: 'yearly'  },
+    { path: '/',                   priority: '1.0', changefreq: 'hourly'  },
+    { path: '/best-brands',        priority: '0.8', changefreq: 'daily'   },
+    { path: '/newsletters',        priority: '0.6', changefreq: 'weekly'  },
+    { path: '/podcasts',           priority: '0.7', changefreq: 'weekly'  },
+    { path: '/plus',               priority: '0.5', changefreq: 'monthly' },
+    { path: '/share-your-startup', priority: '0.7', changefreq: 'monthly' },
+    { path: '/internship',         priority: '0.6', changefreq: 'monthly' },
+    { path: '/contact',            priority: '0.4', changefreq: 'monthly' },
+    { path: '/privacy',            priority: '0.2', changefreq: 'yearly'  },
+    { path: '/terms',              priority: '0.2', changefreq: 'yearly'  },
+    { path: '/cookies',            priority: '0.2', changefreq: 'yearly'  },
   ];
 
   // Dynamic — published articles
@@ -123,7 +127,7 @@ function isoDate(d) {
 
   for (const a of visibleArticles) {
     entries.push(urlEntry({
-      loc: `${SITE}/article/view.html?slug=${encodeURIComponent(a.slug)}`,
+      loc: `${SITE}/${encodeURIComponent(a.slug)}`,
       lastmod: isoDate(a.updated_at || a.published_at) || today,
       // Breaking news changes often; archive articles stabilise after a week
       changefreq: a.is_breaking ? 'hourly' : (Date.now() - new Date(a.published_at).getTime() < 7 * 86400000 ? 'daily' : 'monthly'),
@@ -134,7 +138,7 @@ function isoDate(d) {
 
   for (const c of categories) {
     entries.push(urlEntry({
-      loc: `${SITE}/category/view.html?slug=${encodeURIComponent(c.slug)}`,
+      loc: `${SITE}/category/${encodeURIComponent(c.slug)}`,
       lastmod: today,
       changefreq: 'daily',
       priority: '0.6',
@@ -143,7 +147,7 @@ function isoDate(d) {
 
   for (const co of companies) {
     entries.push(urlEntry({
-      loc: `${SITE}/company/view.html?slug=${encodeURIComponent(co.slug)}`,
+      loc: `${SITE}/company/${encodeURIComponent(co.slug)}`,
       lastmod: isoDate(co.updated_at) || today,
       changefreq: 'weekly',
       priority: '0.5',
