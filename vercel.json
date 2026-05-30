@@ -1,33 +1,4 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false,
-  "redirects": [
-    { "source": "/startup-stories", "destination": "/category/startups", "permanent": true },
-    { "source": "/news", "destination": "/category/policy", "permanent": true },
-    { "source": "/press-release", "destination": "/category/policy", "permanent": true },
-    { "source": "/success-stories", "destination": "/category/startups", "permanent": true },
-    { "source": "/startup-news", "destination": "/category/startups", "permanent": true },
-    { "source": "/business-models", "destination": "/category/saas", "permanent": true },
-    { "source": "/funding", "destination": "/category/funding", "permanent": true },
-    { "source": "/ipo", "destination": "/category/markets", "permanent": true },
-    { "source": "/technology", "destination": "/category/ai", "permanent": true },
-    { "source": "/innovation", "destination": "/category/ai", "permanent": true },
-    { "source": "/marketing", "destination": "/category/d2c", "permanent": true },
-    { "source": "/products", "destination": "/category/d2c", "permanent": true },
-    { "source": "/finance", "destination": "/category/banking", "permanent": true },
-    { "source": "/growth", "destination": "/category/startups", "permanent": true },
-    { "source": "/founder-interviews", "destination": "/category/founders", "permanent": true },
-    { "source": "/case-studies", "destination": "/category/startups", "permanent": true },
-    { "source": "/tech-updates", "destination": "/category/ai", "permanent": true },
-    { "source": "/trends", "destination": "/category/opinion", "permanent": true },
-    { "source": "/article/view", "has": [{ "type": "query", "key": "slug", "value": "(?<slug>.*)" }], "destination": "/:slug", "permanent": true },
-    { "source": "/article/view.html", "has": [{ "type": "query", "key": "slug", "value": "(?<slug>.*)" }], "destination": "/:slug", "permanent": true },
-    { "source": "/category/view", "has": [{ "type": "query", "key": "slug", "value": "(?<slug>.*)" }], "destination": "/category/:slug", "permanent": true },
-    { "source": "/company/view", "has": [{ "type": "query", "key": "slug", "value": "(?<slug>.*)" }], "destination": "/company/:slug", "permanent": true }
-  ],
-  "rewrites": [
-    { "source": "/category/:slug", "destination": "/category/view?slug=:slug" },
-    { "source": "/company/:slug", "destination": "/company/view?slug=:slug" },
-    { "source": "/:slug", "destination": "/article/view?slug=:slug" }
-  ]
+  "trailingSlash": false
 }

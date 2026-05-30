@@ -41,7 +41,7 @@
       return;
     }
 
-    const catUrl = `${location.origin}/category/${encodeURIComponent(cat.slug)}`;
+    const catUrl = `${location.origin}/category/view.html?slug=${encodeURIComponent(cat.slug)}`;
     setMeta({
       title: cat.name,
       description: cat.description || `${cat.name} — the latest from Karostartup.`,
@@ -280,7 +280,7 @@
       const slot = document.getElementById('cat-companies');
       if (companies && companies.length) {
         slot.innerHTML = companies.map(c => `
-          <a href="/company/${encodeURIComponent(c.slug)}" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #e6e6e6;font-size:0.9rem;">
+          <a href="/company/view.html?slug=${encodeURIComponent(c.slug)}" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #e6e6e6;font-size:0.9rem;">
             <span style="font-weight:600;">${escapeHtml(c.name)}</span>
             <span class="mono" style="color:#d10a11;">${c.total_funding_usd ? formatUSD(c.total_funding_usd) : '—'}</span>
           </a>`).join('');
@@ -298,7 +298,7 @@
       if (filtered.length) {
         slot.innerHTML = filtered.map(r => `
           <div style="padding:10px 0;border-bottom:1px solid #e6e6e6;">
-            <a href="/company/${encodeURIComponent(r.companies.slug)}" style="font-weight:600;font-size:0.9rem;">${escapeHtml(r.companies.name)}</a>
+            <a href="/company/view.html?slug=${encodeURIComponent(r.companies.slug)}" style="font-weight:600;font-size:0.9rem;">${escapeHtml(r.companies.name)}</a>
             <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:0.78rem;color:#5a5a5a;">
               <span>${escapeHtml(r.round_type || '')}</span>
               <span class="mono" style="color:#d10a11;">${r.amount_inr ? formatINR(r.amount_inr) : formatUSD(r.amount_usd)}</span>
@@ -311,7 +311,7 @@
     try {
       const { data: cats } = await sb.from('categories').select('slug,name').neq('slug', slug).order('order_index').limit(6);
       const slot = document.getElementById('cat-related');
-      slot.innerHTML = (cats || []).map(c => `<li><a href="/category/${encodeURIComponent(c.slug)}">${escapeHtml(c.name)}</a><span class="count">→</span></li>`).join('');
+      slot.innerHTML = (cats || []).map(c => `<li><a href="/category/view.html?slug=${encodeURIComponent(c.slug)}">${escapeHtml(c.name)}</a><span class="count">→</span></li>`).join('');
     } catch {}
   })();
   </script>
