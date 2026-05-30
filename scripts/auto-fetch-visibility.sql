@@ -75,8 +75,12 @@ WHERE source IS NULL;
 -- expected distribution at time of writing: pib=258, legacy=1505, manual=3
 
 -- ---- Tx3: lock column, swap the public SELECT policy ---------------------
+-- IMPORTANT: do NOT give `source` a column DEFAULT. Postgres applies a column
+-- default to the new row BEFORE the BEFORE INSERT trigger fires, which makes
+-- NEW.source non-null and short-circuits set_article_source() — auto-fetched
+-- (PIB) rows would then slip through classified as 'manual' and stay public.
+-- The trigger always assigns a value, so NOT NULL is safe with no default.
 ALTER TABLE public.articles
-  ALTER COLUMN source SET DEFAULT 'manual',
   ALTER COLUMN source SET NOT NULL;
 
 -- NULL-safe (`IS DISTINCT FROM`): legacy/manual/NULL source always visible;
