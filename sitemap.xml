@@ -68,6 +68,15 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://karostartup.com/article/view.html?slug=central-government-temporarily-exempts-all-customs-duties-on-import-of-cotton-fr-pib-2267049</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://static.pib.gov.in/WriteReadData/userfiles/socialmedianew/email1.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://karostartup.com/article/view.html?slug=inside-rang-des-mission-to-help-indias-rural-businesses</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>daily</changefreq>
@@ -6734,15 +6743,6 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/31e3c472-fdb3-45ff-bdbd-3b771e8eac0b-.jpg</image:loc>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://karostartup.com/article/view.html?slug=disruption-in-indias-wellness-market-dlife-introduces-reverse</loc>
-    <lastmod>2026-05-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://thekarostartup.s3.ap-south-1.amazonaws.com/uploads/article_images/029e611f-250f-4d64-a5ac-69817ae61374-.png</image:loc>
     </image:image>
   </url>
   <url>
