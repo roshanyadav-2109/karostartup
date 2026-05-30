@@ -58,7 +58,7 @@
 
     let article;
     try {
-      const { data, error } = await sb.from('articles')
+      const { data, error } = await sbPublic.from('articles')
         .select('*, categories(name,slug), profiles!author_id(id,full_name,avatar_url,username,bio,twitter_handle,role)')
         .eq('slug', slug)
         .eq('status', 'published')
@@ -429,7 +429,7 @@
 
     // Related
     try {
-      const { data } = await sb.from('articles')
+      const { data } = await sbPublic.from('articles')
         .select('id,slug,title,kicker,summary,cover_image_url,published_at,read_time_minutes,categories(name),profiles!author_id(full_name)')
         .eq('status', 'published')
         .eq('category_id', article.category_id)

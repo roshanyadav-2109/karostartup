@@ -69,7 +69,7 @@
       ],
     });
 
-    const { count: totalCount } = await sb.from('articles').select('id', { count: 'exact', head: true }).eq('status', 'published').eq('category_id', cat.id);
+    const { count: totalCount } = await sbPublic.from('articles').select('id', { count: 'exact', head: true }).eq('status', 'published').eq('category_id', cat.id);
 
     document.getElementById('cat-main').innerHTML = `
       <div class="container">
@@ -169,7 +169,7 @@
 
     // CNN-style 3-col top block — single query, distribute across columns
     try {
-      const { data } = await sb.from('articles')
+      const { data } = await sbPublic.from('articles')
         .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,view_count,is_featured,categories(name,slug),profiles!author_id(full_name)')
         .eq('status', 'published')
         .eq('category_id', cat.id)
@@ -208,7 +208,7 @@
       grid.innerHTML = '<div class="loading-state">Loading…</div>';
       const from = (page - 1) * PER;
       const to = from + PER - 1;
-      let q = sb.from('articles')
+      let q = sbPublic.from('articles')
         .select('id,slug,title,kicker,summary,cover_image_url,published_at,view_count,read_time_minutes,categories(name,slug),profiles!author_id(full_name)', { count: 'exact' })
         .eq('status', 'published')
         .eq('category_id', cat.id);

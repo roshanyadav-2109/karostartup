@@ -71,7 +71,7 @@
       slot.innerHTML = '<div class="loading-state">Searching…</div>';
       try {
         const safe = q.replace(/[%_]/g, '');
-        const { data, error } = await sb.from('articles')
+        const { data, error } = await sbPublic.from('articles')
           .select('id,slug,title,kicker,summary,cover_image_url,published_at,read_time_minutes,view_count,categories(name),profiles!author_id(full_name)')
           .eq('status', 'published')
           .or(`title.ilike.%${safe}%,summary.ilike.%${safe}%,subtitle.ilike.%${safe}%`)

@@ -6,10 +6,20 @@
 const SUPABASE_URL = 'https://svwpvqmqmisoffbnnjdc.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2d3B2cW1xbWlzb2ZmYm5uamRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2ODYyNTEsImV4cCI6MjA5NDI2MjI1MX0.ZYBWcOGiVKV9HM3Ho2GjJ-r4XJvMITvsEK7vlEFlzVw';
 
-const sb = window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+const _sbFactory = supabase;  // CDN factory, captured before window.supabase is reassigned below
+const sb = window.supabase = _sbFactory.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
 });
 window.sb = sb;
+
+// Anonymous, session-less client for PUBLIC reads. Public pages read articles
+// through this so logged-in staff see the EXACT same public site as visitors —
+// hidden auto-fetched (PIB) articles stay hidden for everyone here. RLS still
+// enforces it for true anonymous users; admin pages keep using `sb` (with the
+// staff session) to see and manage everything, including hidden PIB.
+const sbPublic = window.sbPublic = _sbFactory.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+});
 
 // If a cover/thumb image fails to load, hide the image AND its immediate
 // wrapper so the card collapses instead of showing the browser's broken-image
@@ -1046,7 +1056,7 @@ function mountSearchOverlay() {
 
     try {
       const [artRes, catRes] = await Promise.all([
-        sb.from('articles')
+        sbPublic.from('articles')
           .select('id,slug,title,summary,cover_image_url,published_at,categories(name)')
           .eq('status', 'published')
           .or(`title.ilike.%${safe}%,summary.ilike.%${safe}%`)
@@ -1441,7 +1451,7 @@ async function mountChrome(activeSlug = '') {
       sb.from('market_tickers').select('*').order('order_index', { ascending: true }),
     cachedCats ? Promise.resolve({ data: cachedCats }) :
       sb.from('categories').select('slug,name').order('order_index', { ascending: true }),
-    sb.from('articles').select('slug,title').eq('is_breaking', true).eq('status', 'published').gte('published_at', since24h).order('published_at', { ascending: false }).limit(6),
+    sbPublic.from('articles').select('slug,title').eq('is_breaking', true).eq('status', 'published').gte('published_at', since24h).order('published_at', { ascending: false }).limit(6),
     session?.user && !_cacheGet('profile:' + session.user.id, 120)
       ? sb.from('profiles').select('*').eq('id', session.user.id).maybeSingle()
       : Promise.resolve({ data: null })

@@ -198,7 +198,7 @@
 
     // In the news
     try {
-      const { data: junction } = await sb.from('article_companies')
+      const { data: junction } = await sbPublic.from('article_companies')
         .select('articles(id,slug,title,kicker,summary,cover_image_url,published_at,read_time_minutes,categories(name),profiles!author_id(full_name))')
         .eq('company_id', company.id)
         .limit(6);

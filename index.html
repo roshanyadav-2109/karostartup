@@ -257,7 +257,7 @@
       // featured if any, else first overall. Top-stories list = the next 5.
       // The "Latest News" grid below uses items 6-13 (skip the 6 already
       // shown in the hero so we don't repeat).
-      const { data } = await sb.from('articles')
+      const { data } = await sbPublic.from('articles')
         .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,is_featured,categories(name,slug),profiles!author_id(full_name)')
         .eq('status', 'published')
         .order('published_at', { ascending: false })
@@ -278,7 +278,7 @@
       // categories. Falls back to "remaining" if the startups bucket is empty.
       let leftStories = [];
       try {
-        const { data: picks } = await sb.from('articles')
+        const { data: picks } = await sbPublic.from('articles')
           .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,categories!inner(name,slug),profiles!author_id(full_name)')
           .eq('status', 'published')
           .eq('categories.slug', 'startups')
@@ -478,7 +478,7 @@
     // The id tiebreaker makes the order deterministic across both queries so
     // tied published_at timestamps can't shuffle an item into both sections.
     run(async () => { try {
-      const { data } = await sb.from('articles')
+      const { data } = await sbPublic.from('articles')
         .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,view_count,is_featured,categories(name,slug),profiles!author_id(full_name)')
         .eq('status', 'published')
         .order('published_at', { ascending: false })
@@ -507,7 +507,7 @@
       // limited to the latest-15 window.
       let editorsChoice = [];
       try {
-        const { data: ec } = await sb.from('articles')
+        const { data: ec } = await sbPublic.from('articles')
           .select('id,slug,title,kicker,cover_image_url,categories(name,slug)')
           .eq('status', 'published').eq('is_editors_choice', true)
           .order('published_at', { ascending: false }).limit(6);
@@ -782,7 +782,7 @@
       const sectorData = await Promise.all(sectorSlugs.map(async (slug) => {
         const cat = (cats || []).find(c => c.slug === slug);
         if (!cat) return { slug, cat: null, stories: [] };
-        const { data: stories } = await sb.from('articles')
+        const { data: stories } = await sbPublic.from('articles')
           .select('id,slug,title')
           .eq('status', 'published')
           .eq('category_id', cat.id)
@@ -901,7 +901,7 @@
 
     // FOUNDER SPOTLIGHT
     run(async () => { try {
-      let { data: profile } = await sb.from('articles')
+      let { data: profile } = await sbPublic.from('articles')
         .select('id,slug,title,summary,cover_image_url,kicker,profiles!author_id(full_name)')
         .eq('status', 'published')
         .eq('kicker', 'FOUNDER PROFILE')
@@ -909,7 +909,7 @@
         .limit(1)
         .maybeSingle();
       if (!profile) {
-        const { data: ex } = await sb.from('articles')
+        const { data: ex } = await sbPublic.from('articles')
           .select('id,slug,title,summary,cover_image_url,kicker,profiles!author_id(full_name)')
           .eq('status', 'published')
           .eq('is_exclusive', true)
@@ -989,7 +989,7 @@
 
     // LONG READS
     run(async () => { try {
-      const { data } = await sb.from('articles')
+      const { data } = await sbPublic.from('articles')
         .select('id,slug,title,kicker,summary,cover_image_url,published_at,categories(name)')
         .eq('status', 'published')
         .in('kicker', ['DEEP DIVE', 'ANALYSIS', 'RESEARCH', 'WEEKLY ROUNDUP'])
@@ -998,7 +998,7 @@
       const slot = document.getElementById('longread-slot');
       if (!data || !data.length) {
         // fallback: 3 latest
-        const { data: fallback } = await sb.from('articles')
+        const { data: fallback } = await sbPublic.from('articles')
           .select('id,slug,title,kicker,summary,cover_image_url,published_at,categories(name)')
           .eq('status', 'published')
           .order('published_at', { ascending: false })
@@ -1167,14 +1167,14 @@
     // falling back to all-time top 5 if nothing has views in the window.
     run(async () => { try {
       const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-      let { data } = await sb.from('articles')
+      let { data } = await sbPublic.from('articles')
         .select('id,slug,title,view_count,kicker,categories(name)')
         .eq('status', 'published')
         .gte('published_at', since)
         .order('view_count', { ascending: false })
         .limit(5);
       if (!data || !data.length) {
-        const r = await sb.from('articles')
+        const r = await sbPublic.from('articles')
           .select('id,slug,title,view_count,kicker,categories(name)')
           .eq('status', 'published')
           .order('view_count', { ascending: false })
@@ -1208,10 +1208,10 @@
       }
       const enriched = await Promise.all(cats.map(async (c) => {
         const [{ count }, { data: latest }] = await Promise.all([
-          sb.from('articles').select('id', { count: 'exact', head: true })
+          sbPublic.from('articles').select('id', { count: 'exact', head: true })
             .eq('status', 'published').eq('category_id', c.id)
             .gte('published_at', since),
-          sb.from('articles').select('cover_image_url,title,slug')
+          sbPublic.from('articles').select('cover_image_url,title,slug')
             .eq('status', 'published').eq('category_id', c.id)
             .order('published_at', { ascending: false })
             .limit(1),

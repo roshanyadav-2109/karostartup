@@ -264,7 +264,7 @@
     const counts = {};
     await Promise.all(categories.map(async (c) => {
       try {
-        const { count } = await sb.from('articles')
+        const { count } = await sbPublic.from('articles')
           .select('id', { count: 'exact', head: true })
           .eq('status', 'published')
           .eq('category_id', c.id);
@@ -322,7 +322,7 @@
       pagerEl.innerHTML = '';
 
       try {
-        let q = sb.from('articles')
+        let q = sbPublic.from('articles')
           .select('id,slug,title,kicker,summary,cover_image_url,published_at,read_time_minutes,view_count,categories(name)', { count: 'exact' })
           .eq('status', 'published');
 
