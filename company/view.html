@@ -38,7 +38,7 @@
       document.getElementById('co-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Company not found</h3><a href="/" class="btn btn-primary">Home</a></div>';
       return;
     }
-    const companyUrl = `${location.origin}/company/${encodeURIComponent(company.slug)}`;
+    const companyUrl = `${location.origin}/company/view.html?slug=${encodeURIComponent(company.slug)}`;
     const companyDesc = company.description || `${company.name} — company profile, funding history, and coverage on Karostartup.`;
     setMeta({
       title: company.name,
@@ -187,7 +187,7 @@
                 <td class="amount">${r.amount_inr ? formatINR(r.amount_inr) : formatUSD(r.amount_usd)}</td>
                 <td>${escapeHtml(r.lead_investor || '—')}</td>
                 <td style="color:#5a5a5a;font-size:0.86rem;">${(r.other_investors || []).slice(0, 3).map(escapeHtml).join(', ')}${(r.other_investors || []).length > 3 ? ` +${r.other_investors.length - 3}` : ''}</td>
-                <td>${r.articles ? `<a href="/${encodeURIComponent(r.articles.slug)}" style="color:#d10a11;font-weight:600;">Read →</a>` : '—'}</td>
+                <td>${r.articles ? `<a href="/article/view.html?slug=${encodeURIComponent(r.articles.slug)}" style="color:#d10a11;font-weight:600;">Read →</a>` : '—'}</td>
               </tr>`).join('')}
             </tbody>
           </table>`;

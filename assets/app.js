@@ -658,15 +658,12 @@ const SITE_DESCRIPTION = "India's business of business — sharp, founder-first 
 const SITE_TWITTER = '@karo_startup';
 const SITE_DEFAULT_OG_IMAGE = '/assets/logo-wordmark.png';
 
-// Canonical origin for SEO tags — always the production www host, regardless
-// of which host (apex / *.vercel.app preview) actually served the page.
-const CANONICAL_ORIGIN = window.CANONICAL_ORIGIN = 'https://www.karostartup.com';
 function _absoluteUrl(u) {
   if (!u) return null;
   if (/^https?:\/\//i.test(u)) return u;
   if (u.startsWith('//')) return location.protocol + u;
-  if (u.startsWith('/')) return CANONICAL_ORIGIN + u;
-  return CANONICAL_ORIGIN + '/' + u;
+  if (u.startsWith('/')) return location.origin + u;
+  return location.origin + '/' + u;
 }
 
 function _upsertMeta(attrName, attrValue, content) {
@@ -1550,7 +1547,7 @@ function mountFooter() {
 /* ============================================================
    CARD RENDERERS
    ============================================================ */
-function articleHref(a) { return `/${encodeURIComponent(a.slug)}`; }
+function articleHref(a) { return `/article/view.html?slug=${encodeURIComponent(a.slug)}`; }
 
 /* Media articles (podcast, video, interview) get a play-icon overlay
    on the cover image so readers can tell at a glance the story has
