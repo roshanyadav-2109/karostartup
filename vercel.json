@@ -28,7 +28,6 @@
   "rewrites": [
     { "source": "/category/:slug", "destination": "/category/view?slug=:slug" },
     { "source": "/company/:slug", "destination": "/company/view?slug=:slug" },
-    { "source": "/:section/:slug", "destination": "/article/view?slug=:slug" },
     { "source": "/:slug", "destination": "/article/view?slug=:slug" }
   ]
 }
