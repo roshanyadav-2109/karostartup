@@ -163,6 +163,15 @@
             <div style="margin-top:12px;font-size:0.82rem;color:#5a5a5a;">Current: ${statusPill(article.status)}</div>
           </div>
 
+          ${article.source === 'pib' ? `
+          <div class="admin-card">
+            <div class="admin-card-head"><h3>Auto-fetch override</h3></div>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:0.84rem;cursor:pointer;line-height:1.4;">
+              <input type="checkbox" id="approved_for_public" ${article.approved_for_public ? 'checked' : ''} style="margin-top:3px;flex:0 0 auto;">
+              <span>Show to the public even while auto-fetch is off. This is a PIB auto-fetched article — tick this after fixing its image/text to push it live on its own.</span>
+            </label>
+          </div>` : ''}
+
           <div class="admin-card">
             <div class="admin-card-head"><h3>Category</h3></div>
             <select id="category_id" style="width:100%;padding:8px;border:1px solid #0a0a0a;">
@@ -450,6 +459,12 @@
         is_exclusive: document.getElementById('is_exclusive').checked,
         status: newStatus
       };
+      // New articles created here are our own — mark them 'manual' so the
+      // auto-fetch hide never affects them (the DB trigger respects this).
+      if (isNew) payload.source = 'manual';
+      // Per-article "push live" override, only present for PIB-sourced articles.
+      const approvedEl = document.getElementById('approved_for_public');
+      if (approvedEl) payload.approved_for_public = approvedEl.checked;
       try {
         let savedId = editId;
         if (isNew) {

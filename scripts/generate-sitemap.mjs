@@ -85,8 +85,20 @@ function isoDate(d) {
   ];
 
   // Dynamic — published articles
-  const articles = await rest('articles?select=slug,published_at,updated_at,cover_image_url,is_breaking&status=eq.published&order=published_at.desc&limit=10000');
-  console.log(`  ${articles.length} published articles`);
+  const articles = await rest('articles?select=slug,published_at,updated_at,cover_image_url,is_breaking,source,approved_for_public&status=eq.published&order=published_at.desc&limit=10000');
+
+  // Respect the auto-fetch public-visibility toggle: hidden PIB (auto-fetched)
+  // articles must not appear in the sitemap, or Google indexes pages the public
+  // site renders as "Story not found" (soft-404s). Mirror the DB RLS logic and
+  // fail closed (treat as hidden) if the setting row is missing.
+  let autoFetchVisible = false;
+  try {
+    const s = await rest('site_settings?select=value&key=eq.auto_fetch');
+    autoFetchVisible = s?.[0]?.value?.public_visible === true;
+  } catch { autoFetchVisible = false; }
+  const articleVisible = (a) => a.source !== 'pib' || a.approved_for_public === true || autoFetchVisible;
+  const visibleArticles = articles.filter(articleVisible);
+  console.log(`  ${articles.length} published articles (${articles.length - visibleArticles.length} auto-fetched hidden from sitemap)`);
 
   // Dynamic — categories
   const categories = await rest('categories?select=slug,name&order=order_index.asc');
@@ -109,7 +121,7 @@ function isoDate(d) {
     }));
   }
 
-  for (const a of articles) {
+  for (const a of visibleArticles) {
     entries.push(urlEntry({
       loc: `${SITE}/article/view.html?slug=${encodeURIComponent(a.slug)}`,
       lastmod: isoDate(a.updated_at || a.published_at) || today,

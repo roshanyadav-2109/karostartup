@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Imported · Admin · Karostartup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/favicon.ico">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .thumb-wrap { width:64px; height:42px; flex:0 0 auto; background:#f3f3f1; border:1px solid #e6e6e6; overflow:hidden; }
+    .thumb-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
+    .thumb-ph { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:0.62rem; color:#b00; text-align:center; line-height:1.1; padding:2px; }
+    .badge { display:inline-block; font-size:0.66rem; font-weight:700; padding:2px 8px; border-radius:2px; text-transform:uppercase; letter-spacing:.03em; }
+    .badge-live   { background:#e7f5ec; color:#0a7a3b; }
+    .badge-hidden { background:#f3f3f1; color:#5a5a5a; }
+    .badge-pinned { background:#fdeaea; color:#d10a11; }
+    .af-note { padding:12px 16px; border:1px solid #e6e6e6; border-left:4px solid #d10a11; margin-bottom:16px; font-size:0.88rem; }
+    .af-note.is-on { border-left-color:#0a7a3b; }
+  </style>
+</head>
+<body>
+  <div id="admin-root"><div class="loading-state">Loading…</div></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script src="/admin/shell.js"></script>
+  <script>
+  (async () => {
+    const ok = await requireStaff();
+    if (!ok) return;
+    await renderAdminShell('imported', 'Imported');
+    const main = document.getElementById('admin-content');
+
+    let page = 1;
+    const PER = 25;
+    let filter = '';          // '', 'needs-image', 'pinned', 'unpinned'
+    let q = '';
+    let globalOn = false;     // is auto-fetch globally visible?
+
+    // Read the global toggle so we can label each row correctly
+    try {
+      const { data } = await sb.from('site_settings').select('value').eq('key', 'auto_fetch').maybeSingle();
+      globalOn = data?.value?.public_visible === true;
+    } catch {}
+
+    main.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <h1 style="margin:0;">Imported articles</h1>
+        <a href="/admin/auto-fetch.html" class="btn btn-ghost btn-sm">Auto-Fetch settings ↗</a>
+      </div>
+      <p style="max-width:820px;color:#5a5a5a;margin:0 0 16px;">
+        Auto-fetched (PIB) press releases. Fix the image/text in the editor, then <strong>Push live</strong> to
+        show a single article on the public site even while auto-fetch is off. Many of these have broken
+        source images — those are flagged below.
+      </p>
+      <div class="af-note ${globalOn ? 'is-on' : ''}" id="global-note"></div>
+      <div class="admin-toolbar">
+        <input type="search" class="search" id="search" placeholder="Search title…">
+        <select id="filter">
+          <option value="">All imported</option>
+          <option value="needs-image">Needs image (no cover)</option>
+          <option value="pinned">Pushed live</option>
+          <option value="unpinned">Not pushed live</option>
+        </select>
+      </div>
+      <div id="table-slot" class="admin-card" style="padding:0;"><div class="loading-state">Loading…</div></div>
+      <div class="pagination" id="pagination"></div>`;
+
+    document.getElementById('global-note').innerHTML = globalOn
+      ? 'Auto-fetch is currently <strong>ON</strong> — all of these are already public. “Push live” pins an article so it stays visible if you later turn auto-fetch off.'
+      : 'Auto-fetch is currently <strong>OFF</strong> — these are hidden from the public except the ones pushed live.';
+
+    const searchEl = document.getElementById('search');
+    const filterEl = document.getElementById('filter');
+    let searchTimer;
+    searchEl.addEventListener('input', () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => { q = searchEl.value.trim(); page = 1; load(); }, 300);
+    });
+    filterEl.addEventListener('change', () => { filter = filterEl.value; page = 1; load(); });
+
+    function statusBadge(a) {
+      if (a.approved_for_public) return '<span class="badge badge-pinned">Pushed live</span>';
+      if (globalOn) return '<span class="badge badge-live">Live (auto-fetch on)</span>';
+      return '<span class="badge badge-hidden">Hidden</span>';
+    }
+
+    function thumb(a) {
+      if (a.cover_image_url) {
+        return `<div class="thumb-wrap"><img src="${escapeAttr(a.cover_image_url)}" loading="lazy" alt=""
+          onerror="this.style.display='none';this.parentNode.querySelector('.thumb-ph').style.display='flex';">
+          <span class="thumb-ph" style="display:none;">⚠ broken</span></div>`;
+      }
+      return `<div class="thumb-wrap"><span class="thumb-ph">no image</span></div>`;
+    }
+
+    async function load() {
+      const slot = document.getElementById('table-slot');
+      slot.innerHTML = '<div class="loading-state">Loading…</div>';
+      let qb = sb.from('articles')
+        .select('id,slug,title,status,published_at,view_count,cover_image_url,approved_for_public', { count: 'exact' })
+        .eq('source', 'pib');
+      if (filter === 'needs-image') qb = qb.is('cover_image_url', null);
+      if (filter === 'pinned')   qb = qb.eq('approved_for_public', true);
+      if (filter === 'unpinned') qb = qb.eq('approved_for_public', false);
+      if (q) qb = qb.ilike('title', `%${q.replace(/[%_]/g, '')}%`);
+      qb = qb.order('published_at', { ascending: false, nullsFirst: false }).range((page - 1) * PER, page * PER - 1);
+      try {
+        const { data, count, error } = await qb;
+        if (error) throw error;
+        if (!data || !data.length) {
+          slot.innerHTML = '<div class="empty-state"><h3>No imported articles match</h3></div>';
+          document.getElementById('pagination').innerHTML = '';
+          return;
+        }
+        slot.innerHTML = `
+          <table class="admin-table">
+            <thead><tr>
+              <th style="width:74px;">Cover</th><th>Title</th><th>Published</th><th>Views</th><th>Public status</th><th></th>
+            </tr></thead>
+            <tbody>
+              ${data.map(a => `<tr data-id="${a.id}">
+                <td>${thumb(a)}</td>
+                <td><a href="/admin/article-edit.html?id=${a.id}" style="font-weight:600;">${escapeHtml(a.title || 'Untitled')}</a></td>
+                <td class="mono" style="font-size:0.78rem;">${a.published_at ? formatDate(a.published_at) : '—'}</td>
+                <td class="mono">${formatNumber(a.view_count || 0)}</td>
+                <td>${statusBadge(a)}</td>
+                <td><div class="row-actions">
+                  <a href="/admin/article-edit.html?id=${a.id}">Edit</a>
+                  ${a.status === 'published' ? `<a href="/article/view.html?slug=${encodeURIComponent(a.slug)}" target="_blank">View ↗</a>` : ''}
+                  ${a.approved_for_public
+                    ? `<button class="danger" data-hide="${a.id}">Hide</button>`
+                    : `<button data-push="${a.id}" style="color:#0a7a3b;background:none;border:0;cursor:pointer;font-weight:600;">Push live</button>`}
+                </div></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>`;
+        renderPagination(count || 0);
+
+        document.querySelectorAll('[data-push]').forEach(b => b.addEventListener('click', () => setApproved(b.dataset.push, true)));
+        document.querySelectorAll('[data-hide]').forEach(b => b.addEventListener('click', () => setApproved(b.dataset.hide, false)));
+      } catch (e) {
+        slot.innerHTML = `<div class="empty-state"><h3>Couldn't load</h3><p>${escapeHtml(e.message)}</p></div>`;
+      }
+    }
+
+    async function setApproved(id, val) {
+      if (val && !confirm('Push this article live to the public site?')) return;
+      try {
+        const { data, error } = await sb.from('articles').update({ approved_for_public: val }).eq('id', id).select('id');
+        if (error) throw error;
+        if (!data || !data.length) throw new Error('Nothing changed — you may not have permission, or your session expired.');
+        showToast(val ? 'Pushed live' : 'Hidden from public');
+        load();
+      } catch (e) { showToast(e.message || 'Update failed', 'error'); }
+    }
+
+    function renderPagination(total) {
+      const totalPages = Math.max(1, Math.ceil(total / PER));
+      const pag = document.getElementById('pagination');
+      if (totalPages <= 1) { pag.innerHTML = ''; return; }
+      const parts = [`<button ${page === 1 ? 'disabled' : ''} data-p="prev">‹</button>`];
+      const windowed = [];
+      for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || Math.abs(i - page) <= 2) windowed.push(i);
+        else if (windowed[windowed.length - 1] !== '…') windowed.push('…');
+      }
+      windowed.forEach(i => parts.push(i === '…' ? '<span style="padding:0 6px;">…</span>' : `<button data-p="${i}" ${i === page ? 'class="is-active"' : ''}>${i}</button>`));
+      parts.push(`<button ${page === totalPages ? 'disabled' : ''} data-p="next">›</button>`);
+      pag.innerHTML = parts.join('');
+      pag.querySelectorAll('button[data-p]').forEach(b => b.addEventListener('click', () => {
+        const v = b.dataset.p;
+        if (v === 'prev') page = Math.max(1, page - 1);
+        else if (v === 'next') page = Math.min(totalPages, page + 1);
+        else page = Number(v);
+        load();
+      }));
+    }
+
+    load();
+  })();
+  </script>
+</body>
+</html>

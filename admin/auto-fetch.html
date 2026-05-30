@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Auto-Fetch · Admin · Karostartup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/favicon.ico">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .af-state { display:flex; align-items:center; gap:18px; padding:22px; border:1px solid #e6e6e6; }
+    .af-state.is-on  { border-left:4px solid #0a7a3b; }
+    .af-state.is-off { border-left:4px solid #d10a11; }
+    .af-dot { width:14px; height:14px; border-radius:50%; flex:0 0 auto; }
+    .is-on  .af-dot { background:#0a7a3b; }
+    .is-off .af-dot { background:#d10a11; }
+    .af-state h2 { margin:0 0 2px; font-size:1.1rem; }
+    .af-state p  { margin:0; color:#5a5a5a; font-size:0.9rem; }
+    /* Toggle switch */
+    .switch { position:relative; display:inline-block; width:64px; height:34px; flex:0 0 auto; }
+    .switch input { opacity:0; width:0; height:0; }
+    .switch .track { position:absolute; cursor:pointer; inset:0; background:#c9c9c9; transition:.18s; border-radius:34px; }
+    .switch .track:before { content:""; position:absolute; height:26px; width:26px; left:4px; bottom:4px; background:#fff; transition:.18s; border-radius:50%; }
+    .switch input:checked + .track { background:#0a7a3b; }
+    .switch input:checked + .track:before { transform:translateX(30px); }
+    .switch input:disabled + .track { opacity:.5; cursor:not-allowed; }
+    .af-stats { display:flex; gap:0; margin-top:18px; border:1px solid #e6e6e6; }
+    .af-stat { flex:1; padding:18px 22px; border-right:1px solid #e6e6e6; }
+    .af-stat:last-child { border-right:0; }
+    .af-stat .n { font-family:"JetBrains Mono",monospace; font-size:1.6rem; font-weight:600; display:block; }
+    .af-stat .l { font-size:0.78rem; color:#5a5a5a; text-transform:uppercase; letter-spacing:.04em; }
+  </style>
+</head>
+<body>
+  <div id="admin-root"><div class="loading-state">Loading…</div></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script src="/admin/shell.js"></script>
+  <script>
+  (async () => {
+    const ok = await requireStaff();
+    if (!ok) return;
+    await renderAdminShell('autofetch', 'Auto-Fetch');
+    const main = document.getElementById('admin-content');
+
+    const profile = await getCurrentProfile();
+    const user = await getCurrentUser();
+    const isAdminUser = profile?.role === 'admin';
+
+    if (!isAdminUser) {
+      main.innerHTML = `
+        <h1>Auto-Fetch Control</h1>
+        <div class="empty-state" style="padding:60px 24px;">
+          <h3>Admins only</h3>
+          <p>The global auto-fetch switch can only be changed by an administrator. To review and push individual imported articles live, use the <a href="/admin/imported.html">Imported</a> page.</p>
+        </div>`;
+      return;
+    }
+
+    main.innerHTML = `
+      <h1>Auto-Fetch Control</h1>
+      <p style="max-width:760px;color:#5a5a5a;margin:-6px 0 22px;">
+        Auto-fetched articles are government press releases pulled automatically from PIB.
+        The importer always keeps running in the background — this switch only controls whether
+        those auto-fetched articles are <strong>shown on the public website</strong>. Your own
+        articles are never affected. Individual auto-fetched articles can still be pushed live
+        from the <a href="/admin/imported.html">Imported</a> page even while this is off.
+      </p>
+      <div id="state-slot"><div class="loading-state">Loading…</div></div>
+      <div class="af-stats" id="stats-slot"></div>
+      <p style="margin-top:22px;font-size:0.85rem;color:#5a5a5a;">
+        Changes take effect immediately on the live site. The sitemap updates on its next scheduled run.
+        <a href="/admin/imported.html">Review imported articles →</a>
+      </p>`;
+
+    const stateSlot = document.getElementById('state-slot');
+    const statsSlot = document.getElementById('stats-slot');
+
+    async function readSetting() {
+      const { data } = await sb.from('site_settings').select('value').eq('key', 'auto_fetch').maybeSingle();
+      return data?.value?.public_visible === true;
+    }
+
+    async function counts() {
+      const [tot, live] = await Promise.all([
+        sb.from('articles').select('id', { count: 'exact', head: true }).eq('source', 'pib'),
+        sb.from('articles').select('id', { count: 'exact', head: true }).eq('source', 'pib').eq('approved_for_public', true),
+      ]);
+      const total = tot.count || 0;
+      const pushed = live.count || 0;
+      return { total, pushed };
+    }
+
+    function renderState(on, c) {
+      stateSlot.innerHTML = `
+        <div class="af-state ${on ? 'is-on' : 'is-off'}">
+          <span class="af-dot"></span>
+          <div style="flex:1;">
+            <h2>Auto-fetch is ${on ? 'ON' : 'OFF'}</h2>
+            <p>${on
+              ? 'All auto-fetched (PIB) articles are visible to the public.'
+              : `Auto-fetched (PIB) articles are hidden from the public${c.pushed ? ` — except ${c.pushed} individually pushed live` : ''}. Only your own and approved articles show.`}</p>
+          </div>
+          <label class="switch" title="Toggle public visibility of auto-fetched articles">
+            <input type="checkbox" id="af-toggle" ${on ? 'checked' : ''}>
+            <span class="track"></span>
+          </label>
+        </div>`;
+      statsSlot.innerHTML = `
+        <div class="af-stat"><span class="n">${c.total}</span><span class="l">Auto-fetched articles</span></div>
+        <div class="af-stat"><span class="n">${c.pushed}</span><span class="l">Pushed live individually</span></div>
+        <div class="af-stat"><span class="n">${on ? c.total : (c.total - c.pushed)}</span><span class="l">${on ? 'Visible now' : 'Hidden now'}</span></div>`;
+
+      document.getElementById('af-toggle').addEventListener('change', async (e) => {
+        const want = e.target.checked;
+        e.target.disabled = true;
+        try {
+          const { error } = await sb.from('site_settings').upsert(
+            { key: 'auto_fetch', value: { public_visible: want }, updated_by: user?.id || null, updated_at: new Date().toISOString() },
+            { onConflict: 'key' }
+          );
+          if (error) throw error;
+          showToast(want ? 'Auto-fetched articles are now PUBLIC' : 'Auto-fetched articles are now HIDDEN');
+          await load();
+        } catch (err) {
+          showToast(err.message || 'Could not update', 'error');
+          e.target.checked = !want;
+          e.target.disabled = false;
+        }
+      });
+    }
+
+    async function load() {
+      try {
+        const [on, c] = await Promise.all([readSetting(), counts()]);
+        renderState(on, c);
+      } catch (e) {
+        stateSlot.innerHTML = `<div class="empty-state"><p>${escapeHtml(e.message)}</p></div>`;
+      }
+    }
+
+    load();
+  })();
+  </script>
+</body>
+</html>

@@ -17,6 +17,7 @@ async function renderAdminShell(activeKey, breadcrumb) {
   const navItems = [
     { key: 'dashboard', label: 'Dashboard', href: '/admin/', min: 1 },
     { key: 'articles', label: 'Articles', href: '/admin/articles.html', min: 1 },
+    { key: 'imported', label: 'Imported', href: '/admin/imported.html', min: 2 },
     { key: 'categories', label: 'Categories', href: '/admin/categories.html', min: 1 },
     { key: 'companies', label: 'Companies', href: '/admin/companies.html', min: 2 },
     { key: 'funding', label: 'Funding', href: '/admin/funding.html', min: 2 },
@@ -26,6 +27,7 @@ async function renderAdminShell(activeKey, breadcrumb) {
     { key: 'comments', label: 'Comments', href: '/admin/comments.html', min: 1 },
     { key: 'submissions', label: 'Submissions', href: '/admin/submissions.html', min: 2 },
     { key: 'newsletters', label: 'Newsletters', href: '/admin/newsletters.html', min: 3 },
+    { key: 'autofetch', label: 'Auto-Fetch', href: '/admin/auto-fetch.html', min: 3 },
     { key: 'users', label: 'Employees', href: '/admin/users.html', min: 3 }
   ];
 
