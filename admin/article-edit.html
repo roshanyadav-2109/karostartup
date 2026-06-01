@@ -140,7 +140,7 @@
             <input type="file" id="cover_file" accept="image/*">
             <input type="hidden" id="cover_image_url" value="${escapeAttr(article.cover_image_url||'')}">
             <div id="cover_preview" style="margin-top:10px;">${article.cover_image_url ? `<img src="${escapeAttr(article.cover_image_url)}" style="max-width:260px;border-radius:6px;display:block;">` : ''}</div>
-            <div class="hint" id="cover_hint">Upload an image — it's stored in the <code>covers</code> bucket.</div>
+            <div class="hint" id="cover_hint">Upload an image — it's stored on Cloudinary.</div>
           </div>
           <div class="form-field"><label>Cover caption</label><input type="text" id="cover_caption" value="${escapeAttr(article.cover_caption||'')}"></div>
 
@@ -213,13 +213,16 @@
       const hint = document.getElementById('cover_hint');
       hint.textContent = 'Uploading…';
       try {
-        const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const path = `${editId || 'new'}/${Date.now()}.${ext || 'jpg'}`;
-        const { error } = await sb.storage.from('covers').upload(path, file, { upsert: true, contentType: file.type || 'image/jpeg' });
-        if (error) throw error;
-        const { data } = sb.storage.from('covers').getPublicUrl(path);
-        document.getElementById('cover_image_url').value = data.publicUrl;
-        document.getElementById('cover_preview').innerHTML = `<img src="${escapeAttr(data.publicUrl)}" style="max-width:260px;border-radius:6px;display:block;">`;
+        // Upload straight to Cloudinary via an unsigned preset (no secret in the browser).
+        const fd = new FormData();
+        fd.append('file', file);
+        fd.append('upload_preset', 'karostartup_unsigned');
+        const res = await fetch('https://api.cloudinary.com/v1_1/dliblumqq/image/upload', { method: 'POST', body: fd });
+        const j = await res.json();
+        if (!res.ok || !j.secure_url) throw new Error(j.error?.message || 'Cloudinary upload failed');
+        const url = j.secure_url.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+        document.getElementById('cover_image_url').value = url;
+        document.getElementById('cover_preview').innerHTML = `<img src="${escapeAttr(url)}" style="max-width:260px;border-radius:6px;display:block;">`;
         hint.textContent = 'Uploaded ✓';
       } catch (e) {
         hint.textContent = 'Upload failed: ' + (e.message || e);
