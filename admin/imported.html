@@ -154,6 +154,7 @@
         if (error) throw error;
         if (!data || !data.length) throw new Error('Nothing changed — you may not have permission, or your session expired.');
         showToast(val ? 'Pushed live' : 'Hidden from public');
+        triggerHomepageRebuild();   // PIB push-live / hide changes the public homepage
         load();
       } catch (e) { showToast(e.message || 'Update failed', 'error'); }
     }

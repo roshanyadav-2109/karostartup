@@ -483,6 +483,9 @@
         }
         showToast(action === 'publish' ? 'Published' : action === 'review' ? 'Sent for review' : action === 'unpublish' ? 'Unpublished' : 'Saved');
         article.status = newStatus;
+        // Refresh the public homepage snapshot when this changed what the
+        // homepage shows (a publish, an edit to a live article, or an unpublish).
+        if (newStatus === 'published' || action === 'unpublish') triggerHomepageRebuild();
         if (isNew && savedId) {
           location.href = `/admin/article-edit.html?id=${savedId}`;
         } else {

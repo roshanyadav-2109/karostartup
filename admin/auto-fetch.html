@@ -124,6 +124,7 @@
           );
           if (error) throw error;
           showToast(want ? 'Auto-fetched articles are now PUBLIC' : 'Auto-fetched articles are now HIDDEN');
+          triggerHomepageRebuild();   // global PIB visibility flip changes the public homepage
           await load();
         } catch (err) {
           showToast(err.message || 'Could not update', 'error');

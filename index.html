@@ -257,7 +257,7 @@
       // featured if any, else first overall. Top-stories list = the next 5.
       // The "Latest News" grid below uses items 6-13 (skip the 6 already
       // shown in the hero so we don't repeat).
-      const data = await cachedFetch('home:hero', 180, () => sbPublic.from('articles')
+      const data = await snap('home:hero', 180, () => sbPublic.from('articles')
         .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,is_featured,categories(name,slug),profiles!author_id(full_name)')
         .eq('status', 'published')
         .order('published_at', { ascending: false })
@@ -278,7 +278,7 @@
       // categories. Falls back to "remaining" if the startups bucket is empty.
       let leftStories = [];
       try {
-        const picks = await cachedFetch('home:picks', 180, () => sbPublic.from('articles')
+        const picks = await snap('home:picks', 180, () => sbPublic.from('articles')
           .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,categories!inner(name,slug),profiles!author_id(full_name)')
           .eq('status', 'published')
           .eq('categories.slug', 'startups')
@@ -478,7 +478,7 @@
     // The id tiebreaker makes the order deterministic across both queries so
     // tied published_at timestamps can't shuffle an item into both sections.
     run(async () => { try {
-      const data = await cachedFetch('home:rotator', 180, () => sbPublic.from('articles')
+      const data = await snap('home:rotator', 180, () => sbPublic.from('articles')
         .select('id,slug,title,kicker,cover_image_url,published_at,read_time_minutes,is_featured,categories(name,slug),profiles!author_id(full_name)')
         .eq('status', 'published')
         .order('published_at', { ascending: false })
@@ -507,7 +507,7 @@
       // limited to the latest-15 window.
       let editorsChoice = [];
       try {
-        const ec = await cachedFetch('home:rotator-ec', 180, () => sbPublic.from('articles')
+        const ec = await snap('home:rotator-ec', 180, () => sbPublic.from('articles')
           .select('id,slug,title,kicker,cover_image_url,categories(name,slug)')
           .eq('status', 'published').eq('is_editors_choice', true)
           .order('published_at', { ascending: false }).limit(6).then(r => r.data));
@@ -776,7 +776,7 @@
     run(async () => { try {
       const sectorSlugs = ['fintech', 'd2c', 'saas', 'ai'];
       const slot = document.getElementById('sector-grid-slot');
-      const sectorData = await cachedFetch('home:sectors', 180, async () => {
+      const sectorData = await snap('home:sectors', 180, async () => {
         const { data: cats } = await sb.from('categories')
           .select('id,slug,name')
           .in('slug', sectorSlugs);
@@ -903,7 +903,7 @@
 
     // FOUNDER SPOTLIGHT
     run(async () => { try {
-      let profile = await cachedFetch('home:founder', 300, () => sbPublic.from('articles')
+      let profile = await snap('home:founder', 300, () => sbPublic.from('articles')
         .select('id,slug,title,summary,cover_image_url,kicker,profiles!author_id(full_name)')
         .eq('status', 'published')
         .eq('kicker', 'FOUNDER PROFILE')
@@ -990,7 +990,7 @@
 
     // LONG READS
     run(async () => { try {
-      const data = await cachedFetch('home:longreads', 180, () => sbPublic.from('articles')
+      const data = await snap('home:longreads', 180, () => sbPublic.from('articles')
         .select('id,slug,title,kicker,summary,cover_image_url,published_at,categories(name)')
         .eq('status', 'published')
         .in('kicker', ['DEEP DIVE', 'ANALYSIS', 'RESEARCH', 'WEEKLY ROUNDUP'])
@@ -1203,7 +1203,7 @@
     // as photo tiles using the most-recent article's cover as the visual.
     run(async () => { try {
       const slot = document.getElementById('topic-tiles-slot');
-      const top = await cachedFetch('home:topics', 600, async () => {
+      const top = await snap('home:topics', 600, async () => {
         const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
         const { data: cats } = await sb.from('categories').select('id,slug,name');
         if (!cats || !cats.length) return [];

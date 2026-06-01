@@ -100,6 +100,56 @@ async function cachedFetch(key, ttl, fn) {
 window.cachedFetch = cachedFetch;
 
 /* ============================================================
+   HOMEPAGE SNAPSHOT (static CDN JSON, with live fallback)
+   ============================================================
+   The homepage's slow-changing article-LIST sections are pre-rendered into
+   /data/homepage.json at deploy time (scripts/generate-homepage-snapshot.mjs)
+   and served from Vercel's CDN, so the homepage no longer fires ~40 PostgREST
+   requests at Supabase on every visit. `snap(key, ttl, fn)` returns the
+   snapshot slice for `key` if present, else falls back to the live
+   `cachedFetch(key, ttl, fn)`. A missing / stale / malformed / slow snapshot
+   ALWAYS degrades to the live query — it is never a hard dependency, so the
+   homepage renders exactly as before if the snapshot is unavailable. Only the
+   homepage uses this; other pages never call it. */
+let _homeSnapPromise = null;
+function loadHomeSnapshot() {
+  if (!_homeSnapPromise) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 4000);   // hung CDN fetch -> fall back to live
+    _homeSnapPromise = fetch('/data/homepage.json', { signal: ctrl.signal })
+      .then(r => (r.ok ? r.json() : null))
+      .catch(() => null)
+      .finally(() => clearTimeout(t));
+  }
+  return _homeSnapPromise;
+}
+async function snap(key, ttl, fn) {
+  try {
+    const s = await loadHomeSnapshot();
+    if (s && s.data && s.data[key] != null) return s.data[key];
+  } catch { /* fall through to live */ }
+  return cachedFetch(key, ttl, fn);
+}
+window.snap = snap;
+window.loadHomeSnapshot = loadHomeSnapshot;
+
+/* Fire-and-forget: ask the server to rebuild the homepage snapshot after a
+   publish / edit-of-live / unpublish / PIB push-live / auto-fetch toggle, so
+   the static homepage refreshes within ~1 min. The deploy-hook URL lives
+   server-side (env DEPLOY_HOOK_URL on /api/trigger-snapshot); the call is
+   staff-gated there. Never blocks the UI and never throws — a failure just
+   means the next scheduled rebuild (every ~4h) picks the change up instead. */
+async function triggerHomepageRebuild() {
+  try {
+    const { data } = await sb.auth.getSession();
+    const token = data?.session?.access_token;
+    if (!token) return;
+    await fetch('/api/trigger-snapshot', { method: 'POST', headers: { Authorization: `Bearer ${token}` } });
+  } catch { /* non-fatal */ }
+}
+window.triggerHomepageRebuild = triggerHomepageRebuild;
+
+/* ============================================================
    AUTH HELPERS
    ============================================================ */
 let _profileCache = null;

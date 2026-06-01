@@ -1,6 +1,8 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "buildCommand": "node scripts/generate-homepage-snapshot.mjs || true",
+  "outputDirectory": ".",
   "redirects": [
     { "source": "/general/:slug", "destination": "/article/view?slug=:slug", "permanent": true },
     { "source": "/news/:slug", "destination": "/article/view?slug=:slug", "permanent": true },
@@ -42,5 +44,13 @@
     { "source": "/case-studies", "destination": "/category/view?slug=startups", "permanent": true },
     { "source": "/tech-updates", "destination": "/category/view?slug=ai", "permanent": true },
     { "source": "/trends", "destination": "/category/view?slug=opinion", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/data/homepage.json",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=120, s-maxage=300, stale-while-revalidate=86400" }
+      ]
+    }
   ]
 }
