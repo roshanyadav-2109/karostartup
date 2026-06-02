@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "description": "Karostartup static site — package.json exists only so the Node routing middleware can use @vercel/functions. The build is driven by vercel.json buildCommand; do NOT add a \"build\" script or \"type\":\"module\" (the api/*.js functions are CommonJS).",
+  "dependencies": {
+    "@vercel/functions": "^2"
+  }
+}
