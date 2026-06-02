@@ -3,6 +3,9 @@
   "trailingSlash": false,
   "buildCommand": "node scripts/generate-homepage-snapshot.mjs || true",
   "outputDirectory": ".",
+  "functions": {
+    "middleware.mjs": { "includeFiles": "{article,category,company}/view.html" }
+  },
   "redirects": [
     { "source": "/general/:slug", "destination": "/article/view?slug=:slug", "permanent": true },
     { "source": "/news/:slug", "destination": "/article/view?slug=:slug", "permanent": true },
