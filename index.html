@@ -930,7 +930,7 @@
             ${photo ? `<img src="${escapeAttr(photo)}" class="founder-photo" alt="${escapeAttr(profile.title)}">` : ''}
             <div class="founder-content">
               <span class="eyebrow" style="color:#d10a11;">Founder Profile</span>
-              <p class="founder-quote">${escapeHtml(profile.summary || profile.title)}</p>
+              <p class="founder-quote">${escapeHtml(plainText(profile.summary) || profile.title)}</p>
               <div class="founder-attrib">
                 <span class="name">${escapeHtml(profile.profiles?.full_name || '')}</span>
                 <span class="role">Featured in Karostartup</span>
