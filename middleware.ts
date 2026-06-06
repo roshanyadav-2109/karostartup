@@ -1,27 +1,37 @@
 /**
- * Vercel Routing Middleware — server-side Open Graph for link-preview crawlers.
+ * Vercel Routing Middleware (EDGE-safe) — two jobs:
  *
- * BACKGROUND: article/category/company pages are static shells whose meta is set
- * client-side by app.js after a Supabase fetch. No-JS preview crawlers (WhatsApp,
- * Facebook, etc.) therefore saw "<title>Loading…</title>" + the favicon.
+ * 1) SOCIAL OG META (Tier-0, live): for the 3 query-param view routes
+ *    (/article/view, /category/view, /company/view), when a no-JS SOCIAL crawler
+ *    requests them, return a small self-contained OG-only HTML so link previews
+ *    show the real title/description/image. Humans + Google/Bing get next().
  *
- * A previous attempt read the page shells with `node:fs` at module load; Vercel
- * ran the middleware on the EDGE runtime where node:fs doesn't exist, so the
- * module failed to load → MIDDLEWARE_INVOCATION_FAILED (500) on EVERY request.
+ * 2) OLD-URL RECOVERY (Tier-2): the site migrated from a WordPress site whose
+ *    article URLs were root /<slug>. Those 404 today. Here we:
+ *      - 301 an OLD root /<slug> to the live /article/view?slug=<slug>, but ONLY
+ *        after an existence check (so dead slugs 404 cleanly, never a soft-404),
+ *      - 410 Gone the dead WordPress junk: /wp-content,/wp-includes,/author,
+ *        /20YY[/MM], and /tag (except the 2 tags that equal a real category).
  *
- * THIS VERSION IS EDGE-SAFE: it uses ONLY global fetch + string building — no
- * node:* imports, no file reads, nothing runtime-specific. For a recognised
- * SOCIAL crawler it returns a small, self-contained OG-only HTML document (the
- * crawler only reads <head> meta, never the body). For EVERYONE ELSE — humans,
- * Googlebot/Bing (which render JS and need the real body), missing slug, or ANY
- * error — it calls next(), so the unchanged static file is served exactly as
- * today. The whole handler is wrapped in try/catch → next(), so it can never
- * 500 a page. URLs and the human render path are untouched.
+ * HARD SAFETY RULES (this middleware runs on nearly every request now):
+ *   - ZERO new top-level imports beyond @vercel/functions. A prior node:fs
+ *     import caused a module-LOAD failure (MIDDLEWARE_INVOCATION_FAILED 500) that
+ *     try/catch CANNOT catch; with the widened matcher that would be site-wide.
+ *     So: globals only (fetch, Response, AbortController, URL, RegExp, Set).
+ *   - Reserved-path checks run BEFORE any DB call, so the homepage, static pages
+ *     and known routes never hit Supabase and pass straight through.
+ *   - Every Supabase lookup has an AbortController timeout so a slow/down DB can
+ *     never hang a request — it degrades to next() (today's behavior).
+ *   - The whole handler is wrapped in try/catch → next().
+ *   Rollback: shrink `config.matcher` back to the 3 view routes (article/category/company).
  */
 import { next } from '@vercel/functions';
 
 export const config = {
-  matcher: ['/article/view', '/category/view', '/company/view'],
+  // Run on everything EXCEPT static assets / api / the homepage data file, so we
+  // can see old root /<slug>, /tag, /author, /wp-content, /20YY paths. The 3
+  // the 3 view OG routes are included. (Reserved paths still pass through in-handler.)
+  matcher: ['/((?!api/|_next/|assets/|data/|favicon.ico|robots.txt|sitemap.xml).*)'],
 };
 
 const BASE = 'https://svwpvqmqmisoffbnnjdc.supabase.co';
@@ -34,9 +44,6 @@ const SITE_TWITTER = '@karo_startup';
 const DEFAULT_OG_IMAGE = `${ORIGIN}/assets/logo-wordmark.png`;
 const PUBLISHER_LOGO = `${ORIGIN}/assets/logo-wordmark.png`;
 
-// No-JS SOCIAL preview crawlers only. Googlebot/Bing/Applebot are deliberately
-// EXCLUDED — they render JS / index the body, so they fall through to next()
-// and get the full static page (real meta via app.js), avoiding a bodyless page.
 const SOCIAL_CRAWLER = /(facebookexternalhit|Facebot|WhatsApp|Twitterbot|LinkedInBot|Slackbot|Slack-ImgProxy|TelegramBot|Discordbot|Pinterest|redditbot|vkShare|SkypeUriPreview|Embedly|Iframely|Mastodon|nuzzel|Qwantify)/i;
 
 const ROUTES: Record<string, { table: string; select: string; published: boolean }> = {
@@ -45,6 +52,57 @@ const ROUTES: Record<string, { table: string; select: string; published: boolean
   '/company/view':  { table: 'companies',  select: 'slug,name,description,logo_url,sector', published: false },
 };
 
+// Single-segment paths that must NEVER be treated as an old article slug (real
+// pages, route prefixes, files). Root /<slug> recovery skips these (→ next()).
+const RESERVED = new Set([
+  'article', 'category', 'company', 'admin', 'auth', 'assets', 'api', 'data', '_next', '.well-known',
+  'best-brands', 'newsletters', 'podcasts', 'plus', 'share-your-startup', 'internship', 'contact',
+  'privacy', 'terms', 'cookies', 'features', 'search', 'neural-ai', 'profile', 'index', '404',
+  'sitemap.xml', 'robots.txt', 'favicon.ico', 'sitemap', 'manifest.json', 'auth',
+  // old sections already 308'd by vercel.json before middleware runs (belt-and-suspenders)
+  'general', 'news', 'press-release', 'success-stories', 'startup-news', 'startup-stories',
+  'business-models', 'funding', 'ipo', 'technology', 'innovation', 'marketing', 'products',
+  'finance', 'growth', 'founder-interviews', 'case-studies', 'tech-updates', 'trends', 'web-stories', 'tag', 'author',
+]);
+
+// ---------- responses ----------
+function gone() {
+  return new Response('410 Gone', {
+    status: 410,
+    headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=86400' },
+  });
+}
+function redir(location: string) {
+  return new Response(null, { status: 301, headers: { Location: location, 'cache-control': 'public, max-age=86400' } });
+}
+
+// ---------- Supabase helpers (always timeout-bounded) ----------
+async function fetchJson(qs: string) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), 800); // never hang a request on a slow DB
+  try {
+    const r = await fetch(`${REST}/${qs}`, { headers: HEADERS, signal: ctrl.signal });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(t);
+  }
+}
+async function articleExists(slug: string) {
+  const rows = await fetchJson(`articles?slug=eq.${encodeURIComponent(slug)}&status=eq.published&select=slug&limit=1`);
+  return Array.isArray(rows) && rows.length > 0;
+}
+async function getRow(path: string, slug: string) {
+  const cfg = ROUTES[path];
+  let qs = `${cfg.table}?slug=eq.${encodeURIComponent(slug)}&select=${encodeURIComponent(cfg.select)}&limit=1`;
+  if (cfg.published) qs += '&status=eq.published';
+  const rows = await fetchJson(qs);
+  return (Array.isArray(rows) && rows[0]) || null;
+}
+
+// ---------- OG head builder (unchanged) ----------
 function esc(s: any) {
   return String(s ?? '')
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -66,8 +124,6 @@ function abs(url: string) {
   if (/^https?:\/\//i.test(url)) return url;
   return ORIGIN + (url.startsWith('/') ? url : '/' + url);
 }
-// Force a WhatsApp/FB-safe JPEG at 1.91:1; replace any existing Cloudinary
-// transform without clobbering the version segment.
 function ogImage(url: string) {
   if (!url) return DEFAULT_OG_IMAGE;
   if (!/res\.cloudinary\.com/.test(url)) return abs(url);
@@ -88,7 +144,6 @@ function metaTag(prop: string, content: any, name?: string) {
   const attr = name ? `name="${name}"` : `property="${prop}"`;
   return `<meta ${attr} content="${esc(content)}">`;
 }
-
 function buildHead(path: string, row: any, slug: string) {
   const canon = `${ORIGIN}${path}?slug=${encodeURIComponent(slug)}`;
   let title: string, desc: string, img: string, ogType: string, twCard: string;
@@ -151,43 +206,59 @@ function buildHead(path: string, row: any, slug: string) {
   return { title, headHtml: L.filter(Boolean).join('\n  ') };
 }
 
-async function getRow(path: string, slug: string) {
-  const cfg = ROUTES[path];
-  let q = `${REST}/${cfg.table}?slug=eq.${encodeURIComponent(slug)}&select=${encodeURIComponent(cfg.select)}&limit=1`;
-  if (cfg.published) q += '&status=eq.published';
-  const r = await fetch(q, { headers: HEADERS });
-  if (!r.ok) return null;
-  const rows = await r.json();
-  return (Array.isArray(rows) && rows[0]) || null;
-}
-
 export default async function middleware(request: Request) {
   try {
     const url = new URL(request.url);
-    const path = url.pathname.replace(/\.html$/, '');
-    const slug = url.searchParams.get('slug');
-    const ua = request.headers.get('user-agent') || '';
+    const rawPath = url.pathname;
+    const path = rawPath.replace(/\.html$/, '');
 
-    // Only intercept for recognised SOCIAL crawlers with a slug; everyone else
-    // (humans, Google/Bing, no slug) gets the unchanged static file.
-    if (!ROUTES[path] || !slug || !SOCIAL_CRAWLER.test(ua)) return next();
-
-    const row = await getRow(path, slug);
-    if (!row) return next();
-
-    const { title, headHtml } = buildHead(path, row, slug);
-    const html = `<!doctype html><html lang="en"><head>
+    // ---- 1) The 3 query-param view routes: OG for crawlers, else pass through ----
+    if (ROUTES[path]) {
+      const slug = url.searchParams.get('slug');
+      const ua = request.headers.get('user-agent') || '';
+      if (slug && SOCIAL_CRAWLER.test(ua)) {
+        const row = await getRow(path, slug);
+        if (row) {
+          const { title, headHtml } = buildHead(path, row, slug);
+          const html = `<!doctype html><html lang="en"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   ${headHtml}
 </head><body><h1>${esc(title)}</h1></body></html>`;
-    return new Response(html, {
-      status: 200,
-      headers: {
-        'content-type': 'text/html; charset=utf-8',
-        'cache-control': 'public, max-age=300, s-maxage=86400, stale-while-revalidate=604800',
-      },
-    });
+          return new Response(html, {
+            status: 200,
+            headers: {
+              'content-type': 'text/html; charset=utf-8',
+              'cache-control': 'public, max-age=300, s-maxage=86400, stale-while-revalidate=604800',
+            },
+          });
+        }
+      }
+      return next();
+    }
+
+    // ---- 2) 410 Gone — dead WordPress assets / taxonomy / date archives ----
+    if (/^\/wp-(content|includes)\//i.test(rawPath)) return gone();
+    if (/^\/author\//i.test(rawPath)) return gone();
+    if (/^\/20\d{2}(\/(0[1-9]|1[0-2]))?\/?$/.test(rawPath)) return gone();
+    const tagM = rawPath.match(/^\/tag\/([^/]+)\/?$/i);
+    if (tagM) {
+      const t = tagM[1].toLowerCase();
+      if (t === 'fintech' || t === 'funding') return redir(`${ORIGIN}/category/view?slug=${t}`);
+      return gone();
+    }
+
+    // ---- 3) Old root /<slug> recovery — existence-checked 301 ----
+    const seg = rawPath.replace(/^\/+/, '').replace(/\/+$/, '');
+    if (seg && !seg.includes('/') && !RESERVED.has(seg.toLowerCase())) {
+      if (await articleExists(seg)) {
+        return redir(`${ORIGIN}/article/view?slug=${encodeURIComponent(seg)}`);
+      }
+      return next(); // unknown single-segment slug → let it 404 (no soft-404, no blind redirect)
+    }
+
+    // ---- 4) homepage, static pages, multi-segment unknowns → unchanged ----
+    return next();
   } catch {
     return next();
   }
