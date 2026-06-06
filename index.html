@@ -305,7 +305,7 @@
           <article class="hero-lead-v2">
             <a href="${articleHref(lead)}">
               <div class="hero-lead-img">
-                ${leadCover ? `<img src="${escapeAttr(leadCover)}" alt="${escapeAttr(lead.title)}" loading="eager" style="display:none;" onload="if(this.naturalWidth>=200&&this.naturalHeight>=120){this.style.display='';}" onerror="this.style.display='none';">` : ''}
+                ${leadCover ? `<img src="${escapeAttr(cldResize(leadCover, 1200))}" alt="${escapeAttr(lead.title)}" loading="eager" style="display:none;" onload="if(this.naturalWidth>=200&&this.naturalHeight>=120){this.style.display='';}" onerror="this.style.display='none';">` : ''}
                 ${leadKickerText ? `<span class="hero-lead-kicker">${escapeHtml(leadKickerText)}</span>` : ''}
               </div>
               <h2 class="hero-lead-title">${escapeHtml(lead.title)}</h2>
@@ -331,7 +331,7 @@
                 const kicker = a.kicker || a.categories?.name || '';
                 return `
                   <a class="hero-update-card${cover ? '' : ' hero-update-card-no-img'}" href="${articleHref(a)}">
-                    ${cover ? `<div class="hero-update-thumb"><img src="${escapeAttr(cover)}" alt="${escapeAttr(a.title)}" loading="lazy"></div>` : ''}
+                    ${cover ? `<div class="hero-update-thumb"><img src="${escapeAttr(cldResize(cover, 300))}" alt="${escapeAttr(a.title)}" loading="lazy"></div>` : ''}
                     <p class="hero-update-title">
                       ${kicker ? `<span class="hero-update-kicker">${escapeHtml(kicker)}:</span> ` : ''}${escapeHtml(a.title)}
                     </p>
@@ -530,7 +530,7 @@
         const cat   = (a.categories?.name || a.kicker || '').toUpperCase();
         return `
         <a class="lnews-side${cover ? '' : ' lnews-side-no-img'}" href="${articleHref(a)}">
-          ${cover ? `<div class="lnews-side-img"><img src="${escapeAttr(cover)}" alt="${escapeAttr(a.title)}" loading="lazy"></div>` : ''}
+          ${cover ? `<div class="lnews-side-img"><img src="${escapeAttr(cldResize(cover, 400))}" alt="${escapeAttr(a.title)}" loading="lazy"></div>` : ''}
           <div class="lnews-side-text">
             ${a._ec ? `<span class="lnews-side-cat lnews-ec">★ Editor's Choice</span>` : (cat ? `<span class="lnews-side-cat">${escapeHtml(cat)}</span>` : '')}
             <h4 class="lnews-side-title">${escapeHtml(a.title)}</h4>
@@ -611,7 +611,7 @@
       }
 
       // Preload rotator images so swaps don't flash. Skip articles with no cover.
-      rotating.forEach(a => { if (a.cover_image_url) { const im = new Image(); im.src = a.cover_image_url; } });
+      rotating.forEach(a => { if (a.cover_image_url) { const im = new Image(); im.src = cldResize(a.cover_image_url, 1200); } });
 
       // Dots — clickable, indicate position.
       dotsEl.innerHTML = rotating.map((_, i) =>
@@ -641,7 +641,7 @@
             };
             imgEl.onerror = () => { imgEl.style.display = 'none'; };
             imgEl.alt = a.title;
-            imgEl.src = cover;
+            imgEl.src = cldResize(cover, 1200);
           } else {
             imgEl.onload = null;
             imgEl.onerror = null;
@@ -705,7 +705,7 @@
         return `
         <button type="button" class="short-tile" data-i="${i}" aria-label="Play ${escapeAttr(s.title)}">
           <div class="short-tile-thumb${thumb ? '' : ' short-tile-thumb-no-img'}">
-            ${thumb ? `<img src="${escapeAttr(thumb)}" alt="${escapeAttr(s.title)}" loading="lazy">` : ''}
+            ${thumb ? `<img src="${escapeAttr(cldResize(thumb, 400))}" alt="${escapeAttr(s.title)}" loading="lazy">` : ''}
             <span class="short-tile-play" aria-hidden="true"></span>
             ${dur ? `<span class="short-tile-dur">${dur}</span>` : ''}
           </div>
@@ -829,7 +829,7 @@
         return `
         <div class="pod-slide" data-i="${i}" data-yt="${escapeAttr(p.youtube_id)}">
           <div class="pod-frame">
-            <img class="pod-thumb" src="${escapeAttr(thumb)}" alt="${escapeAttr(p.title)}" loading="lazy"
+            <img class="pod-thumb" src="${escapeAttr(cldResize(thumb, 400))}" alt="${escapeAttr(p.title)}" loading="lazy"
                  onerror="this.src='https://i.ytimg.com/vi/${escapeAttr(p.youtube_id)}/hqdefault.jpg'">
             <button type="button" class="pod-play" aria-label="Play ${escapeAttr(p.title)}"></button>
             ${dur ? `<span class="pod-dur">${dur}</span>` : ''}
@@ -927,7 +927,7 @@
         const photo = profile.cover_image_url || null;
         slot.innerHTML = `
           <div class="container${photo ? '' : ' founder-spotlight-no-img'}">
-            ${photo ? `<img src="${escapeAttr(photo)}" class="founder-photo" alt="${escapeAttr(profile.title)}">` : ''}
+            ${photo ? `<img src="${escapeAttr(cldResize(photo, 400))}" class="founder-photo" alt="${escapeAttr(profile.title)}">` : ''}
             <div class="founder-content">
               <span class="eyebrow" style="color:#d10a11;">Founder Profile</span>
               <p class="founder-quote">${escapeHtml(plainText(profile.summary) || profile.title)}</p>

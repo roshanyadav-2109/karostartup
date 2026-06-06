@@ -211,7 +211,7 @@
 
       ${article.cover_image_url ? `
         <div class="cover-img-wrap">
-          <img src="${escapeAttr(article.cover_image_url)}" alt="${escapeAttr(article.title)}">
+          <img src="${escapeAttr(cldResize(article.cover_image_url, 1200))}" alt="${escapeAttr(article.title)}">
           ${article.cover_caption ? `<div class="cover-caption">${escapeHtml(article.cover_caption)}</div>` : ''}
         </div>` : ''}
 

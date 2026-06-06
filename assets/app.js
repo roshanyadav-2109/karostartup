@@ -1092,7 +1092,7 @@ function mountSearchOverlay() {
         ${articles.map(a => `
           <a class="k-sr-item" href="/article/view.html?slug=${encodeURIComponent(a.slug)}">
             ${a.cover_image_url
-              ? `<div class="k-sr-thumb"><img src="${escapeAttr(a.cover_image_url)}" alt="" loading="lazy"></div>`
+              ? `<div class="k-sr-thumb"><img src="${escapeAttr(cldResize(a.cover_image_url, 200))}" alt="" loading="lazy"></div>`
               : `<div class="k-sr-thumb k-sr-thumb-empty"></div>`}
             <div class="k-sr-body">
               <div class="k-sr-meta">
@@ -1607,16 +1607,40 @@ const _MEDIA_KICKERS = new Set(['PODCAST', 'VIDEO', 'INTERVIEW', 'WATCH', 'LISTE
 function _isMediaArticle(a) {
   return !!(a && a.kicker && _MEDIA_KICKERS.has(String(a.kicker).toUpperCase()));
 }
+// Card images are displayed small (~300-400px) but covers are stored as
+// full 1920px originals — shipping those into cards wastes ~80% of the
+// Cloudinary bandwidth. cldResize injects a downscale transform (c_limit
+// only ever shrinks, never upscales) sized to the card. It ONLY touches
+// res.cloudinary.com "/upload/" delivery URLs; external/WP media, data
+// URIs and already-width-constrained URLs pass through untouched.
+function cldResize(url, width) {
+  if (!url || typeof url !== 'string') return url;
+  const marker = '/upload/';
+  const at = url.indexOf(marker);
+  if (!url.includes('res.cloudinary.com/') || at === -1) return url;
+  const head = url.slice(0, at + marker.length);
+  const rest = url.slice(at + marker.length);
+  const slash = rest.indexOf('/');
+  const first = slash === -1 ? '' : rest.slice(0, slash);
+  if (/(^|,)w_\d/.test(first)) return url;                       // already width-constrained
+  const sized = `w_${width},c_limit`;
+  // A transform segment is a comma-list or starts with a known param prefix
+  // (f_auto,q_auto,c_fill,…). A version ("v1780…") or bare public_id is not.
+  const isTransform = first.includes(',') ||
+    /^(c|w|h|f|q|g|e|l|b|o|r|a|t|x|y|z|dpr|fl|ar|co|bo|du|so|eo|pg|vc|ac|fps)_/.test(first);
+  if (isTransform) return head + first + ',' + sized + '/' + rest.slice(slash + 1);
+  return head + sized + '/' + rest;                              // no transform segment -> prepend
+}
 function _coverHtml(a, cover) {
   if (!cover) return '';
-  const img = `<img src="${escapeAttr(cover)}" class="cover" alt="${escapeAttr(a.title)}" loading="lazy">`;
+  const img = `<img src="${escapeAttr(cldResize(cover, 600))}" class="cover" alt="${escapeAttr(a.title)}" loading="lazy">`;
   if (!_isMediaArticle(a)) return img;
   return `<div class="cover-media">${img}<span class="media-play" aria-hidden="true"></span></div>`;
 }
 function _thumbHtml(a, cover, opts = {}) {
   if (!cover) return '';
   const cls = opts.className || 'thumb';
-  const img = `<img src="${escapeAttr(cover)}" class="${cls}" alt="${escapeAttr(a.title)}" loading="lazy">`;
+  const img = `<img src="${escapeAttr(cldResize(cover, opts.width || 300))}" class="${cls}" alt="${escapeAttr(a.title)}" loading="lazy">`;
   if (!_isMediaArticle(a)) return img;
   return `<div class="thumb-media">${img}<span class="media-play media-play-sm" aria-hidden="true"></span></div>`;
 }
@@ -1708,7 +1732,7 @@ function renderLongreadCard(a) {
   const isMedia = _isMediaArticle(a);
   return `
   <a href="${articleHref(a)}" class="longread-card${cover ? '' : ' longread-card-no-cover'} reveal">
-    ${cover ? `<div class="cover-wrap${isMedia ? ' cover-wrap-media' : ''}"><img src="${escapeAttr(cover)}" class="cover" alt="${escapeAttr(a.title)}" loading="lazy">${isMedia ? '<span class="media-play" aria-hidden="true"></span>' : ''}</div>` : ''}
+    ${cover ? `<div class="cover-wrap${isMedia ? ' cover-wrap-media' : ''}"><img src="${escapeAttr(cldResize(cover, 800))}" class="cover" alt="${escapeAttr(a.title)}" loading="lazy">${isMedia ? '<span class="media-play" aria-hidden="true"></span>' : ''}</div>` : ''}
     <div class="longread-text">
       ${a.kicker ? `<span class="kicker">${escapeHtml(a.kicker)}</span>` : ''}
       <h3 class="title">${escapeHtml(a.title)}</h3>
