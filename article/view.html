@@ -77,7 +77,7 @@
     }
 
     // SEO meta — NewsArticle + BreadcrumbList with the live article data
-    const articleUrl = `${location.origin}/article/view.html?slug=${encodeURIComponent(article.slug)}`;
+    const articleUrl = `${location.origin}/article/view?slug=${encodeURIComponent(article.slug)}`;
     const articleDesc = plainText(article.summary) || article.subtitle || article.title;
     const authorName = article.profiles?.full_name || 'Karostartup';
     const breadcrumbItems = [
