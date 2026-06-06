@@ -2,9 +2,9 @@ name: Sync Instagram reels
 
 on:
   schedule:
-    # Every 6 hours — the Graph API gives a real-time view, but IG token quotas
-    # are modest, so we don't poll more aggressively.
-    - cron: '15 */6 * * *'
+    # Once a day at 02:30 UTC (08:00 IST). New reels are picked up, re-hosted
+    # in our bucket, and published automatically.
+    - cron: '30 2 * * *'
   workflow_dispatch: # manual run from the Actions tab
 
 concurrency:
