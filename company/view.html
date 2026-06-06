@@ -25,6 +25,7 @@
     await mountChrome('');
     mountFooter();
     if (!slug) {
+      setMeta({ title: 'Not found', noindex: true });
       document.getElementById('co-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Company not found</h3><a href="/" class="btn btn-primary">Home</a></div>';
       return;
     }
@@ -34,7 +35,7 @@
       company = data;
     } catch {}
     if (!company) {
-      document.title = 'Not found · Karostartup';
+      setMeta({ title: 'Not found', noindex: true });
       document.getElementById('co-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Company not found</h3><a href="/" class="btn btn-primary">Home</a></div>';
       return;
     }

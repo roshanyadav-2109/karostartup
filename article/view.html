@@ -54,7 +54,7 @@
     document.body.dataset.page = 'article';
     const params = new URLSearchParams(location.search);
     const slug = params.get('slug');
-    if (!slug) { document.title = 'Not found · Karostartup'; await mountChrome(''); mountFooter(); document.getElementById('article-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Article not found</h3><p>The link you followed is missing a slug.</p><a href="/" class="btn btn-primary">Go home</a></div>'; return; }
+    if (!slug) { setMeta({ title: 'Not found', noindex: true }); await mountChrome(''); mountFooter(); document.getElementById('article-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Article not found</h3><p>The link you followed is missing a slug.</p><a href="/" class="btn btn-primary">Go home</a></div>'; return; }
 
     let article;
     try {
@@ -71,7 +71,7 @@
     mountFooter();
 
     if (!article) {
-      document.title = 'Not found · Karostartup';
+      setMeta({ title: 'Not found', noindex: true });
       document.getElementById('article-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Story not found</h3><p>This article may have been removed or is not yet published.</p><a href="/" class="btn btn-primary">Back to homepage</a></div>';
       return;
     }
