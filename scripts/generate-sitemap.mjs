@@ -41,6 +41,31 @@ async function rest(path) {
   return r.json();
 }
 
+// PostgREST silently caps every response at the project's max-rows (1000), so a
+// single `?limit=10000` fetch only ever returns the first 1000 rows — which was
+// leaving ~half the published articles out of the sitemap. Paginate with the
+// Range header (1000-row pages) over a DETERMINISTIC order (published_at desc
+// with the unique `id` as tiebreaker) so pages never skip or duplicate rows and
+// every published article is included.
+async function restAll(path) {
+  const PAGE = 1000;
+  const out = [];
+  for (let from = 0; ; from += PAGE) {
+    const r = await fetch(`${BASE}/rest/v1/${path}`, {
+      headers: {
+        apikey: KEY, Authorization: `Bearer ${KEY}`, Accept: 'application/json',
+        'Range-Unit': 'items', Range: `${from}-${from + PAGE - 1}`,
+      },
+    });
+    if (!r.ok && r.status !== 206) throw new Error(`GET ${path}: ${r.status}`);
+    const rows = await r.json();
+    out.push(...rows);
+    if (rows.length < PAGE) break;
+    if (from > 200000) break; // safety valve
+  }
+  return out;
+}
+
 function xmlEscape(s) {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -88,8 +113,8 @@ function isoDate(d) {
     { path: '/cookies',            priority: '0.2', changefreq: 'yearly'  },
   ];
 
-  // Dynamic — published articles
-  const articles = await rest('articles?select=slug,published_at,updated_at,cover_image_url,is_breaking,source,approved_for_public&status=eq.published&order=published_at.desc&limit=10000');
+  // Dynamic — published articles (paginated; see restAll — single fetch was capped at 1000)
+  const articles = await restAll('articles?select=slug,published_at,updated_at,cover_image_url,is_breaking,source,approved_for_public&status=eq.published&order=published_at.desc,id.asc');
 
   // Respect the auto-fetch public-visibility toggle: hidden PIB (auto-fetched)
   // articles must not appear in the sitemap, or Google indexes pages the public

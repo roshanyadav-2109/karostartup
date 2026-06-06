@@ -43,7 +43,34 @@
     { "source": "/founder-interviews", "destination": "/category/view?slug=founders", "permanent": true },
     { "source": "/case-studies", "destination": "/category/view?slug=startups", "permanent": true },
     { "source": "/tech-updates", "destination": "/category/view?slug=ai", "permanent": true },
-    { "source": "/trends", "destination": "/category/view?slug=opinion", "permanent": true }
+    { "source": "/trends", "destination": "/category/view?slug=opinion", "permanent": true },
+
+    { "source": "/category/ai-startups", "destination": "/category/view?slug=ai", "permanent": true },
+    { "source": "/category/best-brands", "destination": "/best-brands", "permanent": true },
+    { "source": "/category/best-companies-blog", "destination": "/category/view?slug=startups", "permanent": true },
+    { "source": "/category/blog", "destination": "/category/view?slug=startups", "permanent": true },
+    { "source": "/category/business-model", "destination": "/category/view?slug=saas", "permanent": true },
+    { "source": "/category/case-studies", "destination": "/category/view?slug=startups", "permanent": true },
+    { "source": "/category/ed-tech", "destination": "/category/view?slug=ai", "permanent": true },
+    { "source": "/category/famous-personality", "destination": "/category/view?slug=founders", "permanent": true },
+    { "source": "/category/fin-tech", "destination": "/category/view?slug=fintech", "permanent": true },
+    { "source": "/category/funding", "destination": "/category/view?slug=funding", "permanent": true },
+    { "source": "/category/how-to-start", "destination": "/category/view?slug=founders", "permanent": true },
+    { "source": "/category/legal", "destination": "/category/view?slug=policy", "permanent": true },
+    { "source": "/category/marketing-strategy", "destination": "/category/view?slug=d2c", "permanent": true },
+    { "source": "/category/news", "destination": "/category/view?slug=policy", "permanent": true },
+    { "source": "/category/podcast", "destination": "/podcasts", "permanent": true },
+    { "source": "/category/press-release", "destination": "/category/view?slug=policy", "permanent": true },
+    { "source": "/category/shark-tank-india", "destination": "/category/view?slug=startups", "permanent": true },
+    { "source": "/category/startup-city", "destination": "/category/view?slug=startups", "permanent": true },
+    { "source": "/category/startup-knowledge", "destination": "/category/view?slug=startups", "permanent": true },
+    { "source": "/category/startup-stories", "destination": "/category/view?slug=startups", "permanent": true },
+    { "source": "/category/success-story", "destination": "/category/view?slug=startups", "permanent": true },
+    { "source": "/category/top-startups", "destination": "/category/view?slug=startups", "permanent": true },
+    { "source": "/category/vs", "destination": "/category/view?slug=opinion", "permanent": true },
+
+    { "source": "/web-stories/:slug", "destination": "/article/view?slug=:slug", "permanent": true },
+    { "source": "/web-stories", "destination": "/category/view?slug=startups", "permanent": true }
   ],
   "headers": [
     {
