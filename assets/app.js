@@ -1,3 +1,20 @@
+/* Google Analytics (GA4). Loaded once here so every page that includes
+   app.js is tracked; page_view fires automatically on each full page load
+   (the article slug is in the URL, so it's captured even before the title
+   resolves). The lone page without app.js (neural-ai.html) carries the tag
+   inline in its own <head>. */
+(function () {
+  var GA_ID = 'G-NNG4FPGY87';
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+  (document.head || document.documentElement).appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { window.dataLayer.push(arguments); };
+  window.gtag('js', new Date());
+  window.gtag('config', GA_ID);
+})();
+
 /* ============================================================
    KAROSTARTUP — Shared App Module
    Supabase client + helpers + layout renderers
