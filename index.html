@@ -284,10 +284,10 @@
           .eq('categories.slug', 'startups')
           .neq('id', lead.id)
           .order('published_at', { ascending: false })
-          .limit(3).then(r => r.data));
+          .limit(6).then(r => r.data));
         leftStories = picks || [];
       } catch {}
-      if (!leftStories.length) leftStories = remaining.slice(0, 3);
+      if (!leftStories.length) leftStories = remaining.slice(0, 6);
 
       const topStories  = remaining.slice(3, 8);   // 5 numbered top stories on the right
       const stripUpdates = remaining.slice(8, 14); // 4-6 mini cards under the lead

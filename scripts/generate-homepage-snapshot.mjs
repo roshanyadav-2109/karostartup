@@ -73,10 +73,10 @@ async function hero() {
   return rest(`articles?select=${enc(select)}&${PUBLISHED}&order=published_at.desc,id.desc&limit=14`);
 }
 
-// home:picks — latest 3 'startups' features, excluding the hero lead.
+// home:picks — latest 6 'startups' features, excluding the hero lead.
 async function picks(leadId) {
   const select = 'id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,categories!inner(name,slug),profiles!author_id(full_name)';
-  let q = `articles?select=${enc(select)}&${PUBLISHED}&categories.slug=eq.startups&order=published_at.desc&limit=3`;
+  let q = `articles?select=${enc(select)}&${PUBLISHED}&categories.slug=eq.startups&order=published_at.desc&limit=6`;
   if (leadId) q += `&id=neq.${leadId}`;
   return rest(q);
 }
