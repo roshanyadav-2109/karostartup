@@ -908,19 +908,13 @@ function initReveal() {
 /* ============================================================
    LAYOUT RENDERERS
    ============================================================ */
-function renderUtilityBar(tickers) {
+function renderUtilityBar() {
   const date = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-  const chips = (tickers || []).slice(0, 3).map(t => {
-    const dir = (t.change_percent || 0) >= 0 ? 'up' : 'down';
-    const arrow = dir === 'up' ? '▲' : '▼';
-    return `<span class="quick-chip"><span class="sym">${escapeHtml(t.symbol)}</span> <span class="val">${formatNumber(t.value)}</span> <span class="${dir}">${arrow}${Math.abs(t.change_percent || 0).toFixed(2)}%</span></span>`;
-  }).join('');
   return `
   <div class="utility-bar">
     <div class="container">
       <div class="utility-bar-left">
         <span class="date">${date}</span>
-        <div class="quick-chips">${chips}</div>
       </div>
       <div class="utility-bar-right" id="utility-auth-slot">
         <a href="/auth/signin.html">Sign in</a>
@@ -928,65 +922,6 @@ function renderUtilityBar(tickers) {
     </div>
   </div>`;
 }
-
-function _tickerValueString(v) {
-  // Auto-decide formatting: FX/commodity vs index.
-  if (v == null) return '—';
-  const n = Number(v);
-  if (Math.abs(n) < 100) return n.toFixed(2);
-  return n.toLocaleString('en-US', { maximumFractionDigits: 2 });
-}
-function _tickerChangeHtml(t) {
-  const dir = (t.change_percent || 0) >= 0 ? 'up' : 'down';
-  const arrow = dir === 'up' ? '▲' : '▼';
-  const sign = (t.change_value || 0) >= 0 ? '+' : '';
-  const chgVal = Number(t.change_value || 0);
-  const chgValStr = Math.abs(chgVal) < 100 ? chgVal.toFixed(2) : chgVal.toFixed(0);
-  return `<span class="chg ${dir}"><span class="arrow">${arrow}</span> ${sign}${chgValStr} (${Math.abs(t.change_percent || 0).toFixed(2)}%)</span>`;
-}
-
-function renderTicker(tickers) {
-  if (!tickers || !tickers.length) return '';
-  const items = tickers.map(t => `
-    <span class="ticker-item" data-symbol="${escapeAttr(t.symbol)}">
-      <span class="sym">${escapeHtml(t.display_name || t.symbol)}</span>
-      <span class="val">${_tickerValueString(t.value)}</span>
-      ${_tickerChangeHtml(t)}
-    </span>`).join('');
-  return `
-  <div class="ticker-bar">
-    <div class="ticker-track">${items}${items}</div>
-  </div>`;
-}
-
-// Update existing ticker DOM in place without breaking the CSS scroll animation.
-// Called on an interval so values refresh whenever the cron job writes new ones.
-async function refreshTickers() {
-  try {
-    // Cache-aware: serve from the 5-min sessionStorage cache when fresh so
-    // repeated ticks (and other pages) don't re-hit the API. Backend writes
-    // tickers every 5 min, so a 300s cache never shows staler data.
-    let data = _cacheGet('tickers', 300);
-    if (!data) {
-      const res = await sb.from('market_tickers').select('*').order('order_index', { ascending: true });
-      data = res.data;
-      if (data && data.length) _cacheSet('tickers', data);
-    }
-    if (!data || !data.length) return;
-    for (const t of data) {
-      const items = document.querySelectorAll(`.ticker-item[data-symbol="${CSS.escape ? CSS.escape(t.symbol) : t.symbol.replace(/[^a-zA-Z0-9_-]/g, '\\$&')}"]`);
-      items.forEach((el) => {
-        const sym = el.querySelector('.sym');
-        const val = el.querySelector('.val');
-        const oldChg = el.querySelector('.chg');
-        if (sym) sym.textContent = t.display_name || t.symbol;
-        if (val) val.textContent = _tickerValueString(t.value);
-        if (oldChg) oldChg.outerHTML = _tickerChangeHtml(t);
-      });
-    }
-  } catch {}
-}
-window.refreshTickers = refreshTickers;
 
 function renderBreakingFromData(data) {
   if (!data || !data.length) return '';
@@ -1490,14 +1425,12 @@ async function mountChrome(activeSlug = '') {
   if (!slot) return;
 
   // 1. Read sessionStorage cache and local session SYNCHRONOUSLY for instant first paint.
-  const cachedTickers = _cacheGet('tickers', 300);
   const cachedCats = _cacheGet('categories', 3600);
   const cachedBreaking = _cacheGet('breaking', 600);
 
   // 2. First paint with whatever we have (or skeletons).
   slot.innerHTML =
-    renderUtilityBar(cachedTickers || []) +
-    renderTicker(cachedTickers || []) +
+    renderUtilityBar() +
     (cachedBreaking ? renderBreakingFromData(cachedBreaking) : '') +
     renderMasthead() +
     renderNavFromData(cachedCats || [], activeSlug);
@@ -1533,8 +1466,6 @@ async function mountChrome(activeSlug = '') {
   // 3. In the background, refresh the data in parallel and patch the DOM.
   const since24h = new Date(Date.now() - 86400000).toISOString();
   const promises = [
-    cachedTickers ? Promise.resolve({ data: cachedTickers }) :
-      sb.from('market_tickers').select('*').order('order_index', { ascending: true }),
     cachedCats ? Promise.resolve({ data: cachedCats }) :
       sb.from('categories').select('slug,name').order('order_index', { ascending: true }),
     cachedBreaking ? Promise.resolve({ data: cachedBreaking }) :
@@ -1544,23 +1475,12 @@ async function mountChrome(activeSlug = '') {
       : Promise.resolve({ data: null })
   ];
 
-  Promise.all(promises).then(([tRes, cRes, bRes, pRes]) => {
-    const tickers = tRes.data || [];
+  Promise.all(promises).then(([cRes, bRes, pRes]) => {
     const cats = cRes.data || [];
     const breaking = bRes.data || [];
-    if (!cachedTickers) _cacheSet('tickers', tickers);
     if (!cachedCats) _cacheSet('categories', cats);
     if (!cachedBreaking) _cacheSet('breaking', breaking);
 
-    // Patch ticker bar
-    const tickerEls = slot.querySelectorAll('.ticker-bar, .utility-bar');
-    if (!cachedTickers && tickers.length) {
-      const ub = slot.querySelector('.utility-bar');
-      const tb = slot.querySelector('.ticker-bar');
-      if (ub) ub.outerHTML = renderUtilityBar(tickers);
-      if (tb) tb.outerHTML = renderTicker(tickers);
-      else slot.querySelector('.utility-bar').insertAdjacentHTML('afterend', renderTicker(tickers));
-    }
     // Patch breaking
     const existingBreaking = slot.querySelector('.breaking-ribbon');
     if (breaking.length) {
@@ -1835,12 +1755,6 @@ function mountCookieBanner() {
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(initReveal, 100);
-  // Auto-refresh ticker values only while the tab is VISIBLE, at the backend's
-  // 5-minute write cadence. refreshTickers() reads the 5-min cache, so this is
-  // cheap and backgrounded tabs generate zero egress. The CSS animation keeps
-  // running because we patch the inner spans in place, not the animated parent.
-  setInterval(() => { if (!document.hidden) refreshTickers(); }, 300_000);
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshTickers(); });
   // Show consent banner if user hasn't responded yet.
   setTimeout(mountCookieBanner, 600);
 });

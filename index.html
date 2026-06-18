@@ -50,18 +50,6 @@
       </div>
     </section>
 
-    <section class="section shorts-section">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="h-section">Karostartup Shorts</h2>
-          <span class="more-link" style="color:#7a7a7a;cursor:default;">Quick reads on video</span>
-        </div>
-        <div class="shorts-strip" id="shorts-strip">
-          <div class="loading-state">Loading shorts…</div>
-        </div>
-      </div>
-    </section>
-
     <section class="section">
       <div class="container">
         <div class="section-header">
@@ -106,41 +94,6 @@
           <a href="/features.html" class="more-link">More features →</a>
         </div>
         <div class="longread-grid" id="longread-slot"></div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="h-section">Markets</h2>
-        </div>
-        <div class="markets-grid">
-          <!-- Main NIFTY chart, rendered from market_tickers + ticker_history -->
-          <div class="chart-card" id="nifty-chart-slot">
-            <div class="chart-card-header">
-              <div>
-                <div class="title">NIFTY 50</div>
-                <span class="eyebrow">90-day · Yahoo Finance</span>
-              </div>
-              <div class="big-num">—</div>
-            </div>
-            <svg viewBox="0 0 320 140" preserveAspectRatio="none" aria-hidden="true">
-              <line x1="0" y1="130" x2="320" y2="130" stroke="#e6e6e6"/>
-            </svg>
-            <div class="chart-card-footer">
-              <span>Source: Yahoo Finance · daily close</span>
-              <span class="mono"></span>
-            </div>
-          </div>
-          <!-- Multi-symbol overview with sparklines -->
-          <div class="chart-card">
-            <div class="chart-card-header">
-              <div class="title">Markets at a glance</div>
-              <span class="eyebrow">30-day trend</span>
-            </div>
-            <div id="overview-slot" class="overview-rows"></div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -211,7 +164,7 @@
     // SEO meta — homepage is the site root, advertise the full Organization + WebSite graph
     setMeta({
       title: null,
-      description: "Karostartup — India's business of business. Live market tickers, founder-first journalism, funding tracker, podcasts, and brand directory.",
+      description: "Karostartup — India's business of business. Founder-first journalism, funding tracker, podcasts, and brand directory.",
       url: '/',
       type: 'website',
       jsonLd: siteJsonLd(),
@@ -683,95 +636,6 @@
       start();
     } catch (e) { console.warn('[home]', e?.message || e); } });
 
-    // KAROSTARTUP SHORTS — horizontal strip of vertical (9:16) tiles.
-    // Clicking a tile opens a full-screen modal that plays the video.
-    run(async () => { try {
-      const strip = document.getElementById('shorts-strip');
-      const data = await cachedFetch('home:shorts', 600, () => sb.from('shorts')
-        .select('id,title,caption,video_url,thumbnail_url,duration_seconds,sort_order')
-        .eq('is_published', true)
-        .order('sort_order', { ascending: true })
-        .order('created_at', { ascending: false })
-        .limit(12).then(r => r.data));
-      if (!data || !data.length) {
-        strip.innerHTML = '<div class="empty-state" style="width:100%;"><h3>Shorts coming soon</h3><p>Karostartup Shorts will appear here as the team publishes them.</p></div>';
-        return;
-      }
-      strip.innerHTML = data.map((s, i) => {
-        const thumb = s.thumbnail_url || null;
-        const dur = s.duration_seconds
-          ? `${Math.floor(s.duration_seconds / 60)}:${String(s.duration_seconds % 60).padStart(2, '0')}`
-          : '';
-        return `
-        <button type="button" class="short-tile" data-i="${i}" aria-label="Play ${escapeAttr(s.title)}">
-          <div class="short-tile-thumb${thumb ? '' : ' short-tile-thumb-no-img'}">
-            ${thumb ? `<img src="${escapeAttr(cldResize(thumb, 400))}" alt="${escapeAttr(s.title)}" loading="lazy">` : ''}
-            <span class="short-tile-play" aria-hidden="true"></span>
-            ${dur ? `<span class="short-tile-dur">${dur}</span>` : ''}
-          </div>
-          <h4 class="short-tile-title">${escapeHtml(s.title)}</h4>
-        </button>`;
-      }).join('');
-
-      // Lazy-build the modal once on first click — no reason to render it
-      // for visitors who don't tap a short.
-      let modal, modalVideo, modalTitle, modalCap, modalClose;
-      function buildModal() {
-        if (modal) return;
-        modal = document.createElement('div');
-        modal.className = 'shorts-modal';
-        modal.setAttribute('role', 'dialog');
-        modal.setAttribute('aria-modal', 'true');
-        modal.innerHTML = `
-          <button class="shorts-modal-close" type="button" aria-label="Close">&times;</button>
-          <div class="shorts-modal-stage">
-            <video class="shorts-modal-video" controls playsinline></video>
-            <div class="shorts-modal-text">
-              <h3></h3>
-              <p></p>
-            </div>
-          </div>`;
-        document.body.appendChild(modal);
-        modalVideo = modal.querySelector('.shorts-modal-video');
-        modalTitle = modal.querySelector('.shorts-modal-text h3');
-        modalCap   = modal.querySelector('.shorts-modal-text p');
-        modalClose = modal.querySelector('.shorts-modal-close');
-        modalClose.addEventListener('click', closeShort);
-        modal.addEventListener('click', (e) => { if (e.target === modal) closeShort(); });
-      }
-      function openShort(i) {
-        buildModal();
-        const s = data[i];
-        modalVideo.src = s.video_url;
-        modalVideo.poster = s.thumbnail_url || '';
-        modalTitle.textContent = s.title || '';
-        // Strip the internal "ig:{media_id}" dedupe marker the sync script
-        // prefixes to captions — readers should never see it.
-        modalCap.textContent = (s.caption || '').replace(/^ig:[^\n]*\n?/, '').trim();
-        modal.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
-        modalVideo.play?.().catch(() => {});
-      }
-      function closeShort() {
-        if (!modal) return;
-        modal.classList.remove('is-open');
-        document.body.style.overflow = '';
-        modalVideo.pause?.();
-        modalVideo.removeAttribute('src');
-        modalVideo.load?.();
-      }
-      strip.querySelectorAll('.short-tile').forEach(btn => {
-        btn.addEventListener('click', () => openShort(+btn.dataset.i));
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal?.classList.contains('is-open')) closeShort();
-      });
-    } catch (e) {
-      const strip = document.getElementById('shorts-strip');
-      if (strip) strip.innerHTML = '<div class="empty-state" style="width:100%;"><h3>Couldn\'t load shorts</h3></div>';
-      console.warn('[shorts]', e?.message || e);
-    } });
-
     // SECTOR PULSE — fetch all 4 sectors in parallel
     run(async () => { try {
       const sectorSlugs = ['fintech', 'd2c', 'saas', 'ai'];
@@ -1010,119 +874,6 @@
         slot.innerHTML = data.map(renderLongreadCard).join('');
       }
     } catch (e) { console.warn('[home]', e?.message || e); } });
-
-    // Markets section: render NIFTY 90-day chart + multi-symbol overview
-    // from ticker_history (daily closes) + market_tickers (live values).
-    run(async () => {
-      const fmt = (n, frac = 2) => Number(n).toLocaleString('en-IN', { maximumFractionDigits: frac, minimumFractionDigits: frac });
-      const pathFor = (values, w = 320, h = 110, top = 10) => {
-        if (values.length < 2) return '';
-        const min = Math.min(...values), max = Math.max(...values);
-        const span = (max - min) || 1;
-        return values.map((v, i) => {
-          const x = (i / (values.length - 1)) * w;
-          const y = top + (h - top) - ((v - min) / span) * (h - top - 2);
-          return `${i === 0 ? 'M' : 'L'} ${x.toFixed(2)} ${y.toFixed(2)}`;
-        }).join(' ');
-      };
-
-      // 1) Main NIFTY 50 card — 90-day history + live current value
-      try {
-        const history = await cachedFetch('home:nifty-hist', 600, () => sb
-          .from('ticker_history')
-          .select('close_date,close_value')
-          .eq('symbol', 'NIFTY 50')
-          .order('close_date', { ascending: true }).then(r => r.data));
-        const live = await cachedFetch('home:nifty-live', 300, () => sb
-          .from('market_tickers')
-          .select('value,change_value,change_percent,updated_at')
-          .eq('symbol', 'NIFTY 50')
-          .maybeSingle().then(r => r.data));
-
-        const slot = document.getElementById('nifty-chart-slot');
-        if (history?.length && slot) {
-          const values = history.map(r => Number(r.close_value));
-          const start = values[0], end = Number(live?.value) || values[values.length - 1];
-          // Append the live value as the last point so the line ends at "now"
-          const series = live?.value != null ? [...values, Number(live.value)] : values;
-          const change = end - start;
-          const pct = (change / start) * 100;
-          const dir = change >= 0 ? 'up' : 'down';
-          const stroke = dir === 'up' ? '#0a7a3b' : '#c1121f';
-          const fill = dir === 'up' ? 'rgba(10,122,59,0.10)' : 'rgba(193,18,31,0.10)';
-          const linePath = pathFor(series);
-          const areaPath = `${linePath} L 320 130 L 0 130 Z`;
-          slot.innerHTML = `
-            <div class="chart-card-header">
-              <div>
-                <div class="title">NIFTY 50</div>
-                <span class="eyebrow">${series.length}-day · Yahoo Finance</span>
-              </div>
-              <div>
-                <div class="big-num">${fmt(end)}</div>
-                <span class="chg ${dir}">${dir === 'up' ? '▲' : '▼'} ${change >= 0 ? '+' : ''}${fmt(change)} (${pct.toFixed(2)}%)</span>
-              </div>
-            </div>
-            <svg viewBox="0 0 320 140" preserveAspectRatio="none">
-              <path d="${areaPath}" fill="${fill}" stroke="none"/>
-              <path d="${linePath}" fill="none" stroke="${stroke}" stroke-width="2"/>
-              <line x1="0" y1="130" x2="320" y2="130" stroke="#e6e6e6"/>
-            </svg>
-            <div class="chart-card-footer">
-              <span>Source: Yahoo Finance · daily close</span>
-              <span class="mono">${live?.updated_at ? new Date(live.updated_at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : ''}</span>
-            </div>`;
-        }
-      } catch (e) { console.warn('[markets nifty]', e?.message || e); }
-
-      // 2) Multi-symbol overview with mini-sparklines
-      try {
-        const SYMS = [
-          { sym: 'SENSEX',    label: 'Sensex',     dp: 2 },
-          { sym: 'BANKNIFTY', label: 'Bank Nifty', dp: 2 },
-          { sym: 'USDINR',    label: 'USD / INR',  dp: 2 },
-          { sym: 'GOLD',      label: 'Gold (USD/oz)', dp: 2 },
-          { sym: 'SPX',       label: 'S&P 500',    dp: 2 },
-        ];
-        const since = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
-        const symNames = SYMS.map(s => s.sym);
-        const [hist, ticks] = await cachedFetch('home:mkt-overview', 300, async () => {
-          const [h, t] = await Promise.all([
-            sb.from('ticker_history').select('symbol,close_date,close_value').in('symbol', symNames).gte('close_date', since).order('close_date', { ascending: true }),
-            sb.from('market_tickers').select('symbol,value,change_percent').in('symbol', symNames),
-          ]);
-          return [h.data, t.data];
-        });
-        const histBySym = {};
-        for (const r of (hist || [])) (histBySym[r.symbol] ||= []).push(Number(r.close_value));
-        const liveBySym = Object.fromEntries((ticks || []).map(t => [t.symbol, t]));
-
-        const slot = document.getElementById('overview-slot');
-        if (slot) {
-          slot.innerHTML = SYMS.map(s => {
-            const series = histBySym[s.sym] || [];
-            const live = liveBySym[s.sym];
-            if (live?.value != null) series.push(Number(live.value));
-            const end = series[series.length - 1];
-            const pct = live?.change_percent != null ? Number(live.change_percent) : (series.length >= 2 ? ((series[series.length - 1] - series[0]) / series[0]) * 100 : 0);
-            const dir = pct >= 0 ? 'up' : 'down';
-            const stroke = dir === 'up' ? '#0a7a3b' : '#c1121f';
-            const linePath = pathFor(series, 100, 32, 4);
-            return `
-              <div class="overview-row">
-                <div class="overview-label">
-                  <div class="sym">${s.label}</div>
-                  <div class="sub mono">${end != null ? fmt(end, s.dp) : '—'}</div>
-                </div>
-                <svg class="overview-spark" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true">
-                  <path d="${linePath}" fill="none" stroke="${stroke}" stroke-width="1.5"/>
-                </svg>
-                <div class="overview-chg ${dir} mono">${dir === 'up' ? '▲' : '▼'} ${Math.abs(pct).toFixed(2)}%</div>
-              </div>`;
-          }).join('');
-        }
-      } catch (e) { console.warn('[markets overview]', e?.message || e); }
-    });
 
     // NEWSLETTER FORM
     const newsletterForm = document.getElementById('newsletter-form');

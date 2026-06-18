@@ -21,7 +21,6 @@ async function renderAdminShell(activeKey, breadcrumb) {
     { key: 'categories', label: 'Categories', href: '/admin/categories.html', min: 1 },
     { key: 'companies', label: 'Companies', href: '/admin/companies.html', min: 2 },
     { key: 'funding', label: 'Funding', href: '/admin/funding.html', min: 2 },
-    { key: 'tickers', label: 'Tickers', href: '/admin/tickers.html', min: 2 },
     { key: 'shorts', label: 'Shorts', href: '/admin/shorts.html', min: 2 },
     { key: 'podcasts', label: 'Podcasts', href: '/admin/podcasts.html', min: 2 },
     { key: 'comments', label: 'Comments', href: '/admin/comments.html', min: 1 },

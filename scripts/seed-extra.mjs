@@ -289,7 +289,7 @@ const dateDaysAgo = (d) => new Date(Date.now() - d * 86_400_000).toISOString().s
 
   // ====== Final counts ======
   console.log('\n✓ Done. Final counts:');
-  const tables = ['categories', 'companies', 'articles', 'article_companies', 'funding_rounds', 'market_tickers', 'newsletters', 'newsletter_subscribers', 'contact_submissions', 'comments', 'bookmarks', 'profiles'];
+  const tables = ['categories', 'companies', 'articles', 'article_companies', 'funding_rounds', 'newsletters', 'newsletter_subscribers', 'contact_submissions', 'comments', 'bookmarks', 'profiles'];
   for (const t of tables) {
     const c = await count(t);
     const mark = c >= 10 ? '✓' : '✗';

@@ -5,7 +5,7 @@
  * Usage:
  *   SUPABASE_SERVICE_ROLE_KEY=ey... node scripts/seed-via-rest.mjs
  *
- * Idempotent for categories/companies/articles/article_companies/tickers/newsletters
+ * Idempotent for categories/companies/articles/article_companies/newsletters
  * (upsert on slug or composite). Funding rounds are inserted only if zero exist
  * for the seeded companies (avoid duplicate inserts on re-run).
  */
@@ -386,19 +386,7 @@ Three reasons, according to officials we spoke to: the subsidy bill has crossed 
     console.log('  funding rounds already present — skipping insert.');
   }
 
-  // ---------- 7. Market tickers ----------
-  console.log('• Upserting market tickers…');
-  const tickers = [
-    { symbol: 'NIFTY 50',   display_name: 'Nifty 50',     value: 22450.30, change_value:  142.30, change_percent:  0.64, order_index: 1 },
-    { symbol: 'SENSEX',     display_name: 'Sensex',       value: 73920.10, change_value:  421.50, change_percent:  0.57, order_index: 2 },
-    { symbol: 'BANK NIFTY', display_name: 'Bank Nifty',   value: 48105.55, change_value:  -86.20, change_percent: -0.18, order_index: 3 },
-    { symbol: 'NIFTY IT',   display_name: 'Nifty IT',     value: 36418.90, change_value:  290.10, change_percent:  0.80, order_index: 4 },
-    { symbol: 'INR/USD',    display_name: 'INR / USD',    value:    83.21, change_value:    0.04, change_percent:  0.05, order_index: 5 },
-    { symbol: 'GOLD MCX',   display_name: 'Gold (₹/10g)', value: 71820.00, change_value:  185.00, change_percent:  0.26, order_index: 6 },
-  ].map((t) => ({ ...t, updated_at: new Date().toISOString() }));
-  await upsert('market_tickers', tickers, 'symbol');
-
-  // ---------- 8. Newsletters ----------
+  // ---------- 7. Newsletters ----------
   console.log('• Upserting newsletters…');
   const newsletters = [
     { slug: 'morning-brief',        name: 'Morning Brief',        description: 'The 6-minute India business read. Every weekday at 8am IST.', cadence: 'daily',   active: true },
@@ -416,7 +404,6 @@ Three reasons, according to officials we spoke to: the subsidy bill has crossed 
     rest('articles?select=id', { headers: { Prefer: 'count=exact' } }),
     rest('article_companies?select=article_id', { headers: { Prefer: 'count=exact' } }),
     rest('funding_rounds?select=id', { headers: { Prefer: 'count=exact' } }),
-    rest('market_tickers?select=id', { headers: { Prefer: 'count=exact' } }),
     rest('newsletters?select=id', { headers: { Prefer: 'count=exact' } }),
   ]);
   console.log(`  categories: ${counts[0].length}`);
@@ -424,8 +411,7 @@ Three reasons, according to officials we spoke to: the subsidy bill has crossed 
   console.log(`  articles:   ${counts[2].length}`);
   console.log(`  article_companies: ${counts[3].length}`);
   console.log(`  funding_rounds: ${counts[4].length}`);
-  console.log(`  market_tickers: ${counts[5].length}`);
-  console.log(`  newsletters: ${counts[6].length}`);
+  console.log(`  newsletters: ${counts[5].length}`);
 })().catch((e) => {
   console.error('\n✗ Seed failed:');
   console.error(e.message);

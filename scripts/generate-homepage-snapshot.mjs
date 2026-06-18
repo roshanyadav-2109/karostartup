@@ -136,11 +136,10 @@ async function topics() {
   return enriched.filter(t => t.count > 0).slice(0, 6);
 }
 
-// NOTE: shorts, podcasts, most-read, eminent and the markets widgets are
-// deliberately NOT snapshotted — they change on their own cadence (markets
-// every 5 min; shorts/podcasts via their own admin pages) and stay as live
-// client queries so they never go stale. Only the slow-changing article-LIST
-// sections below are snapshotted.
+// NOTE: podcasts, most-read and eminent are deliberately NOT snapshotted —
+// they change on their own cadence (via their own admin pages) and stay as
+// live client queries so they never go stale. Only the slow-changing
+// article-LIST sections below are snapshotted.
 
 // ============================================================
 // Orchestrate. Non-critical sections that fail are simply omitted

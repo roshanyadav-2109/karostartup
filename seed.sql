@@ -317,19 +317,6 @@ INSERT INTO funding_rounds (company_id, round_type, amount_usd, amount_inr, anno
    'Peak XV', ARRAY['Lightspeed'], NULL)
 ON CONFLICT DO NOTHING;
 
--- ---------- Market tickers ----------
-INSERT INTO market_tickers (symbol, display_name, value, change_value, change_percent, order_index) VALUES
-  ('NIFTY 50',     'Nifty 50',     22450.30,  142.30,  0.64, 1),
-  ('SENSEX',       'Sensex',       73920.10,  421.50,  0.57, 2),
-  ('BANK NIFTY',   'Bank Nifty',   48105.55,  -86.20, -0.18, 3),
-  ('NIFTY IT',     'Nifty IT',     36418.90,  290.10,  0.80, 4),
-  ('INR/USD',      'INR / USD',       83.21,    0.04,  0.05, 5),
-  ('GOLD MCX',     'Gold (₹/10g)', 71820.00,  185.00,  0.26, 6)
-ON CONFLICT (symbol) DO UPDATE SET
-  display_name = EXCLUDED.display_name, value = EXCLUDED.value,
-  change_value = EXCLUDED.change_value, change_percent = EXCLUDED.change_percent,
-  order_index = EXCLUDED.order_index, updated_at = NOW();
-
 -- ---------- Newsletters ----------
 INSERT INTO newsletters (slug, name, description, cadence, active) VALUES
   ('morning-brief',         'Morning Brief',          'The 6-minute India business read. Every weekday at 8am IST.', 'daily',   true),
@@ -343,6 +330,5 @@ ON CONFLICT (slug) DO UPDATE SET
 --   - Hero with featured stories + cover images
 --   - Top strip, sector pulse, long reads, founder spotlight all populated
 --   - Funding tracker table with 6 rounds
---   - Market tickers in the top bar
 --   - 3 newsletters on /newsletters.html
 -- ============================================================

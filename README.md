@@ -41,7 +41,6 @@ The anon Supabase key is hardcoded in `/assets/app.js`. **RLS protects everythin
     companies.html
     company-edit.html
     funding.html               ← funding rounds inline form + table
-    tickers.html               ← market ticker manager
     comments.html              ← moderation
     users.html                 ← role + Plus management (admin only)
     submissions.html           ← contact inbox (two-pane)
@@ -87,7 +86,7 @@ If you ever need to recreate it elsewhere, the schema includes:
 - `profiles` — extends `auth.users`, with `role` enum (reader/author/editor/admin) and `is_plus_member` bool
 - `categories`, `companies`, `articles`
 - `article_companies` (junction)
-- `funding_rounds`, `market_tickers`
+- `funding_rounds`
 - `newsletters`, `newsletter_subscribers`
 - `comments`, `bookmarks`
 - `contact_submissions` (the contact-form inbox)
@@ -118,7 +117,6 @@ After promoting yourself to admin, open `seed.sql` from this repo and paste it i
 - 6 companies (Razorpay, Zerodha, Cred, Zepto, Zoho, Sarvam AI)
 - 8 articles with cover images from the Unsplash CDN — 3 featured, 2 breaking, 1 founder profile, 1 premium, 1 exclusive — so the homepage hero, top strip, sector pulse, long reads, and founder spotlight all populate
 - 6 funding rounds linked to companies + articles
-- 6 market tickers (Nifty 50, Sensex, Bank Nifty, Nifty IT, INR/USD, Gold)
 - 3 newsletters
 
 The script is idempotent — re-running it updates existing rows rather than duplicating. Articles are authored by your admin profile if one exists.
@@ -126,58 +124,10 @@ The script is idempotent — re-running it updates existing rows rather than dup
 Role meanings:
 - `reader` — default for new signups. Can comment, bookmark, subscribe to newsletters.
 - `author` — can be assigned as article author. Cannot access admin yet (depends on your RLS policies).
-- `editor` — can publish/edit articles, manage companies, funding, tickers, comments, submissions.
+- `editor` — can publish/edit articles, manage companies, funding, comments, submissions.
 - `admin` — everything, plus user management and newsletter setup.
 
 `requireStaff()` (client-side check in admin pages) allows `author`/`editor`/`admin`. RLS policies on your tables decide what actually persists.
-
----
-
-## Live market tickers
-
-The strip at the top of every page (Nifty/Sensex/S&P/FTSE/DAX/OMX/Nikkei/HSI + FX + gold + crude) is backed by a script that pulls live data from Yahoo Finance's free unauthenticated `query1.finance.yahoo.com/v8/finance/chart/...` endpoint and upserts into the `market_tickers` table.
-
-**Symbols covered** (18): NIFTY 50, SENSEX, Bank Nifty, S&P 500, Nasdaq Comp., Dow Jones, FTSE 100, DAX, CAC 40, OMX Stockholm 30, Nikkei 225, Hang Seng, USD/INR, EUR/USD, GBP/USD, USD/SEK, Gold, WTI Crude. Tuned for an audience spanning India, US, UK, EU (esp. Sweden), and Asia.
-
-**Frontend behaviour:** the ticker auto-refreshes from the DB every 60s without a page reload. The CSS scroll animation isn't interrupted because we patch the value spans in place rather than re-rendering the animated container.
-
-### Running the fetcher
-
-```bash
-SUPABASE_SERVICE_ROLE_KEY=ey... node scripts/update-tickers.mjs
-```
-
-Outputs an aligned table of all 18 symbols with their latest values + percent change.
-
-### Scheduling (pick one)
-
-**Option A — GitHub Actions (recommended, free, zero ops):**
-
-A workflow at `.github/workflows/update-tickers.yml` runs every 5 minutes. To enable it:
-
-1. Push the repo to GitHub (already done at `roshanyadav-2109/karostartup`)
-2. Go to **Settings → Secrets and variables → Actions → New repository secret**
-3. Name it `SUPABASE_SERVICE_ROLE_KEY`, paste your service-role key, save
-4. Go to the **Actions** tab and enable workflows if prompted
-
-Free tier on public repos = unlimited minutes. Each run takes ~5 seconds.
-
-**Option B — Local cron / Task Scheduler:**
-
-Linux/Mac:
-```cron
-*/2 * * * * cd /path/to/karostartup && SUPABASE_SERVICE_ROLE_KEY=ey... node scripts/update-tickers.mjs >> /tmp/tickers.log 2>&1
-```
-
-Windows: Open Task Scheduler → Create Task → Trigger every 5 min → Action: `node` with arguments `scripts\update-tickers.mjs` and the env var set.
-
-**Option C — Supabase Edge Function:**
-
-Port `scripts/update-tickers.mjs` to a Deno function under `supabase/functions/update-tickers/index.ts`, deploy with `supabase functions deploy update-tickers`, and schedule with `pg_cron` (Supabase has the extension enabled).
-
-### Adding/removing symbols
-
-Edit the `SYMBOLS` array in `scripts/update-tickers.mjs`. The Yahoo symbol format follows their convention (e.g., `^NSEI` for indices, `INR=X` for FX rates, `GC=F` for gold futures, `BTC-USD` for Bitcoin). Once added, the next cron run will upsert it.
 
 ---
 
@@ -207,9 +157,6 @@ Upload the folder to any static host. There's no server-side anything.
 | Thing | Source |
 |---|---|
 | All articles, categories, companies, funding rounds, comments, etc. | Supabase tables |
-| Market tickers (top utility bar, full ticker, NIFTY chart header) | `market_tickers` table |
-| Top gainers / losers (homepage Markets widget) | Static placeholder in `index.html` — wire up to a real API later |
-| NIFTY chart line | Mocked 30 data points in `index.html` |
 | Funding chart bars | Aggregated from real `funding_rounds` records |
 | Hero / sector cards / long reads | Real articles, filtered by `is_featured`, `kicker`, `category_id` |
 | Plus payment | Not wired. `/plus.html` "Become a Member" button redirects to `/contact.html?type=general` |
@@ -219,7 +166,7 @@ Upload the folder to any static host. There's no server-side anything.
 
 ## Conventions used in the code
 
-- Every page mounts `#chrome` (utility bar + ticker + breaking + masthead + nav) via `mountChrome()` and `#footer` via `mountFooter()`.
+- Every page mounts `#chrome` (utility bar + breaking + masthead + nav) via `mountChrome()` and `#footer` via `mountFooter()`.
 - All user-provided strings rendered to HTML go through `escapeHtml()`. The only thing rendered as markdown is article body content via `renderMarkdown()`.
 - `formatINR()`, `formatUSD()`, `formatNumber()`, `timeAgo()`, `formatDate()` etc. live in `/assets/app.js`.
 - Admin pages share `/admin/shell.js` for the sidebar.
