@@ -107,14 +107,6 @@
       <div class="container">
         <section class="cat-bottom-strips">
           <div class="cat-bottom-block">
-            <h3 class="cnn-col-head">Top brands in ${escapeHtml(cat.name)}</h3>
-            <div id="cat-companies"><div class="loading-state">Loading…</div></div>
-          </div>
-          <div class="cat-bottom-block">
-            <h3 class="cnn-col-head">Recent funding</h3>
-            <div id="cat-funding"><div class="loading-state">Loading…</div></div>
-          </div>
-          <div class="cat-bottom-block">
             <h3 class="cnn-col-head">Browse other sections</h3>
             <ul class="trending-list" id="cat-related"></ul>
           </div>
@@ -269,43 +261,6 @@
     });
 
     loadPage();
-
-    // Sidebar: top companies by sector matching name
-    try {
-      const { data: companies } = await sb.from('companies')
-        .select('slug,name,logo_url,total_funding_usd')
-        .ilike('sector', `%${cat.name}%`)
-        .order('total_funding_usd', { ascending: false, nullsFirst: false })
-        .limit(5);
-      const slot = document.getElementById('cat-companies');
-      if (companies && companies.length) {
-        slot.innerHTML = companies.map(c => `
-          <a href="/company/view.html?slug=${encodeURIComponent(c.slug)}" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #e6e6e6;font-size:0.9rem;">
-            <span style="font-weight:600;">${escapeHtml(c.name)}</span>
-            <span class="mono" style="color:#d10a11;">${c.total_funding_usd ? formatUSD(c.total_funding_usd) : '—'}</span>
-          </a>`).join('');
-      } else slot.innerHTML = '<span style="color:#9a9a9a;font-size:0.86rem;">No companies tracked yet.</span>';
-    } catch {}
-
-    // Sidebar: top funding rounds in sector
-    try {
-      const { data: rounds } = await sb.from('funding_rounds')
-        .select('round_type,amount_usd,amount_inr,announced_date,companies(name,slug,sector)')
-        .order('amount_usd', { ascending: false, nullsFirst: false })
-        .limit(10);
-      const filtered = (rounds || []).filter(r => (r.companies?.sector || '').toLowerCase().includes((cat.name || '').toLowerCase())).slice(0, 5);
-      const slot = document.getElementById('cat-funding');
-      if (filtered.length) {
-        slot.innerHTML = filtered.map(r => `
-          <div style="padding:10px 0;border-bottom:1px solid #e6e6e6;">
-            <a href="/company/view.html?slug=${encodeURIComponent(r.companies.slug)}" style="font-weight:600;font-size:0.9rem;">${escapeHtml(r.companies.name)}</a>
-            <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:0.78rem;color:#5a5a5a;">
-              <span>${escapeHtml(r.round_type || '')}</span>
-              <span class="mono" style="color:#d10a11;">${r.amount_inr ? formatINR(r.amount_inr) : formatUSD(r.amount_usd)}</span>
-            </div>
-          </div>`).join('');
-      } else slot.innerHTML = '<span style="color:#9a9a9a;font-size:0.86rem;">No rounds tracked yet.</span>';
-    } catch {}
 
     // Related categories
     try {

@@ -3803,7 +3803,7 @@ a:hover .media-play { background: var(--brand); }
 /* Bottom strips: top brands, recent funding, browse other sections */
 .cat-bottom-strips {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: var(--gap);
   padding: 32px 0 64px;
   border-top: 1px solid var(--hairline);
@@ -3812,6 +3812,15 @@ a:hover .media-play { background: var(--brand); }
   display: flex;
   flex-direction: column;
 }
+/* "Browse other sections" is the only remaining strip — flow its links
+   across the full width instead of a single tall column. */
+.cat-bottom-strips .trending-list {
+  columns: 3;
+  column-gap: 40px;
+}
+.cat-bottom-strips .trending-list li { break-inside: avoid; }
+@media (max-width: 900px)  { .cat-bottom-strips .trending-list { columns: 2; } }
+@media (max-width: 560px)  { .cat-bottom-strips .trending-list { columns: 1; } }
 
 @media (max-width: 1100px) {
   .cnn-grid { grid-template-columns: 1fr; gap: 18px; }
