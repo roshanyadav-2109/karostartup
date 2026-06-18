@@ -262,11 +262,16 @@
 
     loadPage();
 
-    // Related categories
+    // Related categories — only those with at least one published article.
     try {
-      const { data: cats } = await sb.from('categories').select('slug,name').neq('slug', slug).order('order_index').limit(6);
+      const { data: cats } = await sb.from('categories')
+        .select('slug,name,articles(count)')
+        .eq('articles.status', 'published')
+        .neq('slug', slug)
+        .order('order_index');
+      const nonEmpty = (cats || []).filter(c => ((c.articles && c.articles[0] && c.articles[0].count) || 0) > 0).slice(0, 6);
       const slot = document.getElementById('cat-related');
-      slot.innerHTML = (cats || []).map(c => `<li><a href="/category/view.html?slug=${encodeURIComponent(c.slug)}">${escapeHtml(c.name)}</a><span class="count">→</span></li>`).join('');
+      slot.innerHTML = nonEmpty.map(c => `<li><a href="/category/view.html?slug=${encodeURIComponent(c.slug)}">${escapeHtml(c.name)}</a><span class="count">→</span></li>`).join('');
     } catch {}
   })();
   </script>

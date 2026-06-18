@@ -1467,7 +1467,10 @@ async function mountChrome(activeSlug = '') {
   const since24h = new Date(Date.now() - 86400000).toISOString();
   const promises = [
     cachedCats ? Promise.resolve({ data: cachedCats }) :
-      sb.from('categories').select('slug,name').order('order_index', { ascending: true }),
+      // Only categories that have at least one PUBLISHED article — empty
+      // sections stay hidden from the nav until they have content. The
+      // embedded count is filtered to published, so count 0 = hide.
+      sb.from('categories').select('slug,name,articles(count)').eq('articles.status', 'published').order('order_index', { ascending: true }),
     cachedBreaking ? Promise.resolve({ data: cachedBreaking }) :
       sbPublic.from('articles').select('slug,title').eq('is_breaking', true).eq('status', 'published').gte('published_at', since24h).order('published_at', { ascending: false }).limit(6),
     session?.user && !_cacheGet('profile:' + session.user.id, 120)
@@ -1476,7 +1479,11 @@ async function mountChrome(activeSlug = '') {
   ];
 
   Promise.all(promises).then(([cRes, bRes, pRes]) => {
-    const cats = cRes.data || [];
+    const cats = cachedCats
+      ? cachedCats
+      : (cRes.data || [])
+          .filter(c => ((c.articles && c.articles[0] && c.articles[0].count) || 0) > 0)
+          .map(c => ({ slug: c.slug, name: c.name }));
     const breaking = bRes.data || [];
     if (!cachedCats) _cacheSet('categories', cats);
     if (!cachedBreaking) _cacheSet('breaking', breaking);
