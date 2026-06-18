@@ -27,6 +27,8 @@
   --gap: 32px;
   --gutter: 24px;
   --shadow-fine: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 18px 40px -24px rgba(0, 0, 0, 0.22);
+  --img-radius: 4px;          /* very slight rounding on content images */
 
   /* Fonts — single Inter family across display + UI, matching CNN-Sans look */
   --font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -54,7 +56,17 @@ main { flex: 1; }
 
 a { color: inherit; text-decoration: none; }
 a:hover { color: var(--brand); }
-img { max-width: 100%; display: block; }
+img { max-width: 100%; display: block; border-radius: var(--img-radius); }
+
+/* Content images carry a very slight rounding. Wrappers that clip an image
+   (overflow:hidden, used for hover-zoom) get the same radius so the rounded
+   corners are actually visible through the clip. */
+.cover-wrap, .cover-img-wrap, .cover-media, .cover-wrap-media,
+.hero-lead-img, .hero-update-thumb, .lnews-feature-img, .lnews-side-img,
+.pod-frame, .pod-cover-wrap, .topic-tile-img, .k-sr-thumb, .thumb-media {
+  border-radius: var(--img-radius);
+}
+/* Round avatars/logos stay as they are (their own radius wins). */
 button { font-family: inherit; cursor: pointer; }
 input, textarea, select, button { font-family: inherit; font-size: 1rem; color: inherit; }
 
@@ -1316,19 +1328,79 @@ a:hover .media-play { background: var(--brand); }
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 28px;
+  margin-bottom: 30px;
   padding-bottom: 14px;
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  position: relative;
 }
-.section-header .h-section { margin-bottom: 0; }
-.section-header .more-link {
-  font-size: 0.82rem;
+/* short brand accent riding on top of the full-width rule */
+.section-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 56px;
+  height: 3px;
+  background: var(--brand);
+}
+.section-header .h-section {
+  margin-bottom: 0;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: -0.015em;
+}
+.section-header .more-link {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color 160ms ease;
 }
 .section-header .more-link:hover { color: var(--brand); }
+
+/* ============================================================
+   HEADING ARTIFACTS — a cohesive duotone (ink + red) editorial
+   icon set woven into section headings (YourStory-style thematic
+   line art, drawn properly).
+   ============================================================ */
+.art {
+  display: inline-block;
+  height: 1.04em;
+  width: auto;
+  margin-left: 0.36em;
+  vertical-align: -0.17em;
+  overflow: visible;
+  flex: 0 0 auto;
+}
+.art .ln {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.art .ac-ln {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.art .fl { fill: var(--ink); stroke: none; }
+.art .ac { fill: var(--brand); stroke: none; }
+/* glasses are a wide 2:1 motif — trim the height so it doesn't overpower */
+.art-specs { height: 0.82em; vertical-align: 0.04em; }
+/* steam on the coffee cup drifts gently */
+.art-coffee .ac-ln { animation: art-steam 4.8s ease-in-out infinite; transform-origin: 50% 100%; }
+@keyframes art-steam {
+  0%, 100% { opacity: 0.55; transform: translateY(0); }
+  50%      { opacity: 1;    transform: translateY(-1.5px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .art-coffee .ac-ln { animation: none; }
+}
 
 /* ============================================================
    DEALS TABLE (funding rounds)
@@ -1422,13 +1494,30 @@ a:hover .media-play { background: var(--brand); }
   gap: var(--gap);
 }
 .sector-card {
-  padding: 22px;
+  padding: 24px 22px;
   border: 1px solid var(--hairline);
   background: #fff;
   display: flex;
   flex-direction: column;
+  position: relative;
+  transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
 }
-.sector-card:hover { border-color: var(--ink); }
+.sector-card::before {
+  content: "";
+  position: absolute;
+  top: -1px; left: -1px; right: -1px;
+  height: 3px;
+  background: var(--brand);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 260ms ease;
+}
+.sector-card:hover {
+  border-color: var(--hairline);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card);
+}
+.sector-card:hover::before { transform: scaleX(1); }
 .sector-card .sector-name {
   font-family: var(--font-display);
   font-weight: 700;
@@ -2133,7 +2222,6 @@ a:hover .media-play { background: var(--brand); }
   display: block;
   transition: transform 320ms ease;
 }
-.pod-slide.is-active:hover .pod-thumb { transform: scale(1.02); }
 .pod-frame iframe {
   width: 100%; height: 100%; border: 0;
   display: block;
@@ -2253,7 +2341,6 @@ a:hover .media-play { background: var(--brand); }
   display: block;
   transition: transform 400ms ease;
 }
-.topic-tile:hover .topic-tile-img img { transform: scale(1.05); }
 .topic-tile-label {
   position: absolute;
   left: 14px;
@@ -3409,7 +3496,6 @@ a:hover .media-play { background: var(--brand); }
   transition: opacity 260ms ease, transform 8s ease-out;
   opacity: 1;
 }
-.lnews-feature:hover .lnews-feature-img img { transform: scale(1.03); }
 .lnews-feature::after {
   content: '';
   position: absolute; inset: 0;
@@ -3509,7 +3595,6 @@ a:hover .media-play { background: var(--brand); }
   display: block;
   transition: transform 400ms ease;
 }
-.lnews-side:hover .lnews-side-img img { transform: scale(1.05); }
 .lnews-side-text {
   display: flex; flex-direction: column; gap: 4px;
   min-width: 0;
