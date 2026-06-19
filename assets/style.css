@@ -2649,7 +2649,7 @@ a:hover .media-play { background: var(--brand); }
 
 /* Optional YourStory-style summary box — sits below the cover, above the body */
 .article-summary {
-  max-width: 820px;
+  max-width: 1140px;
   margin: 0 auto 30px auto;
   padding: 18px 20px;
   background: #fdf0f0;
@@ -2686,7 +2686,7 @@ a:hover .media-play { background: var(--brand); }
 }
 
 .article-body {
-  max-width: 820px;
+  max-width: 1140px;
   margin: 0 auto;
   padding: 0 var(--gutter);
   font-size: 1.12rem;
@@ -2800,7 +2800,7 @@ a:hover .media-play { background: var(--brand); }
 .embed-audio-native { width: 100%; margin: 1.6em 0; }
 
 .paywall-card {
-  max-width: 820px;
+  max-width: 1140px;
   margin: 40px auto;
   padding: 40px;
   background: var(--paper);
@@ -2862,7 +2862,7 @@ a:hover .media-play { background: var(--brand); }
    align-items: center guarantees the lede, button, and caption all sit
    on the same centerline regardless of their intrinsic widths. */
 .authwall-inline {
-  max-width: 820px;
+  max-width: 1140px;
   margin: 0 auto;
   padding: 28px 24px 56px;
   background: transparent;
@@ -2968,7 +2968,7 @@ a:hover .media-play { background: var(--brand); }
 .authwall-foot a { color: var(--brand); text-decoration: underline; }
 
 .tags-row {
-  max-width: 820px;
+  max-width: 1140px;
   margin: 32px auto;
   padding: 0 var(--gutter);
   display: flex;
@@ -3028,7 +3028,7 @@ a:hover .media-play { background: var(--brand); }
 }
 
 .author-card {
-  max-width: 820px;
+  max-width: 1140px;
   margin: 40px auto;
   padding: 28px var(--gutter);
   display: grid;
@@ -3070,7 +3070,7 @@ a:hover .media-play { background: var(--brand); }
 }
 
 .comments-section {
-  max-width: 820px;
+  max-width: 1140px;
   margin: 60px auto;
   padding: 0 var(--gutter);
 }
