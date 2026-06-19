@@ -349,7 +349,7 @@
           body: JSON.stringify({ title: titleEl.value.trim(), content: contentText }),
         });
         const j = await r.json();
-        if (!r.ok || !j.ok) throw new Error(j.error || 'Could not generate a summary.');
+        if (!r.ok || !j.ok) throw new Error((j.error || 'Could not generate a summary.') + (j.detail ? `\n\nDetails: ${j.detail}` : ''));
         // Fill the summary editor (replaces existing — it's a fresh AI summary).
         summaryEl.innerHTML = `<p>${j.summary.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>`;
         if (summaryPreview.style.display !== 'none') summaryPreviewBody.innerHTML = summaryEl.innerHTML;
