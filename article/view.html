@@ -53,7 +53,12 @@
   (async () => {
     document.body.dataset.page = 'article';
     const params = new URLSearchParams(location.search);
-    const slug = params.get('slug');
+    // Clean URLs are /article/<slug>; legacy/shared links use ?slug=<slug>. Accept both.
+    let slug = params.get('slug');
+    if (!slug) {
+      const m = location.pathname.match(/^\/article\/(.+?)\/?$/);
+      if (m && m[1] !== 'view' && m[1] !== 'view.html') slug = decodeURIComponent(m[1]);
+    }
     if (!slug) { setMeta({ title: 'Not found', noindex: true }); await mountChrome(''); mountFooter(); document.getElementById('article-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Article not found</h3><p>The link you followed is missing a slug.</p><a href="/" class="btn btn-primary">Go home</a></div>'; return; }
 
     let article;
@@ -77,7 +82,7 @@
     }
 
     // SEO meta — NewsArticle + BreadcrumbList with the live article data
-    const articleUrl = `${location.origin}/article/view?slug=${encodeURIComponent(article.slug)}`;
+    const articleUrl = `${location.origin}/article/${encodeURIComponent(article.slug)}`;
     const articleDesc = plainText(article.summary) || article.subtitle || article.title;
     const authorName = article.profiles?.full_name || 'Karostartup';
     const breadcrumbItems = [

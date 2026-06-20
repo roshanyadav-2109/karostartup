@@ -188,7 +188,7 @@
                 <td class="amount">${r.amount_inr ? formatINR(r.amount_inr) : formatUSD(r.amount_usd)}</td>
                 <td>${escapeHtml(r.lead_investor || '—')}</td>
                 <td style="color:#5a5a5a;font-size:0.86rem;">${(r.other_investors || []).slice(0, 3).map(escapeHtml).join(', ')}${(r.other_investors || []).length > 3 ? ` +${r.other_investors.length - 3}` : ''}</td>
-                <td>${r.articles ? `<a href="/article/view.html?slug=${encodeURIComponent(r.articles.slug)}" style="color:#d10a11;font-weight:600;">Read →</a>` : '—'}</td>
+                <td>${r.articles ? `<a href="/article/${encodeURIComponent(r.articles.slug)}" style="color:#d10a11;font-weight:600;">Read →</a>` : '—'}</td>
               </tr>`).join('')}
             </tbody>
           </table>`;

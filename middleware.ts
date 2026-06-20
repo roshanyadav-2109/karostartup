@@ -152,7 +152,10 @@ function metaTag(prop: string, content: any, name?: string) {
   return `<meta ${attr} content="${esc(content)}">`;
 }
 function buildHead(path: string, row: any, slug: string) {
-  const canon = `${ORIGIN}${path}?slug=${encodeURIComponent(slug)}`;
+  // Articles use clean URLs (/article/<slug>); category/company stay on ?slug=.
+  const canon = path === '/article/view'
+    ? `${ORIGIN}/article/${encodeURIComponent(slug)}`
+    : `${ORIGIN}${path}?slug=${encodeURIComponent(slug)}`;
   let title: string, desc: string, img: string, ogType: string, twCard: string;
   if (path === '/article/view') {
     title = row.title || SITE_NAME;
@@ -335,6 +338,39 @@ export default async function middleware(request: Request) {
       return next();
     }
 
+    // ---- 1b) Clean article URLs /article/<slug> — the public form. Humans get
+    // the SPA shell via the vercel rewrite; crawlers get server-rendered HTML
+    // here (search → full prose page, social → head-only). ----
+    const cleanArticle = path.match(/^\/article\/(.+)$/);
+    if (cleanArticle && cleanArticle[1] !== 'view') {
+      const ua = request.headers.get('user-agent') || '';
+      const isSearch = SEARCH_CRAWLER.test(ua);
+      if (isSearch || SOCIAL_CRAWLER.test(ua)) {
+        const slug = decodeURIComponent(cleanArticle[1].replace(/\/+$/, ''));
+        const full = await getArticleFull(slug);
+        if (full) {
+          const html = isSearch
+            ? buildArticlePage(full, slug)
+            : (() => {
+                const { title, headHtml } = buildHead('/article/view', full, slug);
+                return `<!doctype html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  ${headHtml}
+</head><body><h1>${esc(title)}</h1></body></html>`;
+              })();
+          return new Response(html, {
+            status: 200,
+            headers: {
+              'content-type': 'text/html; charset=utf-8',
+              'cache-control': 'public, max-age=300, s-maxage=86400, stale-while-revalidate=604800',
+            },
+          });
+        }
+      }
+      return next();
+    }
+
     // ---- 2) 410 Gone — dead WordPress assets / taxonomy / date archives ----
     if (/^\/wp-(content|includes)\//i.test(rawPath)) return gone();
     if (/^\/author\//i.test(rawPath)) return gone();
@@ -350,7 +386,7 @@ export default async function middleware(request: Request) {
     const seg = rawPath.replace(/^\/+/, '').replace(/\/+$/, '');
     if (seg && !seg.includes('/') && !RESERVED.has(seg.toLowerCase())) {
       if (await articleExists(seg)) {
-        return redir(`${ORIGIN}/article/view?slug=${encodeURIComponent(seg)}`);
+        return redir(`${ORIGIN}/article/${encodeURIComponent(seg)}`);
       }
       return next(); // unknown single-segment slug → let it 404 (no soft-404, no blind redirect)
     }

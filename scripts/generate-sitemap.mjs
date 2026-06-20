@@ -152,7 +152,7 @@ function isoDate(d) {
 
   for (const a of visibleArticles) {
     entries.push(urlEntry({
-      loc: `${SITE}/article/view?slug=${encodeURIComponent(a.slug)}`,
+      loc: `${SITE}/article/${encodeURIComponent(a.slug)}`,
       lastmod: isoDate(a.updated_at || a.published_at) || today,
       // Breaking news changes often; archive articles stabilise after a week
       changefreq: a.is_breaking ? 'hourly' : (Date.now() - new Date(a.published_at).getTime() < 7 * 86400000 ? 'daily' : 'monthly'),

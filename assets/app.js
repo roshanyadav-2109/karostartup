@@ -1541,7 +1541,7 @@ function mountFooter() {
 /* ============================================================
    CARD RENDERERS
    ============================================================ */
-function articleHref(a) { return `/article/view.html?slug=${encodeURIComponent(a.slug)}`; }
+function articleHref(a) { return `/article/${encodeURIComponent(a.slug)}`; }
 
 /* Media articles (podcast, video, interview) get a play-icon overlay
    on the cover image so readers can tell at a glance the story has
