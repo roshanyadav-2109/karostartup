@@ -46,6 +46,13 @@ const PUBLISHER_LOGO = `${ORIGIN}/assets/logo-wordmark.png`;
 
 const SOCIAL_CRAWLER = /(facebookexternalhit|Facebot|WhatsApp|Twitterbot|LinkedInBot|Slackbot|Slack-ImgProxy|TelegramBot|Discordbot|Pinterest|redditbot|vkShare|SkypeUriPreview|Embedly|Iframely|Mastodon|nuzzel|Qwantify)/i;
 
+// Search-engine crawlers. These render JS only on a deferred "second wave", and
+// the raw article/view.html shell they'd otherwise get is an empty <title>Loading…
+// page — so they index nothing. We hand them a fully server-rendered page (head +
+// real article prose) so the content is indexable at crawl time. Googlebot also
+// fronts AdsBot/Storebot/Image variants, hence the broad "Googlebot" match.
+const SEARCH_CRAWLER = /(Googlebot|Google-InspectionTool|Bingbot|BingPreview|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Exabot|Applebot|GPTBot|OAI-SearchBot|PerplexityBot|ChatGPT-User|CCBot|Amazonbot|Bytespider)/i;
+
 const ROUTES: Record<string, { table: string; select: string; published: boolean }> = {
   '/article/view':  { table: 'articles',   select: 'slug,title,subtitle,summary,cover_image_url,published_at,updated_at,tags,categories(name,slug),profiles!author_id(full_name)', published: true },
   '/category/view': { table: 'categories', select: 'slug,name,description', published: false },
@@ -206,6 +213,80 @@ function buildHead(path: string, row: any, slug: string) {
   return { title, headHtml: L.filter(Boolean).join('\n  ') };
 }
 
+// ---------- full-article SSR for search engines ----------
+// Fetch the article WITH its body content (the OG path deliberately omits it to
+// keep social payloads tiny). Timeout-bounded like every other DB call here.
+async function getArticleFull(slug: string) {
+  const select = 'slug,title,subtitle,kicker,summary,content,cover_image_url,cover_caption,published_at,updated_at,tags,categories(name,slug),profiles!author_id(full_name)';
+  const rows = await fetchJson(`articles?slug=eq.${encodeURIComponent(slug)}&status=eq.published&select=${encodeURIComponent(select)}&limit=1`);
+  return (Array.isArray(rows) && rows[0]) || null;
+}
+
+// Minimal, dependency-free markdown→HTML. Good enough for indexing: emits real
+// headings, paragraphs, lists and links so the prose is machine-readable. Legacy
+// imported articles are already HTML — detect and pass those through untouched.
+function mdToHtml(src: any) {
+  const raw = String(src || '');
+  if (!raw.trim()) return '';
+  // Already HTML (legacy WordPress import) → trust it; crawlers don't execute it.
+  if (/<(p|h[1-6]|ul|ol|li|div|br|img|blockquote|table)\b/i.test(raw)) return raw;
+
+  const inline = (s: string) =>
+    esc(s)
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_m, t, u) => `<a href="${esc(u)}">${t}</a>`)
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>');
+
+  const lines = raw.replace(/\r\n/g, '\n').split('\n');
+  const out: string[] = [];
+  let para: string[] = [];
+  let list: string[] = [];
+  const flushPara = () => { if (para.length) { out.push(`<p>${inline(para.join(' '))}</p>`); para = []; } };
+  const flushList = () => { if (list.length) { out.push(`<ul>${list.map((li) => `<li>${inline(li)}</li>`).join('')}</ul>`); list = []; } };
+  for (const ln of lines) {
+    const line = ln.trim();
+    if (!line) { flushPara(); flushList(); continue; }
+    const h = line.match(/^(#{1,6})\s+(.*)$/);
+    if (h) { flushPara(); flushList(); const lvl = Math.min(h[1].length + 1, 6); out.push(`<h${lvl}>${inline(h[2])}</h${lvl}>`); continue; }
+    if (/^[-*]\s+/.test(line)) { flushPara(); list.push(line.replace(/^[-*]\s+/, '')); continue; }
+    if (/^>\s+/.test(line)) { flushPara(); flushList(); out.push(`<blockquote>${inline(line.replace(/^>\s+/, ''))}</blockquote>`); continue; }
+    if (/^---+$/.test(line)) { flushPara(); flushList(); continue; }
+    flushList(); para.push(line);
+  }
+  flushPara(); flushList();
+  return out.join('\n');
+}
+
+// A complete, indexable HTML document: real <head> meta (reused from buildHead) +
+// real article prose in <body>. Mirrors what users eventually see client-side, so
+// this is dynamic rendering, not cloaking.
+function buildArticlePage(row: any, slug: string) {
+  const { title, headHtml } = buildHead('/article/view', row, slug);
+  const kicker = row.kicker ? `<p class="kicker">${esc(row.kicker)}</p>` : '';
+  const sub = row.subtitle ? `<p class="article-subtitle">${esc(row.subtitle)}</p>` : '';
+  const byline = row.profiles?.full_name ? `<p class="byline">By ${esc(row.profiles.full_name)}</p>` : '';
+  const cover = row.cover_image_url
+    ? `<figure><img src="${esc(abs(row.cover_image_url))}" alt="${esc(row.cover_caption || title)}">${row.cover_caption ? `<figcaption>${esc(row.cover_caption)}</figcaption>` : ''}</figure>`
+    : '';
+  const body = mdToHtml(row.content);
+  return `<!doctype html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  ${headHtml}
+  <link rel="stylesheet" href="/assets/style.css">
+</head><body>
+  <article>
+    ${kicker}
+    <h1>${esc(title)}</h1>
+    ${sub}
+    ${byline}
+    ${cover}
+    ${body}
+  </article>
+</body></html>`;
+}
+
 export default async function middleware(request: Request) {
   try {
     const url = new URL(request.url);
@@ -216,7 +297,24 @@ export default async function middleware(request: Request) {
     if (ROUTES[path]) {
       const slug = url.searchParams.get('slug');
       const ua = request.headers.get('user-agent') || '';
-      if (slug && SOCIAL_CRAWLER.test(ua)) {
+      const isSearch = SEARCH_CRAWLER.test(ua);
+      if (slug && (SOCIAL_CRAWLER.test(ua) || isSearch)) {
+        // Search engines on an article route get the full prose-rendered page so
+        // the body text is indexable without waiting on a JS render pass.
+        if (isSearch && path === '/article/view') {
+          const full = await getArticleFull(slug);
+          if (full) {
+            return new Response(buildArticlePage(full, slug), {
+              status: 200,
+              headers: {
+                'content-type': 'text/html; charset=utf-8',
+                'cache-control': 'public, max-age=300, s-maxage=86400, stale-while-revalidate=604800',
+              },
+            });
+          }
+        }
+        // Social crawlers — and search engines on category/company — get the
+        // head-only page (real title/description/canonical/JSON-LD, no empty shell).
         const row = await getRow(path, slug);
         if (row) {
           const { title, headHtml } = buildHead(path, row, slug);
