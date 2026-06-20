@@ -296,6 +296,15 @@ export default async function middleware(request: Request) {
     const rawPath = url.pathname;
     const path = rawPath.replace(/\.html$/, '');
 
+    // ---- 0) Old article URL form /article/view?slug=X → 301 to clean /article/X.
+    // Done here (not in vercel.json) so the Location is exact — Vercel would
+    // otherwise re-append the original ?slug= query to the destination. Internal
+    // rewrites don't re-invoke middleware, so the /article/<slug> shell is safe. ----
+    if (path === '/article/view') {
+      const s = url.searchParams.get('slug');
+      if (s) return redir(`${ORIGIN}/article/${encodeURIComponent(s)}`);
+    }
+
     // ---- 1) The 3 query-param view routes: OG for crawlers, else pass through ----
     if (ROUTES[path]) {
       const slug = url.searchParams.get('slug');

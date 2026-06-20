@@ -4,7 +4,6 @@
   "buildCommand": "node scripts/generate-homepage-snapshot.mjs || true",
   "outputDirectory": ".",
   "redirects": [
-    { "source": "/article/view", "has": [{ "type": "query", "key": "slug", "value": "(?<slug>.*)" }], "destination": "/article/:slug", "permanent": true },
     { "source": "/general/:slug", "destination": "/article/:slug", "permanent": true },
     { "source": "/news/:slug", "destination": "/article/:slug", "permanent": true },
     { "source": "/press-release/:slug", "destination": "/article/:slug", "permanent": true },
@@ -74,7 +73,7 @@
     { "source": "/web-stories", "destination": "/category/view?slug=startups", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/article/:slug", "destination": "/article/view.html?slug=:slug" }
+    { "source": "/article/:slug", "destination": "/article/view?slug=:slug" }
   ],
   "headers": [
     {
