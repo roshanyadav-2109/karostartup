@@ -19,3 +19,4 @@ Disallow: /contact.html?
 Crawl-delay: 1
 
 Sitemap: https://www.karostartup.com/sitemap.xml
+Sitemap: https://www.karostartup.com/news-sitemap.xml

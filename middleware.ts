@@ -31,7 +31,7 @@ export const config = {
   // Run on everything EXCEPT static assets / api / the homepage data file, so we
   // can see old root /<slug>, /tag, /author, /wp-content, /20YY paths. The 3
   // the 3 view OG routes are included. (Reserved paths still pass through in-handler.)
-  matcher: ['/((?!api/|_next/|assets/|data/|favicon.ico|robots.txt|sitemap.xml).*)'],
+  matcher: ['/((?!api/|_next/|assets/|data/|favicon.ico|robots.txt|sitemap.xml|news-sitemap.xml).*)'],
 };
 
 const BASE = 'https://svwpvqmqmisoffbnnjdc.supabase.co';

@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 /**
- * Generate sitemap.xml at the repo root.
+ * Generate sitemap.xml AND news-sitemap.xml at the repo root.
  *
  * Queries Supabase for every published article + every category + every
  * company + every podcast episode, plus the known static pages, and writes
  * an XML sitemap with lastmod / changefreq / priority hints suitable for
  * Google, Bing, and Yandex.
+ *
+ * Also writes news-sitemap.xml — a Google News sitemap of articles published
+ * in the last 48h (with <news:news> tags) for News / Top Stories discovery.
+ * Both files are declared in robots.txt.
  *
  * Usage:
  *   SUPABASE_SERVICE_ROLE_KEY=ey... node scripts/generate-sitemap.mjs
@@ -114,7 +118,7 @@ function isoDate(d) {
   ];
 
   // Dynamic — published articles (paginated; see restAll — single fetch was capped at 1000)
-  const articles = await restAll('articles?select=slug,published_at,updated_at,cover_image_url,is_breaking,source,approved_for_public&status=eq.published&order=published_at.desc,id.asc');
+  const articles = await restAll('articles?select=slug,title,published_at,updated_at,cover_image_url,is_breaking,source,approved_for_public&status=eq.published&order=published_at.desc,id.asc');
 
   // Respect the auto-fetch public-visibility toggle: hidden PIB (auto-fetched)
   // articles must not appear in the sitemap, or Google indexes pages the public
@@ -190,4 +194,50 @@ ${entries.join('\n')}
   writeFileSync(out, xml);
   console.log(`\n✓ Wrote ${out}`);
   console.log(`  Total URLs: ${entries.length}`);
+
+  // ---------------------------------------------------------------------------
+  // Google News sitemap — only articles published in the last 48h (Google
+  // ignores anything older in a News sitemap), max 1000, with <news:news> tags.
+  // Declared via robots.txt alongside the main sitemap. Refreshed by the same
+  // GitHub Action so fresh articles get discovered for News / Top Stories.
+  // ---------------------------------------------------------------------------
+  const PUBLICATION_NAME = 'Karostartup';
+  const PUBLICATION_LANG = 'en';
+  const NEWS_WINDOW_MS = 48 * 60 * 60 * 1000;
+  const now = Date.now();
+  const w3c = (d) => new Date(d).toISOString().replace(/\.\d{3}Z$/, 'Z'); // 2026-06-23T08:06:19Z
+
+  const recent = visibleArticles
+    .filter((a) => a.published_at && (now - new Date(a.published_at).getTime()) < NEWS_WINDOW_MS)
+    .slice(0, 1000);
+
+  const newsEntries = recent.map((a) => {
+    const lines = ['  <url>'];
+    lines.push(`    <loc>${xmlEscape(`${SITE}/article/${encodeURIComponent(a.slug)}`)}</loc>`);
+    lines.push('    <news:news>');
+    lines.push('      <news:publication>');
+    lines.push(`        <news:name>${xmlEscape(PUBLICATION_NAME)}</news:name>`);
+    lines.push(`        <news:language>${PUBLICATION_LANG}</news:language>`);
+    lines.push('      </news:publication>');
+    lines.push(`      <news:publication_date>${w3c(a.published_at)}</news:publication_date>`);
+    lines.push(`      <news:title>${xmlEscape(a.title || a.slug)}</news:title>`);
+    lines.push('    </news:news>');
+    lines.push('  </url>');
+    return lines.join('\n');
+  });
+
+  const newsXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+${newsEntries.join('\n')}
+</urlset>
+`;
+
+  const newsOut = resolve(__dirname, '..', 'news-sitemap.xml');
+  writeFileSync(newsOut, newsXml);
+  console.log(`✓ Wrote ${newsOut}`);
+  console.log(`  News URLs (last 48h): ${newsEntries.length}`);
+  if (newsEntries.length === 0) {
+    console.log('  ⚠ No articles in the last 48h — news sitemap is empty (Google may report "no entries"; harmless until you publish).');
+  }
 })().catch((e) => { console.error(e.message); process.exit(1); });
