@@ -2,6 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/andhra-pradesh-government-schools-partner-with-canva</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-06-24T10:43:35Z</news:publication_date>
+      <news:title>Andhra Pradesh Government Schools Partner with Canva</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/bodycraft-raises-120-crore-funding-from-singularity-amc-to-ramp-up-expansion</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-06-24T07:49:53Z</news:publication_date>
+      <news:title>Bodycraft Raises ₹120 Crore Funding from Singularity AMC to Ramp Up Expansion</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/campa-cola-crosses-4700-crore-climbs-to-no-4-in-soft-drinks</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-06-24T06:54:37Z</news:publication_date>
+      <news:title>Campa Cola Crosses ₹4,700 Crore, Climbs to No. 4 in Soft Drinks</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/delhivery-has-launched-delhivery-maps-to-solve-indias-complex-address-and-logistics-challenges</loc>
     <news:news>
       <news:publication>
@@ -54,17 +87,6 @@
       </news:publication>
       <news:publication_date>2026-06-22T11:00:24Z</news:publication_date>
       <news:title>Odloza Studio: Rewriting Visual Identities for Brands</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/venator-study-finds-sbi-has-quietly-become-indias-most-reliable-ceo-factory-for-private-banks</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-06-22T04:35:00Z</news:publication_date>
-      <news:title>Venator Study Finds SBI Has Quietly Become India&apos;s Most Reliable CEO Factory for Private Banks</news:title>
     </news:news>
   </url>
 </urlset>
