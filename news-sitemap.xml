@@ -34,15 +34,4 @@
       <news:title>Campa Cola Crosses ₹4,700 Crore, Climbs to No. 4 in Soft Drinks</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/delhivery-has-launched-delhivery-maps-to-solve-indias-complex-address-and-logistics-challenges</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-06-23T11:04:57Z</news:publication_date>
-      <news:title>Delhivery has launched &quot;Delhivery Maps” to solve India’s complex address and logistics challenges</news:title>
-    </news:news>
-  </url>
 </urlset>
