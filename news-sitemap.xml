@@ -67,15 +67,4 @@
       <news:title>Crafting Bharat – Season 3 launches its seventh episode featuring Sandeep Jethwani of Dezerv</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/sarvam-becomes-indias-latest-ai-unicorn-how-does-it-matter-for-india</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-06-23T01:43:00Z</news:publication_date>
-      <news:title>Sarvam Becomes India&apos;s Latest AI Unicorn: How does it matter for India?</news:title>
-    </news:news>
-  </url>
 </urlset>
