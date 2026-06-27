@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/eazypharmacy-the-health-tech-startup-fixing-how-india-finds-its-medicines</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-06-27T11:29:38Z</news:publication_date>
+      <news:title>EazyPharmacy: The Health-Tech Startup Fixing How India Finds Its Medicines</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/quenzy-soda-transforming-the-healthy-beverage-experience-in-india</loc>
     <news:news>
       <news:publication>
