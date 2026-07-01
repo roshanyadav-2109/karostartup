@@ -34,15 +34,4 @@
       <news:title>From Building VMEDO To Launching Tez Health: Why Praveen Gowdru Is Betting Big On The Future Of Healthcare At Home</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/justpour-reimagining-indias-coffee-consumption</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-06-29T01:46:00Z</news:publication_date>
-      <news:title>How JustPour Is Changing the Way India Drinks Coffee</news:title>
-    </news:news>
-  </url>
 </urlset>
