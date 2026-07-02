@@ -229,7 +229,14 @@ async function getArticleFull(slug: string) {
 // headings, paragraphs, lists and links so the prose is machine-readable. Legacy
 // imported articles are already HTML — detect and pass those through untouched.
 function mdToHtml(src: any) {
-  const raw = String(src || '');
+  const raw = String(src || '')
+    // Strip Office/Word paste cruft: mso conditional comments (which wrap the
+    // <xml><w:…> block containing "MicrosoftInternetExplorer4"), stray <xml>
+    // blocks, <style> blocks, and o:/w: namespace tags. Keeps SSR output clean.
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/<xml[\s\S]*?<\/xml>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<\/?[ovw]:[^>]*>/gi, '');
   if (!raw.trim()) return '';
   // Already HTML (legacy WordPress import) → trust it; crawlers don't execute it.
   if (/<(p|h[1-6]|ul|ol|li|div|br|img|blockquote|table)\b/i.test(raw)) return raw;

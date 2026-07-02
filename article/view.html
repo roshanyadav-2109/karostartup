@@ -30,6 +30,9 @@
     if (!md) return '';
     const plain = md
       // legacy imported articles are HTML; drop tags + decode common entities
+      // HTML comments first — Word/Office paste wraps mso XML in <!--[if gte mso 9]>…<![endif]-->
+      // whose inner text (e.g. "MicrosoftInternetExplorer4") would otherwise leak past tag-stripping.
+      .replace(/<!--[\s\S]*?-->/g, ' ')
       .replace(/<script[\s\S]*?<\/script>/gi, '')
       .replace(/<style[\s\S]*?<\/style>/gi, '')
       .replace(/<[^>]+>/g, ' ')
