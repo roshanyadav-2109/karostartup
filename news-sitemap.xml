@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/money-buys-time-not-loyalty-blue-star-chro-arun-rajan-on-what-truly-keeps-talent</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-04T10:09:44Z</news:publication_date>
+      <news:title>“Money Buys Time, Not Loyalty”: Blue Star CHRO Arun Rajan on What Truly Keeps Talent</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/taadaa-bringing-professional-chefs-to-your-doorstep</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-04T07:55:33Z</news:publication_date>
+      <news:title>TAADAA: Bringing Professional Chefs to Your Doorstep</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/otobot-technologies-revolutionising-the-automotive-industry</loc>
     <news:news>
       <news:publication>
