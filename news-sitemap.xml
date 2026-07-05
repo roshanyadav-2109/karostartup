@@ -34,37 +34,4 @@
       <news:title>ITC Enters India’s ₹50,000 Crore Carbonated Soft Drinks Market with Coconut Cola</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/otobot-technologies-revolutionising-the-automotive-industry</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-03T07:14:48Z</news:publication_date>
-      <news:title>Otobot Technologies: Revolutionising the Automotive Industry</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/big-media-communications-building-indias-creator-economy</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-03T06:46:17Z</news:publication_date>
-      <news:title>Big Media Communications: Building India’s Creator Economy</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/dunzo-founder-raises-102-crore-to-solve-the-problem-his-previous-startup-created</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-03T06:10:00Z</news:publication_date>
-      <news:title>Ex-Dunzo Founder Raises ₹102 Crore to Solve the Problem His Previous Startup Created</news:title>
-    </news:news>
-  </url>
 </urlset>
