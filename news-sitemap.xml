@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/zeta-founder-bhavin-turakhia-launches-enterprise-ai-startup-neo-with-personal-investment</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-06T12:45:22Z</news:publication_date>
+      <news:title>Zeta Founder Bhavin Turakhia Launches Enterprise AI Startup “Neo” with Personal Investment</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/kriti-sanon-backed-d2c-nutrition-startup-supply6-raises-48-crore-to-fuel-next-growth-phase</loc>
     <news:news>
       <news:publication>
