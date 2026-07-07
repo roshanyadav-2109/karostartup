@@ -2,6 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/simple-energy-partners-with-idfc-first-bank-to-make-electric-scooters-more-accessible-across-india</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-07T05:45:44Z</news:publication_date>
+      <news:title>‘Simple Energy’ Partners with IDFC FIRST Bank to Make Electric Scooters More Accessible Across India</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/onpoint-raises-600k-to-democratize-loyalty-rewards-through-an-intelligent-rewards-platform</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-07T00:46:00Z</news:publication_date>
+      <news:title>Onpoint Raises $600K to Democratize Loyalty Rewards Through an Intelligent Rewards Platform</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/crafting-bharat-season-3-launches-its-season-finale-episode-featuring-sriram-santhanam-head-of-startups-aws-india</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-06T19:24:00Z</news:publication_date>
+      <news:title>Crafting Bharat – Season 3 launches its season finale episode featuring Sriram Santhanam, Head of Startups, AWS India</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/zeta-founder-bhavin-turakhia-launches-enterprise-ai-startup-neo-with-personal-investment</loc>
     <news:news>
       <news:publication>
