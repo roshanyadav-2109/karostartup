@@ -2,6 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/this-startup-makes-luggage-travel-smarter-fly-my-luggage</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-08T12:15:23Z</news:publication_date>
+      <news:title>This Startup Makes Luggage Travel Smarter: Fly My Luggage</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/from-15000-to-1900-crore-the-chik-shampoo-success-story</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-08T11:12:06Z</news:publication_date>
+      <news:title>From ₹15,000 to ₹1,900 Crore: The CHIK Shampoo Success Story</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/two-childhood-friends-built-a-110-crore-ai-study-app-at-just-21</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-08T10:24:51Z</news:publication_date>
+      <news:title>Two Childhood Friends Built a ₹110 Crore AI Study App at Just 21</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/iim-bangalore-to-open-first-overseas-campus-in-indonesia-pm-modi-hails-move-as-a-boost-for-asean-youth</loc>
     <news:news>
       <news:publication>
@@ -98,39 +131,6 @@
       </news:publication>
       <news:publication_date>2026-07-06T19:24:00Z</news:publication_date>
       <news:title>Crafting Bharat – Season 3 launches its season finale episode featuring Sriram Santhanam, Head of Startups, AWS India</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/zeta-founder-bhavin-turakhia-launches-enterprise-ai-startup-neo-with-personal-investment</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-06T12:45:22Z</news:publication_date>
-      <news:title>Zeta Founder Bhavin Turakhia Launches Enterprise AI Startup “Neo” with Personal Investment</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/kriti-sanon-backed-d2c-nutrition-startup-supply6-raises-48-crore-to-fuel-next-growth-phase</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-06T11:46:41Z</news:publication_date>
-      <news:title>Kriti Sanon-Backed D2C Nutrition Startup Supply6 Raises ₹48 Crore to Fuel Next Growth Phase</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/this-startup-wants-to-end-the-ola-vs-uber-vs-rapido-hassle-meet-bob</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-06T11:38:53Z</news:publication_date>
-      <news:title>This Startup Wants to End the Ola vs Uber vs Rapido Hassle: Meet Bob</news:title>
     </news:news>
   </url>
 </urlset>
