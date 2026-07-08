@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/iim-bangalore-to-open-first-overseas-campus-in-indonesia-pm-modi-hails-move-as-a-boost-for-asean-youth</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-08T08:56:27Z</news:publication_date>
+      <news:title>IIM Bangalore to Open First Overseas Campus in Indonesia: PM Modi Hails Move as a Boost for ASEAN Youth</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/kareena-kapoor-khan-invests-in-fizzy-goblet-they-have-always-been-part-of-my-wardrobe</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-08T07:57:01Z</news:publication_date>
+      <news:title>Kareena Kapoor Khan Invests in Fizzy Goblet: ‘They Have Always Been Part of My Wardrobe’</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/gokwik-appoints-aseem-goyal-as-vice-president-of-business-for-kwik-ship</loc>
     <news:news>
       <news:publication>
