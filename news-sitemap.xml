@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/gokwik-appoints-aseem-goyal-as-vice-president-of-business-for-kwik-ship</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-08T06:31:33Z</news:publication_date>
+      <news:title>GoKwik Appoints Aseem Goyal as Vice President of Business for ‘Kwik Ship’</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/flipkart-co-founder-sachin-bansals-navi-plans-3000-crore-ipo-by-march-2027-report</loc>
     <news:news>
       <news:publication>
@@ -98,17 +109,6 @@
       </news:publication>
       <news:publication_date>2026-07-06T11:38:53Z</news:publication_date>
       <news:title>This Startup Wants to End the Ola vs Uber vs Rapido Hassle: Meet Bob</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/mars-cosmetics-how-a-brand-born-in-tier-2-3-cities-is-marching-towards-800-crore</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-06T05:28:47Z</news:publication_date>
-      <news:title>MARS Cosmetics: How a Brand Born in Tier 2 &amp; 3 Cities is Marching Towards ₹800 Crore</news:title>
     </news:news>
   </url>
 </urlset>
