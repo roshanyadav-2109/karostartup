@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/openai-launches-gpt-live-making-conversations-with-chatgpt-feel-truly-human</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-09T11:02:18Z</news:publication_date>
+      <news:title>OpenAI Launches GPT-Live: Making Conversations with ChatGPT Feel Truly Human</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/honda-bets-big-3800-new-jobs-and-massive-capacity-expansion</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-09T10:09:57Z</news:publication_date>
+      <news:title>Honda Bets Big: 3,800 New Jobs and Massive Capacity Expansion</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/swiggy-becomes-majority-indian-owned-company-as-domestic-stake-rises-to-5024</loc>
     <news:news>
       <news:publication>
@@ -109,17 +131,6 @@
       </news:publication>
       <news:publication_date>2026-07-08T06:31:33Z</news:publication_date>
       <news:title>GoKwik Appoints Aseem Goyal as Vice President of Business for ‘Kwik Ship’</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/flipkart-co-founder-sachin-bansals-navi-plans-3000-crore-ipo-by-march-2027-report</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-07T08:39:17Z</news:publication_date>
-      <news:title>Flipkart Co-founder Sachin Bansal’s ‘Navi’ Plans ₹3,000 Crore IPO by March 2027: Report</news:title>
     </news:news>
   </url>
 </urlset>
