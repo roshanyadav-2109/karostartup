@@ -2,6 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/swiggy-becomes-majority-indian-owned-company-as-domestic-stake-rises-to-5024</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-09T07:17:25Z</news:publication_date>
+      <news:title>Swiggy Becomes Majority Indian-Owned Company as Domestic Stake Rises to 50.24%</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/meet-the-sisters-turning-indias-diabetes-crisis-into-a-health-startup</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-09T06:38:33Z</news:publication_date>
+      <news:title>Meet the Sisters Turning India’s Diabetes Crisis Into a Health Startup</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/dream-sports-cto-amit-sharma-resigns-to-launch-his-own-ai-startup</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-09T05:46:14Z</news:publication_date>
+      <news:title>Dream Sports CTO Amit Sharma Resigns to Launch His Own AI Startup</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/98-fahren-clothing-that-beats-the-heat-in-style</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-09T05:07:47Z</news:publication_date>
+      <news:title>98 Fahren: Clothing that Beats the Heat in Style</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/this-startup-makes-luggage-travel-smarter-fly-my-luggage</loc>
     <news:news>
       <news:publication>
@@ -76,39 +120,6 @@
       </news:publication>
       <news:publication_date>2026-07-07T08:39:17Z</news:publication_date>
       <news:title>Flipkart Co-founder Sachin Bansal’s ‘Navi’ Plans ₹3,000 Crore IPO by March 2027: Report</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/will-always-remain-a-phonepe-r-phonepe-insurance-ceo-vishal-gupta-resigns-to-launch-a-new-startup</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-07T07:12:00Z</news:publication_date>
-      <news:title>“Will Always Remain a PhonePe-r”: PhonePe Insurance CEO Vishal Gupta Resigns to Launch a New Startup</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/simple-energy-partners-with-idfc-first-bank-to-make-electric-scooters-more-accessible-across-india</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-07T05:45:44Z</news:publication_date>
-      <news:title>‘Simple Energy’ Partners with IDFC FIRST Bank to Make Electric Scooters More Accessible Across India</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/the-man-who-almost-went-bankrupt-selling-water-based-cooling-achal-bakeris-remarkable-comeback-with-symphony</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-07T04:04:00Z</news:publication_date>
-      <news:title>The Man Who Almost Went Bankrupt, Selling Water-Based Cooling: Achal Bakeri’s Remarkable Comeback with Symphony</news:title>
     </news:news>
   </url>
 </urlset>
