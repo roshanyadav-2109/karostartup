@@ -122,15 +122,4 @@
       <news:title>Kareena Kapoor Khan Invests in Fizzy Goblet: ‘They Have Always Been Part of My Wardrobe’</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/gokwik-appoints-aseem-goyal-as-vice-president-of-business-for-kwik-ship</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-08T06:31:33Z</news:publication_date>
-      <news:title>GoKwik Appoints Aseem Goyal as Vice President of Business for ‘Kwik Ship’</news:title>
-    </news:news>
-  </url>
 </urlset>
