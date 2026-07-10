@@ -89,37 +89,4 @@
       <news:title>From ₹15,000 to ₹1,900 Crore: The CHIK Shampoo Success Story</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/two-childhood-friends-built-a-110-crore-ai-study-app-at-just-21</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-08T10:24:51Z</news:publication_date>
-      <news:title>Two Childhood Friends Built a ₹110 Crore AI Study App at Just 21</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/iim-bangalore-to-open-first-overseas-campus-in-indonesia-pm-modi-hails-move-as-a-boost-for-asean-youth</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-08T08:56:27Z</news:publication_date>
-      <news:title>IIM Bangalore to Open First Overseas Campus in Indonesia: PM Modi Hails Move as a Boost for ASEAN Youth</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/kareena-kapoor-khan-invests-in-fizzy-goblet-they-have-always-been-part-of-my-wardrobe</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-08T07:57:01Z</news:publication_date>
-      <news:title>Kareena Kapoor Khan Invests in Fizzy Goblet: ‘They Have Always Been Part of My Wardrobe’</news:title>
-    </news:news>
-  </url>
 </urlset>
