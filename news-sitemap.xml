@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/pop-launches-first-brand-campaign-says-upi-users-deserve-more-from-every-payment</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-10T13:15:00Z</news:publication_date>
+      <news:title>POP launches first brand campaign, says UPI users deserve more from every payment</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/openai-launches-gpt-live-making-conversations-with-chatgpt-feel-truly-human</loc>
     <news:news>
       <news:publication>
@@ -65,28 +76,6 @@
       </news:publication>
       <news:publication_date>2026-07-09T05:07:47Z</news:publication_date>
       <news:title>98 Fahren: Clothing that Beats the Heat in Style</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/this-startup-makes-luggage-travel-smarter-fly-my-luggage</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-08T12:15:23Z</news:publication_date>
-      <news:title>This Startup Makes Luggage Travel Smarter: Fly My Luggage</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/from-15000-to-1900-crore-the-chik-shampoo-success-story</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-08T11:12:06Z</news:publication_date>
-      <news:title>From ₹15,000 to ₹1,900 Crore: The CHIK Shampoo Success Story</news:title>
     </news:news>
   </url>
 </urlset>
