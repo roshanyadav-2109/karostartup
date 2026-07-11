@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/aukera-raises-90-cr-to-expand-lab-grown-diamond-business</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-11T07:49:55Z</news:publication_date>
+      <news:title>Aukera Raises ₹90 Cr to Expand Lab-Grown Diamond Business</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/blk-coral-intelligence-creating-a-safer-cyberspace-for-india</loc>
     <news:news>
       <news:publication>
@@ -54,28 +65,6 @@
       </news:publication>
       <news:publication_date>2026-07-09T10:09:57Z</news:publication_date>
       <news:title>Honda Bets Big: 3,800 New Jobs and Massive Capacity Expansion</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/swiggy-becomes-majority-indian-owned-company-as-domestic-stake-rises-to-5024</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-09T07:17:25Z</news:publication_date>
-      <news:title>Swiggy Becomes Majority Indian-Owned Company as Domestic Stake Rises to 50.24%</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/meet-the-sisters-turning-indias-diabetes-crisis-into-a-health-startup</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-09T06:38:33Z</news:publication_date>
-      <news:title>Meet the Sisters Turning India’s Diabetes Crisis Into a Health Startup</news:title>
     </news:news>
   </url>
 </urlset>
