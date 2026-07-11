@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/blk-coral-intelligence-creating-a-safer-cyberspace-for-india</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-11T04:55:22Z</news:publication_date>
+      <news:title>BLK Coral Intelligence: Creating a Safer Cyberspace for India</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/amit-jain-led-cardekho-parent-eyes-up-to-rs-15000-crore-valuation-in-proposed-ipo</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-10T23:37:00Z</news:publication_date>
+      <news:title>Amit Jain-led CarDekho Parent Eyes Up to Rs 15,000 Crore Valuation in Proposed IPO</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/pop-launches-first-brand-campaign-says-upi-users-deserve-more-from-every-payment</loc>
     <news:news>
       <news:publication>
@@ -54,28 +76,6 @@
       </news:publication>
       <news:publication_date>2026-07-09T06:38:33Z</news:publication_date>
       <news:title>Meet the Sisters Turning India’s Diabetes Crisis Into a Health Startup</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/dream-sports-cto-amit-sharma-resigns-to-launch-his-own-ai-startup</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-09T05:46:14Z</news:publication_date>
-      <news:title>Dream Sports CTO Amit Sharma Resigns to Launch His Own AI Startup</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/98-fahren-clothing-that-beats-the-heat-in-style</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-09T05:07:47Z</news:publication_date>
-      <news:title>98 Fahren: Clothing that Beats the Heat in Style</news:title>
     </news:news>
   </url>
 </urlset>
