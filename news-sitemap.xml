@@ -2,6 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/alukkas-how-a-failed-gold-shop-and-umbrella-business-created-a-30000-crore-empire</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-11T11:46:30Z</news:publication_date>
+      <news:title>Alukkas: How a Failed Gold Shop and Umbrella Business Created a ₹30,000 Crore Empire</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/push-sports-from-1-lakh-cricket-academy-to-indias-fastest-growing-sports-brand</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-11T10:31:25Z</news:publication_date>
+      <news:title>Push Sports:  From ₹1 Lakh Cricket Academy to India&apos;s Fastest-Growing Sports Brand</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/zetwerk-secures-sebi-approval-for-ipo</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-11T10:08:17Z</news:publication_date>
+      <news:title>Zetwerk Secures SEBI Approval for IPO</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/aukera-raises-90-cr-to-expand-lab-grown-diamond-business</loc>
     <news:news>
       <news:publication>
@@ -43,28 +76,6 @@
       </news:publication>
       <news:publication_date>2026-07-10T13:15:00Z</news:publication_date>
       <news:title>POP launches first brand campaign, says UPI users deserve more from every payment</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/openai-launches-gpt-live-making-conversations-with-chatgpt-feel-truly-human</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-09T11:02:18Z</news:publication_date>
-      <news:title>OpenAI Launches GPT-Live: Making Conversations with ChatGPT Feel Truly Human</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/honda-bets-big-3800-new-jobs-and-massive-capacity-expansion</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-09T10:09:57Z</news:publication_date>
-      <news:title>Honda Bets Big: 3,800 New Jobs and Massive Capacity Expansion</news:title>
     </news:news>
   </url>
 </urlset>
