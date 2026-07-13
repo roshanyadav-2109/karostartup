@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/the-10-minute-delivery-revolution-how-two-teenagers-disrupted-indias-grocery-game</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-13T12:00:35Z</news:publication_date>
+      <news:title>The 10-Minute Delivery Revolution: How Two Teenagers Disrupted India’s Grocery Game</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/airtel-commits-20000-crore-to-airtel-money-as-it-bets-big-on-financial-services</loc>
     <news:news>
       <news:publication>
@@ -43,17 +54,6 @@
       </news:publication>
       <news:publication_date>2026-07-13T06:17:07Z</news:publication_date>
       <news:title>Luxemettle: Redefining the Jewellery Experience in India</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/alukkas-how-a-failed-gold-shop-and-umbrella-business-created-a-30000-crore-empire</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-11T11:46:30Z</news:publication_date>
-      <news:title>Alukkas: How a Failed Gold Shop and Umbrella Business Created a ₹30,000 Crore Empire</news:title>
     </news:news>
   </url>
 </urlset>
