@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/airtel-commits-20000-crore-to-airtel-money-as-it-bets-big-on-financial-services</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-13T09:42:48Z</news:publication_date>
+      <news:title>Airtel Commits ₹20,000 Crore to ‘Airtel Money’ as It Bets Big on Financial Services</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/chennai-based-wheelocity-raises-rs-82-crore-to-transform-rural-supply-chains</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-13T07:30:20Z</news:publication_date>
+      <news:title>Chennai-Based Wheelocity Raises Rs 82 Crore to Transform Rural Supply Chains</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-nostalgia-built-carvaan-and-why-ai-needs-its-own-carvaan-moment</loc>
     <news:news>
       <news:publication>
@@ -32,39 +54,6 @@
       </news:publication>
       <news:publication_date>2026-07-11T11:46:30Z</news:publication_date>
       <news:title>Alukkas: How a Failed Gold Shop and Umbrella Business Created a ₹30,000 Crore Empire</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/push-sports-from-1-lakh-cricket-academy-to-indias-fastest-growing-sports-brand</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-11T10:31:25Z</news:publication_date>
-      <news:title>Push Sports:  From ₹1 Lakh Cricket Academy to India&apos;s Fastest-Growing Sports Brand</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/zetwerk-secures-sebi-approval-for-ipo</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-11T10:08:17Z</news:publication_date>
-      <news:title>Zetwerk Secures SEBI Approval for IPO</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/aukera-raises-90-cr-to-expand-lab-grown-diamond-business</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-11T07:49:55Z</news:publication_date>
-      <news:title>Aukera Raises ₹90 Cr to Expand Lab-Grown Diamond Business</news:title>
     </news:news>
   </url>
 </urlset>
