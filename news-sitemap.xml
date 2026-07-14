@@ -2,6 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/this-kerala-startup-is-using-robotics-to-clean-sewers-and-manholes</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-14T09:45:23Z</news:publication_date>
+      <news:title>This Kerala Startup is Using Robotics to clean sewers and manholes</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/lotus-lampshades-personalised-lampshades-that-spark-your-interest</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-14T06:58:12Z</news:publication_date>
+      <news:title>Lotus Lampshades: Personalised Lampshades that Spark your Interest</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-a-plastic-products-maker-became-indias-beloved-stationery-and-consumer-goods-brand</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-14T06:45:50Z</news:publication_date>
+      <news:title>How a Plastic Products Maker Became India’s Beloved Stationery and Consumer Goods Brand</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/this-couple-is-building-indias-answer-to-barbie</loc>
     <news:news>
       <news:publication>
@@ -10,6 +43,17 @@
       </news:publication>
       <news:publication_date>2026-07-14T05:53:15Z</news:publication_date>
       <news:title>This Couple is Building India’s Answer to Barbie</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/built-bags-2-mn-to-bring-natural-movement-footwear-to-indiabuilt-bags-2-mn-to-bring-natural-movement-footwear-to-india</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-14T03:40:00Z</news:publication_date>
+      <news:title>BUILT Bags $2 Mn To Bring ‘Natural Movement’ Footwear To India</news:title>
     </news:news>
   </url>
   <url>
