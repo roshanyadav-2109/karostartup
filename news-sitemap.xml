@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-banofi-is-turning-banana-waste-into-leather</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-15T05:40:01Z</news:publication_date>
+      <news:title>How Banofi is Turning Banana Waste into Leather</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/this-kerala-startup-is-using-robotics-to-clean-sewers-and-manholes</loc>
     <news:news>
       <news:publication>
@@ -98,17 +109,6 @@
       </news:publication>
       <news:publication_date>2026-07-13T07:01:20Z</news:publication_date>
       <news:title>How Nostalgia Built Carvaan and Why AI Needs Its Own Carvaan Moment</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/luxemettle-redefining-the-jewellery-experience-in-india</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-13T06:17:07Z</news:publication_date>
-      <news:title>Luxemettle: Redefining the Jewellery Experience in India</news:title>
     </news:news>
   </url>
 </urlset>
