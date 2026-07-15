@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/phonepe-launches-in-app-tax-filing-feature-simplifying-itr-and-gst-for-millions-of-indians</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-15T07:41:39Z</news:publication_date>
+      <news:title>PhonePe Launches In-App Tax Filing Feature: Simplifying ITR and GST for Millions of Indians</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-banofi-is-turning-banana-waste-into-leather</loc>
     <news:news>
       <news:publication>
@@ -10,6 +21,28 @@
       </news:publication>
       <news:publication_date>2026-07-15T05:40:01Z</news:publication_date>
       <news:title>How Banofi is Turning Banana Waste into Leather</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/digit-life-insurance-launches-guaranteed-and-index-based-variable-annuity-plans-offers-deep-level-of-customization</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-15T02:25:00Z</news:publication_date>
+      <news:title>Digit Life Insurance Launches Guaranteed and Index-based Variable Annuity Plans; offers deep level of customization</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/the-copy-couch-supporting-businesses-through-linkedin-optimisation</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-15T01:54:00Z</news:publication_date>
+      <news:title>The Copy Couch: Supporting Businesses through LinkedIn Optimisation</news:title>
     </news:news>
   </url>
   <url>
@@ -76,39 +109,6 @@
       </news:publication>
       <news:publication_date>2026-07-13T12:00:35Z</news:publication_date>
       <news:title>The 10-Minute Delivery Revolution: How Two Teenagers Disrupted India’s Grocery Game</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/airtel-commits-20000-crore-to-airtel-money-as-it-bets-big-on-financial-services</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-13T09:42:48Z</news:publication_date>
-      <news:title>Airtel Commits ₹20,000 Crore to ‘Airtel Money’ as It Bets Big on Financial Services</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/chennai-based-wheelocity-raises-rs-82-crore-to-transform-rural-supply-chains</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-13T07:30:20Z</news:publication_date>
-      <news:title>Chennai-Based Wheelocity Raises Rs 82 Crore to Transform Rural Supply Chains</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-nostalgia-built-carvaan-and-why-ai-needs-its-own-carvaan-moment</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-13T07:01:20Z</news:publication_date>
-      <news:title>How Nostalgia Built Carvaan and Why AI Needs Its Own Carvaan Moment</news:title>
     </news:news>
   </url>
 </urlset>
