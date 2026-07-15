@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/ev-startup-e3-electricai-raises-rs-100-crore-ahead-of-e3-trion-scooter-launch</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-15T12:27:34Z</news:publication_date>
+      <news:title>EV Startup E3 Electric.Ai Raises Rs 100 Crore Ahead of E3 TRION Scooter Launch</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/phonepe-launches-in-app-tax-filing-feature-simplifying-itr-and-gst-for-millions-of-indians</loc>
     <news:news>
       <news:publication>
@@ -21,6 +32,17 @@
       </news:publication>
       <news:publication_date>2026-07-15T05:40:01Z</news:publication_date>
       <news:title>How Banofi is Turning Banana Waste into Leather</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-narasu-built-a-rs-641-crore-coffee-empire-without-external-funding</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-15T05:21:00Z</news:publication_date>
+      <news:title>How ‘Narasu’ Built a Rs 641 Crore Coffee Empire Without External Funding</news:title>
     </news:news>
   </url>
   <url>
@@ -98,17 +120,6 @@
       </news:publication>
       <news:publication_date>2026-07-14T03:40:00Z</news:publication_date>
       <news:title>BUILT Bags $2 Mn To Bring ‘Natural Movement’ Footwear To India</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/the-10-minute-delivery-revolution-how-two-teenagers-disrupted-indias-grocery-game</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-13T12:00:35Z</news:publication_date>
-      <news:title>The 10-Minute Delivery Revolution: How Two Teenagers Disrupted India’s Grocery Game</news:title>
     </news:news>
   </url>
 </urlset>
