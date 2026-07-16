@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/paytm-remains-majority-indian-owned-for-second-consecutive-quarter</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-16T12:09:28Z</news:publication_date>
+      <news:title>Paytm Remains Majority Indian-Owned for Second Consecutive Quarter</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/zoho-launches-classes-20-an-ai-powered-made-in-india-lms-for-global-education</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-16T11:11:38Z</news:publication_date>
+      <news:title>Zoho Launches Classes 2.0: An AI-Powered Made-in-India LMS for Global Education</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/2416-films-reinventing-film-production-in-india</loc>
     <news:news>
       <news:publication>
