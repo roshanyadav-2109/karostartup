@@ -68,6 +68,24 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/2416-films-reinventing-film-production-in-india</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1784195838/karostartup/uploads/article_images/rkoytbb2vxj8ppmleccu.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-bolna-ai-is-helping-enterprises-win-the-voice-ai-race</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1784195054/karostartup/uploads/article_images/fcc4odroorkazwraluwf.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/this-bengaluru-startup-wants-to-change-how-india-eats-ice-cream</loc>
     <lastmod>2026-07-16</lastmod>
     <changefreq>daily</changefreq>
@@ -114,7 +132,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-narasu-built-a-rs-641-crore-coffee-empire-without-external-funding</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -204,7 +222,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/chennai-based-wheelocity-raises-rs-82-crore-to-transform-rural-supply-chains</loc>
-    <lastmod>2026-07-14</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -313,7 +331,7 @@
   <url>
     <loc>https://www.karostartup.com/article/swiggy-becomes-majority-indian-owned-company-as-domestic-stake-rises-to-5024</loc>
     <lastmod>2026-07-15</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1783581432/karostartup/uploads/article_images/iyxxdodm7nlfgndvboog.png</image:loc>
@@ -322,7 +340,7 @@
   <url>
     <loc>https://www.karostartup.com/article/meet-the-sisters-turning-indias-diabetes-crisis-into-a-health-startup</loc>
     <lastmod>2026-07-12</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1783579076/karostartup/uploads/article_images/pa73eo489zxix4uvxao1.png</image:loc>
@@ -384,7 +402,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/kareena-kapoor-khan-invests-in-fizzy-goblet-they-have-always-been-part-of-my-wardrobe</loc>
-    <lastmod>2026-07-09</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -1230,7 +1248,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/premiumatcheap-affordable-ott-subscriptions-and-ai-tools-for-indias-digital-users</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -2112,7 +2130,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/goodbye-lpg-indias-smart-kitchens-are-switching-to-the-revolutionary-plasma-electric-flame-stove</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -3858,7 +3876,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/mobile-ki-dukaan-platform-helps-indias-small-mobile-shops-get-discovered-on-chatgpt-and-ai-search-at</loc>
-    <lastmod>2026-07-12</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -3948,7 +3966,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/from-college-project-to-global-brand-monkey-troopers-is-redefining-utility-for-gen-z</loc>
-    <lastmod>2026-06-20</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -3984,7 +4002,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/hocco-success-story-from-havmor-exit-to-building-a-500-cr-ice-cream-empire-again</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -4920,7 +4938,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/wishcare-indias-fastest-growing-beauty-brands</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -5073,7 +5091,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/kaari-naari-empowers-women-through-textile-skilling</loc>
-    <lastmod>2026-07-12</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -5172,7 +5190,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-to-prevent-heart-attack-naturally</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -5415,7 +5433,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/taj-exotica-resort-spa-goa</loc>
-    <lastmod>2026-06-20</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -5820,7 +5838,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/poonawalla-fincorp-tenzorx-ai-hackathon-india</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -6189,7 +6207,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/forest-essentials-success-story</loc>
-    <lastmod>2026-07-14</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -6270,7 +6288,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/judiciary-preparation-judiciary-golds</loc>
-    <lastmod>2026-07-12</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -6765,7 +6783,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/introducing-the-pcl-180-project-a-science</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -7215,7 +7233,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/india-called-useless-built-a-500-crore-empire</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -7242,7 +7260,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/traditional-brass-cookware-is-making</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -7833,7 +7851,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/sbi-general-insurance-launches-campaign-with-pankaj-tripathi</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -7923,7 +7941,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/metro-to-a-196m-global-empire-the-pocket-fm-story</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -8040,7 +8058,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/onlyfans-the-worlds-most-revenue-efficient-company</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -8373,7 +8391,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/palmonas-set-to-raise-200-crore-in-series-b-revenue</loc>
-    <lastmod>2026-07-14</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -8499,7 +8517,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/social-experiments-to-534-cr-revenue-inside-citymall</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -8787,7 +8805,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/nutribray-healthcare-champions-nutritional-science</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -9246,7 +9264,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/success-story-zupee-50-ludo-board-to-a-5000-crore</loc>
-    <lastmod>2026-07-10</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -9570,7 +9588,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-us-expansion-is-becoming-a-strategic-residency-tool-for-indian-owners-looking-forward-to-citizen</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -12399,7 +12417,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/invincible-us-infrastructure-pvt-ltd-honoured-at-india-business-awards-2025-in-new-delhi</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -12639,7 +12657,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/the-ultrahuman-success-story-how-an-indian-startup-made-rs-565-cr-revenue</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -13095,7 +13113,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/best-digital-marketing-institute-in-delhi-2026-pankaj-kumar-seo</loc>
-    <lastmod>2026-07-09</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>

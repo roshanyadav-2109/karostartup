@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/2416-films-reinventing-film-production-in-india</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-16T09:57:26Z</news:publication_date>
+      <news:title>24&amp;16 Films: Reinventing Film Production in India</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-bolna-ai-is-helping-enterprises-win-the-voice-ai-race</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-16T09:44:29Z</news:publication_date>
+      <news:title>How Bolna AI Is Helping Enterprises Win The Voice AI Race</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/this-bengaluru-startup-wants-to-change-how-india-eats-ice-cream</loc>
     <news:news>
       <news:publication>
@@ -87,39 +109,6 @@
       </news:publication>
       <news:publication_date>2026-07-15T01:54:00Z</news:publication_date>
       <news:title>The Copy Couch: Supporting Businesses through LinkedIn Optimisation</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/this-kerala-startup-is-using-robotics-to-clean-sewers-and-manholes</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-14T09:45:23Z</news:publication_date>
-      <news:title>This Kerala Startup is Using Robotics to clean sewers and manholes</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/lotus-lampshades-personalised-lampshades-that-spark-your-interest</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-14T06:58:12Z</news:publication_date>
-      <news:title>Lotus Lampshades: Personalised Lampshades that Spark your Interest</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-a-plastic-products-maker-became-indias-beloved-stationery-and-consumer-goods-brand</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-14T06:45:50Z</news:publication_date>
-      <news:title>How a Plastic Products Maker Became India’s Beloved Stationery and Consumer Goods Brand</news:title>
     </news:news>
   </url>
 </urlset>
