@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-addverb-built-a-global-intralogistics-powerhouse-serving-25-countries</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-17T12:18:35Z</news:publication_date>
+      <news:title>How Addverb Built a Global Intralogistics Powerhouse Serving 25 Countries</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/metastable-materials-from-battery-waste-to-industrial-metals</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-17T10:26:31Z</news:publication_date>
+      <news:title>Metastable Materials: From battery waste to industrial metals</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/killer-jeans-from-a-mumbai-gamble-to-indias-denim-king</loc>
     <news:news>
       <news:publication>
@@ -87,17 +109,6 @@
       </news:publication>
       <news:publication_date>2026-07-16T05:14:32Z</news:publication_date>
       <news:title>This Three Friends Built Squikk: Delivering Beauty Services at Home in 10 Minutes</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/ev-startup-e3-electricai-raises-rs-100-crore-ahead-of-e3-trion-scooter-launch</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-15T12:27:34Z</news:publication_date>
-      <news:title>EV Startup E3 Electric.Ai Raises Rs 100 Crore Ahead of E3 TRION Scooter Launch</news:title>
     </news:news>
   </url>
 </urlset>
