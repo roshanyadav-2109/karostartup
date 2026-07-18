@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-tsenta-is-revolutionizing-job-hunting-with-ai</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-18T05:15:34Z</news:publication_date>
+      <news:title>How Tsenta is Revolutionizing Job Hunting with AI</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-addverb-built-a-global-intralogistics-powerhouse-serving-25-countries</loc>
     <news:news>
       <news:publication>
@@ -87,28 +98,6 @@
       </news:publication>
       <news:publication_date>2026-07-16T09:44:29Z</news:publication_date>
       <news:title>How Bolna AI Is Helping Enterprises Win The Voice AI Race</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/this-bengaluru-startup-wants-to-change-how-india-eats-ice-cream</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-16T05:42:50Z</news:publication_date>
-      <news:title>This Bengaluru startup wants to change how India eats Ice-Cream</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/this-three-friends-built-squikk-delivering-beauty-services-at-home-in-10-minutes</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-16T05:14:32Z</news:publication_date>
-      <news:title>This Three Friends Built Squikk: Delivering Beauty Services at Home in 10 Minutes</news:title>
     </news:news>
   </url>
 </urlset>
