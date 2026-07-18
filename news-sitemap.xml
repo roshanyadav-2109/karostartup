@@ -24,6 +24,17 @@
     </news:news>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/this-company-made-shah-rukh-salman-aamir-market-its-brand-without-paying-a-single-rupee-to-any-celebrity</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-18T04:47:00Z</news:publication_date>
+      <news:title>This Company Made “Shah Rukh, Salman &amp; Aamir” Market Its Brand — Without Paying a Single Rupee to Any Celebrity</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-addverb-built-a-global-intralogistics-powerhouse-serving-25-countries</loc>
     <news:news>
       <news:publication>
@@ -65,50 +76,6 @@
       </news:publication>
       <news:publication_date>2026-07-17T06:52:29Z</news:publication_date>
       <news:title>How Two IIT Madras Graduates Built an Indian EV Champion</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/paytm-remains-majority-indian-owned-for-second-consecutive-quarter</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-16T12:09:28Z</news:publication_date>
-      <news:title>Paytm Remains Majority Indian-Owned for Second Consecutive Quarter</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/zoho-launches-classes-20-an-ai-powered-made-in-india-lms-for-global-education</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-16T11:11:38Z</news:publication_date>
-      <news:title>Zoho Launches Classes 2.0: An AI-Powered Made-in-India LMS for Global Education</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/2416-films-reinventing-film-production-in-india</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-16T09:57:26Z</news:publication_date>
-      <news:title>24&amp;16 Films: Reinventing Film Production in India</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-bolna-ai-is-helping-enterprises-win-the-voice-ai-race</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-16T09:44:29Z</news:publication_date>
-      <news:title>How Bolna AI Is Helping Enterprises Win The Voice AI Race</news:title>
     </news:news>
   </url>
 </urlset>
