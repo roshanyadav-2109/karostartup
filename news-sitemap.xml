@@ -45,26 +45,4 @@
       <news:title>This Company Made “Shah Rukh, Salman &amp; Aamir” Market Its Brand — Without Paying a Single Rupee to Any Celebrity</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-addverb-built-a-global-intralogistics-powerhouse-serving-25-countries</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-17T12:18:35Z</news:publication_date>
-      <news:title>How Addverb Built a Global Intralogistics Powerhouse Serving 25 Countries</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/metastable-materials-from-battery-waste-to-industrial-metals</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-17T10:26:31Z</news:publication_date>
-      <news:title>Metastable Materials: From battery waste to industrial metals</news:title>
-    </news:news>
-  </url>
 </urlset>
