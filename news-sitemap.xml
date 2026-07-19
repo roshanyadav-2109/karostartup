@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/ups-big-bet-on-youth-10-lakh-new-entrepreneurs-in-10-years-with-interest-free-loans</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-19T01:37:00Z</news:publication_date>
+      <news:title>UP’s Big Bet on Youth: 10 Lakh New Entrepreneurs in 10 Years with Interest-Free Loans</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/skyroot-aerospaces-vikram-1-makes-history-as-indias-first-private-orbital-rocket</loc>
     <news:news>
       <news:publication>
@@ -54,28 +65,6 @@
       </news:publication>
       <news:publication_date>2026-07-17T10:26:31Z</news:publication_date>
       <news:title>Metastable Materials: From battery waste to industrial metals</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/killer-jeans-from-a-mumbai-gamble-to-indias-denim-king</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-17T07:14:28Z</news:publication_date>
-      <news:title>Killer Jeans: From a Mumbai Gamble to India’s Denim King</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-two-iit-madras-graduates-built-an-indian-ev-champion</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-17T06:52:29Z</news:publication_date>
-      <news:title>How Two IIT Madras Graduates Built an Indian EV Champion</news:title>
     </news:news>
   </url>
 </urlset>
