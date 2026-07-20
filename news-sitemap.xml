@@ -2,6 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/this-odisha-startup-wins-66-crore-navy-deal-with-indigenous-underwater-robots</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-20T13:10:22Z</news:publication_date>
+      <news:title>This Odisha startup wins ₹66 Crore Navy Deal with Indigenous Underwater Robots</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/borosil-how-a-company-that-lost-money-for-12-straight-years-became-a-staple-in-millions-of-indian-homes</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-20T12:46:29Z</news:publication_date>
+      <news:title>Borosil: How a Company That Lost Money for 12 Straight Years Became a Staple in Millions of Indian Homes</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-two-friends-built-aes-the-thick-coffee-and-made-15-lakh-in-just-3-months</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-20T11:37:01Z</news:publication_date>
+      <news:title>How Two Friends Built “Aes The Thick Coffee” and Made ₹1.5 Lakh in Just 3 Months</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-a-bullock-cart-soda-sellers-son-built-a-1000-crore-empire-that-defeated-coca-cola</loc>
     <news:news>
       <news:publication>
