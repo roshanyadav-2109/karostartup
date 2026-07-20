@@ -23,26 +23,4 @@
       <news:title>Skyroot Aerospace’s Vikram-1 Makes History as India’s First Private Orbital Rocket</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-tsenta-is-revolutionizing-job-hunting-with-ai</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-18T05:15:34Z</news:publication_date>
-      <news:title>How Tsenta is Revolutionizing Job Hunting with AI</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/this-company-made-shah-rukh-salman-aamir-market-its-brand-without-paying-a-single-rupee-to-any-celebrity</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-18T04:47:00Z</news:publication_date>
-      <news:title>This Company Made “Shah Rukh, Salman &amp; Aamir” Market Its Brand — Without Paying a Single Rupee to Any Celebrity</news:title>
-    </news:news>
-  </url>
 </urlset>
