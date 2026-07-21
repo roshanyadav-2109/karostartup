@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-mywonders-screen-free-ai-toy-is-helping-kids-talk-think-and-dream-again</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-21T06:13:09Z</news:publication_date>
+      <news:title>How MyWonder’s Screen-Free AI Toy is Helping Kids Talk, Think, and Dream Again</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-bengalurus-bhindiai-is-turning-conversations-into-real-work</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-21T05:22:16Z</news:publication_date>
+      <news:title>How Bengaluru’s Bhindi.AI is Turning Conversations into Real Work</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/this-odisha-startup-wins-66-crore-navy-deal-with-indigenous-underwater-robots</loc>
     <news:news>
       <news:publication>
