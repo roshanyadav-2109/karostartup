@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/jugaadxtreme-adventures-changing-the-way-india-thinks-about-outdoor-education</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-21T06:41:28Z</news:publication_date>
+      <news:title>JugaadXtreme Adventures: Changing the way India thinks about Outdoor Education.</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-mywonders-screen-free-ai-toy-is-helping-kids-talk-think-and-dream-again</loc>
     <news:news>
       <news:publication>
