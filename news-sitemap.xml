@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/cricket-legend-ms-dhoni-invested-in-rooftop-solar-startup-solarsquare</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-22T05:19:17Z</news:publication_date>
+      <news:title>Cricket Legend MS Dhoni Invested in Rooftop Solar Startup ‘SolarSquare’</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/from-isro-engineer-to-indias-first-space-tech-unicorn</loc>
     <news:news>
       <news:publication>
