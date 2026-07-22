@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/this-d2c-brand-bringing-premium-yet-affordable-ice-cream-to-india</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-22T09:48:23Z</news:publication_date>
+      <news:title>This D2C brand Bringing Premium Yet Affordable Ice Cream to India</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/orange-health-labs-making-diagnostics-as-easy-as-ordering-food-in-india</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-22T07:06:05Z</news:publication_date>
+      <news:title>Orange Health Labs: Making Diagnostics as Easy as Ordering Food in India</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/cricket-legend-ms-dhoni-invested-in-rooftop-solar-startup-solarsquare</loc>
     <news:news>
       <news:publication>
@@ -98,28 +120,6 @@
       </news:publication>
       <news:publication_date>2026-07-20T11:37:01Z</news:publication_date>
       <news:title>How Two Friends Built “Aes The Thick Coffee” and Made ₹1.5 Lakh in Just 3 Months</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-a-bullock-cart-soda-sellers-son-built-a-1000-crore-empire-that-defeated-coca-cola</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-20T08:31:30Z</news:publication_date>
-      <news:title>How a Bullock Cart Soda Seller’s Son Built a ₹1,000+ Crore Empire That Defeated Coca-Cola</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/steptrade-capitals-chanakya-opportunities-fund-ii-hits-first-close-crosses-100-crore-in-commitments-in-three-months</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-20T07:58:33Z</news:publication_date>
-      <news:title>Steptrade Capital’s Chanakya Opportunities Fund II Hits First Close, Crosses ₹100 Crore in Commitments in Three Months</news:title>
     </news:news>
   </url>
 </urlset>
