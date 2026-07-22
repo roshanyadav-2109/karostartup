@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
-    <loc>https://www.karostartup.com/article/this-d2c-brand-bringing-premium-yet-affordable-ice-cream-to-india</loc>
+    <loc>https://www.karostartup.com/article/liberty-shoes-from-a-refugee-shoe-repair-shop-in-karnal-to-a-global-footwear-empire</loc>
     <news:news>
       <news:publication>
         <news:name>Karostartup</news:name>
         <news:language>en</news:language>
       </news:publication>
-      <news:publication_date>2026-07-22T09:48:23Z</news:publication_date>
-      <news:title>This D2C brand Bringing Premium Yet Affordable Ice Cream to India</news:title>
+      <news:publication_date>2026-07-22T12:23:32Z</news:publication_date>
+      <news:title>Liberty Shoes: From a Refugee Shoe-Repair Shop in Karnal to a Global Footwear Empire</news:title>
     </news:news>
   </url>
   <url>
@@ -24,6 +24,17 @@
     </news:news>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/how-yes-madam-is-fixing-indias-beauty-service-problems-and-building-a-58-city-empire</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-22T05:55:00Z</news:publication_date>
+      <news:title>How Yes Madam is Fixing India’s Beauty Service Problems and Building a 58-City Empire</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/cricket-legend-ms-dhoni-invested-in-rooftop-solar-startup-solarsquare</loc>
     <news:news>
       <news:publication>
@@ -32,6 +43,17 @@
       </news:publication>
       <news:publication_date>2026-07-22T05:19:17Z</news:publication_date>
       <news:title>Cricket Legend MS Dhoni Invested in Rooftop Solar Startup ‘SolarSquare’</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/this-d2c-brand-bringing-premium-yet-affordable-ice-cream-to-india</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-22T04:18:00Z</news:publication_date>
+      <news:title>This D2C brand Bringing Premium Yet Affordable Ice Cream to India</news:title>
     </news:news>
   </url>
   <url>
@@ -87,39 +109,6 @@
       </news:publication>
       <news:publication_date>2026-07-21T05:21:00Z</news:publication_date>
       <news:title>How Two Brothers from Bihar Built a ₹1.2 Crore Business from Plastic Waste</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/this-odisha-startup-wins-66-crore-navy-deal-with-indigenous-underwater-robots</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-20T13:10:22Z</news:publication_date>
-      <news:title>This Odisha startup wins ₹66 Crore Navy Deal with Indigenous Underwater Robots</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/borosil-how-a-company-that-lost-money-for-12-straight-years-became-a-staple-in-millions-of-indian-homes</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-20T12:46:29Z</news:publication_date>
-      <news:title>Borosil: How a Company That Lost Money for 12 Straight Years Became a Staple in Millions of Indian Homes</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-two-friends-built-aes-the-thick-coffee-and-made-15-lakh-in-just-3-months</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-20T11:37:01Z</news:publication_date>
-      <news:title>How Two Friends Built “Aes The Thick Coffee” and Made ₹1.5 Lakh in Just 3 Months</news:title>
     </news:news>
   </url>
 </urlset>
