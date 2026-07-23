@@ -44,14 +44,61 @@ const SITE_TWITTER = '@karo_startup';
 const DEFAULT_OG_IMAGE = `${ORIGIN}/assets/logo-wordmark.png`;
 const PUBLISHER_LOGO = `${ORIGIN}/assets/logo-wordmark.png`;
 
-const SOCIAL_CRAWLER = /(facebookexternalhit|Facebot|WhatsApp|Twitterbot|LinkedInBot|Slackbot|Slack-ImgProxy|TelegramBot|Discordbot|Pinterest|redditbot|vkShare|SkypeUriPreview|Embedly|Iframely|Mastodon|nuzzel|Qwantify)/i;
+// Link-preview / unfurling agents (messaging apps, social networks, workplace
+// tools). These want HEAD META ONLY — small and fast. Checked BEFORE the search
+// list because several contain the token "bot".
+const SOCIAL_CRAWLER = new RegExp([
+  // Meta
+  'facebookexternalhit', 'Facebot', 'FacebookBot', 'Meta-ExternalFetcher', 'WhatsApp', 'Instagram', 'Threads',
+  // X / Bluesky / Mastodon / Reddit / Pinterest / Tumblr
+  'Twitterbot', 'Bluesky', 'Mastodon', 'redditbot', 'Pinterest', 'Tumblr',
+  // Messaging
+  'TelegramBot', 'Discordbot', 'SkypeUriPreview', 'Viber', 'KakaoTalk', 'kakaostory',
+  'MicroMessenger', 'WeChat', 'Snapchat', 'LINE-ApacheHttpClient', 'Signal-Desktop',
+  // Workplace / productivity
+  'LinkedInBot', 'Slackbot', 'Slack-ImgProxy', 'MicrosoftPreview', 'SkypeBot', 'Teams',
+  'Notion', 'Trello', 'Asana', 'Mattermost', 'Rocket.Chat', 'Zoom', 'Outlook',
+  // Unfurl / embed services & readers
+  'Embedly', 'Iframely', 'nuzzel', 'Qwantify', 'vkShare', 'OpenGraph', 'Flipboard',
+  'Digg', 'Hootsuite', 'Buffer', 'SocialFlow', 'Twingly', 'Yahoo Link Preview',
+].join('|'), 'i');
 
 // Search-engine crawlers. These render JS only on a deferred "second wave", and
 // the raw article/view.html shell they'd otherwise get is an empty <title>Loading…
 // page — so they index nothing. We hand them a fully server-rendered page (head +
 // real article prose) so the content is indexable at crawl time. Googlebot also
 // fronts AdsBot/Storebot/Image variants, hence the broad "Googlebot" match.
-const SEARCH_CRAWLER = /(Googlebot|Google-InspectionTool|Bingbot|BingPreview|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Exabot|Applebot|GPTBot|OAI-SearchBot|PerplexityBot|ChatGPT-User|CCBot|Amazonbot|Bytespider)/i;
+const SEARCH_CRAWLER = new RegExp([
+  // Google (incl. News/Images/Ads/Store variants — all contain "Googlebot" — plus AI/other fetchers)
+  'Googlebot', 'Google-InspectionTool', 'GoogleOther', 'Google-Extended', 'Storebot-Google',
+  'AdsBot-Google', 'Mediapartners-Google', 'Feedfetcher-Google',
+  // Microsoft / Yahoo / DuckDuckGo
+  'Bingbot', 'BingPreview', 'adidxbot', 'Slurp', 'DuckDuckBot', 'DuckAssistBot',
+  // Global / regional engines
+  'Baiduspider', 'Yandex', 'Sogou', 'Exabot', 'Applebot', 'PetalBot', 'SeznamBot',
+  'Yeti', 'coccocbot', '360Spider', 'MojeekBot', 'Gigabot', 'ia_archiver', 'archive.org_bot',
+  // AI / LLM crawlers and assistants — these should read the full article
+  'GPTBot', 'ChatGPT-User', 'OAI-SearchBot', 'ClaudeBot', 'Claude-Web', 'Claude-User',
+  'Claude-SearchBot', 'anthropic-ai', 'PerplexityBot', 'Perplexity-User', 'CCBot',
+  'Amazonbot', 'Bytespider', 'Meta-ExternalAgent', 'cohere-ai', 'Diffbot', 'omgili',
+  'YouBot', 'PhindBot', 'AI2Bot', 'MistralAI-User', 'FirecrawlAgent', 'ImagesiftBot',
+  'Timpibot', 'Webzio', 'Seekr', 'Applebot-Extended',
+].join('|'), 'i');
+
+// Catch-all: anything clearly automated that isn't named above still gets the
+// server-rendered page rather than an empty JS shell. Real browsers never carry
+// these tokens, so the risk of catching a human is negligible.
+const GENERIC_BOT = /(bot\b|bot\/|robot|crawler|crawl|spider|scraper|fetcher|unfurl|link.?preview|linkpreview|validator|archiver|feedfetcher|python-requests|okhttp|axios|Go-http-client|java\/|libwww|curl\/|Wget)/i;
+
+// social → head meta only (fast). search → full server-rendered article.
+// Unknown bots are treated as search so they get the real content.
+function crawlerKind(ua: string): 'search' | 'social' | null {
+  if (!ua) return null;
+  if (SOCIAL_CRAWLER.test(ua)) return 'social';
+  if (SEARCH_CRAWLER.test(ua)) return 'search';
+  if (GENERIC_BOT.test(ua)) return 'search';
+  return null;
+}
 
 const ROUTES: Record<string, { table: string; select: string; published: boolean }> = {
   '/article/view':  { table: 'articles',   select: 'slug,title,subtitle,summary,cover_image_url,published_at,updated_at,tags,categories(name,slug),profiles!author_id(full_name)', published: true },
@@ -519,7 +566,7 @@ export default async function middleware(request: Request) {
     // unchanged); only a crawler pays for the one bounded query. ----
     if (path === '/' || path === '/index') {
       const homeUa = request.headers.get('user-agent') || '';
-      if (SEARCH_CRAWLER.test(homeUa)) {
+      if (crawlerKind(homeUa) === 'search') {
         const latest = await getLatestArticles(60);
         if (latest.length) return htmlResponse(buildHomePage(latest));
       }
@@ -539,8 +586,9 @@ export default async function middleware(request: Request) {
     if (ROUTES[path]) {
       const slug = url.searchParams.get('slug');
       const ua = request.headers.get('user-agent') || '';
-      const isSearch = SEARCH_CRAWLER.test(ua);
-      if (slug && (SOCIAL_CRAWLER.test(ua) || isSearch)) {
+      const kind = crawlerKind(ua);
+      const isSearch = kind === 'search';
+      if (slug && kind) {
         // Search engines on an article route get the full prose-rendered page so
         // the body text is indexable without waiting on a JS render pass.
         if (isSearch && path === '/article/view') {
@@ -593,8 +641,9 @@ export default async function middleware(request: Request) {
     const cleanArticle = path.match(/^\/article\/(.+)$/);
     if (cleanArticle && cleanArticle[1] !== 'view') {
       const ua = request.headers.get('user-agent') || '';
-      const isSearch = SEARCH_CRAWLER.test(ua);
-      if (isSearch || SOCIAL_CRAWLER.test(ua)) {
+      const kind = crawlerKind(ua);
+      const isSearch = kind === 'search';
+      if (kind) {
         const slug = decodeURIComponent(cleanArticle[1].replace(/\/+$/, ''));
         // Search crawlers need the article body; SOCIAL crawlers only need head
         // meta. Never pull the `content` column (up to 65KB) for a link preview —
