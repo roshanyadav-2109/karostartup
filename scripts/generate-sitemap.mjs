@@ -183,9 +183,13 @@ function isoDate(d) {
     }));
   }
 
+  // NOTE: the image extension namespace is version 1.1 — NOT 0.9. (Only the core
+  // sitemap and the *news* extension are 0.9.) With 0.9 here Google Search Console
+  // cannot resolve the namespace and reports, for every <image:image> entry:
+  // "Incorrect namespace" + "Invalid XML tag" + 2x "Missing XML tag".
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/0.9">
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${entries.join('\n')}
 </urlset>
 `;
