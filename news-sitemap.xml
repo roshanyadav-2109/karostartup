@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-bengaluru-startup-gumo-is-building-an-ai-co-pilot-for-smarter-travel-planning</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-23T06:01:46Z</news:publication_date>
+      <news:title>How Bengaluru Startup ‘Gumo’ is Building an AI Co-Pilot for Smarter Travel Planning</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/liberty-shoes-from-a-refugee-shoe-repair-shop-in-karnal-to-a-global-footwear-empire</loc>
     <news:news>
       <news:publication>
@@ -76,39 +87,6 @@
       </news:publication>
       <news:publication_date>2026-07-21T06:41:28Z</news:publication_date>
       <news:title>JugaadXtreme Adventures: Changing the way India thinks about Outdoor Education.</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-mywonders-screen-free-ai-toy-is-helping-kids-talk-think-and-dream-again</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-21T06:13:09Z</news:publication_date>
-      <news:title>How MyWonder’s Screen-Free AI Toy is Helping Kids Talk, Think, and Dream Again</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-bengalurus-bhindiai-is-turning-conversations-into-real-work</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-21T05:22:16Z</news:publication_date>
-      <news:title>How Bengaluru’s Bhindi.AI is Turning Conversations into Real Work</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-two-bihar-brothers-built-a-12-crore-business-from-plastic-waste</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-21T05:21:00Z</news:publication_date>
-      <news:title>How Two Brothers from Bihar Built a ₹1.2 Crore Business from Plastic Waste</news:title>
     </news:news>
   </url>
 </urlset>

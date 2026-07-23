@@ -68,6 +68,15 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/how-bengaluru-startup-gumo-is-building-an-ai-co-pilot-for-smarter-travel-planning</loc>
+    <lastmod>2026-07-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1784786461/karostartup/uploads/article_images/jikt4wp0fiselx4ppoar.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/liberty-shoes-from-a-refugee-shoe-repair-shop-in-karnal-to-a-global-footwear-empire</loc>
     <lastmod>2026-07-23</lastmod>
     <changefreq>daily</changefreq>
@@ -78,7 +87,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/orange-health-labs-making-diagnostics-as-easy-as-ordering-food-in-india</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -87,7 +96,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-yes-madam-is-fixing-indias-beauty-service-problems-and-building-a-58-city-empire</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -105,7 +114,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/this-d2c-brand-bringing-premium-yet-affordable-ice-cream-to-india</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -114,7 +123,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/from-isro-engineer-to-indias-first-space-tech-unicorn</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -123,7 +132,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/jugaadxtreme-adventures-changing-the-way-india-thinks-about-outdoor-education</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -132,7 +141,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-mywonders-screen-free-ai-toy-is-helping-kids-talk-think-and-dream-again</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -195,7 +204,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/steptrade-capitals-chanakya-opportunities-fund-ii-hits-first-close-crosses-100-crore-in-commitments-in-three-months</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -231,7 +240,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/this-company-made-shah-rukh-salman-aamir-market-its-brand-without-paying-a-single-rupee-to-any-celebrity</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -267,7 +276,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-two-iit-madras-graduates-built-an-indian-ev-champion</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -313,7 +322,7 @@
   <url>
     <loc>https://www.karostartup.com/article/this-bengaluru-startup-wants-to-change-how-india-eats-ice-cream</loc>
     <lastmod>2026-07-21</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1784180539/karostartup/uploads/article_images/ku9m7qgpd6knft0vrpuj.png</image:loc>
@@ -322,7 +331,7 @@
   <url>
     <loc>https://www.karostartup.com/article/this-three-friends-built-squikk-delivering-beauty-services-at-home-in-10-minutes</loc>
     <lastmod>2026-07-20</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1784178535/karostartup/uploads/article_images/mhfn3c1fxxrakg0nml8w.png</image:loc>
@@ -339,7 +348,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/phonepe-launches-in-app-tax-filing-feature-simplifying-itr-and-gst-for-millions-of-indians</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>hourly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -411,7 +420,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/this-couple-is-building-indias-answer-to-barbie</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -2463,7 +2472,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/karan-a-chanana-the-man-who-transformed-rice-from-trade-to-industry</loc>
-    <lastmod>2026-07-13</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -2841,7 +2850,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/voh-national-stroke-conclave-2026-driving-systems-policy-innovation-for-stroke-care-in-india</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -6441,7 +6450,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/zivame-how-richa-kar-turned-powerful-brand</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -8382,7 +8391,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/nykaa-built-indias-biggest-beauty-empire-indias-beauty-market</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -9597,7 +9606,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/from-one-flower-shop-to-400-outlets-the-inspiring-growth-story-of-fnp</loc>
-    <lastmod>2026-07-21</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -10146,7 +10155,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/digantara-reached-200-million-valuation</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -12306,7 +12315,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/plum-goodness-how-indias-first-vegan-beauty-brand-grew-into-a-indian-rupee300-crore-revolution</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -12579,7 +12588,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/snabbit-story-from-everyday-chore-problem-to-rs-500-cr-funding</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -13176,7 +13185,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/dhan-becomes-indias-new-unicorn-after-dollar120m-raise</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -13185,7 +13194,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/eruditus-raises-up-to-dollar150-million-what-this-means-for-edtechs-next-phase</loc>
-    <lastmod>2026-07-13</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
