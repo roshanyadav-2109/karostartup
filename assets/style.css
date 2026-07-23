@@ -6319,3 +6319,6 @@ a:hover .media-play { background: var(--brand); }
   .auth-brand .logo img    { height: 34px; }
   .admin-sidebar .logo img { height: 22px; }
 }
+
+/* Visually-hidden but crawlable/screen-reader text (SEO H1 on visual pages) */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}

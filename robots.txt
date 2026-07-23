@@ -9,14 +9,15 @@ Disallow: /admin/
 Disallow: /auth/
 Disallow: /profile.html
 
-# Search results pages are dynamic; let crawlers find articles directly
-Disallow: /search.html
+# The search page is served with <meta name="robots" content="noindex,follow">.
+# It must stay CRAWLABLE — a Disallow here would stop crawlers ever reading that
+# noindex, which is what actually keeps search-results pages out of the index.
 
 # Don't crawl raw query-string variants of the contact form
 Disallow: /contact.html?
 
-# Give crawlers a healthy delay (Bingbot etc.)
-Crawl-delay: 1
+# No Crawl-delay: this is a news site and throttling Bingbot/Yandex only slows
+# down discovery of freshly published articles.
 
 Sitemap: https://www.karostartup.com/sitemap.xml
 Sitemap: https://www.karostartup.com/news-sitemap.xml

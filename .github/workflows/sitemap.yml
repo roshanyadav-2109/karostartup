@@ -2,9 +2,10 @@ name: Regenerate sitemap.xml
 
 on:
   schedule:
-    # Every 4 hours — frequent enough to catch new articles, infrequent
-    # enough that we don't churn the repo with redundant commits.
-    - cron: '0 */4 * * *'
+    # Hourly — new articles must land in sitemap.xml + news-sitemap.xml fast
+    # (a Google News sitemap only counts articles from the last 48h). The commit
+    # step is a no-op when nothing changed, so quiet hours cost nothing.
+    - cron: '0 * * * *'
   workflow_dispatch:        # allow manual runs from the Actions tab
 
 permissions:
@@ -34,6 +35,12 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SITE_URL:                 ${{ vars.SITE_URL || 'https://karostartup.com' }}
         run: node scripts/generate-sitemap.mjs
+
+      - name: Ping IndexNow with fresh URLs (Bing / Yandex / Naver)
+        continue-on-error: true          # a third-party ping must never fail the run
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/indexnow-submit.mjs 2
 
       - name: Commit + push if changed
         run: |
