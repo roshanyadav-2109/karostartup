@@ -471,11 +471,60 @@ function buildCompanyPage(co: any, articles: any[], slug: string) {
   });
 }
 
+async function getLatestArticles(limit: number) {
+  const arts = await fetchJson(`articles?status=eq.published&select=slug,title,summary,published_at&order=published_at.desc&limit=${limit}`);
+  return Array.isArray(arts) ? arts : [];
+}
+
+// The homepage is client-rendered, so crawlers saw ~142 words and no links to
+// any article. SSR the latest headlines for them: the single strongest internal
+// -linking hub on the site, and the fastest path for new posts to be discovered.
+function buildHomePage(articles: any[]) {
+  const canon = `${ORIGIN}/`;
+  const heading = 'Indian Startup News, Funding Rounds & Business Analysis';
+  const desc = truncate(`${SITE_NAME} — founder-first business journalism covering Indian startups, funding rounds, deals, founders, fintech, SaaS and the economy. Updated daily.`, 160);
+  const intro = `The latest ${articles.length} stories on Indian startups, funding rounds, founders, fintech, SaaS, D2C and AI from the ${SITE_NAME} newsroom.`;
+  return hubPage({
+    canon,
+    fullTitle: `${SITE_NAME} · India's Business of Business`,
+    heading, desc, intro, articles,
+    ld: [
+      {
+        '@type': 'Organization', '@id': `${ORIGIN}/#organization`, name: SITE_NAME, url: ORIGIN,
+        logo: { '@type': 'ImageObject', url: PUBLISHER_LOGO },
+        sameAs: [`https://twitter.com/${SITE_TWITTER.replace('@', '')}`],
+      },
+      {
+        '@type': 'WebSite', '@id': `${ORIGIN}/#website`, name: SITE_NAME, url: ORIGIN,
+        publisher: { '@id': `${ORIGIN}/#organization` }, inLanguage: 'en-IN',
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: { '@type': 'EntryPoint', urlTemplate: `${ORIGIN}/search?q={search_term_string}` },
+          'query-input': 'required name=search_term_string',
+        },
+      },
+      itemListLd(articles, 'Latest stories'),
+    ],
+  });
+}
+
 export default async function middleware(request: Request) {
   try {
     const url = new URL(request.url);
     const rawPath = url.pathname;
     const path = rawPath.replace(/\.html$/, '');
+
+    // ---- 0a) Homepage: SSR the latest headlines for SEARCH crawlers only.
+    // Humans still fall straight through with zero DB calls (the hot path is
+    // unchanged); only a crawler pays for the one bounded query. ----
+    if (path === '/' || path === '/index') {
+      const homeUa = request.headers.get('user-agent') || '';
+      if (SEARCH_CRAWLER.test(homeUa)) {
+        const latest = await getLatestArticles(60);
+        if (latest.length) return htmlResponse(buildHomePage(latest));
+      }
+      return next();
+    }
 
     // ---- 0) Old article URL form /article/view?slug=X → 301 to clean /article/X.
     // Done here (not in vercel.json) so the Location is exact — Vercel would
