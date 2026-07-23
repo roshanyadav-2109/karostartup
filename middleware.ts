@@ -159,19 +159,23 @@ function buildHead(path: string, row: any, slug: string) {
   let title: string, desc: string, img: string, ogType: string, twCard: string;
   if (path === '/article/view') {
     title = row.title || SITE_NAME;
-    desc = truncate(plainText(row.summary) || row.subtitle || row.title || '', 200);
+    desc = truncate(plainText(row.summary) || row.subtitle || row.title || '', 160);
     img = ogImage(row.cover_image_url);
     ogType = 'article'; twCard = 'summary_large_image';
   } else if (path === '/category/view') {
     title = row.name || SITE_NAME;
-    desc = truncate(plainText(row.description) || `${row.name} — the latest from ${SITE_NAME}.`, 200);
+    desc = truncate(plainText(row.description) || `${row.name} — the latest from ${SITE_NAME}.`, 160);
     img = DEFAULT_OG_IMAGE; ogType = 'website'; twCard = 'summary_large_image';
   } else {
     title = row.name || SITE_NAME;
-    desc = truncate(plainText(row.description) || `${row.name} — company profile, funding history, and coverage on ${SITE_NAME}.`, 200);
+    desc = truncate(plainText(row.description) || `${row.name} — company profile, funding history, and coverage on ${SITE_NAME}.`, 160);
     img = ogImage(row.logo_url); ogType = 'website'; twCard = img === DEFAULT_OG_IMAGE ? 'summary' : 'summary_large_image';
   }
-  const fullTitle = `${title} · ${SITE_NAME}`;
+  // Keep <title> inside Google's ~65-char display window: append the brand only
+  // when it still fits, otherwise trim the headline at a word boundary. (The full
+  // headline is preserved in <h1>, og:title and JSON-LD headline.)
+  const BRAND = ` · ${SITE_NAME}`;
+  const fullTitle = (title.length + BRAND.length) <= 65 ? `${title}${BRAND}` : truncate(title, 65);
   const isCloudinaryJpg = /res\.cloudinary\.com/.test(img);
   const L: string[] = [];
   L.push(`<title>${esc(fullTitle)}</title>`);
@@ -202,14 +206,32 @@ function buildHead(path: string, row: any, slug: string) {
     if (row.updated_at || row.published_at) L.push(metaTag('article:modified_time', row.updated_at || row.published_at));
     if (row.categories?.name) L.push(metaTag('article:section', row.categories.name));
     for (const tag of (Array.isArray(row.tags) ? row.tags : [])) L.push(metaTag('article:tag', tag));
+    const catName = row.categories?.name;
+    const catSlug = row.categories?.slug;
+    const crumbs: any[] = [{ '@type': 'ListItem', position: 1, name: 'Home', item: ORIGIN }];
+    if (catName && catSlug) {
+      crumbs.push({ '@type': 'ListItem', position: 2, name: catName, item: `${ORIGIN}/category/view?slug=${encodeURIComponent(catSlug)}` });
+    }
+    crumbs.push({ '@type': 'ListItem', position: crumbs.length + 1, name: truncate(title, 110), item: canon });
+    const tags = Array.isArray(row.tags) ? row.tags : [];
     const jsonLd: any = {
-      '@context': 'https://schema.org', '@type': 'NewsArticle',
-      headline: title, description: desc, image: img ? [img] : undefined,
-      datePublished: row.published_at || undefined,
-      dateModified: row.updated_at || row.published_at || undefined,
-      author: row.profiles?.full_name ? { '@type': 'Person', name: row.profiles.full_name } : undefined,
-      publisher: { '@type': 'Organization', name: SITE_NAME, logo: { '@type': 'ImageObject', url: PUBLISHER_LOGO } },
-      mainEntityOfPage: canon, articleSection: row.categories?.name || undefined,
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'NewsArticle',
+          headline: truncate(title, 110), // Google caps NewsArticle headline at ~110 chars
+          description: desc, image: img ? [img] : undefined,
+          datePublished: row.published_at || undefined,
+          dateModified: row.updated_at || row.published_at || undefined,
+          author: row.profiles?.full_name ? { '@type': 'Person', name: row.profiles.full_name } : undefined,
+          publisher: { '@type': 'Organization', name: SITE_NAME, logo: { '@type': 'ImageObject', url: PUBLISHER_LOGO } },
+          mainEntityOfPage: canon, articleSection: catName || undefined,
+          keywords: tags.length ? tags.join(', ') : undefined,
+          inLanguage: 'en-IN',
+          isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: ORIGIN },
+        },
+        { '@type': 'BreadcrumbList', itemListElement: crumbs },
+      ],
     };
     L.push(`<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>`);
   }
@@ -279,7 +301,10 @@ function buildArticlePage(row: any, slug: string) {
   const cover = row.cover_image_url
     ? `<figure><img src="${esc(abs(row.cover_image_url))}" alt="${esc(row.cover_caption || title)}">${row.cover_caption ? `<figcaption>${esc(row.cover_caption)}</figcaption>` : ''}</figure>`
     : '';
-  const body = mdToHtml(row.content);
+  // Body images imported from WordPress/Word often have no alt attribute. Fall
+  // back to the headline so every image carries descriptive, indexable alt text.
+  const body = mdToHtml(row.content)
+    .replace(/<img(?![^>]*\salt\s*=)([^>]*?)\/?>/gi, (_m: string, attrs: string) => `<img${attrs} alt="${esc(title)}">`);
   return `<!doctype html><html lang="en"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -295,6 +320,155 @@ function buildArticlePage(row: any, slug: string) {
     ${body}
   </article>
 </body></html>`;
+}
+
+// ---------- hub-page SSR (category / company) ----------
+// These routes previously served crawlers a head-only page with a bare <h1> —
+// ~1 word of indexable content, i.e. a thin/doorway page. Now they render the
+// real article list, which also gives every article a crawlable internal link
+// (so anything published later is discovered automatically).
+
+function htmlResponse(html: string) {
+  return new Response(html, {
+    status: 200,
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+      'cache-control': 'public, max-age=300, s-maxage=86400, stale-while-revalidate=604800',
+    },
+  });
+}
+
+async function getCategoryFull(slug: string) {
+  const rows = await fetchJson(`categories?slug=eq.${encodeURIComponent(slug)}&select=id,slug,name,description&limit=1`);
+  const cat = (Array.isArray(rows) && rows[0]) || null;
+  if (!cat) return null;
+  const arts = await fetchJson(`articles?category_id=eq.${encodeURIComponent(cat.id)}&status=eq.published&select=slug,title,summary,published_at&order=published_at.desc&limit=100`);
+  return { cat, articles: Array.isArray(arts) ? arts : [] };
+}
+
+async function getCompanyFull(slug: string) {
+  const rows = await fetchJson(`companies?slug=eq.${encodeURIComponent(slug)}&select=id,slug,name,description,logo_url,sector&limit=1`);
+  const co = (Array.isArray(rows) && rows[0]) || null;
+  if (!co) return null;
+  const j = await fetchJson(`article_companies?company_id=eq.${encodeURIComponent(co.id)}&select=articles(slug,title,summary,published_at)&limit=100`);
+  const articles = (Array.isArray(j) ? j.map((x: any) => x && x.articles).filter(Boolean) : [])
+    .sort((a: any, b: any) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+  return { co, articles };
+}
+
+function articleListHtml(articles: any[]) {
+  if (!articles.length) return '';
+  const items = articles.map((a) => {
+    const url = `${ORIGIN}/article/${encodeURIComponent(a.slug)}`;
+    const ex = truncate(plainText(a.summary), 180);
+    const day = a.published_at ? String(a.published_at).slice(0, 10) : '';
+    const time = day ? `<time datetime="${esc(a.published_at)}">${esc(day)}</time>` : '';
+    return `    <li>
+      <h2><a href="${esc(url)}">${esc(a.title || a.slug)}</a></h2>
+      ${time}
+      ${ex ? `<p>${esc(ex)}</p>` : ''}
+    </li>`;
+  }).join('\n');
+  return `  <ul>\n${items}\n  </ul>`;
+}
+
+function itemListLd(articles: any[], name: string) {
+  return {
+    '@type': 'ItemList', name,
+    numberOfItems: articles.length,
+    itemListElement: articles.slice(0, 100).map((a, i) => ({
+      '@type': 'ListItem', position: i + 1,
+      url: `${ORIGIN}/article/${encodeURIComponent(a.slug)}`,
+      name: a.title || a.slug,
+    })),
+  };
+}
+
+function breadcrumbLd(trail: Array<{ name: string; url: string }>) {
+  return {
+    '@type': 'BreadcrumbList',
+    itemListElement: trail.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, item: t.url })),
+  };
+}
+
+function hubPage(opts: {
+  canon: string; fullTitle: string; heading: string; desc: string;
+  intro: string; articles: any[]; ld: any[]; image?: string;
+}) {
+  const img = opts.image || DEFAULT_OG_IMAGE;
+  const head = [
+    `<title>${esc(opts.fullTitle)}</title>`,
+    metaTag('description', opts.desc, 'description'),
+    `<link rel="canonical" href="${esc(opts.canon)}">`,
+    `<meta name="robots" content="index,follow,max-image-preview:large">`,
+    metaTag('og:site_name', SITE_NAME), metaTag('og:locale', 'en_IN'),
+    metaTag('og:type', 'website'), metaTag('og:url', opts.canon),
+    metaTag('og:title', opts.heading), metaTag('og:description', opts.desc), metaTag('og:image', img),
+    metaTag('twitter:card', 'summary_large_image', 'twitter:card'),
+    metaTag('twitter:site', SITE_TWITTER, 'twitter:site'),
+    metaTag('twitter:title', opts.heading, 'twitter:title'),
+    metaTag('twitter:description', opts.desc, 'twitter:description'),
+    metaTag('twitter:image', img, 'twitter:image'),
+    `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': opts.ld }).replace(/</g, '\\u003c')}</script>`,
+  ].filter(Boolean).join('\n  ');
+  return `<!doctype html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  ${head}
+  <link rel="stylesheet" href="/assets/style.css">
+</head><body>
+  <h1>${esc(opts.heading)}</h1>
+  ${opts.intro ? `<p>${esc(opts.intro)}</p>` : ''}
+${articleListHtml(opts.articles)}
+</body></html>`;
+}
+
+function buildCategoryPage(cat: any, articles: any[], slug: string) {
+  const canon = `${ORIGIN}/category/view?slug=${encodeURIComponent(slug)}`;
+  const name = cat.name || slug;
+  const heading = `${name} News, Funding & Analysis`;
+  const base = plainText(cat.description);
+  const desc = truncate(
+    base
+      ? `${base} Latest ${name} news, funding rounds, startup launches and analysis from India — updated daily on ${SITE_NAME}.`
+      : `Latest ${name} news, funding rounds, startup launches and in-depth analysis from India's startup ecosystem, updated daily on ${SITE_NAME}.`,
+    160);
+  const intro = base
+    ? `${base} Browse ${articles.length} ${name} stories covering Indian startups, funding rounds, founders and market trends.`
+    : `Browse ${articles.length} ${name} stories covering Indian startups, funding rounds, founders and market trends.`;
+  return hubPage({
+    canon, fullTitle: `${heading} · ${SITE_NAME}`, heading, desc, intro, articles,
+    ld: [
+      { '@type': 'CollectionPage', name: heading, description: desc, url: canon, isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: ORIGIN } },
+      itemListLd(articles, heading),
+      breadcrumbLd([{ name: 'Home', url: ORIGIN }, { name, url: canon }]),
+    ],
+  });
+}
+
+function buildCompanyPage(co: any, articles: any[], slug: string) {
+  const canon = `${ORIGIN}/company/view?slug=${encodeURIComponent(slug)}`;
+  const name = co.name || slug;
+  const sector = co.sector ? ` ${co.sector}` : '';
+  const heading = `${name} — Company Profile, Funding & News`;
+  const base = plainText(co.description);
+  const desc = truncate(
+    base
+      ? `${base} ${name} funding rounds, investors, founders and latest news on ${SITE_NAME}.`
+      : `${name}${sector ? ` is an Indian${sector} company.` : '.'} Company profile, funding history, investors, founders and latest news coverage on ${SITE_NAME}.`,
+    160);
+  const intro = base
+    ? `${base} Track ${name}'s funding rounds, investors and latest coverage below.`
+    : `Track ${name}'s funding rounds, investors, founders and latest news coverage below.`;
+  return hubPage({
+    canon, fullTitle: `${heading} · ${SITE_NAME}`, heading, desc, intro, articles,
+    image: co.logo_url ? abs(co.logo_url) : undefined,
+    ld: [
+      { '@type': 'Organization', name, description: base || undefined, url: canon, logo: co.logo_url ? abs(co.logo_url) : undefined },
+      articles.length ? itemListLd(articles, `${name} news`) : null,
+      breadcrumbLd([{ name: 'Home', url: ORIGIN }, { name, url: canon }]),
+    ].filter(Boolean),
+  });
 }
 
 export default async function middleware(request: Request) {
@@ -332,8 +506,18 @@ export default async function middleware(request: Request) {
             });
           }
         }
-        // Social crawlers — and search engines on category/company — get the
-        // head-only page (real title/description/canonical/JSON-LD, no empty shell).
+        // Search engines on the hub routes get the REAL article list SSR'd
+        // (was a bare <h1> = ~1 word of content, i.e. a thin page). This also
+        // gives every published article a crawlable internal link.
+        if (isSearch && path === '/category/view') {
+          const full = await getCategoryFull(slug);
+          if (full) return htmlResponse(buildCategoryPage(full.cat, full.articles, slug));
+        }
+        if (isSearch && path === '/company/view') {
+          const full = await getCompanyFull(slug);
+          if (full) return htmlResponse(buildCompanyPage(full.co, full.articles, slug));
+        }
+        // Social crawlers get the head-only page (real title/description/OG, no empty shell).
         const row = await getRow(path, slug);
         if (row) {
           const { title, headHtml } = buildHead(path, row, slug);
