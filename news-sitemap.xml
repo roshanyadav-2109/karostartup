@@ -24,6 +24,17 @@
     </news:news>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/from-family-silence-to-a-craft-beer-revolution-how-ankur-jain-built-bira-91</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-23T06:15:00Z</news:publication_date>
+      <news:title>From Family Silence to a Craft Beer Revolution: How Ankur Jain Built Bira 91</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-bengaluru-startup-gumo-is-building-an-ai-co-pilot-for-smarter-travel-planning</loc>
     <news:news>
       <news:publication>
@@ -32,6 +43,17 @@
       </news:publication>
       <news:publication_date>2026-07-23T06:01:46Z</news:publication_date>
       <news:title>How Bengaluru Startup ‘Gumo’ is Building an AI Co-Pilot for Smarter Travel Planning</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/ayodhya-update-shri-ram-janmabhoomi-teerth-kshetra-trust-defers-key-appointments-and-strengthens-temple-oversight</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-23T05:45:00Z</news:publication_date>
+      <news:title>Ayodhya Update: Shri Ram Janmabhoomi Teerth Kshetra Trust Defers Key Appointments and Strengthens Temple Oversight</news:title>
     </news:news>
   </url>
   <url>
@@ -87,17 +109,6 @@
       </news:publication>
       <news:publication_date>2026-07-22T04:18:00Z</news:publication_date>
       <news:title>This D2C brand Bringing Premium Yet Affordable Ice Cream to India</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/from-isro-engineer-to-indias-first-space-tech-unicorn</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-21T11:37:09Z</news:publication_date>
-      <news:title>From ISRO Engineer to India’s First Space-Tech Unicorn</news:title>
     </news:news>
   </url>
 </urlset>
