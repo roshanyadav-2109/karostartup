@@ -596,7 +596,11 @@ export default async function middleware(request: Request) {
       const isSearch = SEARCH_CRAWLER.test(ua);
       if (isSearch || SOCIAL_CRAWLER.test(ua)) {
         const slug = decodeURIComponent(cleanArticle[1].replace(/\/+$/, ''));
-        const full = await getArticleFull(slug);
+        // Search crawlers need the article body; SOCIAL crawlers only need head
+        // meta. Never pull the `content` column (up to 65KB) for a link preview —
+        // under the 800ms timeout that risks a null result, which would fall
+        // through to the SPA shell and render "Loading…" as the preview title.
+        const full = isSearch ? await getArticleFull(slug) : await getRow('/article/view', slug);
         if (full) {
           const html = isSearch
             ? buildArticlePage(full, slug)
