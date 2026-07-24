@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/from-a-small-butter-shop-to-a-1400-crore-empire-the-inspiring-journey-of-grb-dairy-foods</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-24T05:28:34Z</news:publication_date>
+      <news:title>From a Small Butter Shop to a ₹1,400 Crore Empire: The Inspiring Journey of GRB Dairy Foods</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/nikol-ev-developing-indias-ev-charging-infrastructure</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-24T00:08:00Z</news:publication_date>
+      <news:title>Nikol EV: Developing India’s EV Charging Infrastructure</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-one-womans-vision-created-indias-first-all-women-last-mile-delivery-fleet</loc>
     <news:news>
       <news:publication>
@@ -76,39 +98,6 @@
       </news:publication>
       <news:publication_date>2026-07-22T07:06:05Z</news:publication_date>
       <news:title>Orange Health Labs: Making Diagnostics as Easy as Ordering Food in India</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-yes-madam-is-fixing-indias-beauty-service-problems-and-building-a-58-city-empire</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-22T05:55:00Z</news:publication_date>
-      <news:title>How Yes Madam is Fixing India’s Beauty Service Problems and Building a 58-City Empire</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/cricket-legend-ms-dhoni-invested-in-rooftop-solar-startup-solarsquare</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-22T05:19:17Z</news:publication_date>
-      <news:title>Cricket Legend MS Dhoni Invested in Rooftop Solar Startup ‘SolarSquare’</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/this-d2c-brand-bringing-premium-yet-affordable-ice-cream-to-india</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-22T04:18:00Z</news:publication_date>
-      <news:title>This D2C brand Bringing Premium Yet Affordable Ice Cream to India</news:title>
     </news:news>
   </url>
 </urlset>
