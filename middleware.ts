@@ -111,7 +111,7 @@ const ROUTES: Record<string, { table: string; select: string; published: boolean
 const RESERVED = new Set([
   'article', 'category', 'company', 'admin', 'auth', 'assets', 'api', 'data', '_next', '.well-known',
   'best-brands', 'newsletters', 'podcasts', 'plus', 'share-your-startup', 'internship', 'contact',
-  'privacy', 'terms', 'cookies', 'features', 'search', 'neural-ai', 'profile', 'index', '404',
+  'privacy', 'terms', 'cookies', 'features', 'search', 'neural-ai', 'profile', 'index', '404', 'editorial-policy',
   'sitemap.xml', 'robots.txt', 'favicon.ico', 'sitemap', 'manifest.json', 'auth',
   // old sections already 308'd by vercel.json before middleware runs (belt-and-suspenders)
   'general', 'news', 'press-release', 'success-stories', 'startup-news', 'startup-stories',

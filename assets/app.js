@@ -1278,6 +1278,7 @@ function renderFooter() {
       <div class="footer-bottom">
         <div>© ${new Date().getFullYear()} Karostartup. All rights reserved. <span class="footer-credit">Built and maintained by <a href="https://hebrewtechnologies.com" target="_blank" rel="noopener">Hebrew Technologies</a>.</span></div>
         <div class="socials">
+          <a href="/editorial-policy.html">Editorial Policy</a>
           <a href="/privacy.html">Privacy</a>
           <a href="/terms.html">Terms</a>
           <a href="/cookies.html">Cookies</a>
