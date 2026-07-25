@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/a-man-from-a-two-room-house-in-coimbatore-who-built-the-platform-microsoft-google-and-walmart-use</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-25T05:52:25Z</news:publication_date>
+      <news:title>A Man from a Two-Room House in Coimbatore Who Built the Platform Microsoft, Google and Walmart Use</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-shipway-is-rewriting-the-economics-of-d2c-shipping</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-25T00:54:00Z</news:publication_date>
+      <news:title>How Shipway is Rewriting the Economics of D2C Shipping</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/gabit-how-arpana-shahi-is-building-an-ai-powered-longevity-platform</loc>
     <news:news>
       <news:publication>
@@ -76,39 +98,6 @@
       </news:publication>
       <news:publication_date>2026-07-23T08:37:57Z</news:publication_date>
       <news:title>How Bioscan Research is Changing the Game in Detecting Hidden Brain Injury</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/from-family-silence-to-a-craft-beer-revolution-how-ankur-jain-built-bira-91</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-23T06:15:00Z</news:publication_date>
-      <news:title>From Family Silence to a Craft Beer Revolution: How Ankur Jain Built Bira 91</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-bengaluru-startup-gumo-is-building-an-ai-co-pilot-for-smarter-travel-planning</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-23T06:01:46Z</news:publication_date>
-      <news:title>How Bengaluru Startup ‘Gumo’ is Building an AI Co-Pilot for Smarter Travel Planning</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/ayodhya-update-shri-ram-janmabhoomi-teerth-kshetra-trust-defers-key-appointments-and-strengthens-temple-oversight</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-23T05:45:00Z</news:publication_date>
-      <news:title>Ayodhya Update: Shri Ram Janmabhoomi Teerth Kshetra Trust Defers Key Appointments and Strengthens Temple Oversight</news:title>
     </news:news>
   </url>
 </urlset>
