@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/india-builds-drones-but-imports-their-batteries-dreamfly-innovations-wants-to-change-that</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-25T11:10:11Z</news:publication_date>
+      <news:title>India Builds Drones. But Imports Their Batteries. Dreamfly Innovations wants to change that</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/indias-skilled-welder-shortage-is-real-terafac-is-teaching-machines-to-close-the-gap</loc>
     <news:news>
       <news:publication>
