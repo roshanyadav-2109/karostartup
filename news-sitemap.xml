@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/indias-skilled-welder-shortage-is-real-terafac-is-teaching-machines-to-close-the-gap</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-25T10:48:09Z</news:publication_date>
+      <news:title>India’s Skilled Welder Shortage Is Real. Terafac Is Teaching Machines to Close the Gap</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/a-man-from-a-two-room-house-in-coimbatore-who-built-the-platform-microsoft-google-and-walmart-use</loc>
     <news:news>
       <news:publication>
@@ -76,17 +87,6 @@
       </news:publication>
       <news:publication_date>2026-07-24T00:08:00Z</news:publication_date>
       <news:title>Nikol EV: Developing India’s EV Charging Infrastructure</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-one-womans-vision-created-indias-first-all-women-last-mile-delivery-fleet</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-23T10:03:43Z</news:publication_date>
-      <news:title>How One Woman’s Vision Created India’s First All-Women Last-Mile Delivery Fleet</news:title>
     </news:news>
   </url>
 </urlset>
