@@ -89,15 +89,4 @@
       <news:title>From a Small Butter Shop to a ₹1,400 Crore Empire: The Inspiring Journey of GRB Dairy Foods</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/nikol-ev-developing-indias-ev-charging-infrastructure</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-24T00:08:00Z</news:publication_date>
-      <news:title>Nikol EV: Developing India’s EV Charging Infrastructure</news:title>
-    </news:news>
-  </url>
 </urlset>
