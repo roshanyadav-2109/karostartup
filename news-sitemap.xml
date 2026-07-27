@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/when-gps-fails-these-drones-keep-flying-how-enord-is-opening-up-confined-spaces-for-inspection</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-27T05:52:28Z</news:publication_date>
+      <news:title>When GPS Fails, These Drones Keep Flying: How Enord Is Opening Up Confined Spaces for Inspection</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/india-builds-drones-but-imports-their-batteries-dreamfly-innovations-wants-to-change-that</loc>
     <news:news>
       <news:publication>
@@ -21,17 +32,6 @@
       </news:publication>
       <news:publication_date>2026-07-25T10:48:09Z</news:publication_date>
       <news:title>India’s Skilled Welder Shortage Is Real. Terafac Is Teaching Machines to Close the Gap</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/a-man-from-a-two-room-house-in-coimbatore-who-built-the-platform-microsoft-google-and-walmart-use</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-25T05:52:25Z</news:publication_date>
-      <news:title>A Man from a Two-Room House in Coimbatore Who Built the Platform Microsoft, Google and Walmart Use</news:title>
     </news:news>
   </url>
 </urlset>
