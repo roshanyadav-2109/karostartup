@@ -1,0 +1,32 @@
+name: Ingest NewsReach feed
+
+on:
+  schedule:
+    # Every hour — the feed carries the ~50 most recent releases; hourly keeps
+    # us well inside that window so nothing is missed, and dedupe makes re-runs
+    # idempotent (no duplicate articles).
+    - cron: '30 * * * *'
+  workflow_dispatch:        # allow manual runs from the Actions tab
+
+permissions:
+  contents: read
+
+concurrency:
+  group: newsreach
+  cancel-in-progress: true
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      - name: Fetch + import NewsReach press releases
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          # Optional: set a NEWSREACH_FEED_URL repo secret to override the default.
+          NEWSREACH_FEED_URL: ${{ secrets.NEWSREACH_FEED_URL }}
+        run: node scripts/fetch-newsreach.mjs
