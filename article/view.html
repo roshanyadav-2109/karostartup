@@ -71,7 +71,7 @@
     let article;
     try {
       const { data, error } = await sbPublic.from('articles')
-        .select('id,slug,title,subtitle,kicker,summary,content,cover_image_url,cover_caption,category_id,published_at,updated_at,read_time_minutes,view_count,is_breaking,is_featured,tags,categories(name,slug),profiles!author_id(id,full_name,avatar_url,username,bio,twitter_handle,role)')
+        .select('id,slug,title,subtitle,kicker,summary,content,cover_image_url,cover_caption,category_id,published_at,updated_at,read_time_minutes,view_count,is_breaking,is_featured,tags,source,categories(name,slug),profiles!author_id(id,full_name,avatar_url,username,bio,twitter_handle,role)')
         .eq('slug', slug)
         .eq('status', 'published')
         .maybeSingle();
@@ -111,6 +111,9 @@
       type: 'article',
       url: articleUrl,
       canonical: articleUrl,
+      // Syndicated press releases (NewsReach) stay on-site but noindex — the same
+      // wire copy runs on many sites, so we keep it out of Google's index.
+      noindex: article.source === 'newsreach',
       keywords: (article.tags || []).join(', ') || null,
       article: {
         publishedTime: article.published_at,

@@ -130,9 +130,11 @@ function isoDate(d) {
     const s = await rest('site_settings?select=value&key=eq.auto_fetch');
     autoFetchVisible = s?.[0]?.value?.public_visible === true;
   } catch { autoFetchVisible = false; }
-  const articleVisible = (a) => a.source !== 'pib' || a.approved_for_public === true || autoFetchVisible;
+  // NewsReach syndicated press releases are served noindex,follow — never list a
+  // noindexed URL in the sitemap (Google flags "submitted URL marked noindex").
+  const articleVisible = (a) => a.source !== 'newsreach' && (a.source !== 'pib' || a.approved_for_public === true || autoFetchVisible);
   const visibleArticles = articles.filter(articleVisible);
-  console.log(`  ${articles.length} published articles (${articles.length - visibleArticles.length} auto-fetched hidden from sitemap)`);
+  console.log(`  ${articles.length} published articles (${articles.length - visibleArticles.length} hidden from sitemap: PIB-unapproved + noindex newsreach)`);
 
   // Dynamic — categories
   const categories = await rest('categories?select=slug,name&order=order_index.asc');

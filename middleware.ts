@@ -101,7 +101,7 @@ function crawlerKind(ua: string): 'search' | 'social' | null {
 }
 
 const ROUTES: Record<string, { table: string; select: string; published: boolean }> = {
-  '/article/view':  { table: 'articles',   select: 'slug,title,subtitle,summary,cover_image_url,published_at,updated_at,tags,categories(name,slug),profiles!author_id(full_name)', published: true },
+  '/article/view':  { table: 'articles',   select: 'slug,title,subtitle,summary,cover_image_url,published_at,updated_at,tags,source,categories(name,slug),profiles!author_id(full_name)', published: true },
   '/category/view': { table: 'categories', select: 'slug,name,description', published: false },
   '/company/view':  { table: 'companies',  select: 'slug,name,description,logo_url,sector', published: false },
 };
@@ -228,7 +228,13 @@ function buildHead(path: string, row: any, slug: string) {
   L.push(`<title>${esc(fullTitle)}</title>`);
   L.push(metaTag('description', desc, 'description'));
   L.push(`<link rel="canonical" href="${esc(canon)}">`);
-  L.push(`<meta name="robots" content="index,follow,max-image-preview:large">`);
+  // Syndicated press releases (NewsReach) are noindex,follow — the same text runs
+  // on many sites, so we keep them on-site but out of Google's index to protect
+  // the domain's quality signals. Everything else is fully indexable.
+  const robots = (path === '/article/view' && row.source === 'newsreach')
+    ? 'noindex,follow'
+    : 'index,follow,max-image-preview:large';
+  L.push(`<meta name="robots" content="${robots}">`);
   L.push(metaTag('og:site_name', SITE_NAME));
   L.push(metaTag('og:locale', 'en_IN'));
   L.push(metaTag('og:type', ogType));
@@ -289,7 +295,7 @@ function buildHead(path: string, row: any, slug: string) {
 // Fetch the article WITH its body content (the OG path deliberately omits it to
 // keep social payloads tiny). Timeout-bounded like every other DB call here.
 async function getArticleFull(slug: string) {
-  const select = 'slug,title,subtitle,kicker,summary,content,cover_image_url,cover_caption,published_at,updated_at,tags,categories(name,slug),profiles!author_id(full_name)';
+  const select = 'slug,title,subtitle,kicker,summary,content,cover_image_url,cover_caption,published_at,updated_at,tags,source,categories(name,slug),profiles!author_id(full_name)';
   const rows = await fetchJson(`articles?slug=eq.${encodeURIComponent(slug)}&status=eq.published&select=${encodeURIComponent(select)}&limit=1`);
   return (Array.isArray(rows) && rows[0]) || null;
 }
