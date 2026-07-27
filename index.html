@@ -244,21 +244,24 @@
       const lead = data.find(a => a.is_featured) || data[0];
       const remaining = data.filter(a => a.id !== lead.id);
 
-      // Editor's Picks = latest startup-features only (category 'startups').
-      // Separate query so the lead + top-stories rail still draws from all
-      // categories. Falls back to "remaining" if the startups bucket is empty.
+      // Editor's Picks = editor-flagged stories across ALL categories (breadth,
+      // not just startups). Falls back to the latest across categories if nothing
+      // is flagged, so the rail is always full and diverse.
       let leftStories = [];
       try {
         const picks = await snap('home:picks', 180, () => sbPublic.from('articles')
-          .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,categories!inner(name,slug),profiles!author_id(full_name)')
+          .select('id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,categories(name,slug),profiles!author_id(full_name)')
           .eq('status', 'published')
-          .eq('categories.slug', 'startups')
+          .eq('is_editors_choice', true)
           .neq('id', lead.id)
           .order('published_at', { ascending: false })
           .limit(6).then(r => r.data));
         leftStories = picks || [];
       } catch {}
-      if (!leftStories.length) leftStories = remaining.slice(0, 6);
+      if (leftStories.length < 6) {
+        const have = new Set([lead.id, ...leftStories.map(a => a.id)]);
+        leftStories = leftStories.concat(remaining.filter(a => !have.has(a.id))).slice(0, 6);
+      }
 
       const topStories  = remaining.slice(3, 8);   // 5 numbered top stories on the right
       const stripUpdates = remaining.slice(8, 14); // 4-6 mini cards under the lead
@@ -682,7 +685,7 @@
       });
       slot.innerHTML = sectorData.map(({ slug, cat, stories }) => {
         if (!cat) return `<div class="sector-card"><div class="sector-name">${slug.toUpperCase()}</div><div class="sector-meta">No category configured</div></div>`;
-        const items = stories.map(s => `<a href="/article/view.html?slug=${encodeURIComponent(s.slug)}">${escapeHtml(s.title)}</a>`).join('');
+        const items = stories.map(s => `<a href="${articleHref(s)}">${escapeHtml(s.title)}</a>`).join('');
         return `
           <div class="sector-card reveal">
             <div class="sector-name">${escapeHtml(cat.name)}</div>
@@ -822,7 +825,7 @@
               <div class="founder-attrib">
                 <span class="name">${escapeHtml(profile.profiles?.full_name || '')}</span>
                 <span class="role">Featured in Karostartup</span>
-                <a href="/article/view.html?slug=${encodeURIComponent(profile.slug)}" class="cta">Read the full story →</a>
+                <a href="${articleHref(profile)}" class="cta">Read the full story →</a>
               </div>
             </div>
           </div>`;
@@ -886,14 +889,17 @@
         .limit(3).then(r => r.data));
       const slot = document.getElementById('longread-slot');
       if (!data || !data.length) {
-        // fallback: 3 latest
+        // Fallback: recent stories, but EXCLUDE exclusives (the Founder Profile
+        // section already owns those) so the same story never shows twice on the
+        // homepage. Skip the top 8 (already in the hero) and take the next few.
         const { data: fallback } = await sbPublic.from('articles')
           .select('id,slug,title,kicker,summary,cover_image_url,published_at,categories(name)')
           .eq('status', 'published')
+          .neq('is_exclusive', true)
           .order('published_at', { ascending: false })
-          .range(8, 10)
+          .range(8, 12)
           .limit(3);
-        slot.innerHTML = (fallback || []).map(renderLongreadCard).join('') || '<div class="empty-state" style="grid-column:1/-1;"><h3>No long reads yet</h3></div>';
+        slot.innerHTML = (fallback || []).slice(0, 3).map(renderLongreadCard).join('') || '<div class="empty-state" style="grid-column:1/-1;"><h3>No long reads yet</h3></div>';
       } else {
         slot.innerHTML = data.map(renderLongreadCard).join('');
       }

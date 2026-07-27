@@ -73,10 +73,11 @@ async function hero() {
   return rest(`articles?select=${enc(select)}&${PUBLISHED}&order=published_at.desc,id.desc&limit=14`);
 }
 
-// home:picks — latest 6 'startups' features, excluding the hero lead.
+// home:picks — editor-flagged stories across ALL categories (breadth), excluding
+// the hero lead. Client falls back to latest-across-categories if this is thin.
 async function picks(leadId) {
-  const select = 'id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,categories!inner(name,slug),profiles!author_id(full_name)';
-  let q = `articles?select=${enc(select)}&${PUBLISHED}&categories.slug=eq.startups&order=published_at.desc&limit=6`;
+  const select = 'id,slug,title,kicker,subtitle,summary,cover_image_url,published_at,read_time_minutes,categories(name,slug),profiles!author_id(full_name)';
+  let q = `articles?select=${enc(select)}&${PUBLISHED}&is_editors_choice=eq.true&order=published_at.desc&limit=6`;
   if (leadId) q += `&id=neq.${leadId}`;
   return rest(q);
 }
