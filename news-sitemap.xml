@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/mannhummel-launches-global-technology-centre-to-accelerate-filtration-innovation</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-27T07:53:39Z</news:publication_date>
+      <news:title>Mann+Hummel Launches Global Technology Centre to Accelerate Filtration Innovation</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/when-gps-fails-these-drones-keep-flying-how-enord-is-opening-up-confined-spaces-for-inspection</loc>
     <news:news>
       <news:publication>
