@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/from-a-bag-of-naphthol-to-a-175-crore-global-colour-business</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-27T12:37:24Z</news:publication_date>
+      <news:title>From a Bag of Naphthol to a ₹175 Crore Global Colour Business</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-mushroom-man-of-bihar-sanjeev-kumar-helped-50000-farmers-earn</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-27T12:07:55Z</news:publication_date>
+      <news:title>How ‘Mushroom Man of Bihar’ Sanjeev Kumar Helped 50,000 Farmers Earn</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/mannhummel-launches-global-technology-centre-to-accelerate-filtration-innovation</loc>
     <news:news>
       <news:publication>
@@ -21,28 +43,6 @@
       </news:publication>
       <news:publication_date>2026-07-27T05:52:28Z</news:publication_date>
       <news:title>When GPS Fails, These Drones Keep Flying: How Enord Is Opening Up Confined Spaces for Inspection</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/india-builds-drones-but-imports-their-batteries-dreamfly-innovations-wants-to-change-that</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-25T11:10:11Z</news:publication_date>
-      <news:title>India Builds Drones. But Imports Their Batteries. Dreamfly Innovations wants to change that</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/indias-skilled-welder-shortage-is-real-terafac-is-teaching-machines-to-close-the-gap</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-25T10:48:09Z</news:publication_date>
-      <news:title>India’s Skilled Welder Shortage Is Real. Terafac Is Teaching Machines to Close the Gap</news:title>
     </news:news>
   </url>
 </urlset>
