@@ -34,15 +34,4 @@
       <news:title>A Man from a Two-Room House in Coimbatore Who Built the Platform Microsoft, Google and Walmart Use</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-shipway-is-rewriting-the-economics-of-d2c-shipping</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-25T00:54:00Z</news:publication_date>
-      <news:title>How Shipway is Rewriting the Economics of D2C Shipping</news:title>
-    </news:news>
-  </url>
 </urlset>
