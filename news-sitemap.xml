@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-palmonas-built-a-300-crore-brand-by-redefining-demi-fine-jewelry-in-india</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-28T11:11:51Z</news:publication_date>
+      <news:title>How Palmonas Built a ₹300 Crore Brand by Redefining Demi-Fine Jewelry in India</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-bharat-intelligence-is-fixing-maharashtras-farm-labour-shortage</loc>
     <news:news>
       <news:publication>
@@ -24,6 +35,17 @@
     </news:news>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/this-startup-is-reinventing-how-india-gets-its-daily-nutrition</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-28T05:18:00Z</news:publication_date>
+      <news:title>This Startup Is Reinventing How India Gets Its Daily Nutrition</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/avaan-excess-expensive-airport-problem-turns-into-a-global-logistics-startup</loc>
     <news:news>
       <news:publication>
@@ -32,17 +54,6 @@
       </news:publication>
       <news:publication_date>2026-07-27T23:09:00Z</news:publication_date>
       <news:title>Avaan Excess: Expensive Airport Problem Turns Into a Global Logistics Startup</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-mushroom-man-of-bihar-sanjeev-kumar-helped-50000-farmers-earn</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-27T12:07:55Z</news:publication_date>
-      <news:title>How ‘Mushroom Man of Bihar’ Sanjeev Kumar Helped 50,000 Farmers Earn</news:title>
     </news:news>
   </url>
   <url>
@@ -65,6 +76,17 @@
       </news:publication>
       <news:publication_date>2026-07-27T07:07:00Z</news:publication_date>
       <news:title>The ₹175 Crore Colour Company Most Indians Have Never Heard Of</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-mushroom-man-of-bihar-sanjeev-kumar-helped-50000-farmers-earn</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-27T06:37:00Z</news:publication_date>
+      <news:title>Meet the Mushroom Man Who Changed the Lives of 50,000 Farmers</news:title>
     </news:news>
   </url>
   <url>
