@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-bengaluru-startup-hooly-is-building-an-ai-fitness-coach-that-actually-cares</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-29T05:15:27Z</news:publication_date>
+      <news:title>How Bengaluru Startup Hooly is Building an AI Fitness Coach That Actually Cares</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-palmonas-built-a-300-crore-brand-by-redefining-demi-fine-jewelry-in-india</loc>
     <news:news>
       <news:publication>
@@ -87,17 +98,6 @@
       </news:publication>
       <news:publication_date>2026-07-27T06:37:00Z</news:publication_date>
       <news:title>Meet the Mushroom Man Who Changed the Lives of 50,000 Farmers</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/when-gps-fails-these-drones-keep-flying-how-enord-is-opening-up-confined-spaces-for-inspection</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-27T05:52:28Z</news:publication_date>
-      <news:title>When GPS Fails, These Drones Keep Flying: How Enord Is Opening Up Confined Spaces for Inspection</news:title>
     </news:news>
   </url>
 </urlset>
