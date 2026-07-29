@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-eternz-is-fixing-indias-fragmented-jewellery-market</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-29T06:31:34Z</news:publication_date>
+      <news:title>How Eternz is fixing India’s Fragmented jewellery market</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-bengaluru-startup-hooly-is-building-an-ai-fitness-coach-that-actually-cares</loc>
     <news:news>
       <news:publication>
@@ -65,39 +76,6 @@
       </news:publication>
       <news:publication_date>2026-07-27T23:09:00Z</news:publication_date>
       <news:title>Avaan Excess: Expensive Airport Problem Turns Into a Global Logistics Startup</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/mannhummel-launches-global-technology-centre-to-accelerate-filtration-innovation</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-27T07:53:39Z</news:publication_date>
-      <news:title>Mann+Hummel Launches Global Technology Centre to Accelerate Filtration Innovation</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/from-a-bag-of-naphthol-to-a-175-crore-global-colour-business</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-27T07:07:00Z</news:publication_date>
-      <news:title>The ₹175 Crore Colour Company Most Indians Have Never Heard Of</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-mushroom-man-of-bihar-sanjeev-kumar-helped-50000-farmers-earn</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-27T06:37:00Z</news:publication_date>
-      <news:title>Meet the Mushroom Man Who Changed the Lives of 50,000 Farmers</news:title>
     </news:news>
   </url>
 </urlset>
