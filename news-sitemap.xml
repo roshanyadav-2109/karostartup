@@ -35,6 +35,17 @@
     </news:news>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/aziro-empowering-businesses-with-technological-solutions</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-30T05:42:00Z</news:publication_date>
+      <news:title>Aziro: Empowering Businesses with Technological Solutions</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-this-deeptech-startup-is-solving-water-scarcity-with-air</loc>
     <news:news>
       <news:publication>
@@ -87,17 +98,6 @@
       </news:publication>
       <news:publication_date>2026-07-29T05:15:27Z</news:publication_date>
       <news:title>How Bengaluru Startup Hooly is Building an AI Fitness Coach That Actually Cares</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-palmonas-built-a-300-crore-brand-by-redefining-demi-fine-jewelry-in-india</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-28T11:11:51Z</news:publication_date>
-      <news:title>How Palmonas Built a ₹300 Crore Brand by Redefining Demi-Fine Jewelry in India</news:title>
     </news:news>
   </url>
 </urlset>
