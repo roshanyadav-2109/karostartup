@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-this-deeptech-startup-is-solving-water-scarcity-with-air</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-30T05:19:18Z</news:publication_date>
+      <news:title>How This Deeptech Startup Is Solving Water Scarcity with Air</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-xley-is-revolutionizing-indias-creator-economy-with-ai</loc>
     <news:news>
       <news:publication>
@@ -76,17 +87,6 @@
       </news:publication>
       <news:publication_date>2026-07-28T06:04:18Z</news:publication_date>
       <news:title>This Startup Helps Brands Get Recommended by AI, Not Just Ranked on Google</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/this-startup-is-reinventing-how-india-gets-its-daily-nutrition</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-28T05:18:00Z</news:publication_date>
-      <news:title>This Startup Is Reinventing How India Gets Its Daily Nutrition</news:title>
     </news:news>
   </url>
 </urlset>
