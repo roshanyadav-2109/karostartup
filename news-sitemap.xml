@@ -2,6 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-one-man-built-a-1000-crore-brand-by-changing-how-india-thinks-about-water</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-30T11:00:49Z</news:publication_date>
+      <news:title>How One Man Built a ₹1,000+ Crore Brand by Changing How India Thinks About Water</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-karan-johars-elevn-is-flipping-the-rules-of-online-dating</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-30T09:16:59Z</news:publication_date>
+      <news:title>How Karan Johar&apos;s Elevn is Flipping the Rules of Online Dating</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-this-startup-making-solar-panels-lighter-smarter-and-easier-to-install</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-30T09:01:39Z</news:publication_date>
+      <news:title>How This Startup Making Solar Panels Lighter, Smarter, and Easier to Install</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-this-deeptech-startup-is-solving-water-scarcity-with-air</loc>
     <news:news>
       <news:publication>
@@ -65,17 +98,6 @@
       </news:publication>
       <news:publication_date>2026-07-28T11:11:51Z</news:publication_date>
       <news:title>How Palmonas Built a ₹300 Crore Brand by Redefining Demi-Fine Jewelry in India</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-bharat-intelligence-is-fixing-maharashtras-farm-labour-shortage</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-28T10:17:36Z</news:publication_date>
-      <news:title>How Bharat Intelligence Is Fixing Maharashtra’s Farm Labour Shortage</news:title>
     </news:news>
   </url>
 </urlset>
