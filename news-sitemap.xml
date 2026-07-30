@@ -89,15 +89,4 @@
       <news:title>This Startup Is Reinventing How India Gets Its Daily Nutrition</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/avaan-excess-expensive-airport-problem-turns-into-a-global-logistics-startup</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-27T23:09:00Z</news:publication_date>
-      <news:title>Avaan Excess: Expensive Airport Problem Turns Into a Global Logistics Startup</news:title>
-    </news:news>
-  </url>
 </urlset>
