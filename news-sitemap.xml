@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-this-startup-is-building-the-future-of-finance-with-ai-agents</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-31T06:48:15Z</news:publication_date>
+      <news:title>How This Startup Is Building the Future of Finance with AI Agents</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-smartterra-is-using-ai-to-overcome-indias-massive-water-loss-problem</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-31T00:58:00Z</news:publication_date>
+      <news:title>How SmartTerra Is Using AI to overcome India’s Massive Water Loss Problem</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-one-man-built-a-1000-crore-brand-by-changing-how-india-thinks-about-water</loc>
     <news:news>
       <news:publication>
@@ -76,17 +98,6 @@
       </news:publication>
       <news:publication_date>2026-07-29T10:39:09Z</news:publication_date>
       <news:title>Domestic Help in Just 10 Minutes? Here&apos;s How Pronto is Changing Urban India</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-eternz-is-fixing-indias-fragmented-jewellery-market</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-29T06:31:34Z</news:publication_date>
-      <news:title>How Eternz is fixing India’s Fragmented jewellery market</news:title>
     </news:news>
   </url>
 </urlset>
