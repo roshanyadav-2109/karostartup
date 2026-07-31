@@ -74,6 +74,24 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/how-uday-kotak-turned-a-30-lakh-loan-into-one-of-indias-biggest-banks</loc>
+    <lastmod>2026-07-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1785496900/karostartup/uploads/article_images/xm9sz9d95n7zp3x61zx7.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-yolearn-ai-is-building-ai-tutors-that-adapt-to-every-student</loc>
+    <lastmod>2026-07-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1785496247/karostartup/uploads/article_images/nugpysx8tdw0cqcmzrtr.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-this-startup-is-building-the-future-of-finance-with-ai-agents</loc>
     <lastmod>2026-07-31</lastmod>
     <changefreq>daily</changefreq>
@@ -111,7 +129,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-this-startup-making-solar-panels-lighter-smarter-and-easier-to-install</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -292,7 +310,7 @@
   <url>
     <loc>https://www.karostartup.com/article/gabit-how-arpana-shahi-is-building-an-ai-powered-longevity-platform</loc>
     <lastmod>2026-07-27</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1784891542/karostartup/uploads/article_images/s1me6znc9wzj6cmihntt.png</image:loc>
@@ -561,7 +579,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/metastable-materials-from-battery-waste-to-industrial-metals</loc>
-    <lastmod>2026-07-29</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -2037,7 +2055,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/beyond-astrology-apps-why-divya-maarg-by-tatvam-ai-labs-could-create-a-new-global-category-in-spirit</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -4872,7 +4890,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/nvidia-rewards-10000-india-employees-with-stock-grants-up-to-1-crore</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -5088,7 +5106,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/anugami-redefines-premium-indian-commerce</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -5151,7 +5169,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/ai-documentation-tool-built-by-vit-student</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -5628,7 +5646,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/kaari-naari-empowers-women-through-textile-skilling</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -7806,7 +7824,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/1-per-gb-india-plans-to-tax-your-mobile-data</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -8121,7 +8139,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/own-household-problem-into-a-100-cr-startup-the-story-of-pronto</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -9630,7 +9648,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/the-rise-of-nishoramas-that-speaks-gen-z</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -9909,7 +9927,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/from-one-flower-shop-to-400-outlets-the-inspiring-growth-story-of-fnp</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -11349,7 +11367,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/purplle-success-story-from-iit-engineers-revenue</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -12177,7 +12195,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/ranveer-mocked-a-bollywood-7-crore-song-in-just-7000</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -12846,7 +12864,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/alakh-pandey-becomes-richer-than-shah-rukh-khan-physics-wallahs-wealth-skyrockets-223percent</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -14379,7 +14397,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/snapmint-success-story-how-they-turned-a-college-startup-into-a-indian-rupee1700-crore-company</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -14424,7 +14442,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/dr-tarang-krishna-launches-a-pioneering-cancer-healer-center-andamp-integrative-hospital-in-thane</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
