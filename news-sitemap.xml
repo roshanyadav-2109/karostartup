@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-two-founders-are-using-ai-to-untangle-indias-legal-disputes</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-01T11:05:07Z</news:publication_date>
+      <news:title>How Two Founders Are Using AI to Untangle India’s Legal Disputes</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-partnr-is-bringing-technology-to-indias-local-garages</loc>
     <news:news>
       <news:publication>
@@ -76,17 +87,6 @@
       </news:publication>
       <news:publication_date>2026-07-31T00:58:00Z</news:publication_date>
       <news:title>How SmartTerra Is Using AI to overcome India’s Massive Water Loss Problem</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-one-man-built-a-1000-crore-brand-by-changing-how-india-thinks-about-water</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-30T11:00:49Z</news:publication_date>
-      <news:title>How One Man Built a ₹1,000+ Crore Brand by Changing How India Thinks About Water</news:title>
     </news:news>
   </url>
 </urlset>

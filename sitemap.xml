@@ -74,6 +74,15 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/how-two-founders-are-using-ai-to-untangle-indias-legal-disputes</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1785582272/karostartup/uploads/article_images/tlqyxrah9i7y7xjbi0e5.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-partnr-is-bringing-technology-to-indias-local-garages</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>daily</changefreq>
@@ -165,7 +174,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/aziro-empowering-businesses-with-technological-solutions</loc>
-    <lastmod>2026-07-31</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -301,7 +310,7 @@
   <url>
     <loc>https://www.karostartup.com/article/india-builds-drones-but-imports-their-batteries-dreamfly-innovations-wants-to-change-that</loc>
     <lastmod>2026-07-31</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1784977783/karostartup/uploads/article_images/yttz5wyktdwc0e1csofg.png</image:loc>
@@ -310,7 +319,7 @@
   <url>
     <loc>https://www.karostartup.com/article/indias-skilled-welder-shortage-is-real-terafac-is-teaching-machines-to-close-the-gap</loc>
     <lastmod>2026-07-31</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1784976462/karostartup/uploads/article_images/zndzbfiw0gow0coxxiqj.jpg</image:loc>
@@ -327,7 +336,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-shipway-is-rewriting-the-economics-of-d2c-shipping</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -678,7 +687,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/this-three-friends-built-squikk-delivering-beauty-services-at-home-in-10-minutes</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -3468,7 +3477,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/a-resolution-for-the-potential-global-jobs-crises-the-human-capital-monetisation-economic-system</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -6258,7 +6267,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/mintocred-digital-lending-platform-launch-india</loc>
-    <lastmod>2026-07-29</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -14424,7 +14433,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/snapmint-success-story-how-they-turned-a-college-startup-into-a-indian-rupee1700-crore-company</loc>
-    <lastmod>2026-07-31</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
