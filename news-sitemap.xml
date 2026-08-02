@@ -45,26 +45,4 @@
       <news:title>How Kaleidofin Is Giving India&apos;s Informal Workers a Credit Score</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-uday-kotak-turned-a-30-lakh-loan-into-one-of-indias-biggest-banks</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-31T11:22:12Z</news:publication_date>
-      <news:title>How Uday Kotak Turned a ₹30 Lakh Loan into One of India&apos;s Biggest Banks</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-yolearn-ai-is-building-ai-tutors-that-adapt-to-every-student</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-31T11:10:58Z</news:publication_date>
-      <news:title>How YoLearn AI Is Building AI Tutors That Adapt to Every Student</news:title>
-    </news:news>
-  </url>
 </urlset>
