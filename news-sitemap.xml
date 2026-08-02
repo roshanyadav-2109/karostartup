@@ -67,15 +67,4 @@
       <news:title>How YoLearn AI Is Building AI Tutors That Adapt to Every Student</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-this-startup-is-building-the-future-of-finance-with-ai-agents</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-07-31T06:48:15Z</news:publication_date>
-      <news:title>How This Startup Is Building the Future of Finance with AI Agents</news:title>
-    </news:news>
-  </url>
 </urlset>
