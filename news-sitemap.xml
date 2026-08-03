@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/leucine-rich-bio-decoding-the-gut-microbiome-to-personalise-preventive-healthcare</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-03T10:18:25Z</news:publication_date>
+      <news:title>Leucine-Rich Bio: Decoding the Gut Microbiome to Personalise Preventive Healthcare</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-this-fast-fashion-startup-uses-tech-to-design-gen-z-styles-and-become-indias-answer-to-shein</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-03T08:38:27Z</news:publication_date>
+      <news:title>How this Fast-Fashion Startup Uses Tech to Design Gen Z Styles and become India’s Answer to Shein?</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/roadgrid-secures-13-crore-technology-development-board-support-to-scale-manufacturing-of-indias-patented-universal-ev-charger</loc>
     <news:news>
       <news:publication>
@@ -35,6 +57,17 @@
     </news:news>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/investvalue-launches-20-crore-esop-pool-as-wealth-tech-platform-scales-to-2200-crore-aua</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-02T22:48:00Z</news:publication_date>
+      <news:title>InvestValue Launches ₹20 Crore ESOP Pool as Wealth-Tech Platform Scales to ₹2,200 Crore AUA</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-two-founders-are-using-ai-to-untangle-indias-legal-disputes</loc>
     <news:news>
       <news:publication>
@@ -43,28 +76,6 @@
       </news:publication>
       <news:publication_date>2026-08-01T11:05:07Z</news:publication_date>
       <news:title>How Two Founders Are Using AI to Untangle India’s Legal Disputes</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-partnr-is-bringing-technology-to-indias-local-garages</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-01T09:20:01Z</news:publication_date>
-      <news:title>How Partnr Is Bringing Technology to India&apos;s Local Garages</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-an-amitabh-bachchan-led-studio-is-redefining-indian-gaming</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-01T07:29:35Z</news:publication_date>
-      <news:title>How an Amitabh Bachchan-Led Studio Is Redefining Indian Gaming</news:title>
     </news:news>
   </url>
 </urlset>
