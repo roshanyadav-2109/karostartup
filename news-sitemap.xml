@@ -67,15 +67,4 @@
       <news:title>InvestValue Launches ₹20 Crore ESOP Pool as Wealth-Tech Platform Scales to ₹2,200 Crore AUA</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-two-founders-are-using-ai-to-untangle-indias-legal-disputes</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-01T11:05:07Z</news:publication_date>
-      <news:title>How Two Founders Are Using AI to Untangle India’s Legal Disputes</news:title>
-    </news:news>
-  </url>
 </urlset>
