@@ -167,7 +167,11 @@
     const profile = user ? await getCurrentProfile() : null;
     // Auth-wall: anonymous readers see a teaser then a signin prompt.
     // Signed-in users see everything regardless of is_premium.
-    const isAuthWalled = !user;
+    // EXCEPTION: syndicated press releases (source='newsreach'/'pib') are free
+    // wire content — never gate them behind signup (they're also noindex, so the
+    // wall buys nothing and just hides the story from readers).
+    const isPressRelease = article.source === 'newsreach' || article.source === 'pib';
+    const isAuthWalled = !user && !isPressRelease;
 
     const author = article.profiles || {};
     const authorAvatar = author.avatar_url || DEFAULT_AUTHOR_AVATAR;
