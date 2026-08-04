@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/decoding-mcaffeines-strategyhow-indias-first-caffeinated-skincare-brand-stood-out</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-04T11:13:58Z</news:publication_date>
+      <news:title>Decoding mCaffeine’s Strategy:How India’s First Caffeinated Skincare Brand Stood Out</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-varthana-finance-helps-indian-schools-expand-access-to-affordable-education</loc>
     <news:news>
       <news:publication>
@@ -24,17 +35,6 @@
     </news:news>
   </url>
   <url>
-    <loc>https://www.karostartup.com/article/lohia-aerospace-brings-large-format-composite-manufacturing-to-india-for-the-first-time-in-collaboration-with-massivit</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-04T07:24:49Z</news:publication_date>
-      <news:title>Lohia Aerospace Brings Large-Format Composite Manufacturing to India for the First Time, in Collaboration with Massivit</news:title>
-    </news:news>
-  </url>
-  <url>
     <loc>https://www.karostartup.com/article/how-mumbai-startup-dwij-giving-old-denims-a-second-life</loc>
     <news:news>
       <news:publication>
@@ -43,6 +43,17 @@
       </news:publication>
       <news:publication_date>2026-08-04T05:01:53Z</news:publication_date>
       <news:title>How Mumbai Startup Dwij Giving Old Denims a Second Life</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/lohia-aerospace-brings-large-format-composite-manufacturing-to-india-for-the-first-time-in-collaboration-with-massivit</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-04T01:54:00Z</news:publication_date>
+      <news:title>Lohia Aerospace Brings Large Format Composite Additive Manufacturing to India for the First Time, in Collaboration with Massivit</news:title>
     </news:news>
   </url>
   <url>
