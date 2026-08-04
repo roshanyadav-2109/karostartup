@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-varthana-finance-helps-indian-schools-expand-access-to-affordable-education</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-04T09:56:29Z</news:publication_date>
+      <news:title>How Varthana Finance Helps Indian Schools Expand Access to Affordable Education</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-inteligen-uses-games-to-make-math-fear-into-math-love</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-04T07:41:48Z</news:publication_date>
+      <news:title>How Inteligen Uses Games to Make Math Fear into Math Love</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/lohia-aerospace-brings-large-format-composite-manufacturing-to-india-for-the-first-time-in-collaboration-with-massivit</loc>
     <news:news>
       <news:publication>
