@@ -1123,9 +1123,9 @@ function mountSearchOverlay() {
 // Curated primary nav: a small, fixed set of top-level sections (5–7 is the
 // usability sweet spot). Everything else lives under "More ▾" so the bar reads
 // as intentional instead of a wall of 14 links. Order here = display order.
-const PRIMARY_NAV = ['startups', 'funding', 'ai', 'founders', 'markets', 'policy'];
-// Never surface syndicated PR in the nav at all.
-const NAV_EXCLUDE = new Set(['press-releases']);
+const PRIMARY_NAV = ['startups', 'funding', 'ai', 'founders', 'markets', 'policy', 'press-releases'];
+// Nothing excluded from the nav right now.
+const NAV_EXCLUDE = new Set();
 
 function renderNavFromData(categories, activeSlug = '') {
   // Primary categories render inline; the rest are pre-placed in the "More"
