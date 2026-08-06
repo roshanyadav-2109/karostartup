@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/construction-materials-in-just-60-minutes-homerun-raises-104-crore</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-06T11:18:10Z</news:publication_date>
+      <news:title>Construction Materials in Just 60 Minutes? HomeRun Raises ₹104 Crore</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/mobix-enters-indias-automotive-aftermarket-to-fix-whats-endangering-drivers-on-indian-roads-for-years</loc>
     <news:news>
       <news:publication>
@@ -87,28 +98,6 @@
       </news:publication>
       <news:publication_date>2026-08-05T06:21:00Z</news:publication_date>
       <news:title>How Jyothi Reddy From Rural Telangana Build an IT Company in America</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/decoding-mcaffeines-strategyhow-indias-first-caffeinated-skincare-brand-stood-out</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-04T11:13:58Z</news:publication_date>
-      <news:title>Decoding mCaffeine’s Strategy:How India’s First Caffeinated Skincare Brand Stood Out</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-varthana-finance-helps-indian-schools-expand-access-to-affordable-education</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-04T09:56:29Z</news:publication_date>
-      <news:title>How Varthana Finance Helps Indian Schools Expand Access to Affordable Education</news:title>
     </news:news>
   </url>
 </urlset>
