@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-cresa-fix-the-indias-12-billion-sanitary-pad-disposal-problem</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-06T05:28:09Z</news:publication_date>
+      <news:title>How Cresa Fix the India’s 12-Billion Sanitary Pad Disposal Problem</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/why-sachin-tendulkar-invested-in-sportswear-designed-for-indian-feet</loc>
     <news:news>
       <news:publication>
@@ -87,17 +98,6 @@
       </news:publication>
       <news:publication_date>2026-08-04T07:41:48Z</news:publication_date>
       <news:title>How Inteligen Uses Games to Make Math Fear into Math Love</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-mumbai-startup-dwij-giving-old-denims-a-second-life</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-04T05:01:53Z</news:publication_date>
-      <news:title>How Mumbai Startup Dwij Giving Old Denims a Second Life</news:title>
     </news:news>
   </url>
 </urlset>
