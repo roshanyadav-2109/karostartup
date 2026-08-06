@@ -100,15 +100,4 @@
       <news:title>How Mumbai Startup Dwij Giving Old Denims a Second Life</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/lohia-aerospace-brings-large-format-composite-manufacturing-to-india-for-the-first-time-in-collaboration-with-massivit</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-04T01:54:00Z</news:publication_date>
-      <news:title>Lohia Aerospace Brings Large Format Composite Additive Manufacturing to India for the First Time, in Collaboration with Massivit</news:title>
-    </news:news>
-  </url>
 </urlset>
