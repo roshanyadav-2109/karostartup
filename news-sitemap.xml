@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-karishma-kewalramani-built-fae-beauty-to-make-makeup-more-affordable</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-07T10:48:00Z</news:publication_date>
+      <news:title>How Karishma Kewalramani Built FAE Beauty to Make Makeup More Affordable</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-tiramisu-is-building-demi-fine-jewellery-for-everyday-wear</loc>
     <news:news>
       <news:publication>
@@ -76,17 +87,6 @@
       </news:publication>
       <news:publication_date>2026-08-06T05:28:09Z</news:publication_date>
       <news:title>How Cresa Fix the India’s 12-Billion Sanitary Pad Disposal Problem</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/why-sachin-tendulkar-invested-in-sportswear-designed-for-indian-feet</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-05T10:50:18Z</news:publication_date>
-      <news:title>Why Sachin Tendulkar Invested in Sportswear designed for Indian feet</news:title>
     </news:news>
   </url>
 </urlset>
