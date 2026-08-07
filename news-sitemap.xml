@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/this-couple-quit-their-jobs-to-sell-dosas-now-their-startup-banne-raised-35-crore</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-07T08:10:35Z</news:publication_date>
+      <news:title>This Couple Quit Their Jobs to Sell Dosas, Now Their Startup Banne Raised ₹35 Crore</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-keralas-kumbayah-kombucha-is-making-authentic-fermented-tea-for-india</loc>
     <news:news>
       <news:publication>
@@ -98,17 +109,6 @@
       </news:publication>
       <news:publication_date>2026-08-05T08:50:18Z</news:publication_date>
       <news:title>Vingo raises $1.2 million in seed funding led by IndiaQuotient to build India’s next gen C2C marketplace</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/jyothi-reddys-journey-from-rural-telangana-to-building-an-it-company-in-america</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-05T06:21:00Z</news:publication_date>
-      <news:title>How Jyothi Reddy From Rural Telangana Build an IT Company in America</news:title>
     </news:news>
   </url>
 </urlset>
