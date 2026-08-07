@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-keralas-kumbayah-kombucha-is-making-authentic-fermented-tea-for-india</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-07T05:19:43Z</news:publication_date>
+      <news:title>How Kerala’s Kumbayah Kombucha Is Making Authentic Fermented Tea for India</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/construction-materials-in-just-60-minutes-homerun-raises-104-crore</loc>
     <news:news>
       <news:publication>
