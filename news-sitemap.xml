@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-tiramisu-is-building-demi-fine-jewellery-for-everyday-wear</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-07T09:54:07Z</news:publication_date>
+      <news:title>How Tiramisu Is Building Demi-Fine Jewellery for Everyday Wear</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/this-couple-quit-their-jobs-to-sell-dosas-now-their-startup-banne-raised-35-crore</loc>
     <news:news>
       <news:publication>
@@ -76,39 +87,6 @@
       </news:publication>
       <news:publication_date>2026-08-05T10:50:18Z</news:publication_date>
       <news:title>Why Sachin Tendulkar Invested in Sportswear designed for Indian feet</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/deep-tech-energy-startup-adiabatic-technologies-raises-83-crore-in-seed-round</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-05T09:20:28Z</news:publication_date>
-      <news:title>Deep-Tech Energy Startup Adiabatic Technologies Raises ₹8.3 Crore in Seed Round</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/personal-assistant-startup-hulp-raises-25-crore-in-seed-round-to-build-ai-powered-everyday-assistants</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-05T09:05:48Z</news:publication_date>
-      <news:title>Personal Assistant Startup Hulp Raises ₹25 Crore in Seed Round to Build AI-Powered Everyday Assistants</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/vingo-raises-12-million-in-seed-funding-led-by-indiaquotient-to-build-indias-next-gen-c2c-marketplace</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-05T08:50:18Z</news:publication_date>
-      <news:title>Vingo raises $1.2 million in seed funding led by IndiaQuotient to build India’s next gen C2C marketplace</news:title>
     </news:news>
   </url>
 </urlset>
