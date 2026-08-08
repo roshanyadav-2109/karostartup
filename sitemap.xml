@@ -74,8 +74,17 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/blissclub-raises-160-crore-in-series-b-to-scale-athleisure-and-expand-offline</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1786167081/karostartup/uploads/article_images/mwssdi0x5mnfehhjriic.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/makemyshoe-how-one-founder-built-indias-answer-to-high-moq-footwear-manufacturing</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -120,7 +129,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/construction-materials-in-just-60-minutes-homerun-raises-104-crore</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -328,7 +337,7 @@
   <url>
     <loc>https://www.karostartup.com/article/how-kaleidofin-is-giving-indias-informal-workers-a-credit-score</loc>
     <lastmod>2026-08-06</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1785562239/karostartup/uploads/article_images/d94rqbopg6rmwdayg6gt.png</image:loc>
@@ -1605,7 +1614,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/neural-ai-wins-best-deeptech-startup-title-at-iit-madras-for-building-enterprise-brain-for-pre-agi-era-inspired-by-neuroscience-receives-recognition-worth-10-lakh</loc>
-    <lastmod>2026-07-29</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>hourly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -4944,7 +4953,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/from-14000-a-month-to-building-an-ai-empire-bespoke-ai-stylist-story</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -7356,7 +7365,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/leena-nair-success-story-chanel-ceo</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -8085,7 +8094,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/1-per-gb-india-plans-to-tax-your-mobile-data</loc>
-    <lastmod>2026-08-05</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>

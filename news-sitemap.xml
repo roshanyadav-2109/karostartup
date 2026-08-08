@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/blissclub-raises-160-crore-in-series-b-to-scale-athleisure-and-expand-offline</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-08T05:31:35Z</news:publication_date>
+      <news:title>BlissClub Raises ₹160 Crore in Series B to Scale Athleisure and Expand Offline</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/makemyshoe-how-one-founder-built-indias-answer-to-high-moq-footwear-manufacturing</loc>
     <news:news>
       <news:publication>
@@ -87,17 +98,6 @@
       </news:publication>
       <news:publication_date>2026-08-06T06:43:18Z</news:publication_date>
       <news:title>How IG Drones Is Building Indigenous Technology for the Indian Army and Beyond</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-cresa-fix-the-indias-12-billion-sanitary-pad-disposal-problem</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-06T05:28:09Z</news:publication_date>
-      <news:title>How Cresa Fix the India’s 12-Billion Sanitary Pad Disposal Problem</news:title>
     </news:news>
   </url>
 </urlset>
