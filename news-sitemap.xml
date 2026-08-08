@@ -89,15 +89,4 @@
       <news:title>How Kerala’s Kumbayah Kombucha Is Making Authentic Fermented Tea for India</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/construction-materials-in-just-60-minutes-homerun-raises-104-crore</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-06T11:18:10Z</news:publication_date>
-      <news:title>Construction Materials in Just 60 Minutes? HomeRun Raises ₹104 Crore</news:title>
-    </news:news>
-  </url>
 </urlset>
