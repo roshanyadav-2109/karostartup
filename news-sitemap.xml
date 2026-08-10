@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/saafe-tech-launches-unified-credit-assessment-report-for-data-driven-lending-decisions</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-10T07:13:27Z</news:publication_date>
+      <news:title>Saafe Tech Launches Unified Credit Assessment Report for Data-Driven Lending Decisions</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/profound-iq-how-this-startup-offers-tech-leadership-on-subscription</loc>
     <news:news>
       <news:publication>
@@ -21,17 +32,6 @@
       </news:publication>
       <news:publication_date>2026-08-08T08:16:06Z</news:publication_date>
       <news:title>Aule Space: Extending the Life of Billion-Dollar Satellites with a “Jetpack” Spacecraft</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/blissclub-raises-160-crore-in-series-b-to-scale-athleisure-and-expand-offline</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-08T05:31:35Z</news:publication_date>
-      <news:title>BlissClub Raises ₹160 Crore in Series B to Scale Athleisure and Expand Offline</news:title>
     </news:news>
   </url>
 </urlset>
