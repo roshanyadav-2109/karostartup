@@ -2,6 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/reslink-building-made-in-india-intelligence-for-indias-solar-energy-sector</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-10T10:57:35Z</news:publication_date>
+      <news:title>Reslink: Building Made-in-India Intelligence for India’s Solar Energy Sector</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/leap-india-ipo-gains-momentum-on-day-two-with-42-overall-subscription</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-10T10:20:38Z</news:publication_date>
+      <news:title>LEAP India IPO Gains Momentum on Day Two with 42% Overall Subscription</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/airth-research-turning-everyday-air-conditioners-into-affordable-air-purifiers</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-10T09:33:24Z</news:publication_date>
+      <news:title>Airth Research: Turning Everyday Air Conditioners into Affordable Air Purifiers</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/saafe-tech-launches-unified-credit-assessment-report-for-data-driven-lending-decisions</loc>
     <news:news>
       <news:publication>
