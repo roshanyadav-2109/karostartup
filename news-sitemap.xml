@@ -56,15 +56,4 @@
       <news:title>From Cakes to Crores: Bakingo Raises ₹100 Cr at 2.6X Valuation</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/profound-iq-how-this-startup-offers-tech-leadership-on-subscription</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-08T11:32:13Z</news:publication_date>
-      <news:title>Profound IQ: How This Startup offers tech leadership on subscription</news:title>
-    </news:news>
-  </url>
 </urlset>
