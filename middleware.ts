@@ -251,13 +251,7 @@ function buildHead(path: string, row: any, slug: string) {
   L.push(`<title>${esc(fullTitle)}</title>`);
   L.push(metaTag('description', desc, 'description'));
   L.push(`<link rel="canonical" href="${esc(canon)}">`);
-  // Syndicated press releases (NewsReach) are noindex,follow — the same text runs
-  // on many sites, so we keep them on-site but out of Google's index to protect
-  // the domain's quality signals. Everything else is fully indexable.
-  const robots = (path === '/article/view' && row.source === 'newsreach')
-    ? 'noindex,follow'
-    : 'index,follow,max-image-preview:large';
-  L.push(`<meta name="robots" content="${robots}">`);
+  L.push(`<meta name="robots" content="index,follow,max-image-preview:large">`);
   L.push(metaTag('og:site_name', SITE_NAME));
   L.push(metaTag('og:locale', 'en_IN'));
   L.push(metaTag('og:type', ogType));

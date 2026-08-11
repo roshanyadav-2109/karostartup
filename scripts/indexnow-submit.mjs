@@ -47,8 +47,7 @@ async function rest(path) {
     const s = await rest('site_settings?select=value&key=eq.auto_fetch');
     autoFetchVisible = s?.[0]?.value?.public_visible === true;
   } catch { autoFetchVisible = false; }
-  // NewsReach releases are noindex — never announce them to IndexNow.
-  const visible = rows.filter((a) => a.source !== 'newsreach' && (a.source !== 'pib' || a.approved_for_public === true || autoFetchVisible));
+  const visible = rows.filter((a) => a.source !== 'pib' || a.approved_for_public === true || autoFetchVisible);
 
   const urlList = visible.map((a) => `${ORIGIN}/article/${encodeURIComponent(a.slug)}`);
   // Always re-announce the hubs so the fresh article's internal links get recrawled.

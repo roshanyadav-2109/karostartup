@@ -130,11 +130,12 @@ function isoDate(d) {
     const s = await rest('site_settings?select=value&key=eq.auto_fetch');
     autoFetchVisible = s?.[0]?.value?.public_visible === true;
   } catch { autoFetchVisible = false; }
-  // NewsReach syndicated press releases are served noindex,follow — never list a
-  // noindexed URL in the sitemap (Google flags "submitted URL marked noindex").
-  const articleVisible = (a) => a.source !== 'newsreach' && (a.source !== 'pib' || a.approved_for_public === true || autoFetchVisible);
+  // Every indexable article goes in the main sitemap — including NewsReach press
+  // releases (now indexable). Only genuinely-hidden PIB (unapproved auto-fetch)
+  // is excluded, so we never list a page the site renders as "Story not found".
+  const articleVisible = (a) => (a.source !== 'pib' || a.approved_for_public === true || autoFetchVisible);
   const visibleArticles = articles.filter(articleVisible);
-  console.log(`  ${articles.length} published articles (${articles.length - visibleArticles.length} hidden from sitemap: PIB-unapproved + noindex newsreach)`);
+  console.log(`  ${articles.length} published articles (${articles.length - visibleArticles.length} hidden from sitemap: PIB-unapproved)`);
 
   // Dynamic — categories
   const categories = await rest('categories?select=slug,name&order=order_index.asc');
@@ -214,7 +215,10 @@ ${entries.join('\n')}
   const now = Date.now();
   const w3c = (d) => new Date(d).toISOString().replace(/\.\d{3}Z$/, 'Z'); // 2026-06-23T08:06:19Z
 
+  // Google News excludes syndicated press releases — keep NewsReach out of the
+  // NEWS sitemap (they're in the main sitemap, just not Top Stories eligible).
   const recent = visibleArticles
+    .filter((a) => a.source !== 'newsreach')
     .filter((a) => a.published_at && (now - new Date(a.published_at).getTime()) < NEWS_WINDOW_MS)
     .slice(0, 1000);
 

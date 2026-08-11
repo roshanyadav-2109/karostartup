@@ -111,9 +111,6 @@
       type: 'article',
       url: articleUrl,
       canonical: articleUrl,
-      // Syndicated press releases (NewsReach) stay on-site but noindex — the same
-      // wire copy runs on many sites, so we keep it out of Google's index.
-      noindex: article.source === 'newsreach',
       keywords: (article.tags || []).join(', ') || null,
       article: {
         publishedTime: article.published_at,
