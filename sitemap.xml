@@ -74,6 +74,15 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/yourstory-appoints-adith-charlie-as-managing-editor-to-lead-the-captable-too</loc>
+    <lastmod>2026-08-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1786445448/karostartup/uploads/article_images/e7viohfpor4mwp9vlfm1.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/from-innovation-to-expansion-ayati-devices-raises-15-cr</loc>
     <lastmod>2026-08-11</lastmod>
     <changefreq>daily</changefreq>
@@ -714,7 +723,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/personal-assistant-startup-hulp-raises-25-crore-in-seed-round-to-build-ai-powered-everyday-assistants</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -832,7 +841,7 @@
   <url>
     <loc>https://www.karostartup.com/article/policybazaars-jeeto-apna-ghar-returns-for-its-biggest-season-yet-recognising-excellence-across-sales-and-services</loc>
     <lastmod>2026-08-05</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66264/1785838623084_content_img.jpg</image:loc>
@@ -2082,7 +2091,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-one-womans-vision-created-indias-first-all-women-last-mile-delivery-fleet</loc>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -3765,7 +3774,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/from-a-small-family-clothing-business-to-a-500-crore-fashion-brand-the-libas-story</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -4071,7 +4080,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/binance-launches-official-whatsapp-channel-for-india-to-bring-trusted-crypto-updates-and-web3-educat</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-08-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -9597,7 +9606,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/dubai-hotel-prices-crash-as-middle-east-conflict</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
