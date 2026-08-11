@@ -6322,3 +6322,34 @@ a:hover .media-play { background: var(--brand); }
 
 /* Visually-hidden but crawlable/screen-reader text (SEO H1 on visual pages) */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+/* ── Inline article images + carousels (from the editor) ───────────────── */
+/* A single inline image with optional caption, sized to the reading column. */
+.article-figure{margin:28px 0;text-align:center;}
+.article-figure img{max-width:100%;height:auto;border-radius:10px;display:block;margin:0 auto;}
+.article-figure figcaption,
+.article-figure-cap{margin-top:8px;font-size:0.85rem;color:#6a6a6a;line-height:1.45;font-style:italic;text-align:center;}
+.article-body img{max-width:100%;height:auto;border-radius:8px;}
+
+/* Carousel / gallery. Without JS (and for crawlers) the slides simply stack —
+   every image is present and indexable. JS upgrades it to a swipeable slider. */
+.article-carousel{margin:28px 0;position:relative;}
+.article-carousel .ac-slide{margin:0 0 12px;}
+.article-carousel .ac-slide img{width:100%;height:auto;border-radius:10px;display:block;}
+.article-carousel .ac-slide figcaption{margin-top:6px;font-size:0.82rem;color:#6a6a6a;font-style:italic;text-align:center;}
+
+/* JS-enhanced state */
+.article-carousel.ac-inited{border-radius:12px;overflow:hidden;background:#0d0d0d;}
+.article-carousel.ac-inited .ac-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.article-carousel.ac-inited .ac-track::-webkit-scrollbar{display:none;}
+.article-carousel.ac-inited .ac-slide{flex:0 0 100%;margin:0;scroll-snap-align:center;}
+.article-carousel.ac-inited .ac-slide img{border-radius:0;}
+.article-carousel.ac-inited .ac-slide figcaption{position:absolute;left:0;right:0;bottom:34px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.65));padding:24px 16px 10px;margin:0;}
+.ac-btn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:1.4rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;z-index:2;}
+.ac-btn:hover{background:rgba(0,0,0,.8);}
+.ac-btn[disabled]{opacity:.25;cursor:default;}
+.ac-prev{left:10px;}.ac-next{right:10px;}
+.ac-dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:7px;z-index:2;}
+.ac-dot{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.45);cursor:pointer;}
+.ac-dot.is-active{background:#fff;}
+.ac-count{position:absolute;top:10px;right:12px;background:rgba(0,0,0,.6);color:#fff;font-size:0.75rem;padding:3px 9px;border-radius:20px;z-index:2;}

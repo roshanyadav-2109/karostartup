@@ -127,8 +127,14 @@
                 <button type="button" data-cmd="insertOrderedList" title="Numbered list">1. List</button>
                 <span class="rt-sep"></span>
                 <button type="button" data-link title="Link selected text (Ctrl+K)">Link</button>
+                <span class="rt-sep"></span>
+                <button type="button" data-image title="Insert an image at the cursor">🖼 Image</button>
+                <button type="button" data-carousel title="Insert an image gallery / carousel (pick multiple)">▦ Gallery</button>
                 <button type="button" data-cmd="removeFormat" title="Clear formatting">Clear</button>
+                <span class="rt-img-status" id="rt-img-status" style="margin-left:8px;font-size:0.8rem;color:#6a6a6a;"></span>
               </div>
+              <input type="file" id="inline_img_file" accept="image/*" hidden>
+              <input type="file" id="carousel_files" accept="image/*" multiple hidden>
               <div id="content_editor" class="rt-editor" contenteditable="true" spellcheck="true"></div>
               <div class="editor-stats"><span id="word-count">0 words</span><span id="est-read">~0 min read</span><span class="rt-hint">Paste a YouTube or Vimeo link anywhere — it embeds automatically.</span></div>
             </div>
@@ -205,7 +211,20 @@
         </div>
       </div>`;
 
-    // Cover image upload → covers bucket → fill hidden URL
+    // Reusable Cloudinary upload (unsigned preset — no secret in the browser).
+    // Returns an auto-format/quality secure URL. Used by the cover uploader AND
+    // the inline-image / carousel toolbar buttons.
+    async function uploadToCloudinary(file) {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('upload_preset', 'karostartup_unsigned');
+      const res = await fetch('https://api.cloudinary.com/v1_1/dliblumqq/image/upload', { method: 'POST', body: fd });
+      const j = await res.json();
+      if (!res.ok || !j.secure_url) throw new Error(j.error?.message || 'Cloudinary upload failed');
+      return j.secure_url.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+    }
+
+    // Cover image upload → fill hidden URL
     const coverFile = document.getElementById('cover_file');
     coverFile.addEventListener('change', async () => {
       const file = coverFile.files[0];
@@ -213,14 +232,7 @@
       const hint = document.getElementById('cover_hint');
       hint.textContent = 'Uploading…';
       try {
-        // Upload straight to Cloudinary via an unsigned preset (no secret in the browser).
-        const fd = new FormData();
-        fd.append('file', file);
-        fd.append('upload_preset', 'karostartup_unsigned');
-        const res = await fetch('https://api.cloudinary.com/v1_1/dliblumqq/image/upload', { method: 'POST', body: fd });
-        const j = await res.json();
-        if (!res.ok || !j.secure_url) throw new Error(j.error?.message || 'Cloudinary upload failed');
-        const url = j.secure_url.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+        const url = await uploadToCloudinary(file);
         document.getElementById('cover_image_url').value = url;
         document.getElementById('cover_preview').innerHTML = `<img src="${escapeAttr(url)}" style="max-width:260px;border-radius:6px;display:block;">`;
         hint.textContent = 'Uploaded ✓';
@@ -277,6 +289,66 @@
       if (btn.dataset.cmd) return exec(btn.dataset.cmd);
       if (btn.dataset.block) return exec('formatBlock', btn.dataset.block);
       if (btn.hasAttribute('data-link')) return insertLink();
+      if (btn.hasAttribute('data-image')) return startInlineImage();
+      if (btn.hasAttribute('data-carousel')) return startCarousel();
+    });
+
+    // ── Inline images + carousel ─────────────────────────────────────────
+    // The image button inserts a single <figure> at the cursor; the gallery
+    // button uploads several images and inserts a <div class="article-carousel">.
+    // Both are plain HTML saved into `content`, so they render on the article
+    // page (JS turns the carousel into a slider) and are crawlable by Google.
+    const imgStatus = document.getElementById('rt-img-status');
+    const inlineImgFile = document.getElementById('inline_img_file');
+    const carouselFiles = document.getElementById('carousel_files');
+    let savedImgRange = null;
+    // The file dialog collapses the selection, so remember where the cursor was.
+    function startInlineImage() { savedImgRange = saveRange(); inlineImgFile.click(); }
+    function startCarousel() { savedImgRange = saveRange(); carouselFiles.click(); }
+    function insertAtCursor(html) {
+      contentEl.focus();
+      restoreRange(savedImgRange);
+      document.execCommand('insertHTML', false, html);
+      recount();
+    }
+
+    inlineImgFile.addEventListener('change', async () => {
+      const file = inlineImgFile.files[0];
+      if (!file) return;
+      imgStatus.textContent = 'Uploading image…';
+      try {
+        const url = await uploadToCloudinary(file);
+        const cap = (prompt('Caption for this image (optional — also used as alt text):') || '').trim();
+        const alt = escHtml(cap || titleEl.value || 'Article image');
+        const fig = `<figure class="article-figure"><img src="${escHtml(url)}" alt="${alt}" loading="lazy">${cap ? `<figcaption>${escHtml(cap)}</figcaption>` : ''}</figure><p><br></p>`;
+        insertAtCursor(fig);
+        imgStatus.textContent = 'Image inserted ✓';
+      } catch (e) {
+        imgStatus.textContent = 'Upload failed: ' + (e.message || e);
+      }
+      inlineImgFile.value = '';
+      setTimeout(() => { imgStatus.textContent = ''; }, 4000);
+    });
+
+    carouselFiles.addEventListener('change', async () => {
+      const files = [...carouselFiles.files];
+      if (!files.length) return;
+      imgStatus.textContent = `Uploading ${files.length} images…`;
+      try {
+        // First image = the main/lead slide; the rest are the sub images.
+        const urls = [];
+        for (let i = 0; i < files.length; i++) { imgStatus.textContent = `Uploading ${i + 1}/${files.length}…`; urls.push(await uploadToCloudinary(files[i])); }
+        const cap = (prompt('Gallery caption (optional):') || '').trim();
+        const baseAlt = titleEl.value || 'Gallery image';
+        const slides = urls.map((u, i) => `<figure class="ac-slide"><img src="${escHtml(u)}" alt="${escHtml(baseAlt)} — image ${i + 1}" loading="lazy"></figure>`).join('');
+        const car = `<div class="article-carousel" data-carousel>${slides}</div>${cap ? `<p class="article-figure-cap">${escHtml(cap)}</p>` : ''}<p><br></p>`;
+        insertAtCursor(car);
+        imgStatus.textContent = `Gallery of ${urls.length} inserted ✓ (first image is the main one)`;
+      } catch (e) {
+        imgStatus.textContent = 'Upload failed: ' + (e.message || e);
+      }
+      carouselFiles.value = '';
+      setTimeout(() => { imgStatus.textContent = ''; }, 5000);
     });
 
     // Link insertion — works on a selection (link the chosen word/phrase) and

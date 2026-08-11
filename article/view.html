@@ -286,6 +286,45 @@
       </section>
     `;
 
+    // Turn any editor-inserted galleries (<div class="article-carousel">) into a
+    // swipeable slider with arrows + dots. Single images / no-JS just stack, so
+    // every image is still visible and crawlable.
+    function initCarousels(scope) {
+      if (!scope) return;
+      scope.querySelectorAll('.article-carousel[data-carousel]:not(.ac-inited)').forEach((car) => {
+        const slides = [...car.querySelectorAll('.ac-slide')];
+        if (slides.length < 2) return; // a single image needs no carousel chrome
+        const track = document.createElement('div');
+        track.className = 'ac-track';
+        slides.forEach(s => track.appendChild(s));
+        car.appendChild(track);
+        car.classList.add('ac-inited');
+
+        const count = document.createElement('div'); count.className = 'ac-count'; car.appendChild(count);
+        const prev = document.createElement('button'); prev.className = 'ac-btn ac-prev'; prev.setAttribute('aria-label', 'Previous image'); prev.innerHTML = '‹';
+        const next = document.createElement('button'); next.className = 'ac-btn ac-next'; next.setAttribute('aria-label', 'Next image'); next.innerHTML = '›';
+        car.appendChild(prev); car.appendChild(next);
+        const dots = document.createElement('div'); dots.className = 'ac-dots';
+        slides.forEach((_, i) => { const d = document.createElement('button'); d.className = 'ac-dot' + (i === 0 ? ' is-active' : ''); d.setAttribute('aria-label', 'Go to image ' + (i + 1)); d.addEventListener('click', () => goTo(i)); dots.appendChild(d); });
+        car.appendChild(dots);
+
+        let idx = 0;
+        const clamp = (i) => Math.max(0, Math.min(slides.length - 1, i));
+        function sync() {
+          count.textContent = (idx + 1) + ' / ' + slides.length;
+          prev.disabled = idx === 0; next.disabled = idx === slides.length - 1;
+          [...dots.children].forEach((d, i) => d.classList.toggle('is-active', i === idx));
+        }
+        function goTo(i) { idx = clamp(i); track.scrollTo({ left: idx * track.clientWidth, behavior: 'smooth' }); sync(); }
+        prev.addEventListener('click', () => goTo(idx - 1));
+        next.addEventListener('click', () => goTo(idx + 1));
+        let raf;
+        track.addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { idx = clamp(Math.round(track.scrollLeft / Math.max(1, track.clientWidth))); sync(); }); });
+        sync();
+      });
+    }
+    initCarousels(document.getElementById('article-body'));
+
     // Auth wall for anonymous readers — inline CTA below the teaser.
     // The login/signup modal only opens after the user clicks
     // "Read full article", not automatically on page load.
