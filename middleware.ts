@@ -129,6 +129,16 @@ function gone() {
 function redir(location: string) {
   return new Response(null, { status: 301, headers: { Location: location, 'cache-control': 'public, max-age=86400' } });
 }
+// Real 404 for crawlers hitting a dead article/category/company URL. Without
+// this they'd get the SPA shell (HTTP 200 + "Loading…"/"not found"), which Google
+// files as a SOFT 404 — the single biggest bucket in Search Console. A true 404
+// lets Google drop the URL cleanly.
+function notFound() {
+  return new Response('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Page not found · Karostartup</title></head><body><h1>Page not found</h1><p>This story may have moved or been removed. <a href="/">Go to the homepage</a>.</p></body></html>', {
+    status: 404,
+    headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=3600' },
+  });
+}
 
 // ---------- Supabase helpers (always timeout-bounded) ----------
 async function fetchJson(qs: string) {
@@ -147,6 +157,15 @@ async function fetchJson(qs: string) {
 async function articleExists(slug: string) {
   const rows = await fetchJson(`articles?slug=eq.${encodeURIComponent(slug)}&status=eq.published&select=slug&limit=1`);
   return Array.isArray(rows) && rows.length > 0;
+}
+// Returns true ONLY when a successful query confirms zero rows (row is genuinely
+// absent). A DB error/timeout returns null → false, so we never 404 a real page
+// just because the database was briefly slow.
+async function isConfirmedAbsent(table: string, slug: string, publishedOnly: boolean) {
+  let qs = `${table}?slug=eq.${encodeURIComponent(slug)}&select=slug&limit=1`;
+  if (publishedOnly) qs += '&status=eq.published';
+  const rows = await fetchJson(qs);
+  return Array.isArray(rows) && rows.length === 0;
 }
 async function getRow(path: string, slug: string) {
   const cfg = ROUTES[path];
@@ -637,6 +656,10 @@ export default async function middleware(request: Request) {
             },
           });
         }
+        // Crawler asked for a slug that doesn't exist → real 404, not a 200 shell.
+        // Only 404 on a CONFIRMED absent row (a DB error/timeout → next(), not 404).
+        const cfg = ROUTES[path];
+        if (await isConfirmedAbsent(cfg.table, slug, cfg.published)) return notFound();
       }
       return next();
     }
@@ -675,6 +698,9 @@ export default async function middleware(request: Request) {
             },
           });
         }
+        // Crawler asked for an article slug that doesn't exist → real 404.
+        // Only on a CONFIRMED absent row (DB error/timeout → serve shell, no 404).
+        if (await isConfirmedAbsent('articles', slug, true)) return notFound();
       }
       return next();
     }
