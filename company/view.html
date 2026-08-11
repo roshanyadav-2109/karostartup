@@ -20,8 +20,13 @@
   <script src="/assets/app.js"></script>
   <script>
   (async () => {
+    // Clean URLs are /company/<slug>; legacy links use ?slug=<slug>. Accept both.
     const params = new URLSearchParams(location.search);
-    const slug = params.get('slug');
+    let slug = params.get('slug');
+    if (!slug) {
+      const m = location.pathname.match(/^\/company\/(.+?)\/?$/);
+      if (m && m[1] !== 'view' && m[1] !== 'view.html') slug = decodeURIComponent(m[1]);
+    }
     await mountChrome('');
     mountFooter();
     if (!slug) {
@@ -39,7 +44,7 @@
       document.getElementById('co-main').innerHTML = '<div class="empty-state" style="padding:120px 24px;"><h3>Company not found</h3><a href="/" class="btn btn-primary">Home</a></div>';
       return;
     }
-    const companyUrl = `${location.origin}/company/view.html?slug=${encodeURIComponent(company.slug)}`;
+    const companyUrl = `${location.origin}/company/${encodeURIComponent(company.slug)}`;
     const companyDesc = company.description || `${company.name} — company profile, funding history, and coverage on Karostartup.`;
     setMeta({
       title: company.name,

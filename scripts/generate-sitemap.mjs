@@ -170,7 +170,7 @@ function isoDate(d) {
 
   for (const c of categories) {
     entries.push(urlEntry({
-      loc: `${SITE}/category/view?slug=${encodeURIComponent(c.slug)}`,
+      loc: `${SITE}/category/${encodeURIComponent(c.slug)}`,
       lastmod: today,
       changefreq: 'daily',
       priority: '0.6',
@@ -179,7 +179,7 @@ function isoDate(d) {
 
   for (const co of companies) {
     entries.push(urlEntry({
-      loc: `${SITE}/company/view?slug=${encodeURIComponent(co.slug)}`,
+      loc: `${SITE}/company/${encodeURIComponent(co.slug)}`,
       lastmod: isoDate(co.updated_at) || today,
       changefreq: 'weekly',
       priority: '0.5',

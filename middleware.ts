@@ -218,9 +218,13 @@ function metaTag(prop: string, content: any, name?: string) {
   return `<meta ${attr} content="${esc(content)}">`;
 }
 function buildHead(path: string, row: any, slug: string) {
-  // Articles use clean URLs (/article/<slug>); category/company stay on ?slug=.
-  const canon = path === '/article/view'
-    ? `${ORIGIN}/article/${encodeURIComponent(slug)}`
+  // All three hub types now use clean URLs: /article/<slug>, /category/<slug>,
+  // /company/<slug>.
+  const cleanBase = path === '/article/view' ? '/article/'
+    : path === '/category/view' ? '/category/'
+    : path === '/company/view' ? '/company/' : null;
+  const canon = cleanBase
+    ? `${ORIGIN}${cleanBase}${encodeURIComponent(slug)}`
     : `${ORIGIN}${path}?slug=${encodeURIComponent(slug)}`;
   let title: string, desc: string, img: string, ogType: string, twCard: string;
   if (path === '/article/view') {
@@ -282,7 +286,7 @@ function buildHead(path: string, row: any, slug: string) {
     const catSlug = row.categories?.slug;
     const crumbs: any[] = [{ '@type': 'ListItem', position: 1, name: 'Home', item: ORIGIN }];
     if (catName && catSlug) {
-      crumbs.push({ '@type': 'ListItem', position: 2, name: catName, item: `${ORIGIN}/category/view?slug=${encodeURIComponent(catSlug)}` });
+      crumbs.push({ '@type': 'ListItem', position: 2, name: catName, item: `${ORIGIN}/category/${encodeURIComponent(catSlug)}` });
     }
     crumbs.push({ '@type': 'ListItem', position: crumbs.length + 1, name: truncate(title, 110), item: canon });
     const tags = Array.isArray(row.tags) ? row.tags : [];
@@ -496,7 +500,7 @@ ${articleListHtml(opts.articles)}
 }
 
 function buildCategoryPage(cat: any, articles: any[], slug: string) {
-  const canon = `${ORIGIN}/category/view?slug=${encodeURIComponent(slug)}`;
+  const canon = `${ORIGIN}/category/${encodeURIComponent(slug)}`;
   const name = cat.name || slug;
   const heading = `${name} News, Funding & Analysis`;
   const base = plainText(cat.description);
@@ -519,7 +523,7 @@ function buildCategoryPage(cat: any, articles: any[], slug: string) {
 }
 
 function buildCompanyPage(co: any, articles: any[], slug: string) {
-  const canon = `${ORIGIN}/company/view?slug=${encodeURIComponent(slug)}`;
+  const canon = `${ORIGIN}/company/${encodeURIComponent(slug)}`;
   const name = co.name || slug;
   const sector = co.sector ? ` ${co.sector}` : '';
   const heading = `${name} — Company Profile, Funding & News`;
@@ -598,13 +602,21 @@ export default async function middleware(request: Request) {
       return next();
     }
 
-    // ---- 0) Old article URL form /article/view?slug=X → 301 to clean /article/X.
+    // ---- 0) Old ?slug= URL forms → 301 to their clean path. All three hub types:
+    //   /article/view?slug=X  → /article/X
+    //   /category/view?slug=X → /category/X
+    //   /company/view?slug=X  → /company/X
     // Done here (not in vercel.json) so the Location is exact — Vercel would
-    // otherwise re-append the original ?slug= query to the destination. Internal
-    // rewrites don't re-invoke middleware, so the /article/<slug> shell is safe. ----
-    if (path === '/article/view') {
-      const s = url.searchParams.get('slug');
-      if (s) return redir(`${ORIGIN}/article/${encodeURIComponent(s)}`);
+    // otherwise re-append the original ?slug= query. Internal rewrites don't
+    // re-invoke middleware, so the clean-path shell is safe. ----
+    {
+      const cleanBase = path === '/article/view' ? '/article/'
+        : path === '/category/view' ? '/category/'
+        : path === '/company/view' ? '/company/' : null;
+      if (cleanBase) {
+        const s = url.searchParams.get('slug');
+        if (s) return redir(`${ORIGIN}${cleanBase}${encodeURIComponent(s)}`);
+      }
     }
 
     // ---- 1) The 3 query-param view routes: OG for crawlers, else pass through ----
@@ -705,6 +717,28 @@ export default async function middleware(request: Request) {
       return next();
     }
 
+    // ---- 1c) Clean hub URLs /category/<slug> and /company/<slug>. Humans get
+    // the SPA shell via the vercel rewrite; crawlers get the full SSR page (with
+    // the article list). A confirmed-missing slug 404s; a DB hiccup → shell. ----
+    const cleanHub = path.match(/^\/(category|company)\/(.+)$/);
+    if (cleanHub && cleanHub[2] !== 'view') {
+      const ua = request.headers.get('user-agent') || '';
+      if (crawlerKind(ua)) {
+        const type = cleanHub[1];
+        const slug = decodeURIComponent(cleanHub[2].replace(/\/+$/, ''));
+        if (type === 'category') {
+          const full = await getCategoryFull(slug);
+          if (full) return htmlResponse(buildCategoryPage(full.cat, full.articles, slug));
+          if (await isConfirmedAbsent('categories', slug, false)) return notFound();
+        } else {
+          const full = await getCompanyFull(slug);
+          if (full) return htmlResponse(buildCompanyPage(full.co, full.articles, slug));
+          if (await isConfirmedAbsent('companies', slug, false)) return notFound();
+        }
+      }
+      return next();
+    }
+
     // ---- 2) 410 Gone — dead WordPress assets / taxonomy / date archives ----
     if (/^\/wp-(content|includes)\//i.test(rawPath)) return gone();
     if (/^\/author\//i.test(rawPath)) return gone();
@@ -712,7 +746,7 @@ export default async function middleware(request: Request) {
     const tagM = rawPath.match(/^\/tag\/([^/]+)\/?$/i);
     if (tagM) {
       const t = tagM[1].toLowerCase();
-      if (t === 'fintech' || t === 'funding') return redir(`${ORIGIN}/category/view?slug=${t}`);
+      if (t === 'fintech' || t === 'funding') return redir(`${ORIGIN}/category/${t}`);
       return gone();
     }
 

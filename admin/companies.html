@@ -76,7 +76,7 @@
                 <td class="mono">${c.total_funding_usd ? formatUSD(c.total_funding_usd) : '—'}</td>
                 <td><div class="row-actions">
                   <a href="/admin/company-edit.html?id=${c.id}">Edit</a>
-                  <a href="/company/view.html?slug=${encodeURIComponent(c.slug)}" target="_blank">View ↗</a>
+                  <a href="/company/${encodeURIComponent(c.slug)}" target="_blank">View ↗</a>
                   <button class="danger" data-del="${c.id}">Delete</button>
                 </div></td>
               </tr>`).join('')}

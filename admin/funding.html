@@ -104,7 +104,7 @@
           <table class="admin-table">
             <thead><tr><th>Company</th><th>Round</th><th>Date</th><th>Amount</th><th>Lead</th><th>Co-investors</th><th></th></tr></thead>
             <tbody>${data.map(r => `<tr>
-              <td><a href="/company/view.html?slug=${encodeURIComponent(r.companies?.slug || '')}" style="font-weight:600;">${escapeHtml(r.companies?.name || '—')}</a></td>
+              <td><a href="/company/${encodeURIComponent(r.companies?.slug || '')}" style="font-weight:600;">${escapeHtml(r.companies?.name || '—')}</a></td>
               <td><span class="round-pill ${roundPillClass(r.round_type)}">${escapeHtml(r.round_type)}</span></td>
               <td class="mono" style="font-size:0.82rem;">${formatDate(r.announced_date)}</td>
               <td class="mono" style="font-weight:600;">${r.amount_inr ? formatINR(r.amount_inr) : formatUSD(r.amount_usd)}</td>

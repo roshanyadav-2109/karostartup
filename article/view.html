@@ -99,7 +99,7 @@
       breadcrumbItems.push({
         '@type': 'ListItem', position: 2,
         name: article.categories.name,
-        item: `${location.origin}/category/view.html?slug=${encodeURIComponent(article.categories.slug)}`,
+        item: `${location.origin}/category/${encodeURIComponent(article.categories.slug)}`,
       });
     }
     breadcrumbItems.push({ '@type': 'ListItem', position: breadcrumbItems.length + 1, name: article.title });
@@ -197,7 +197,7 @@
       <section class="article-hero">
         <div class="container">
           <div class="article-crumb">
-            ${article.categories ? `<a href="/category/view.html?slug=${encodeURIComponent(article.categories.slug)}">${escapeHtml(article.categories.name.toUpperCase())}</a>` : ''}
+            ${article.categories ? `<a href="/category/${encodeURIComponent(article.categories.slug)}">${escapeHtml(article.categories.name.toUpperCase())}</a>` : ''}
             ${article.categories ? `<span class="crumb-dot">·</span>` : ''}
             <span class="crumb-read">${article.read_time_minutes || 5} MIN READ</span>
           </div>
@@ -439,7 +439,7 @@
                 const logo = c.logo_url
                   ? `<img src="${escapeAttr(c.logo_url)}" class="company-logo" alt="${escapeAttr(c.name)}" style="border:0;background:transparent;">`
                   : `<span class="company-logo">${escapeHtml(initial)}</span>`;
-                return `<a href="/company/view.html?slug=${encodeURIComponent(c.slug)}" class="company-chip">${logo}<span>${escapeHtml(c.name)}</span></a>`;
+                return `<a href="/company/${encodeURIComponent(c.slug)}" class="company-chip">${logo}<span>${escapeHtml(c.name)}</span></a>`;
               }).join('')}
             </div>
           </div>`;

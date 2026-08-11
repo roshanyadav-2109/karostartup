@@ -1032,7 +1032,7 @@ function mountSearchOverlay() {
       <div class="k-sr-section">
         <div class="k-sr-label">Sections</div>
         ${categories.map(c => `
-          <a class="k-sr-cat" href="/category/view.html?slug=${encodeURIComponent(c.slug)}">
+          <a class="k-sr-cat" href="/category/${encodeURIComponent(c.slug)}">
             <span class="k-sr-cat-dot" style="background:${escapeAttr(c.color || '#0a0a0a')};"></span>
             <span>${highlight(c.name, q)}</span>
           </a>`).join('')}
@@ -1135,7 +1135,7 @@ function renderNavFromData(categories, activeSlug = '') {
   const rank = (slug) => { const i = NAV_ORDER.indexOf(slug); return i === -1 ? 999 : i; };
   cats.sort((a, b) => rank(a.slug) - rank(b.slug)); // stable: unlisted keep DB order
 
-  const link = (c) => `<a href="/category/view?slug=${encodeURIComponent(c.slug)}" data-cat="1"${c.slug === activeSlug ? ' class="is-active"' : ''}>${escapeHtml(c.name)}</a>`;
+  const link = (c) => `<a href="/category/${encodeURIComponent(c.slug)}" data-cat="1"${c.slug === activeSlug ? ' class="is-active"' : ''}>${escapeHtml(c.name)}</a>`;
   const linksHtml = cats.map(link).join('');
 
   return `
@@ -1244,10 +1244,10 @@ function renderFooter() {
           <h4>Sections</h4>
           <ul id="footer-cats">
             <li><a href="/">Home</a></li>
-            <li><a href="/category/view.html?slug=fintech">Fintech</a></li>
-            <li><a href="/category/view.html?slug=saas">SaaS</a></li>
-            <li><a href="/category/view.html?slug=d2c">D2C</a></li>
-            <li><a href="/category/view.html?slug=ai">AI</a></li>
+            <li><a href="/category/fintech">Fintech</a></li>
+            <li><a href="/category/saas">SaaS</a></li>
+            <li><a href="/category/d2c">D2C</a></li>
+            <li><a href="/category/ai">AI</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -1329,7 +1329,7 @@ function mountMobileDrawer(activeSlug, cats) {
 
     <nav class="k-drawer-nav">
       <a href="/" class="k-drawer-link ${activeSlug === '' ? 'is-active' : ''}">Home</a>
-      ${(cats || []).filter(c => !NAV_EXCLUDE.has(c.slug)).map(c => `<a href="/category/view?slug=${encodeURIComponent(c.slug)}" class="k-drawer-link ${c.slug === activeSlug ? 'is-active' : ''}">${escapeHtml(c.name)}</a>`).join('')}
+      ${(cats || []).filter(c => !NAV_EXCLUDE.has(c.slug)).map(c => `<a href="/category/${encodeURIComponent(c.slug)}" class="k-drawer-link ${c.slug === activeSlug ? 'is-active' : ''}">${escapeHtml(c.name)}</a>`).join('')}
     </nav>
 
     <div class="k-drawer-section">
@@ -1538,7 +1538,7 @@ function mountFooter() {
   const apply = (cats) => {
     const ul = document.getElementById('footer-cats');
     if (!ul || !cats || !cats.length) return;
-    ul.innerHTML = cats.slice(0, 6).map(c => `<li><a href="/category/view.html?slug=${encodeURIComponent(c.slug)}">${escapeHtml(c.name)}</a></li>`).join('');
+    ul.innerHTML = cats.slice(0, 6).map(c => `<li><a href="/category/${encodeURIComponent(c.slug)}">${escapeHtml(c.name)}</a></li>`).join('');
   };
   if (cached) apply(cached);
   else {
