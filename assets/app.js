@@ -1120,37 +1120,33 @@ function mountSearchOverlay() {
   });
 }
 
-// Curated primary nav: a small, fixed set of top-level sections (5–7 is the
-// usability sweet spot). Everything else lives under "More ▾" so the bar reads
-// as intentional instead of a wall of 14 links. Order here = display order.
-const PRIMARY_NAV = ['startups', 'funding', 'ai', 'founders', 'markets', 'policy', 'press-releases'];
-// Nothing excluded from the nav right now.
-const NAV_EXCLUDE = new Set();
+// Nav priority order: the most important sections come first, so as the row
+// fills left-to-right the ones that matter show in the bar and the tail spills
+// into "More". Categories not listed here keep their DB order after these.
+const NAV_ORDER = ['startups', 'funding', 'ai', 'founders', 'markets', 'policy', 'press-releases'];
+const NAV_EXCLUDE = new Set(); // nothing excluded
 
 function renderNavFromData(categories, activeSlug = '') {
-  // Primary categories render inline; the rest are pre-placed in the "More"
-  // dropdown (data-extra) so they always live there regardless of screen width.
-  // _balanceNav() may additionally push overflowing primary items into More on
-  // narrow screens, but never pulls the extras back out.
-  const cats = (categories || []).filter(c => !NAV_EXCLUDE.has(c.slug));
-  const bySlug = Object.fromEntries(cats.map(c => [c.slug, c]));
-  const primary = PRIMARY_NAV.map(s => bySlug[s]).filter(Boolean);
-  const primarySlugs = new Set(primary.map(c => c.slug));
-  const extras = cats.filter(c => !primarySlugs.has(c.slug));
+  // Render ALL categories inline in priority order. After mount, _balanceNav()
+  // measures the row and moves whatever overflows into "More" based on the
+  // viewport width — so the bar fills with as many as fit, and if they ALL fit
+  // the "More" button never appears.
+  const cats = (categories || []).filter(c => !NAV_EXCLUDE.has(c.slug)).slice();
+  const rank = (slug) => { const i = NAV_ORDER.indexOf(slug); return i === -1 ? 999 : i; };
+  cats.sort((a, b) => rank(a.slug) - rank(b.slug)); // stable: unlisted keep DB order
 
-  const link = (c, extra) => `<a href="/category/view?slug=${encodeURIComponent(c.slug)}" data-cat="1"${extra ? ' data-extra="1" role="menuitem"' : ''}${c.slug === activeSlug ? ' class="is-active"' : ''}>${escapeHtml(c.name)}</a>`;
-  const primaryHtml = primary.map(c => link(c, false)).join('');
-  const extrasHtml = extras.map(c => link(c, true)).join('');
+  const link = (c) => `<a href="/category/view?slug=${encodeURIComponent(c.slug)}" data-cat="1"${c.slug === activeSlug ? ' class="is-active"' : ''}>${escapeHtml(c.name)}</a>`;
+  const linksHtml = cats.map(link).join('');
 
   return `
   <nav class="nav">
     <div class="container">
       <div class="nav-links" id="k-nav-links">
         <a href="/" data-home="1" ${activeSlug === '' ? 'class="is-active"' : ''}>Home</a>
-        ${primaryHtml}
-        <div class="k-nav-more" id="k-nav-more" ${extras.length ? '' : 'hidden'}>
+        ${linksHtml}
+        <div class="k-nav-more" id="k-nav-more" hidden>
           <button class="k-nav-more-btn" id="k-nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false">More <span class="k-nav-more-caret" aria-hidden="true">▾</span></button>
-          <div class="k-nav-more-panel" id="k-nav-more-panel" role="menu">${extrasHtml}</div>
+          <div class="k-nav-more-panel" id="k-nav-more-panel" role="menu"></div>
         </div>
       </div>
       <a href="/contact.html?type=promotion" class="nav-promote">Promote with us →</a>
@@ -1167,21 +1163,19 @@ function _balanceNav() {
   const morePanel = document.getElementById('k-nav-more-panel');
   if (!navLinks || !moreEl || !morePanel) return;
 
-  // Step 1 — move only WIDTH-OVERFLOWED items (not the curated extras) back
-  // into the row, then re-measure. Extras carry data-extra="1" and always stay
-  // in the panel; only primary items pushed out on a previous narrow layout are
-  // eligible to return.
-  const stashed = Array.from(morePanel.querySelectorAll('a:not([data-extra])'));
+  // Step 1 — move any items previously stashed in the panel back into the row,
+  // just before the More container, then re-measure from scratch.
+  const stashed = Array.from(morePanel.querySelectorAll('a'));
   stashed.forEach(a => navLinks.insertBefore(a, moreEl));
-  const hasExtras = morePanel.querySelector('a[data-extra]') != null;
-  moreEl.hidden = !hasExtras;               // stays visible if there are curated extras
+  morePanel.innerHTML = '';
+  moreEl.hidden = true;                 // if everything fits, More never shows
   moreEl.classList.remove('is-active');
 
-  // Step 2 — overflow check. The Home link is anchored at the start and
-  // never moves; category links carry data-cat="1" and are eligible to
-  // shift into the dropdown. Only inline (non-extra) items can overflow.
+  // Step 2 — overflow check. The Home link is anchored at the start and never
+  // moves; category links carry data-cat="1" and are eligible to shift into the
+  // dropdown.
   const isOverflowing = () => navLinks.scrollWidth > navLinks.clientWidth + 2;
-  if (!isOverflowing()) { if (morePanel.querySelector('a.is-active')) moreEl.classList.add('is-active'); return; }
+  if (!isOverflowing()) return; // everything fits — keep More hidden
 
   // Step 3 — there's overflow, so reveal the More button…
   moreEl.hidden = false;
