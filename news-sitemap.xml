@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/yulu-secures-93-million-in-fresh-funding-to-power-indias-ev-future</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-12T07:26:32Z</news:publication_date>
+      <news:title>Yulu Secures $93 Million in Fresh Funding to Power India’s EV Future</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/lane-raises-rs-85-crore-adding-a-new-chapter-to-indias-startup-success-stories-in-mobility</loc>
     <news:news>
       <news:publication>
@@ -98,17 +109,6 @@
       </news:publication>
       <news:publication_date>2026-08-10T09:33:24Z</news:publication_date>
       <news:title>Airth Research: Turning Everyday Air Conditioners into Affordable Air Purifiers</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/saafe-tech-launches-unified-credit-assessment-report-for-data-driven-lending-decisions</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-10T07:13:27Z</news:publication_date>
-      <news:title>Saafe Tech Launches Unified Credit Assessment Report for Data-Driven Lending Decisions</news:title>
     </news:news>
   </url>
 </urlset>
