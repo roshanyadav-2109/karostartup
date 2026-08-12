@@ -74,8 +74,26 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/lane-raises-rs-85-crore-adding-a-new-chapter-to-indias-startup-success-stories-in-mobility</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1786512199/karostartup/uploads/article_images/ewu7skt5wxrqfej2gkoz.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/shiprocket-secures-rs-727-crore-from-anchor-investors</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1786510036/karostartup/uploads/article_images/vkcofuhrgrdv61foouar.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/the-conversation-that-changed-a-generation</loc>
-    <lastmod>2026-08-11</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -120,7 +138,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/yourstory-appoints-adith-charlie-as-managing-editor-to-lead-the-captable-too</loc>
-    <lastmod>2026-08-11</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -219,7 +237,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/gepl-season-3-ends-in-style-defending-champs-chennai-falcons-beat-sara-tendulkars-mumbai-grizzlies-to-retain-the-crown</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -255,7 +273,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/leap-india-ipo-gains-momentum-on-day-two-with-42-overall-subscription</loc>
-    <lastmod>2026-08-11</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -471,7 +489,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/makemyshoe-how-one-founder-built-indias-answer-to-high-moq-footwear-manufacturing</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -832,7 +850,7 @@
   <url>
     <loc>https://www.karostartup.com/article/jrny-entertainment-completes-11-years-strengthens-position-as-indias-single-window-entertainment-platform-for-brands-art</loc>
     <lastmod>2026-08-05</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66257/1785845836464_content_img.jpeg</image:loc>
@@ -1344,7 +1362,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/olectra-becomes-indias-first-company-to-deploy-4000-electric-buses-on-indian-roads</loc>
-    <lastmod>2026-08-06</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -4269,7 +4287,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-an-indian-founder-built-one-of-south-africas-fastest-growing-logistics-platform-shiprazor</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -7716,7 +7734,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/paper-boat-story-from-zero-to-success</loc>
-    <lastmod>2026-08-11</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -10146,7 +10164,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/mrbeast-yuva-build-three-storey-school-in-khopoli</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -10584,7 +10602,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/the-kalra-familys-greatest-legacy-is-not-what-they-built</loc>
-    <lastmod>2026-08-09</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -11133,7 +11151,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/tech-mahindra-x-nvidia-launch-hindi-first-education</loc>
-    <lastmod>2026-08-09</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -12150,7 +12168,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/the-story-of-third-wave-coffee-and-indias-brewing-cultural</loc>
-    <lastmod>2026-08-11</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -12915,7 +12933,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/from-missed-kabadiwala-pickups-to-real-story-of-scrapuncle</loc>
-    <lastmod>2026-08-11</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
