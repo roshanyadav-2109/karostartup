@@ -74,6 +74,60 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/visionary-leaders-making-their-mark-in-2026</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66986/1786535804162_content_img.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/astrotalk-turns-unicorn-at-9542-crore-valuation-through-esop-buyback</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1786535153/karostartup/uploads/article_images/pg2nurbhfkekpzf6mhsa.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/first-national-study-of-tb-treatment-practices-in-indias-non-programmatic-healthcare-settings-highlights-need-to-strengt</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66940/1786528238062_content_img.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/supria-dhanda-becomes-goa-institute-of-managements-first-woman-founding-donor-with-1025-crore-contribution</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66863/1786454045826_content_img.jpeg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/one-year-of-iages-building-trust-and-transforming-how-india-buys-gold</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66903/1786514967258_content_img.JPG</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/bean-to-bar-a-monsoon-celebration-at-taverna-taj-cidade-de-goa-heritage</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66939/1786528100624_content_img.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/from-the-eastern-mediterranean-to-the-coast-of-goa</loc>
     <lastmod>2026-08-12</lastmod>
     <changefreq>daily</changefreq>
@@ -714,7 +768,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/mobix-enters-indias-automotive-aftermarket-to-fix-whats-endangering-drivers-on-indian-roads-for-years</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -760,7 +814,7 @@
   <url>
     <loc>https://www.karostartup.com/article/mindserv-analytics-launches-dotvoiceai-a-carrier-grade-voice-infrastructure-platform-built-for-the-ai-era-empowering-bfs</loc>
     <lastmod>2026-08-11</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66341/1785914461349_content_img.png</image:loc>
@@ -769,7 +823,7 @@
   <url>
     <loc>https://www.karostartup.com/article/dr-archana-ahilan-brings-years-of-emergency-medicine-experience-to-modern-facial-aesthetic-practice</loc>
     <lastmod>2026-08-07</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66377/1785925754142_content_img.jpeg</image:loc>
@@ -778,7 +832,7 @@
   <url>
     <loc>https://www.karostartup.com/article/aaahara-launches-in-new-zealand-taking-karnatakas-value-added-food-innovation-to-global-markets</loc>
     <lastmod>2026-08-07</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66376/1785925631280_content_img.jpeg</image:loc>
@@ -3819,7 +3873,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/premiumatcheap-affordable-ott-subscriptions-and-ai-tools-for-indias-digital-users</loc>
-    <lastmod>2026-08-11</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -9237,7 +9291,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/investing-in-jaymac-bar-bending-cutting-machines</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -9768,7 +9822,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/rhoda-ai-raises-450-million-at-17-billion</loc>
-    <lastmod>2026-08-09</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -11304,7 +11358,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/the-30000-crore-momo-economy-how-momos-entered-india</loc>
-    <lastmod>2026-08-09</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -15630,7 +15684,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/the-kanji-company-launches-indias-first-full-fermented-kanji-menu-in-pune</loc>
-    <lastmod>2026-08-09</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
