@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/scrubsy-raises-rs-27-crore-to-scale-homegrown-home-cleaning-products</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-13T08:55:58Z</news:publication_date>
+      <news:title>Scrubsy Raises Rs 27 Crore to Scale Homegrown Home Cleaning Products</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/wippi-raises-1144-crore-to-reinvent-interactive-storytelling-for-young-children</loc>
     <news:news>
       <news:publication>
@@ -65,17 +76,6 @@
       </news:publication>
       <news:publication_date>2026-08-11T10:52:00Z</news:publication_date>
       <news:title>YourStory appoints Adith Charlie as Managing Editor; to lead The CapTable too</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/from-innovation-to-expansion-ayati-devices-raises-15-cr</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-11T09:19:04Z</news:publication_date>
-      <news:title>From Innovation to Expansion: Ayati Devices Raises ₹15 Cr</news:title>
     </news:news>
   </url>
 </urlset>
