@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/wippi-raises-1144-crore-to-reinvent-interactive-storytelling-for-young-children</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-13T05:46:17Z</news:publication_date>
+      <news:title>Wippi Raises ₹11.44 crore to Reinvent Interactive Storytelling for Young Children</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/astrotalk-turns-unicorn-at-9542-crore-valuation-through-esop-buyback</loc>
     <news:news>
       <news:publication>
@@ -65,28 +76,6 @@
       </news:publication>
       <news:publication_date>2026-08-11T09:19:04Z</news:publication_date>
       <news:title>From Innovation to Expansion: Ayati Devices Raises ₹15 Cr</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/nexular-helping-ev-manufacturers-monitor-and-monetise-vehicles-in-a-rapidly-growing-ev-market</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-11T06:06:22Z</news:publication_date>
-      <news:title>Nexular: Helping EV Manufacturers Monitor and Monetise Vehicles in a Rapidly Growing EV Market</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-bitespeed-is-turning-conversations-into-revenue-for-ecommerce-brands</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-11T05:29:12Z</news:publication_date>
-      <news:title>How BiteSpeed Is Turning Conversations into Revenue for Ecommerce Brands</news:title>
     </news:news>
   </url>
 </urlset>
