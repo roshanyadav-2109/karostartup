@@ -74,12 +74,39 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/money-for-everyone-paisaone-launches-to-connect-borrowers-with-30-lending-partners-across-india</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67043/1786623721770_content_img.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/build-brand-better-highlights-why-reputation-management-matters-more-than-ever-for-personal-branding</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67014/1786600470521_content_img.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/virtuelife-how-a-bike-accident-led-to-indias-first-ai-assisted-physiotherapy-platform</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1786624154/karostartup/uploads/article_images/j36j8nl36ssfonkckbxm.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/after-two-years-of-market-research-and-industry-validation-automart-opens-seller-registration-across-india</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67081/1786618475785_content_img.png</image:loc>
     </image:image>
   </url>
   <url>
@@ -877,7 +904,7 @@
   <url>
     <loc>https://www.karostartup.com/article/taxi-service-in-delhi-safe-reliable-and-on-time-travel-across-the-city</loc>
     <lastmod>2026-08-10</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66498/1786021381461_content_img.png</image:loc>
@@ -2901,7 +2928,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/ev-startup-e3-electricai-raises-rs-100-crore-ahead-of-e3-trion-scooter-launch</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -3144,7 +3171,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/dream-sports-cto-amit-sharma-resigns-to-launch-his-own-ai-startup</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -3297,7 +3324,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/mars-cosmetics-how-a-brand-born-in-tier-2-3-cities-is-marching-towards-800-crore</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -4044,7 +4071,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/premiumatcheap-affordable-ott-subscriptions-and-ai-tools-for-indias-digital-users</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -5412,7 +5439,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/voh-national-stroke-conclave-2026-driving-systems-policy-innovation-for-stroke-care-in-india</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -5466,7 +5493,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/fintech-firm-mochatrade-raises-pre-seed-from-ycombinator-to-bring-round-the-clock-us-stock-commodity-crypto-perpetuals-to-eligible-traders-worldwide</loc>
-    <lastmod>2026-08-09</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -7689,7 +7716,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/olectra-unveils-new-brand-identity</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -8472,7 +8499,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/mintocred-digital-lending-platform-launch-india</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -9903,7 +9930,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/content-creator-built-indias-most-underneat</loc>
-    <lastmod>2026-08-11</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -11538,7 +11565,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/nsdl-unveils-another-creative-push-for-sebi-check-awareness</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -12474,7 +12501,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/aditya-pandya-becomes-indias-youngest-male-analog-astronaut</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -13851,7 +13878,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/talli-hoke-music-limitless-ignites-the-dance-floor-with-power-packed</loc>
-    <lastmod>2026-08-09</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -16422,7 +16449,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/rara-barefoot-raises-rs-45-crore-seed-round-launches-india-made-barefoot-sneakers</loc>
-    <lastmod>2026-08-09</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
