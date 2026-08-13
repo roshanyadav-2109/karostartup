@@ -74,12 +74,39 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/honble-union-minister-shri-nitin-gadkari-flags-off-porters-10000th-electric-truck-in-delhi</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66924/1786520105385_content_img.jpeg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/the-popular-story-presents-iconic-personalities-of-the-year-2026-celebrating-the-people-behind-indias-progress</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66980/1786534881003_content_img.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/wippi-raises-1144-crore-to-reinvent-interactive-storytelling-for-young-children</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1786599531/karostartup/uploads/article_images/jmbgmsviwkkgriusgx1k.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/konsachem-goas-vibrant-rice-harvest-festival</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66961/1786532296848_content_img.jpg</image:loc>
     </image:image>
   </url>
   <url>
@@ -120,7 +147,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/supria-dhanda-becomes-goa-institute-of-managements-first-woman-founding-donor-with-1025-crore-contribution</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -561,7 +588,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/blissclub-raises-160-crore-in-series-b-to-scale-athleisure-and-expand-offline</loc>
-    <lastmod>2026-08-11</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -678,7 +705,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/legalfund-helping-people-actually-get-the-money-or-justice-a-court-already-awarded-them</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -769,7 +796,7 @@
   <url>
     <loc>https://www.karostartup.com/article/tattva-wellness-spa-debuts-in-tirupati-with-a-focus-on-wellness-led-religious-travel</loc>
     <lastmod>2026-08-12</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66448/1786003096537_content_img.png</image:loc>
@@ -778,7 +805,7 @@
   <url>
     <loc>https://www.karostartup.com/article/blue-unveils-ai-first-video-analytics-infrastructure-targets-10x-revenue-growth-by-fy30</loc>
     <lastmod>2026-08-07</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66393/1785933543620_content_img.png</image:loc>
@@ -787,7 +814,7 @@
   <url>
     <loc>https://www.karostartup.com/article/mobix-enters-indias-automotive-aftermarket-to-fix-whats-endangering-drivers-on-indian-roads-for-years</loc>
     <lastmod>2026-08-12</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1785999576/karostartup/uploads/article_images/kodfjkbvoanxpwawhgcq.png</image:loc>
@@ -796,7 +823,7 @@
   <url>
     <loc>https://www.karostartup.com/article/how-ig-drones-is-building-indigenous-technology-for-the-indian-army-and-beyond</loc>
     <lastmod>2026-08-12</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1785998568/karostartup/uploads/article_images/mk6oh1yhqkbuwudcdwbd.png</image:loc>
@@ -3153,7 +3180,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/money-buys-time-not-loyalty-blue-star-chro-arun-rajan-on-what-truly-keeps-talent</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -4332,7 +4359,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/youngest-entrepreneur-shreshth-khurana-building-a-global-business-ecosystem-at-15</loc>
-    <lastmod>2026-08-11</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -4908,7 +4935,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/the-death-of-the-live-demo-explaino-automating-how-saas-teams-present-products</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -6249,7 +6276,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/ias-parul-patwaris-shikshartha-in-odisha-gains-national-recognition-for-transforming-tribal-educatio</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -6717,7 +6744,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/beyond-the-buzzword-what-it-truly-means-to-build-a-net-zero-caf-in-india</loc>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -6789,7 +6816,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/odm-educational-group-records-100-percent-pass-rate-across-685-students-in-cbse-class-x-2026</loc>
-    <lastmod>2026-07-29</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -7212,7 +7239,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/clearclaim-helping-india-financial-assets</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -7239,7 +7266,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/avenuesai-plans-entry-into-privategpt</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -9174,7 +9201,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/swasthya-clinic-vertigo-swallowing-care</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -9885,7 +9912,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/choose-the-right-press-release-agency</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -9912,7 +9939,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/1-per-gb-india-plans-to-tax-your-mobile-data</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -10395,7 +10422,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-trudoc-healthcare-brought-doctors-to-your-phone</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -11367,7 +11394,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/bbng-annual-flagship-event-parivartan-makes-trailblazing-records</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
