@@ -74,12 +74,30 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/how-paasa-is-making-overseas-investing-simpler-for-indians</loc>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1786704465/karostartup/uploads/article_images/fu21fxlnoireuckddyoq.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/hirepro-report-reveals-the-biggest-shifts-in-indias-2026-campus-hiring</loc>
     <lastmod>2026-08-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1786700607/karostartup/uploads/article_images/dltxakb9jptex7cos8jw.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/built-on-trust-syncom-formulations-reports-strong-q1-growth</loc>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67151/1786692575981_content_img.jpg</image:loc>
     </image:image>
   </url>
   <url>
@@ -895,7 +913,7 @@
   <url>
     <loc>https://www.karostartup.com/article/how-karishma-kewalramani-built-fae-beauty-to-make-makeup-more-affordable</loc>
     <lastmod>2026-08-12</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1786099640/karostartup/uploads/article_images/jzhub9kt7qsezrdvczhf.jpg</image:loc>
@@ -904,7 +922,7 @@
   <url>
     <loc>https://www.karostartup.com/article/how-drivns-ev-leasing-solutions-reduce-the-financial-risk-of-fleet-electrification</loc>
     <lastmod>2026-08-08</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66542/1786087315154_content_img.png</image:loc>
@@ -1812,7 +1830,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/aziro-empowering-businesses-with-technological-solutions</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -3207,7 +3225,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/openai-launches-gpt-live-making-conversations-with-chatgpt-feel-truly-human</loc>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -7581,7 +7599,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/farmley-from-farm-fields-brand</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -12420,7 +12438,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-apex-sk-built-brand-crafters-three-landmark-entrepreneur</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -16737,7 +16755,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/snapmint-success-story-how-they-turned-a-college-startup-into-a-indian-rupee1700-crore-company</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
