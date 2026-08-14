@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-dreamtime-learning-is-reimagining-education-for-an-uncertain-future</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-14T05:54:26Z</news:publication_date>
+      <news:title>How Dreamtime Learning Is Reimagining Education for an Uncertain Future</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/ixigo-parent-sells-majority-of-freshbus-stake-for-rs-366-crore</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-14T05:23:25Z</news:publication_date>
+      <news:title>ixigo Parent Sells Majority of FreshBus Stake for Rs 36.6 Crore</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/virtuelife-how-a-bike-accident-led-to-indias-first-ai-assisted-physiotherapy-platform</loc>
     <news:news>
       <news:publication>
@@ -76,28 +98,6 @@
       </news:publication>
       <news:publication_date>2026-08-12T07:26:32Z</news:publication_date>
       <news:title>Yulu Secures $93 Million in Fresh Funding to Power India’s EV Future</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/lane-raises-rs-85-crore-adding-a-new-chapter-to-indias-startup-success-stories-in-mobility</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-12T05:23:48Z</news:publication_date>
-      <news:title>Lane Raises Rs 8.5 Crore: Adding a New Chapter to India’s Startup Success Stories in Mobility</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/shiprocket-secures-rs-727-crore-from-anchor-investors</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-12T04:47:53Z</news:publication_date>
-      <news:title>Shiprocket Secures Rs 727 Crore from Anchor Investors</news:title>
     </news:news>
   </url>
 </urlset>
