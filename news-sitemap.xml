@@ -56,15 +56,4 @@
       <news:title>VirtueLife: How a Bike Accident Led to India’s First AI-Assisted Physiotherapy Platform</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-kusho-ai-wants-ai-agents-to-catch-software-bugs-before-users-do</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-13T11:35:14Z</news:publication_date>
-      <news:title>How Kusho AI Wants AI Agents to Catch Software Bugs Before Users Do</news:title>
-    </news:news>
-  </url>
 </urlset>
