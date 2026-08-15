@@ -78,15 +78,4 @@
       <news:title>Island Computing to Launch India’s First Fully Managed Sovereign Cloud on 15 August</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/scrubsy-raises-rs-27-crore-to-scale-homegrown-home-cleaning-products</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-13T08:55:58Z</news:publication_date>
-      <news:title>Scrubsy Raises Rs 27 Crore to Scale Homegrown Home Cleaning Products</news:title>
-    </news:news>
-  </url>
 </urlset>
