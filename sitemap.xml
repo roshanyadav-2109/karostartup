@@ -74,6 +74,15 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/how-suhora-is-turning-satellite-data-into-real-time-intelligence</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1786943914/karostartup/uploads/article_images/xbgg0dcxr9j0oic3dyju.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/aludecor-launches-metallux-its-engineered-pre-coated-solid-aluminium-sheet</loc>
     <lastmod>2026-08-14</lastmod>
     <changefreq>daily</changefreq>
@@ -138,7 +147,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/hirepro-report-reveals-the-biggest-shifts-in-indias-2026-campus-hiring</loc>
-    <lastmod>2026-08-16</lastmod>
+    <lastmod>2026-08-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -760,7 +769,7 @@
   <url>
     <loc>https://www.karostartup.com/article/true-hope-foundation-extends-1-lakh-support-to-family-of-13-year-old-ridip-panika-who-lost-his-life-saving-his-puppy-dur</loc>
     <lastmod>2026-08-14</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66647/1786188727529_content_img.jpg</image:loc>
@@ -769,7 +778,7 @@
   <url>
     <loc>https://www.karostartup.com/article/from-cakes-to-crores-bakingo-raises-100-cr-at-26x-valuation</loc>
     <lastmod>2026-08-15</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1786347134/karostartup/uploads/article_images/luyphbka6xelc3upuugi.png</image:loc>
@@ -4215,7 +4224,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/premiumatcheap-affordable-ott-subscriptions-and-ai-tools-for-indias-digital-users</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -10308,7 +10317,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/project-ganga-up-launches-high-speed-internet</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
