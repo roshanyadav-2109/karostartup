@@ -74,6 +74,15 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/udaipur-based-3i-planet-completes-12-years-crosses-1500-web-design-projects-for-businesses-across-india</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67256/1786947788820_content_img.jpeg</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/ninebits-ciq-brings-ai-intelligence-to-enterprise-document-systems</loc>
     <lastmod>2026-08-17</lastmod>
     <changefreq>daily</changefreq>
@@ -742,7 +751,7 @@
   <url>
     <loc>https://www.karostartup.com/article/indias-finest-pastry-chefs-bakers-and-home-cooks-shine-at-ihe-expo-2026-as-three-national-culinary-competitions-crown-th</loc>
     <lastmod>2026-08-16</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66708/1786352819639_content_img.jpg</image:loc>
@@ -751,7 +760,7 @@
   <url>
     <loc>https://www.karostartup.com/article/leap-india-ipo-gains-momentum-on-day-two-with-42-overall-subscription</loc>
     <lastmod>2026-08-13</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1786357173/karostartup/uploads/article_images/kyq2a7ao59bklfrpvwgm.png</image:loc>
@@ -1047,7 +1056,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/this-couple-quit-their-jobs-to-sell-dosas-now-their-startup-banne-raised-35-crore</loc>
-    <lastmod>2026-08-16</lastmod>
+    <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -3045,7 +3054,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-two-iit-madras-graduates-built-an-indian-ev-champion</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -12924,7 +12933,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/digantara-reached-200-million-valuation</loc>
-    <lastmod>2026-08-16</lastmod>
+    <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -15357,7 +15366,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/snabbit-story-from-everyday-chore-problem-to-rs-500-cr-funding</loc>
-    <lastmod>2026-08-16</lastmod>
+    <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
