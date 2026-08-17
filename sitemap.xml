@@ -74,6 +74,33 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/gurjinder-singh-gavy-calls-for-youth-empowerment-on-indias-80th-independence-day</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67342/1786966464351_content_img.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/preal-saahas-trust-inspire-over-2500-young-minds-towards-a-sustainable-india-through-essay-competition</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67319/1786959915603_content_img.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/from-site-register-to-smartphone-sirex-launches-construction-management-software-for-contractors-and-builders</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67333/1786967843856_content_img.jpeg</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-seven-women-built-lijjat-papad-into-a-2000-crore-women-led-empire</loc>
     <lastmod>2026-08-17</lastmod>
     <changefreq>daily</changefreq>
@@ -733,7 +760,7 @@
   <url>
     <loc>https://www.karostartup.com/article/ghr-infra-launches-2bhk-freedom-offer-at-ghr-callisto</loc>
     <lastmod>2026-08-14</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66744/1786361141620_content_img.jpeg</image:loc>
@@ -742,7 +769,7 @@
   <url>
     <loc>https://www.karostartup.com/article/with-a-1647-lpa-average-a-new-age-b-school-is-being-compared-to-the-iims-hiveschool-of-business-sets-new-placement-trans</loc>
     <lastmod>2026-08-12</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66735/1786359849411_content_img.jpg</image:loc>
@@ -3513,7 +3540,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/crafting-bharat-season-3-launches-its-season-finale-episode-featuring-sriram-santhanam-head-of-startups-aws-india</loc>
-    <lastmod>2026-08-15</lastmod>
+    <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
