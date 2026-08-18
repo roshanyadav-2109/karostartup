@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/from-10-kg-of-paneer-to-a-3000-crore-dairy-empire-the-rise-of-milky-mist</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-18T05:21:38Z</news:publication_date>
+      <news:title>From 10 kg of Paneer to a ₹3,000 Crore Dairy Empire: The Rise of Milky Mist</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-seven-women-built-lijjat-papad-into-a-2000-crore-women-led-empire</loc>
     <news:news>
       <news:publication>
