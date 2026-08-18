@@ -74,12 +74,30 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/swaroop-waghmare-honoured-with-maharshi-ved-vyas-national-guru-gaurav-award</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67382/1787033144658_content_img.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/rezolv-raises-125-million-to-scale-ai-native-lending-technology</loc>
     <lastmod>2026-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1787034134/karostartup/uploads/article_images/gfvceaee0lzn6ldnkugc.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/schneider-electric-launches-yuva-yodha-aims-to-accelerate-youth-led-innovation-to-power-indias-energy-transition</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67358/1786969428322_content_img.jpg</image:loc>
     </image:image>
   </url>
   <url>
@@ -8967,7 +8985,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/india-beauty-market-investment-opportunities</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -9399,7 +9417,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/elcytec-for-trusted-pre-owned-electronics</loc>
-    <lastmod>2026-08-11</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -13527,7 +13545,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/from-missed-kabadiwala-pickups-to-real-story-of-scrapuncle</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -17763,7 +17781,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/anar-chemicals-expands-global-footprint-as-indian-specialty-chemicals-and-liquid-solventfuel-dye-sector-sees-rising-demand</loc>
-    <lastmod>2026-08-06</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
