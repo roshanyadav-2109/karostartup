@@ -74,6 +74,15 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/matchmaking-firm-wedknott-acquires-wedding-planner-aurezia-events</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67423/1787045646485_content_img.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-two-brothers-from-bihar-are-delivering-farm-fresh-milk-in-12-hours</loc>
     <lastmod>2026-08-18</lastmod>
     <changefreq>daily</changefreq>
@@ -778,7 +787,7 @@
   <url>
     <loc>https://www.karostartup.com/article/best-gold-loan-providers-in-india-in-2026-compare-top-banks-and-nbfcs</loc>
     <lastmod>2026-08-17</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66860/1786448053542_content_img.png</image:loc>
@@ -1398,7 +1407,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/aaahara-launches-in-new-zealand-taking-karnatakas-value-added-food-innovation-to-global-markets</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
