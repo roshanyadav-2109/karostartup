@@ -74,6 +74,24 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/from-knowledge-to-income-deven-u-pandeys-mission-to-build-a-generation-of-income-creators</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67322/1787045488159_content_img.jpeg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/5-most-trusted-nbfcs-in-india-that-customers-rely-on</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67504/1787058451238_content_img.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/gbp-10-million-lords-penthouse-draws-interest-from-indian-business-families-sale-proceeds-to-fund-grassroots-cricket</loc>
     <lastmod>2026-08-18</lastmod>
     <changefreq>daily</changefreq>
@@ -796,7 +814,7 @@
   <url>
     <loc>https://www.karostartup.com/article/the-conversation-that-changed-a-generation</loc>
     <lastmod>2026-08-16</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66535/1786456633753_content_img.png</image:loc>
@@ -4665,7 +4683,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/dwarka-based-pain-free-physiotherapy-chiropractic-clinic-strengthens-its-position-as-a-trusted-non-s</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -11169,7 +11187,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/metro-to-a-196m-global-empire-the-pocket-fm-story</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
