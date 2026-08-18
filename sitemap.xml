@@ -74,6 +74,15 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/lissun-raises-rs-48-crore-to-expand-care-for-children-with-developmental-needs</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1787048133/karostartup/uploads/article_images/doylkzp3u1xhqfmt83wt.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/dr-vikram-mishras-train-your-brain-to-win-explores-the-science-of-mindset-mental-resilience-and-purposeful-living</loc>
     <lastmod>2026-08-18</lastmod>
     <changefreq>daily</changefreq>
@@ -778,7 +787,7 @@
   <url>
     <loc>https://www.karostartup.com/article/schneider-electric-launches-unica-x-premium-switch-socket-range</loc>
     <lastmod>2026-08-18</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/66795/1786429660824_content_img.jpg</image:loc>
@@ -5070,7 +5079,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/from-bad-hair-days-to-a-multi-crore-haircare-brand-the-moxie-beauty-success-story</loc>
-    <lastmod>2026-08-09</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -5610,7 +5619,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/top-nbfc-performers-in-2026-from-iifl-finance-to-poonawalla-fincorp</loc>
-    <lastmod>2026-08-09</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -7770,7 +7779,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/ai-documentation-tool-built-by-vit-student</loc>
-    <lastmod>2026-07-31</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
