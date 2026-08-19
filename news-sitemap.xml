@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/ctrls-raises-rs-250-crore-to-expand-ai-ready-hyperscale-infrastructure</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-19T11:06:38Z</news:publication_date>
+      <news:title>CtrlS Raises Rs 250 Crore to Expand AI-Ready Hyperscale Infrastructure</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-a-chennai-doctors-frustration-created-indias-popular-brand-medimix</loc>
     <news:news>
       <news:publication>
@@ -76,17 +87,6 @@
       </news:publication>
       <news:publication_date>2026-08-17T11:40:53Z</news:publication_date>
       <news:title>How Seven Women Built Lijjat Papad Into a ₹2,000 Crore Women-Led Empire</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/she-stayed-out-of-the-spotlight-while-building-imarticus-into-a-300-crore-business</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-17T11:07:34Z</news:publication_date>
-      <news:title>She Stayed Out of the Spotlight While Building Imarticus Into a ₹300 Crore Business</news:title>
     </news:news>
   </url>
 </urlset>
