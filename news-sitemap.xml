@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-a-chennai-doctors-frustration-created-indias-popular-brand-medimix</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-19T08:14:15Z</news:publication_date>
+      <news:title>How a Chennai Doctor’s Frustration Created India&apos;s Popular Brand Medimix</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-labelblind-digitising-the-complex-world-of-food-labelling</loc>
     <news:news>
       <news:publication>
