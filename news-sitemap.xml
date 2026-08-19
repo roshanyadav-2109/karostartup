@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-labelblind-digitising-the-complex-world-of-food-labelling</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-19T05:27:31Z</news:publication_date>
+      <news:title>How LabelBlind Digitising the Complex World of Food Labelling</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-two-brothers-from-bihar-are-delivering-farm-fresh-milk-in-12-hours</loc>
     <news:news>
       <news:publication>
@@ -76,17 +87,6 @@
       </news:publication>
       <news:publication_date>2026-08-17T09:01:21Z</news:publication_date>
       <news:title>NineBit’s CIQ Brings AI Intelligence to Enterprise Document Systems</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-suhora-is-turning-satellite-data-into-real-time-intelligence</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-17T05:20:56Z</news:publication_date>
-      <news:title>How Suhora Is Turning Satellite Data into Real-Time Intelligence</news:title>
     </news:news>
   </url>
 </urlset>
