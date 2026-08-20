@@ -78,15 +78,4 @@
       <news:title>How LabelBlind Digitising the Complex World of Food Labelling</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-two-brothers-from-bihar-are-delivering-farm-fresh-milk-in-12-hours</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-18T11:21:40Z</news:publication_date>
-      <news:title>How Two Brothers from Bihar Are Delivering Farm-Fresh Milk in 12 Hours</news:title>
-    </news:news>
-  </url>
 </urlset>
