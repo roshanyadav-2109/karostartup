@@ -78,15 +78,4 @@
       <news:title>Lissun Raises Rs 48 Crore to Expand Care for Children with Developmental Needs</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/rezolv-raises-125-million-to-scale-ai-native-lending-technology</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-18T06:22:45Z</news:publication_date>
-      <news:title>Rezolv Raises $12.5 Million to Scale AI-Native Lending Technology</news:title>
-    </news:news>
-  </url>
 </urlset>
