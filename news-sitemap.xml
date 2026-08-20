@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/bgauss-raises-rs-110-crore-in-series-d-to-scale-electric-scooter-business</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-20T04:45:20Z</news:publication_date>
+      <news:title>BGauss Raises Rs 110 Crore in Series D to Scale Electric Scooter Business</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/bamboobox-using-ai-to-help-b2b-teams-focus-on-accounts-that-actually-convert</loc>
     <news:news>
       <news:publication>
@@ -76,17 +87,6 @@
       </news:publication>
       <news:publication_date>2026-08-18T06:22:45Z</news:publication_date>
       <news:title>Rezolv Raises $12.5 Million to Scale AI-Native Lending Technology</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/from-10-kg-of-paneer-to-a-3000-crore-dairy-empire-the-rise-of-milky-mist</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-18T05:21:38Z</news:publication_date>
-      <news:title>From 10 kg of Paneer to a ₹3,000 Crore Dairy Empire: The Rise of Milky Mist</news:title>
     </news:news>
   </url>
 </urlset>
