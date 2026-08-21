@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/beyond-the-metros-how-flutrr-is-redefining-dating-for-bharat</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-21T12:05:50Z</news:publication_date>
+      <news:title>Beyond the Metros: How Flutrr Is Redefining Dating for Bharat</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-red-balloon-aerospace-is-building-indias-near-space-economy</loc>
     <news:news>
       <news:publication>
@@ -76,17 +87,6 @@
       </news:publication>
       <news:publication_date>2026-08-20T04:45:20Z</news:publication_date>
       <news:title>BGauss Raises Rs 110 Crore in Series D to Scale Electric Scooter Business</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/bamboobox-using-ai-to-help-b2b-teams-focus-on-accounts-that-actually-convert</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-19T11:34:46Z</news:publication_date>
-      <news:title>BambooBox: Using AI to Help B2B Teams Focus on Accounts That Actually Convert</news:title>
     </news:news>
   </url>
 </urlset>

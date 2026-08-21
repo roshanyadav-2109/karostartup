@@ -74,12 +74,48 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/beyond-the-metros-how-flutrr-is-redefining-dating-for-bharat</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1787313920/karostartup/uploads/article_images/ayipdj5bymthtsnhhfjd.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/as-landmarc-turns-15-vidhi-kasliwal-is-ready-for-its-biggest-reinvention-yet</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67815/1787304587220_content_img.jpeg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/krafton-india-rolls-out-fresh-redeem-codes-for-august-21-unveils-exclusive-cyber-icon-vector</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67828/1787310068325_content_img.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-red-balloon-aerospace-is-building-indias-near-space-economy</loc>
     <lastmod>2026-08-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1787310593/karostartup/uploads/article_images/ketoixv3flhvg2o6hwld.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/genzcfo-honoured-as-best-nbfc-and-fintech-advisor-in-india-at-4th-edition-bharat-nbfc-fintech-summit-and-awards-2026</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67776/1787294606494_content_img.jpeg</image:loc>
     </image:image>
   </url>
   <url>
@@ -291,7 +327,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/peeko-raises-rs-674-crore-to-build-a-faster-babycare-commerce-platform</loc>
-    <lastmod>2026-08-20</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -805,7 +841,7 @@
   <url>
     <loc>https://www.karostartup.com/article/kcm-tourism-17-years-of-hard-work-one-journey-one-name</loc>
     <lastmod>2026-08-18</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67197/1786705440596_content_img.jpeg</image:loc>
@@ -903,7 +939,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/olectra-delivers-strong-q1-fy27-performance-with-66-revenue-growth</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -4170,7 +4206,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/mars-cosmetics-how-a-brand-born-in-tier-2-3-cities-is-marching-towards-800-crore</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -5385,7 +5421,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/best-smm-panel-comparison-to-find-the-right-fit-for-your-growth</loc>
-    <lastmod>2026-08-20</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -7923,7 +7959,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/bennett-university-opens-admissions-for-online-mba-programme-focused-on-flexible-future-ready-learni</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -8004,7 +8040,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/nvidia-rewards-10000-india-employees-with-stock-grants-up-to-1-crore</loc>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -8301,7 +8337,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/vikram-singh-sikarwar-global-entrepreneur</loc>
-    <lastmod>2026-08-20</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -10893,7 +10929,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/global-platforms-the-journey-of-avinash-jha</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -12420,7 +12456,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/kolkata-hosts-landmark-moba-legends-mobile-moba-ecosystem</loc>
-    <lastmod>2026-08-16</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -13347,7 +13383,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/aditya-pandya-becomes-indias-youngest-male-analog-astronaut</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -13500,7 +13536,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/iit-jammu-enters-into-collaboration-with-diyguru-in-ev</loc>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -17469,7 +17505,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/elev8-venture-partners-closes-landmark-indian-rupee1400-crore-maiden-fund</loc>
-    <lastmod>2026-08-09</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -17664,7 +17700,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/from-losses-to-listing-boats-ipo-story-and038-what-founders-should-learn</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
