@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/freshleaf-teas-giving-indias-beloved-beverage-a-modern-innovative-twist</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-22T05:11:49Z</news:publication_date>
+      <news:title>Freshleaf Teas: Giving India’s Beloved Beverage a Modern, Innovative Twist</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/beyond-the-metros-how-flutrr-is-redefining-dating-for-bharat</loc>
     <news:news>
       <news:publication>
@@ -76,17 +87,6 @@
       </news:publication>
       <news:publication_date>2026-08-20T06:58:23Z</news:publication_date>
       <news:title>Peeko Raises Rs 67.4 Crore to Build a Faster Babycare Commerce Platform</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/bgauss-raises-rs-110-crore-in-series-d-to-scale-electric-scooter-business</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-20T04:45:20Z</news:publication_date>
-      <news:title>BGauss Raises Rs 110 Crore in Series D to Scale Electric Scooter Business</news:title>
     </news:news>
   </url>
 </urlset>
