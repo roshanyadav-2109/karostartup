@@ -56,15 +56,4 @@
       <news:title>How Red Balloon Aerospace Is Building India’s Near-Space Economy</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/zaydn-raises-57-crore-seed-round-to-scale-its-gen-z-sneaker-play</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-21T08:12:40Z</news:publication_date>
-      <news:title>Zaydn Raises ₹5.7 crore Seed Round to Scale Its Gen-Z Sneaker Play</news:title>
-    </news:news>
-  </url>
 </urlset>
