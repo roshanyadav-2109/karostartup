@@ -34,15 +34,4 @@
       <news:title>Freshleaf Teas: Giving India’s Beloved Beverage a Modern, Innovative Twist</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/beyond-the-metros-how-flutrr-is-redefining-dating-for-bharat</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-21T12:05:50Z</news:publication_date>
-      <news:title>Beyond the Metros: How Flutrr Is Redefining Dating for Bharat</news:title>
-    </news:news>
-  </url>
 </urlset>
