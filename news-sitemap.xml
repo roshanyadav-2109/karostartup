@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/beyond-the-score-how-assessprep-helps-schools-see-what-students-really-know</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-26T05:22:00Z</news:publication_date>
+      <news:title>Beyond the Score: How AssessPrep Helps Schools See What Students Really Know</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/deepfake-voices-are-getting-harder-to-spot-this-21-year-old-is-building-a-solution</loc>
     <news:news>
       <news:publication>
