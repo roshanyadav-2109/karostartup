@@ -1165,6 +1165,8 @@ function _balanceNav() {
   const morePanel = document.getElementById('k-nav-more-panel');
   if (!container || !navLinks || !moreEl || !morePanel) return;
 
+  const promote = container.querySelector('.nav-promote');
+
   // Step 1 — move any items previously stashed in the panel back into the row,
   // just before the More container, then re-measure from scratch.
   const stashed = Array.from(morePanel.querySelectorAll('a'));
@@ -1173,21 +1175,26 @@ function _balanceNav() {
   moreEl.hidden = true;                 // if everything fits, More never shows
   moreEl.classList.remove('is-active');
 
-  // Step 2 — overflow check against the CONTAINER, not the links row: the
-  // container also holds the "Promote with us" link, so measuring the row alone
-  // let categories overlap it. The container fits when its content width no
-  // longer exceeds its visible width.
-  const isOverflowing = () => container.scrollWidth > container.clientWidth + 1;
-  if (!isOverflowing()) return; // everything fits — keep More hidden
+  // Step 2 — measure the LINKS ROW against the width actually available to it:
+  // the container's inner width minus the "Promote with us" link (and the gap).
+  // We can't use container.scrollWidth — items fold into an absolutely-positioned
+  // dropdown that doesn't shrink scrollWidth, so that measure never converges and
+  // the bar just scrolls. The links row (flex-shrink:0) reports its true content
+  // width, which DOES shrink as we fold items out.
+  const cs = getComputedStyle(container);
+  const padX = (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0);
+  const gap = parseFloat(cs.columnGap || cs.gap) || 8;
+  const promoteW = promote ? promote.getBoundingClientRect().width + gap : 0;
+  const avail = () => container.clientWidth - padX - promoteW - 8; // 8px safety buffer
+  const rowW = () => navLinks.getBoundingClientRect().width;
 
-  // Step 3 — there's overflow, so reveal the More button…
+  if (rowW() <= avail()) return; // everything fits inline — keep More hidden
+
+  // Step 3 — reveal More, then fold categories from the end into the panel
+  // (original order preserved) until the row fits.
   moreEl.hidden = false;
-
-  // …then iterate from the rightmost category leftward, pulling items out of the
-  // row into the panel (original order preserved) until the row fits — leaving
-  // room for the More button AND the promote link.
   let guard = 0;
-  while (isOverflowing() && guard++ < 100) {
+  while (rowW() > avail() && guard++ < 100) {
     const items = navLinks.querySelectorAll('a[data-cat="1"]');
     if (items.length === 0) break; // safety: don't strip past the categories
     const last = items[items.length - 1];
