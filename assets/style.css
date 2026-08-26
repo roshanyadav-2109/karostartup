@@ -6367,4 +6367,12 @@ a:hover .media-play { background: var(--brand); }
 }
 .share-story-btn:hover{filter:brightness(1.08);}
 .share-story-btn:active{transform:translateY(1px);}
-@media (max-width:720px){ .share-story-btn{display:none;} } /* mobile uses the drawer CTA */
+/* Mobile: keep it visible (early traction on every screen) but compact, and hide
+   the plain "Plus" text link so the tight header still fits. */
+@media (max-width:720px){
+  .share-story-btn{padding:6px 11px;font-size:0.76rem;}
+  .masthead-right .plus-link{display:none;}
+}
+@media (max-width:380px){
+  .share-story-btn{padding:5px 9px;font-size:0.72rem;}
+}
