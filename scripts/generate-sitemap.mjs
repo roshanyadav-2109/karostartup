@@ -110,6 +110,7 @@ function isoDate(d) {
     { path: '/podcasts',           priority: '0.7', changefreq: 'weekly'  },
     { path: '/plus',               priority: '0.5', changefreq: 'monthly' },
     { path: '/share-your-startup', priority: '0.7', changefreq: 'monthly' },
+    { path: '/share-your-story',   priority: '0.6', changefreq: 'monthly' },
     { path: '/internship',         priority: '0.6', changefreq: 'monthly' },
     { path: '/contact',            priority: '0.4', changefreq: 'monthly' },
     { path: '/editorial-policy',   priority: '0.5', changefreq: 'yearly'  },

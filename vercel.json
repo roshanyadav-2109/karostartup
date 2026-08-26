@@ -5,11 +5,6 @@
   "outputDirectory": ".",
   "redirects": [
     {
-      "source": "/share-your-story",
-      "destination": "https://docs.google.com/forms/d/e/1FAIpQLScwR4rquukd8f8vP88R0F9npNIjSdwuinW-f23JtnlcOhmMHA/viewform",
-      "permanent": false
-    },
-    {
       "source": "/general/:slug",
       "destination": "/article/:slug",
       "permanent": true
