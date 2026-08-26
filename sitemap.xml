@@ -74,6 +74,15 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/deepfake-voices-are-getting-harder-to-spot-this-21-year-old-is-building-a-solution</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1787720853/karostartup/uploads/article_images/q3vghkvip2mby0nj6kcv.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/indian-panorama-international-film-festival-showcasing-flower-of-life-by-v-r-bhagat-at-83rd-venice-international-film-fe</loc>
     <lastmod>2026-08-26</lastmod>
     <changefreq>daily</changefreq>
@@ -787,7 +796,7 @@
   <url>
     <loc>https://www.karostartup.com/article/how-labelblind-digitising-the-complex-world-of-food-labelling</loc>
     <lastmod>2026-08-26</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/dliblumqq/image/upload/f_auto,q_auto/v1787117216/karostartup/uploads/article_images/t49vm4lsvq1dnfgo1rtw.png</image:loc>
@@ -3567,7 +3576,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/nikol-ev-developing-indias-ev-charging-infrastructure</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -12051,7 +12060,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/the-kalra-familys-greatest-legacy-is-not-what-they-built</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -13878,7 +13887,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/meridian-schools-hyderabad-partners-with-hoag-to-launch-leadership-lab</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -14868,7 +14877,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/arif-patel-launches-youth-innovation-fund-to-boost-next-gen</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -18159,7 +18168,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-chaayos-turned-a-morning-craving-into-a-indian-rupee2600-crore-brand</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
