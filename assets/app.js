@@ -1467,6 +1467,12 @@ async function mountChrome(activeSlug = '') {
       <a href="/share-your-story" class="msp-btn">Share your story →</a>
     </div>`;
 
+  // Move the promo bar OUT of #chrome to be a body-level sibling, so its
+  // position:sticky sticks against the whole page scroll (inside #chrome it would
+  // only stick within that short header box and scroll away). Keeps it in flow.
+  const _promo = slot.querySelector('.mobile-share-promo');
+  if (_promo) slot.after(_promo);
+
   // Hamburger drawer (mobile)
   mountMobileDrawer(activeSlug, cachedCats || []);
   // Search overlay (all viewports)
