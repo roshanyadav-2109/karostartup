@@ -80,6 +80,24 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/article/how-is-ai-changing-the-way-modern-screenwriters-develop-and-refine-stories</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/68120/1787661180326_content_img.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/vox-architecture-ideas-competition-2026</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/68271/1787745176886_content_img.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/krafton-india-unveils-new-redeem-codes-for-august-26-featuring-the-exclusive-suave-master-set</loc>
     <lastmod>2026-08-26</lastmod>
     <changefreq>daily</changefreq>
@@ -757,7 +775,7 @@
   <url>
     <loc>https://www.karostartup.com/article/infidigit-wins-two-agency-of-the-year-titles-strengthening-its-position-as-an-ai-enabled-digital-growth-partner</loc>
     <lastmod>2026-08-21</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67596/1787137662534_content_img.png</image:loc>
@@ -9522,7 +9540,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/taj-exotica-resort-spa-goa</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -10872,7 +10890,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/introducing-the-pcl-180-project-a-science</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -18048,7 +18066,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/monalli-jain-guiding-light-in-spiritual-wellbeing-and-divination</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
