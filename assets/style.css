@@ -6273,8 +6273,10 @@ a:hover .media-play { background: var(--brand); }
   .section { padding: 32px 0; }
   /* Cookie banner already stacks; bump touch target */
   .cookie-banner .cookie-actions .btn { padding: 13px 16px; min-height: 44px; }
-  /* Avoid horizontal overflow */
-  body { overflow-x: hidden; }
+  /* Avoid horizontal overflow. Use `clip` (not `hidden`): both clip horizontal
+     overflow, but `hidden` makes body a scroll container which breaks
+     position:sticky (the sticky promo bar wouldn't hold on scroll). */
+  body { overflow-x: clip; }
 }
 
 /* Image-based brand mark (logo + wordmark PNG) replaces the old text+dot logo
