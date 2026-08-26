@@ -38,7 +38,11 @@
     .sys-form-frame{width:100%;min-height:1200px;border:0;background:#fff;}
     .sys-note{font-size:0.85rem;color:#6a6a6a;margin:0 0 14px;text-align:center;}
     .sys-fallback{display:block;text-align:center;margin-top:14px;font-size:0.9rem;}
-    @media (max-width:600px){ .sys-hero h1{font-size:1.55rem;} .sys-form-frame{min-height:1400px;} }
+    @media (max-width:600px){
+      .sys-hero{display:none;}            /* form-first on mobile — drop the intro band */
+      .sys-form-wrap{padding-top:16px;}
+      .sys-form-frame{min-height:1400px;}
+    }
   </style>
 </head>
 <body>
