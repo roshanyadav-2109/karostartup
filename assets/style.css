@@ -6367,12 +6367,23 @@ a:hover .media-play { background: var(--brand); }
 }
 .share-story-btn:hover{filter:brightness(1.08);}
 .share-story-btn:active{transform:translateY(1px);}
-/* Mobile: keep it visible (early traction on every screen) but compact, and hide
-   the plain "Plus" text link so the tight header still fits. */
+/* On mobile the header is tight — use the dedicated promo bar below the header
+   instead (see .mobile-share-promo). */
+@media (max-width:720px){ .share-story-btn{display:none;} }
+
+/* Mobile "Share your story" promo bar — sits IN NORMAL FLOW right below the
+   header (never fixed/sticky), so it can't cover content, the footer, modals or
+   file dialogs. It scrolls with the page. Desktop hides it (header has the CTA). */
+.mobile-share-promo{display:none;}
 @media (max-width:720px){
-  .share-story-btn{padding:6px 11px;font-size:0.76rem;}
-  .masthead-right .plus-link{display:none;}
-}
-@media (max-width:380px){
-  .share-story-btn{padding:5px 9px;font-size:0.72rem;}
+  .mobile-share-promo{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:9px 16px;background:var(--brand);color:#fff;
+  }
+  .mobile-share-promo .msp-text{font-size:0.82rem;font-weight:600;line-height:1.2;}
+  .mobile-share-promo .msp-btn{
+    background:#fff;color:var(--brand) !important;font-weight:800;font-size:0.78rem;
+    padding:6px 13px;border-radius:999px;white-space:nowrap;text-decoration:none;flex:0 0 auto;
+  }
+  .mobile-share-promo .msp-btn:active{transform:translateY(1px);}
 }

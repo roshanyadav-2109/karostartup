@@ -1459,7 +1459,13 @@ async function mountChrome(activeSlug = '') {
     renderUtilityBar() +
     (cachedBreaking ? renderBreakingFromData(cachedBreaking) : '') +
     renderMasthead() +
-    renderNavFromData(cachedCats || [], activeSlug);
+    renderNavFromData(cachedCats || [], activeSlug) +
+    // Mobile-only promo strip below the header (in normal flow — never overlays
+    // content, footer, modals or downloads). Desktop hides it via CSS.
+    `<div class="mobile-share-promo">
+      <span class="msp-text">Got a startup story to tell?</span>
+      <a href="/share-your-story" class="msp-btn">Share your story →</a>
+    </div>`;
 
   // Hamburger drawer (mobile)
   mountMobileDrawer(activeSlug, cachedCats || []);
