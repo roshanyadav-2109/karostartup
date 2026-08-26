@@ -367,7 +367,7 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
   white-space: nowrap;   /* never wrap to a second line */
   flex: 0 0 auto;        /* never shrink — the category row yields instead */
 }
-.nav-links { min-width: 0; }  /* let the links row shrink so JS can fold extras into More */
+.nav-links { flex-shrink: 0; }  /* never shrink below content, so overflow is real and JS folds extras into More */
 
 /* ============================================================
    "MORE ▾" overflow dropdown in the desktop nav.
