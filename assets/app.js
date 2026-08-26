@@ -1195,7 +1195,9 @@ function _balanceNav() {
   moreEl.hidden = false;
   let guard = 0;
   while (rowW() > avail() && guard++ < 100) {
-    const items = navLinks.querySelectorAll('a[data-cat="1"]');
+    // DIRECT children only — the folded items live in the panel (also inside
+    // navLinks), so a descendant query would keep re-picking them and stall.
+    const items = navLinks.querySelectorAll(':scope > a[data-cat="1"]');
     if (items.length === 0) break; // safety: don't strip past the categories
     const last = items[items.length - 1];
     last.remove();
