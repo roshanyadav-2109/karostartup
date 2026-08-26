@@ -258,6 +258,14 @@
           : renderMarkdown(article.content || '')}
       </article>
 
+      <aside class="share-story-promo">
+        <div class="ssp-text">
+          <strong>Building something in India?</strong>
+          <span>Get your startup featured on Karostartup — tell us your story.</span>
+        </div>
+        <a href="/share-your-story" class="ssp-btn">Share your story →</a>
+      </aside>
+
       ${article.tags && article.tags.length ? `
         <div class="tags-row">
           ${article.tags.map(t => `<a class="tag-chip" href="/search.html?q=${encodeURIComponent(t)}">#${escapeHtml(t)}</a>`).join('')}

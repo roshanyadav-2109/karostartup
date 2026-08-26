@@ -6379,6 +6379,10 @@ a:hover .media-play { background: var(--brand); }
   .mobile-share-promo{
     display:flex;align-items:center;justify-content:space-between;gap:10px;
     padding:9px 16px;background:var(--brand);color:#fff;
+    /* Hold at the top while the page scrolls beneath it. sticky (not fixed) so it
+       stays in flow — content is never hidden — and z-index 45 keeps it BELOW every
+       modal/drawer/cookie banner (those are 8000+), so nothing gets blocked. */
+    position:sticky;top:0;z-index:45;
   }
   .mobile-share-promo .msp-text{font-size:0.82rem;font-weight:600;line-height:1.2;}
   .mobile-share-promo .msp-btn{
@@ -6386,4 +6390,24 @@ a:hover .media-play { background: var(--brand); }
     padding:6px 13px;border-radius:999px;white-space:nowrap;text-decoration:none;flex:0 0 auto;
   }
   .mobile-share-promo .msp-btn:active{transform:translateY(1px);}
+}
+
+/* ── In-article "Share your story" promo card (all article pages) ───────── */
+.share-story-promo{
+  max-width:1140px;margin:34px auto;padding:20px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  background:linear-gradient(135deg,#fff5f5,#fdeaea);
+  border:1px solid #f3c9c9;border-left:4px solid var(--brand);border-radius:12px;
+}
+.share-story-promo .ssp-text{display:flex;flex-direction:column;gap:3px;min-width:0;}
+.share-story-promo .ssp-text strong{font-family:var(--font-display,inherit);font-size:1.1rem;color:#1a1a1a;}
+.share-story-promo .ssp-text span{font-size:0.9rem;color:#5a5a5a;}
+.share-story-promo .ssp-btn{
+  flex:0 0 auto;background:var(--brand);color:#fff !important;font-weight:800;font-size:0.9rem;
+  padding:11px 20px;border-radius:999px;white-space:nowrap;text-decoration:none;transition:filter .15s;
+}
+.share-story-promo .ssp-btn:hover{filter:brightness(1.08);}
+@media (max-width:600px){
+  .share-story-promo{margin:24px 16px;padding:16px 18px;gap:12px;}
+  .share-story-promo .ssp-btn{width:100%;text-align:center;}
 }
