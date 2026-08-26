@@ -1158,10 +1158,11 @@ function renderNavFromData(categories, activeSlug = '') {
 // "More" dropdown. If everything fits, the dropdown stays hidden.
 // Re-runs on resize.
 function _balanceNav() {
+  const container = document.querySelector('.nav .container');
   const navLinks = document.getElementById('k-nav-links');
   const moreEl = document.getElementById('k-nav-more');
   const morePanel = document.getElementById('k-nav-more-panel');
-  if (!navLinks || !moreEl || !morePanel) return;
+  if (!container || !navLinks || !moreEl || !morePanel) return;
 
   // Step 1 — move any items previously stashed in the panel back into the row,
   // just before the More container, then re-measure from scratch.
@@ -1171,19 +1172,21 @@ function _balanceNav() {
   moreEl.hidden = true;                 // if everything fits, More never shows
   moreEl.classList.remove('is-active');
 
-  // Step 2 — overflow check. The Home link is anchored at the start and never
-  // moves; category links carry data-cat="1" and are eligible to shift into the
-  // dropdown.
-  const isOverflowing = () => navLinks.scrollWidth > navLinks.clientWidth + 2;
+  // Step 2 — overflow check against the CONTAINER, not the links row: the
+  // container also holds the "Promote with us" link, so measuring the row alone
+  // let categories overlap it. The container fits when its content width no
+  // longer exceeds its visible width.
+  const isOverflowing = () => container.scrollWidth > container.clientWidth + 1;
   if (!isOverflowing()) return; // everything fits — keep More hidden
 
   // Step 3 — there's overflow, so reveal the More button…
   moreEl.hidden = false;
 
-  // …then iterate from the rightmost category leftward, pulling items
-  // out of the row and prepending them into the panel (so original
-  // order is preserved inside the dropdown).
-  while (isOverflowing()) {
+  // …then iterate from the rightmost category leftward, pulling items out of the
+  // row into the panel (original order preserved) until the row fits — leaving
+  // room for the More button AND the promote link.
+  let guard = 0;
+  while (isOverflowing() && guard++ < 100) {
     const items = navLinks.querySelectorAll('a[data-cat="1"]');
     if (items.length === 0) break; // safety: don't strip past the categories
     const last = items[items.length - 1];

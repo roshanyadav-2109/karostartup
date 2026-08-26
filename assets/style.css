@@ -364,7 +364,10 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 .nav-promote {
   color: var(--brand) !important;
   font-weight: 700 !important;
+  white-space: nowrap;   /* never wrap to a second line */
+  flex: 0 0 auto;        /* never shrink — the category row yields instead */
 }
+.nav-links { min-width: 0; }  /* let the links row shrink so JS can fold extras into More */
 
 /* ============================================================
    "MORE ▾" overflow dropdown in the desktop nav.
