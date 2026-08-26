@@ -953,6 +953,7 @@ function renderMasthead() {
       </div>
       <a href="/" class="logo" aria-label="Karostartup home"><img src="/assets/logo-wordmark.png" alt="Karostartup"></a>
       <div class="masthead-right">
+        <a href="/share-your-story" class="share-story-btn">Share your story</a>
         <a href="/plus.html" class="plus-link">Plus</a>
         <button class="search-btn" id="search-trigger" type="button" aria-label="Search">${ICON.search} <span>Search</span></button>
       </div>
@@ -1329,6 +1330,8 @@ function mountMobileDrawer(activeSlug, cats) {
     </form>
 
     <div class="k-drawer-section" id="k-drawer-auth"></div>
+
+    <a href="/share-your-story" class="k-drawer-cta" style="margin:0 0 14px;">Share your story →</a>
 
     <nav class="k-drawer-nav">
       <a href="/" class="k-drawer-link ${activeSlug === '' ? 'is-active' : ''}">Home</a>

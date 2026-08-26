@@ -6356,3 +6356,15 @@ a:hover .media-play { background: var(--brand); }
 .ac-dot{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.45);cursor:pointer;}
 .ac-dot.is-active{background:#fff;}
 .ac-count{position:absolute;top:10px;right:12px;background:rgba(0,0,0,.6);color:#fff;font-size:0.75rem;padding:3px 9px;border-radius:20px;z-index:2;}
+
+/* ── "Share your story" header CTA — high-visibility, every page ────────── */
+.share-story-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--brand);color:#fff !important;
+  font-weight:700;font-size:0.82rem;letter-spacing:0.01em;
+  padding:7px 14px;border-radius:999px;white-space:nowrap;
+  text-decoration:none;transition:filter .15s, transform .05s;
+}
+.share-story-btn:hover{filter:brightness(1.08);}
+.share-story-btn:active{transform:translateY(1px);}
+@media (max-width:720px){ .share-story-btn{display:none;} } /* mobile uses the drawer CTA */
