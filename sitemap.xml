@@ -38,6 +38,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.karostartup.com/share-your-story</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/internship</loc>
     <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
@@ -72,6 +78,15 @@
     <lastmod>2026-08-26</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/schneider-electric-launches-installed-base-tracking-movement-to-strengthen-uptime-and-operational-resilience</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/68165/1787724900732_content_img.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://www.karostartup.com/article/accurate-language-solutions-expands-multilingual-communication-services-for-businesses-and-organizations</loc>
@@ -183,7 +198,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/newscanvassedu-launches-raya-indias-first-ai-powered-clat-current-affairs-gk-assistant-on-whatsapp</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -273,7 +288,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/e-commerce-platforms-turn-to-multimodal-voice-ai-to-simplify-refunds-and-returns</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -345,7 +360,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/freshleaf-teas-giving-indias-beloved-beverage-a-modern-innovative-twist</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -687,7 +702,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/bamboobox-using-ai-to-help-b2b-teams-focus-on-accounts-that-actually-convert</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -760,7 +775,7 @@
   <url>
     <loc>https://www.karostartup.com/article/pm-modis-call-to-skill-1-crore-youth-in-ai-pynet-labs-offers-free-ccna-training-to-build-job-ready-network-professionals</loc>
     <lastmod>2026-08-23</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67501/1787115279907_content_img.jpeg</image:loc>
@@ -769,7 +784,7 @@
   <url>
     <loc>https://www.karostartup.com/article/5-best-aeo-agencies-in-india-for-2026-ai-seo-aeo-companies-compared</loc>
     <lastmod>2026-08-25</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67513/1787114556705_content_img.png</image:loc>
@@ -778,7 +793,7 @@
   <url>
     <loc>https://www.karostartup.com/article/anneo-biotech-advancing-global-probiotics-prebiotics-and-everyday-nutrition-with-fosnia</loc>
     <lastmod>2026-08-21</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://press-release-v1-new.s3.ap-south-1.amazonaws.com/order/67084/1787034346491_content_img.jpg</image:loc>
@@ -786,7 +801,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/chef-amar-ronald-xavier-adds-two-global-culinary-milestones-to-his-growing-record-of-achievement</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -2433,7 +2448,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/how-inteligen-uses-games-to-make-math-fear-into-math-love</loc>
-    <lastmod>2026-08-20</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -4503,7 +4518,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/mars-cosmetics-how-a-brand-born-in-tier-2-3-cities-is-marching-towards-800-crore</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -4818,7 +4833,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/the-journey-behind-travysys-from-indian-navy-to-startup-founder</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -10101,7 +10116,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/unacademy-acquired-by-upgrad</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -11586,7 +11601,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/own-household-problem-into-a-100-cr-startup-the-story-of-pronto</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -12951,7 +12966,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/sarvam-ai-success-story-1900-crore-startup</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -13356,7 +13371,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/nvr-fashion-built-by-a-woman-powered-by-women-chosen-by-millions</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -14688,7 +14703,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/the-whole-truth-success-story-a-brand-that-begins-with-one-product</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -16002,7 +16017,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/gtm-unbound-brings-founders-together-for-a-pickleball-morning-in</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -17844,7 +17859,7 @@
   </url>
   <url>
     <loc>https://www.karostartup.com/article/snapmint-success-story-how-they-turned-a-college-startup-into-a-indian-rupee1700-crore-company</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
