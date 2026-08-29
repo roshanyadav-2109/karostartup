@@ -1,37 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
-  <url>
-    <loc>https://www.karostartup.com/article/biryani-bees-secures-87-cr-funding-from-vivek-oberois-family-office</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-27T08:37:36Z</news:publication_date>
-      <news:title>Biryani Bees Secures ₹8.7 Cr Funding from Vivek Oberoi’s Family Office</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/inspecity-raises-fresh-funds-to-help-satellites-live-longer-in-space</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-27T06:54:34Z</news:publication_date>
-      <news:title>InspeCity Raises Fresh Funds to Help Satellites Live Longer in Space</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/ais-cost-revolution-understanding-the-power-of-token-economics</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-27T05:31:03Z</news:publication_date>
-      <news:title>AI’s Cost Revolution: Understanding the Power of Token Economics</news:title>
-    </news:news>
-  </url>
+
 </urlset>
