@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/mokobara-raises-9066-crore-in-series-c-funding-led-by-sauce-vc</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-02T07:18:00Z</news:publication_date>
+      <news:title>Mokobara Raises ₹90.66 Crore in Series C Funding Led by Sauce VC</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/raksha-bandhan-sales-jump-46-this-year-despite-no-deep-discounts-gokwik-data</loc>
     <news:news>
       <news:publication>
@@ -10,39 +21,6 @@
       </news:publication>
       <news:publication_date>2026-08-31T12:28:11Z</news:publication_date>
       <news:title>Raksha Bandhan sales jump 46% this year, despite no deep discounts: GoKwik Data</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/rs-306-cr-raised-purple-style-labs-gears-up-for-ipo</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-31T06:56:06Z</news:publication_date>
-      <news:title>Rs 306 Cr Raised: Purple Style Labs Gears Up for IPO</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-sugarstringsai-is-changing-genetic-disease-detection-through-from-cheek-swab</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-31T05:09:00Z</news:publication_date>
-      <news:title>How SugarStrings.ai Is Changing Genetic Disease Detection From Cheek Swab</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/from-burgers-to-big-funding-good-flippin-burgers-eyes-480-cr-valuation</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-31T04:53:34Z</news:publication_date>
-      <news:title>From Burgers to Big Funding: Good Flippin’ Burgers Eyes ₹480 Cr Valuation</news:title>
     </news:news>
   </url>
 </urlset>
