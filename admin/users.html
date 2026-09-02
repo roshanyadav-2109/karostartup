@@ -44,11 +44,13 @@
           <button type="submit" class="btn btn-primary" id="add-btn">Add user</button>
         </form>
       </div>
-      <div class="admin-toolbar">
+      <div class="admin-toolbar" style="gap:14px;flex-wrap:wrap;">
+        <div id="user-tabs" style="display:flex;gap:6px;">
+          <button type="button" class="btn btn-primary btn-sm" data-view="readers">Readers</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-view="employees">Employees</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-view="all">All</button>
+        </div>
         <input type="search" id="search" class="search" placeholder="Search name, username or email…">
-        <select id="role-filter"><option value="">All roles</option>
-          <option value="reader">Reader</option><option value="author">Author</option><option value="editor">Editor</option><option value="admin">Admin</option>
-        </select>
       </div>
       <div class="admin-card" style="padding:0;" id="slot"><div class="loading-state">Loading…</div></div>`;
 
@@ -82,19 +84,29 @@
       }
     });
 
-    let q = '', role = '', searchTimer;
+    // view: 'readers' = general users (not staff), 'employees' = staff
+    // (author/editor/admin), 'all' = everyone.
+    const STAFF_ROLES = ['author', 'editor', 'admin'];
+    let q = '', view = 'readers', searchTimer;
     document.getElementById('search').addEventListener('input', (e) => {
       clearTimeout(searchTimer);
       searchTimer = setTimeout(() => { q = e.target.value.trim(); load(); }, 300);
     });
-    document.getElementById('role-filter').addEventListener('change', (e) => { role = e.target.value; load(); });
+    document.querySelectorAll('#user-tabs [data-view]').forEach(b => b.addEventListener('click', () => {
+      view = b.dataset.view;
+      document.querySelectorAll('#user-tabs [data-view]').forEach(x => { x.className = 'btn btn-ghost btn-sm'; });
+      b.className = 'btn btn-primary btn-sm';
+      load();
+    }));
 
     async function load() {
       const slot = document.getElementById('slot');
       slot.innerHTML = '<div class="loading-state">Loading…</div>';
       let qb = sb.from('profiles').select('*');
       if (q) { const s = q.replace(/[%_]/g, ''); qb = qb.or(`full_name.ilike.%${s}%,username.ilike.%${s}%,email.ilike.%${s}%`); }
-      if (role) qb = qb.eq('role', role);
+      // Employees = staff roles; Readers = everyone else (incl. null role); All = no filter.
+      if (view === 'employees') qb = qb.in('role', STAFF_ROLES);
+      else if (view === 'readers') qb = qb.or(`role.is.null,role.not.in.(${STAFF_ROLES.join(',')})`);
       qb = qb.order('created_at', { ascending: false }).limit(200);
       try {
         const { data } = await qb;
