@@ -27,7 +27,7 @@ async function renderAdminShell(activeKey, breadcrumb) {
     { key: 'submissions', label: 'Submissions', href: '/admin/submissions.html', min: 2 },
     { key: 'newsletters', label: 'Newsletters', href: '/admin/newsletters.html', min: 3 },
     { key: 'autofetch', label: 'Auto-Fetch', href: '/admin/auto-fetch.html', min: 3 },
-    { key: 'users', label: 'Employees', href: '/admin/users.html', min: 3 }
+    { key: 'users', label: 'People', href: '/admin/users.html', min: 3 }
   ];
 
   root.innerHTML = `

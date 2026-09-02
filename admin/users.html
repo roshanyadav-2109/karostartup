@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Users · Admin · Karostartup</title>
+  <title>People · Admin · Karostartup</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
@@ -25,13 +25,13 @@
       document.body.innerHTML = '<div class="access-denied"><h1>Admins only</h1><p>This page is restricted to admins.</p><a href="/admin/" class="btn btn-primary">Back to dashboard</a></div>';
       return;
     }
-    await renderAdminShell('users', 'Users');
+    await renderAdminShell('users', 'People');
     const me = await getCurrentUser();
     const myId = me?.id || '';
 
     const main = document.getElementById('admin-content');
     main.innerHTML = `
-      <h1>Users</h1>
+      <h1>People</h1>
       <div class="admin-card" style="margin-bottom:18px;">
         <div class="admin-card-head"><h3>Add a user</h3></div>
         <div id="add-msg"></div>
