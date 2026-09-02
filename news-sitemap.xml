@@ -2,6 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-magron-bets-on-electric-motorcycles-and-ecosystem-tech-in-a-scooter-dominated-market</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-02T10:20:15Z</news:publication_date>
+      <news:title>How Magron Bets on Electric Motorcycles and Ecosystem Tech in a Scooter-Dominated Market</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-discov-accessories-is-building-a-new-age-indian-accessories-brand-around-everyday-style</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-02T09:51:34Z</news:publication_date>
+      <news:title>How Discov Accessories Is Building a New-Age Indian Accessories Brand Around Everyday Style</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/reliance-enters-ice-cream-market-with-bombay-creamery-starting-at-rs-10</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-02T09:43:51Z</news:publication_date>
+      <news:title>Reliance Enters Ice Cream Market with Bombay Creamery, Starting at Rs 10</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/mokobara-raises-9066-crore-in-series-c-funding-led-by-sauce-vc</loc>
     <news:news>
       <news:publication>
@@ -10,17 +43,6 @@
       </news:publication>
       <news:publication_date>2026-09-02T07:18:00Z</news:publication_date>
       <news:title>Mokobara Raises ₹90.66 Crore in Series C Funding Led by Sauce VC</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/raksha-bandhan-sales-jump-46-this-year-despite-no-deep-discounts-gokwik-data</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-31T12:28:11Z</news:publication_date>
-      <news:title>Raksha Bandhan sales jump 46% this year, despite no deep discounts: GoKwik Data</news:title>
     </news:news>
   </url>
 </urlset>
