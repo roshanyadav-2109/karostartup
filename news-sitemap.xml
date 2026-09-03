@@ -2,6 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/this-lender-is-bringing-business-loans-to-smaller-cities</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-03T10:34:58Z</news:publication_date>
+      <news:title>This Lender Is Bringing Business Loans to Smaller Cities</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/purfekkt-fit-how-this-indian-sneaker-brand-is-redefining-everyday-footwear</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-03T10:09:10Z</news:publication_date>
+      <news:title>Purfekkt Fit: How This Indian Sneaker Brand Is Redefining Everyday Footwear</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/comet-raises-rs-9875-crore-to-accelerate-growth-in-indias-rising-sneaker-market</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-03T05:46:38Z</news:publication_date>
+      <news:title>Comet Raises Rs 98.75 Crore to Accelerate Growth in India’s Rising Sneaker Market</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-magron-bets-on-electric-motorcycles-and-ecosystem-tech-in-a-scooter-dominated-market</loc>
     <news:news>
       <news:publication>
