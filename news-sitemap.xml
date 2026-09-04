@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/creedom-raises-rs-41-crore-to-build-an-ai-growth-coach-for-content-creators</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-04T05:30:21Z</news:publication_date>
+      <news:title>Creedom Raises Rs 4.1 Crore to Build an AI Growth Coach for Content Creators</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/superergo-aims-to-make-healthy-workspaces-accessible-for-indian-professionals</loc>
     <news:news>
       <news:publication>
@@ -76,17 +87,6 @@
       </news:publication>
       <news:publication_date>2026-09-02T09:43:51Z</news:publication_date>
       <news:title>Reliance Enters Ice Cream Market with Bombay Creamery, Starting at Rs 10</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/mokobara-raises-9066-crore-in-series-c-funding-led-by-sauce-vc</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-09-02T07:18:00Z</news:publication_date>
-      <news:title>Mokobara Raises ₹90.66 Crore in Series C Funding Led by Sauce VC</news:title>
     </news:news>
   </url>
 </urlset>
