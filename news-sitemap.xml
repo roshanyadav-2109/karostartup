@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/wastelink-turns-indias-food-surplus-into-animal-feed-addressing-two-problems-at-once</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-04T11:06:55Z</news:publication_date>
+      <news:title>Wastelink Turns India’s Food Surplus into Animal Feed, Addressing Two Problems at Once</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/creedom-raises-rs-41-crore-to-build-an-ai-growth-coach-for-content-creators</loc>
     <news:news>
       <news:publication>
@@ -10,6 +21,17 @@
       </news:publication>
       <news:publication_date>2026-09-04T05:30:21Z</news:publication_date>
       <news:title>Creedom Raises Rs 4.1 Crore to Build an AI Growth Coach for Content Creators</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/cradlewise-raises-12-million-to-scale-ai-powered-smart-cribs-for-better-family-sleep</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-04T04:25:00Z</news:publication_date>
+      <news:title>Cradlewise Raises $12 Million to Scale AI-Powered Smart Cribs for Better Family Sleep</news:title>
     </news:news>
   </url>
   <url>
@@ -54,39 +76,6 @@
       </news:publication>
       <news:publication_date>2026-09-03T05:46:38Z</news:publication_date>
       <news:title>Comet Raises Rs 98.75 Crore to Accelerate Growth in India’s Rising Sneaker Market</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-magron-bets-on-electric-motorcycles-and-ecosystem-tech-in-a-scooter-dominated-market</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-09-02T10:20:15Z</news:publication_date>
-      <news:title>How Magron Bets on Electric Motorcycles and Ecosystem Tech in a Scooter-Dominated Market</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-discov-accessories-is-building-a-new-age-indian-accessories-brand-around-everyday-style</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-09-02T09:51:34Z</news:publication_date>
-      <news:title>How Discov Accessories Is Building a New-Age Indian Accessories Brand Around Everyday Style</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/reliance-enters-ice-cream-market-with-bombay-creamery-starting-at-rs-10</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-09-02T09:43:51Z</news:publication_date>
-      <news:title>Reliance Enters Ice Cream Market with Bombay Creamery, Starting at Rs 10</news:title>
     </news:news>
   </url>
 </urlset>
