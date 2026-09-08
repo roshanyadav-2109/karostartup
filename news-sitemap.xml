@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/femenest-accelerates-business-expansion-with-new-manufacturing-facility-amid-digital-identity-challenges</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-08T05:21:05Z</news:publication_date>
+      <news:title>Femenest Accelerates Business Expansion With New Manufacturing Facility Amid Digital Identity Challenges</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/lickicious-raises-19-crore-to-scale-towards-100-crore-annual-revenue-prath-ventures-leads-institutional-backing-as-lickicious-expands-categories-channels-and-manufacturing-capabilities</loc>
     <news:news>
       <news:publication>
