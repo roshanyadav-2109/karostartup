@@ -12,15 +12,4 @@
       <news:title>Multipl launches bill payments through its Spending Account, targets ₹500 crore in 12 months</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/falcon-launches-merlinfx-the-first-ai-workforce-built-into-a-live-banking-core</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-09-09T13:35:10Z</news:publication_date>
-      <news:title>Falcon launches MerlinFX, the first AI workforce built into a live banking core</news:title>
-    </news:news>
-  </url>
 </urlset>
