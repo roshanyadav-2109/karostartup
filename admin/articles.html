@@ -142,7 +142,15 @@
           b.addEventListener('click', async () => {
             if (!confirm('Delete this article permanently?')) return;
             try {
-              await sb.from('articles').delete().eq('id', b.dataset.delete);
+              // .select() so we know how many rows were ACTUALLY deleted. With RLS,
+              // a blocked delete returns success + 0 rows — so without this it would
+              // falsely say "deleted" and the article reappears on reload.
+              const { data: del, error } = await sb.from('articles').delete().eq('id', b.dataset.delete).select('id');
+              if (error) throw error;
+              if (!del || !del.length) {
+                showToast("You don't have permission to delete this article.", 'error');
+                return;
+              }
               showToast('Article deleted');
               load();
             } catch (e) { showToast(e.message || 'Could not delete', 'error'); }
@@ -162,7 +170,15 @@
         try {
           if (act === 'publish') await sb.from('articles').update({ status: 'published', published_at: new Date().toISOString() }).in('id', ids);
           else if (act === 'archive') await sb.from('articles').update({ status: 'archived' }).in('id', ids);
-          else if (act === 'delete') await sb.from('articles').delete().in('id', ids);
+          else if (act === 'delete') {
+            const { data: del, error } = await sb.from('articles').delete().in('id', ids).select('id');
+            if (error) throw error;
+            const n = del ? del.length : 0;
+            if (!n) { showToast("You don't have permission to delete these articles.", 'error'); return; }
+            showToast(n < ids.length ? `Deleted ${n} of ${ids.length} — the rest weren't permitted.` : `${n} deleted`);
+            load();
+            return;
+          }
           showToast(`${ids.length} updated`);
           load();
         } catch (e) { showToast(e.message || 'Bulk failed', 'error'); }
