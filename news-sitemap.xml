@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/zepto-pre-ipo-funding-4-5-billion-valuation</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-16T05:31:00Z</news:publication_date>
+      <news:title>Beyond 10-Minute Delivery: How Zepto Secured ₹1,000 Crore to Fight the Quick-Commerce War</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/Astrotalk-1-billion-unicorn-esop-buyback</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-15T23:07:00Z</news:publication_date>
+      <news:title>How an Astrology App Turned Into a $1 Billion Unicorn—Using Zero VC Dollars for Its Latest Round</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/valmiki-leela-capital-completes-maiden-mainboard-ipo-mandate-builds-3000-crore-pipeline</loc>
     <news:news>
       <news:publication>
