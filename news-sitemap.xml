@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
-
+  <url>
+    <loc>https://www.karostartup.com/article/grovy-india-and-golden-growth-fund-commit-180-cr-to-rebuild-south-delhis-old-homes</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-21T02:49:00Z</news:publication_date>
+      <news:title>Grovy India and Golden Growth Fund Commit ₹180 Cr to Rebuild South Delhi&apos;s Old Homes</news:title>
+    </news:news>
+  </url>
 </urlset>
