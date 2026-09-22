@@ -2,13 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/india-must-move-from-made-in-india-to-imagined-in-india-finance-minister-nirmala-sitharamans-call-for-innovation-led-growth</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-22T12:36:36Z</news:publication_date>
+      <news:title>India Must Move from ‘Made in India’ to ‘Imagined in India’: Finance Minister Nirmala Sitharaman’s Call for Innovation-Led Growth</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/satin-finserv-initiates-sankalp-the-climate-edition-to-back-indias-next-generation-of-climate-innovators</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-22T10:15:45Z</news:publication_date>
+      <news:title>Satin Finserv Initiates ‘Sankalp - The Climate Edition’ to Back India’s Next Generation of Climate Innovators</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/venator-search-partners-facilitates-appointment-of-manmohan-shetty-as-cfo-of-utkarsh-small-finance-bank</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-22T07:17:00Z</news:publication_date>
+      <news:title>Venator Search Partners Facilitates Appointment of Manmohan Shetty as CFO of Utkarsh Small Finance Bank</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/physioplus-raises-seed-funding-at-800k-valuation-to-scale-digital-physiotherapy-in-india</loc>
     <news:news>
       <news:publication>
         <news:name>Karostartup</news:name>
         <news:language>en</news:language>
       </news:publication>
-      <news:publication_date>2026-09-22T06:30:23Z</news:publication_date>
+      <news:publication_date>2026-09-22T01:00:00Z</news:publication_date>
       <news:title>Physioplus Raises Seed Funding at $800K Valuation to Scale Digital Physiotherapy in India</news:title>
     </news:news>
   </url>
