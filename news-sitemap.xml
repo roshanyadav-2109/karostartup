@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/sol-ai-raises-4-million-how-this-proactive-ai-startup-turns-email-promises-into-action</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-23T05:57:00Z</news:publication_date>
+      <news:title>Sol AI Raises $4 Million: How This Proactive AI Startup Turns Email Promises Into Action</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/venator-search-partners-facilitates-appointment-of-ananth-babu-as-south-indian-banks-credit-cards-head</loc>
     <news:news>
       <news:publication>
