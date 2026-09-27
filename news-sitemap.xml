@@ -23,15 +23,4 @@
       <news:title>EV91 Journey: How One Startup is Transforming India’s Last-Mile Delivery with Electric Vehicles</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/iit-delhis-indias-first-indigenous-micro-gpu-how-it-cuts-import-dependence-and-powers-affordable-tech</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-09-25T08:26:38Z</news:publication_date>
-      <news:title>IIT Delhi’s India’s First Indigenous Micro-GPU: How It Cuts Import Dependence and Powers Affordable Tech</news:title>
-    </news:news>
-  </url>
 </urlset>
