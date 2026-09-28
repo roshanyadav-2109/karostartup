@@ -2,14 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
-    <loc>https://www.karostartup.com/article/moneyview-raises-3275-crore-from-anchor-investors-ahead-of-ipo-key-details-and-what-it-means</loc>
+    <loc>https://www.karostartup.com/article/nykaa-and-loral-join-forces-to-fund-indias-rising-beauty-startups</loc>
     <news:news>
       <news:publication>
         <news:name>Karostartup</news:name>
         <news:language>en</news:language>
       </news:publication>
-      <news:publication_date>2026-09-26T09:46:36Z</news:publication_date>
-      <news:title>Moneyview Raises ₹327.5 Crore from Anchor Investors Ahead of IPO: Key Details and What It Means</news:title>
+      <news:publication_date>2026-09-28T09:32:36Z</news:publication_date>
+      <news:title>Nykaa and L’Oréal Join Forces to Fund India’s Rising Beauty Startups</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/canvas-to-launch-indias-first-short-form-anime-series-created-by-30-indian-animators</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-28T08:47:00Z</news:publication_date>
+      <news:title>Canvas to launch India’s first short-form anime series created by 30 Indian animators</news:title>
     </news:news>
   </url>
 </urlset>
