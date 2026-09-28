@@ -23,4 +23,15 @@
       <news:title>Canvas to launch India’s first short-form anime series created by 30 Indian animators</news:title>
     </news:news>
   </url>
+  <url>
+    <loc>https://www.karostartup.com/article/jioshield-launched-by-jio-check-price-features-benefits-app-and-how-it-works</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-28T06:39:00Z</news:publication_date>
+      <news:title>JioShield Launched by Jio: Check Price, Features, Benefits, App and How It Works</news:title>
+    </news:news>
+  </url>
 </urlset>
