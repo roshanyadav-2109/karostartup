@@ -227,6 +227,22 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
 .breaking-mask:hover .breaking-track { animation-play-state: paused; }
 
 /* ============================================================
+   SURVEY RIBBON — same rolling ticker as breaking news, dark bar,
+   sits below the nav on every page and links to the reader survey.
+   ============================================================ */
+.survey-ribbon { background: var(--ink); color: #fff; height: 38px; overflow: hidden; position: relative; }
+.survey-ribbon .container { display: flex; align-items: center; height: 100%; gap: 16px; }
+.survey-pill { background: var(--brand); color: #fff; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.12em; padding: 4px 10px; text-transform: uppercase; flex-shrink: 0; position: relative; z-index: 2; }
+.survey-mask { flex: 1; height: 100%; overflow: hidden; position: relative;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%); }
+.survey-track { display: flex; align-items: center; gap: 40px; white-space: nowrap; height: 100%; width: max-content; animation: ticker-scroll 45s linear infinite; will-change: transform; }
+.survey-track a { color: #fff; font-size: 0.9rem; font-weight: 600; }
+.survey-track a:hover { text-decoration: underline; }
+.survey-track .sep { display: inline-block; opacity: 0.4; font-weight: 700; }
+.survey-mask:hover .survey-track { animation-play-state: paused; }
+
+/* ============================================================
    MASTHEAD
    ============================================================ */
 .masthead {

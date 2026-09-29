@@ -940,6 +940,25 @@ function renderBreakingFromData(data) {
   </div>`;
 }
 
+// Rolling survey banner — same seamless ticker as the breaking ribbon, but a
+// dark bar with a "Survey" pill, linking to the reader survey (Google Form).
+function renderSurveyRibbon() {
+  const url = 'https://forms.gle/863c2cQyk7Xct1L49';
+  const sep = '<span class="sep">•</span>';
+  const item = `<a href="${url}" target="_blank" rel="noopener">Help shape Karostartup — take our 2-minute reader survey →</a>`;
+  const group = `${item}${sep}${item}${sep}${item}${sep}`;
+  // Two identical copies so the -50% scroll loops seamlessly.
+  return `
+  <div class="survey-ribbon">
+    <div class="container">
+      <span class="survey-pill">Survey</span>
+      <div class="survey-mask">
+        <div class="survey-track">${group}${group}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
 function renderMasthead() {
   return `
   <div class="masthead">
@@ -1460,6 +1479,7 @@ async function mountChrome(activeSlug = '') {
     (cachedBreaking ? renderBreakingFromData(cachedBreaking) : '') +
     renderMasthead() +
     renderNavFromData(cachedCats || [], activeSlug) +
+    renderSurveyRibbon() +
     // Mobile-only promo strip below the header (in normal flow — never overlays
     // content, footer, modals or downloads). Desktop hides it via CSS.
     `<div class="mobile-share-promo">
