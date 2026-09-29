@@ -2,6 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/incubators-for-startups-why-should-start-ups-take-their-help</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-29T09:53:10Z</news:publication_date>
+      <news:title>Incubators for Startups: Why should Start Ups take their help?</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/bharat-housing-network-secures-usd-5-mn-from-symbiotics-investments-to-expand-green-financing-portfolio</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-29T02:17:00Z</news:publication_date>
+      <news:title>Bharat Housing Network Secures USD 5 Mn from Symbiotic​s Investments to expand green financing portfolio</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/ten-vc-firms-16-start-ups-and-one-question-about-building-businesses-in-india</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-29T01:55:00Z</news:publication_date>
+      <news:title>Ten VC firms, 16 start-ups and one question about building businesses in India</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/nykaa-and-loral-join-forces-to-fund-indias-rising-beauty-startups</loc>
     <news:news>
       <news:publication>
@@ -30,8 +63,8 @@
         <news:name>Karostartup</news:name>
         <news:language>en</news:language>
       </news:publication>
-      <news:publication_date>2026-09-28T06:39:00Z</news:publication_date>
-      <news:title>JioShield Launched by Jio: Check Price, Features, Benefits, App and How It Works</news:title>
+      <news:publication_date>2026-09-28T01:09:00Z</news:publication_date>
+      <news:title>JioShield Launched: Price, Features, App, ₹1000 Offer and How It Works</news:title>
     </news:news>
   </url>
 </urlset>
