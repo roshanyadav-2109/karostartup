@@ -283,14 +283,31 @@
     const toolbar = document.getElementById('rt-toolbar');
     function focusEditor() { contentEl.focus(); }
     function exec(cmd, val) { focusEditor(); try { document.execCommand(cmd, false, val ?? null); } catch {} recount(); }
+    // Tag of the block the caret is currently in (so a heading button can toggle
+    // back to a paragraph without needing any text selected).
+    const _BLOCKS = new Set(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'div', 'li']);
+    function currentBlockTag() {
+      const sel = window.getSelection();
+      if (!sel || !sel.rangeCount) return '';
+      let n = sel.getRangeAt(0).startContainer;
+      if (n && n.nodeType === 3) n = n.parentNode;
+      while (n && n !== contentEl) {
+        if (n.nodeType === 1 && _BLOCKS.has(n.tagName.toLowerCase())) return n.tagName.toLowerCase();
+        n = n.parentNode;
+      }
+      return '';
+    }
+    // formatBlock needs the tag in angle brackets ('<h2>') — the bare 'h2' form
+    // works in Chrome but silently fails in Firefox/Edge.
+    function applyBlock(tag) {
+      const target = (currentBlockTag() === tag) ? 'p' : tag; // toggle heading → paragraph
+      exec('formatBlock', `<${target}>`);
+    }
     toolbar.addEventListener('mousedown', (e) => { if (e.target.closest('button')) e.preventDefault(); }); // keep selection
     toolbar.addEventListener('click', (e) => {
       const btn = e.target.closest('button'); if (!btn) return;
       if (btn.dataset.cmd) return exec(btn.dataset.cmd);
-      // formatBlock needs the tag in angle brackets (e.g. '<h2>') — the bare
-      // 'h2' form works in Chrome but silently fails in Firefox/Edge, so H2/H3
-      // did nothing there.
-      if (btn.dataset.block) return exec('formatBlock', `<${btn.dataset.block}>`);
+      if (btn.dataset.block) return applyBlock(btn.dataset.block);
       if (btn.hasAttribute('data-link')) return insertLink();
       if (btn.hasAttribute('data-image')) return startInlineImage();
       if (btn.hasAttribute('data-carousel')) return startCarousel();
