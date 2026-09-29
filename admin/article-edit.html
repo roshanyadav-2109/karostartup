@@ -287,7 +287,10 @@
     toolbar.addEventListener('click', (e) => {
       const btn = e.target.closest('button'); if (!btn) return;
       if (btn.dataset.cmd) return exec(btn.dataset.cmd);
-      if (btn.dataset.block) return exec('formatBlock', btn.dataset.block);
+      // formatBlock needs the tag in angle brackets (e.g. '<h2>') — the bare
+      // 'h2' form works in Chrome but silently fails in Firefox/Edge, so H2/H3
+      // did nothing there.
+      if (btn.dataset.block) return exec('formatBlock', `<${btn.dataset.block}>`);
       if (btn.hasAttribute('data-link')) return insertLink();
       if (btn.hasAttribute('data-image')) return startInlineImage();
       if (btn.hasAttribute('data-carousel')) return startCarousel();
