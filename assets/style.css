@@ -2655,9 +2655,7 @@ a:hover .media-play { background: var(--brand); }
 }
 .cover-img-wrap img {
   width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  height: auto;      /* keep the image's original proportions — no fixed frame, no crop */
 }
 .cover-caption {
   font-size: 0.82rem;
@@ -6217,7 +6215,7 @@ a:hover .media-play { background: var(--brand); }
     padding: 4px 8px 0 0;
   }
   .cover-img-wrap { padding: 0; margin-bottom: 22px; }
-  .cover-img-wrap img { aspect-ratio: 4 / 3; }   /* slightly taller cover on mobile reads better */
+  /* cover keeps its original proportions on mobile too — no forced frame/crop */
   .cover-caption { padding: 0 18px; }
   .byline-row { padding: 12px 0 14px; margin-left: 14px; gap: 12px; flex-wrap: wrap; }
   .byline-author { order: 1; width: 100%; }
