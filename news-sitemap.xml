@@ -2,6 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/itc-completes-yoga-bar-acquisition-full-ownership-of-sproutlife-foods-for-645-crore</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-30T13:34:51Z</news:publication_date>
+      <news:title>ITC Completes Yoga Bar Acquisition: Full Ownership of Sproutlife Foods for ₹645 Crore</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/boats-aman-gupta-backs-fig-living-with-new-funding</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-30T11:00:56Z</news:publication_date>
+      <news:title>boAt&apos;s Aman Gupta Backs FIG Living With New Funding</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/from-kashmir-to-konkan-kisaansay-brings-indias-dry-fruit-story-this-diwali-with-baba-sehgal</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-30T10:05:00Z</news:publication_date>
+      <news:title>From Kashmir to Konkan: KisaanSay brings India’s dry-fruit story this Diwali with Baba Sehgal</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/from-vit-to-isb-from-cinema-to-padel-srikanth-sathis-journey-beyond-the-expected</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-30T09:21:56Z</news:publication_date>
+      <news:title>From VIT to ISB, From Cinema to Padel: Srikanth Sathi’s Journey Beyond the Expected</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/agnikul-cosmos-how-an-iit-madras-startup-is-building-indias-private-rockets</loc>
     <news:news>
       <news:publication>
@@ -54,28 +98,6 @@
       </news:publication>
       <news:publication_date>2026-09-29T01:55:00Z</news:publication_date>
       <news:title>Ten VC firms, 16 start-ups and one question about building businesses in India</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/nykaa-and-loral-join-forces-to-fund-indias-rising-beauty-startups</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-09-28T09:32:36Z</news:publication_date>
-      <news:title>Nykaa and L’Oréal Join Forces to Fund India’s Rising Beauty Startups</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/canvas-to-launch-indias-first-short-form-anime-series-created-by-30-indian-animators</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-09-28T08:47:00Z</news:publication_date>
-      <news:title>Canvas to launch India’s first short-form anime series created by 30 Indian animators</news:title>
     </news:news>
   </url>
 </urlset>
