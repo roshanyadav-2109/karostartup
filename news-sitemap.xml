@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/nurturland-is-turning-a-parents-unanswered-questions-into-learning-plans-for-children-with-disabilities</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-01T11:21:00Z</news:publication_date>
+      <news:title>Nurturland Is Turning a Parent&apos;s Unanswered Questions into Learning Plans for Children with Disabilities</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/niramai-story-how-an-indian-startup-is-using-ai-for-early-breast-cancer-screening</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-01T09:11:57Z</news:publication_date>
+      <news:title>Niramai Story: How an Indian Startup Is Using AI for Early Breast Cancer Screening</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/why-should-your-startup-in-uttar-pradesh-take-the-help-of-an-incubator</loc>
     <news:news>
       <news:publication>
@@ -65,28 +87,6 @@
       </news:publication>
       <news:publication_date>2026-09-30T06:22:29Z</news:publication_date>
       <news:title>Agnikul Cosmos: How an IIT Madras Startup is Building India’s Private Rockets</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/incubators-for-startups-why-should-start-ups-take-their-help</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-09-29T09:53:10Z</news:publication_date>
-      <news:title>Incubators for Startups: Why should Start Ups take their help?</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/groww-begins-us-stocks-rollout-on-its-platform-with-select-customers</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-09-29T07:37:00Z</news:publication_date>
-      <news:title>Groww begins US Stocks rollout on its platform with select customers</news:title>
     </news:news>
   </url>
 </urlset>
