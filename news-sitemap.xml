@@ -89,26 +89,4 @@
       <news:title>Groww begins US Stocks rollout on its platform with select customers</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/bharat-housing-network-secures-usd-5-mn-from-symbiotics-investments-to-expand-green-financing-portfolio</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-09-29T02:17:00Z</news:publication_date>
-      <news:title>Bharat Housing Network Secures USD 5 Mn from Symbiotic​s Investments to expand green financing portfolio</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/ten-vc-firms-16-start-ups-and-one-question-about-building-businesses-in-india</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-09-29T01:55:00Z</news:publication_date>
-      <news:title>Ten VC firms, 16 start-ups and one question about building businesses in India</news:title>
-    </news:news>
-  </url>
 </urlset>
