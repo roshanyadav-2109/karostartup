@@ -100,15 +100,4 @@
       <news:title>From VIT to ISB, From Cinema to Padel: Srikanth Sathi’s Journey Beyond the Expected</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/agnikul-cosmos-how-an-iit-madras-startup-is-building-indias-private-rockets</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-09-30T06:22:29Z</news:publication_date>
-      <news:title>Agnikul Cosmos: How an IIT Madras Startup is Building India’s Private Rockets</news:title>
-    </news:news>
-  </url>
 </urlset>
