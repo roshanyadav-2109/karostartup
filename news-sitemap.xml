@@ -56,15 +56,4 @@
       <news:title>Niramai Story: How an Indian Startup Is Using AI for Early Breast Cancer Screening</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/why-should-your-startup-in-uttar-pradesh-take-the-help-of-an-incubator</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-09-30T17:05:35Z</news:publication_date>
-      <news:title>Why should your StartUp in Uttar Pradesh take the help of an Incubator?</news:title>
-    </news:news>
-  </url>
 </urlset>
