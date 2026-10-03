@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/bangalore-watch-company-funding-indian-watch-brand-raises-14-million-from-customers</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-03T09:00:20Z</news:publication_date>
+      <news:title>Bangalore Watch Company Funding: Indian Watch Brand Raises $1.4 Million From Customers</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/temple-deepinder-goyals-new-brain-health-wearable-explained</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-03T05:19:00Z</news:publication_date>
+      <news:title>Temple: Deepinder Goyal’s New Brain Health Wearable Explained</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/the-rise-of-emergent-how-twin-brothers-built-indias-fastest-ai-unicorn</loc>
     <news:news>
       <news:publication>
@@ -32,28 +54,6 @@
       </news:publication>
       <news:publication_date>2026-10-01T13:46:12Z</news:publication_date>
       <news:title>Gravity Raises $15 Million Funding to Build India’s Interior Materials Platform</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/nurturland-is-turning-a-parents-unanswered-questions-into-learning-plans-for-children-with-disabilities</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-01T11:21:00Z</news:publication_date>
-      <news:title>Nurturland Is Turning a Parent&apos;s Unanswered Questions into Learning Plans for Children with Disabilities</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/niramai-story-how-an-indian-startup-is-using-ai-for-early-breast-cancer-screening</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-01T09:11:57Z</news:publication_date>
-      <news:title>Niramai Story: How an Indian Startup Is Using AI for Early Breast Cancer Screening</news:title>
     </news:news>
   </url>
 </urlset>
