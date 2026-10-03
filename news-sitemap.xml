@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-karnataka-startup-businesses-can-benefit-from-incubators</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-03T15:49:47Z</news:publication_date>
+      <news:title>How Karnataka Startup Businesses Can Benefit from Incubators</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/bangalore-watch-company-funding-indian-watch-brand-raises-14-million-from-customers</loc>
     <news:news>
       <news:publication>
@@ -43,17 +54,6 @@
       </news:publication>
       <news:publication_date>2026-10-01T17:11:43Z</news:publication_date>
       <news:title>Why should Andhra Pradesh StartUps take the help of incubators for their business?</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/gravity-raises-15-million-funding-to-build-indias-interior-materials-platform</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-01T13:46:12Z</news:publication_date>
-      <news:title>Gravity Raises $15 Million Funding to Build India’s Interior Materials Platform</news:title>
     </news:news>
   </url>
 </urlset>
