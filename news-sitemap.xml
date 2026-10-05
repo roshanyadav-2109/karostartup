@@ -2,25 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
-    <loc>https://www.karostartup.com/article/how-karnataka-startup-businesses-can-benefit-from-incubators</loc>
+    <loc>https://www.karostartup.com/article/pop-partners-with-lazypay-to-launch-popchop-bringing-flexible-pay-in-3-payments-to-gen-z-ahead-of-the-festive-season</loc>
     <news:news>
       <news:publication>
         <news:name>Karostartup</news:name>
         <news:language>en</news:language>
       </news:publication>
-      <news:publication_date>2026-10-03T15:49:47Z</news:publication_date>
-      <news:title>How Karnataka Startup Businesses Can Benefit from Incubators</news:title>
+      <news:publication_date>2026-10-05T12:45:00Z</news:publication_date>
+      <news:title>POP partners with LazyPay to launch POPchop, bringing flexible Pay-in-3 payments to Gen Z ahead of the festive season</news:title>
     </news:news>
   </url>
   <url>
-    <loc>https://www.karostartup.com/article/bangalore-watch-company-funding-indian-watch-brand-raises-14-million-from-customers</loc>
+    <loc>https://www.karostartup.com/article/valmiki-leela-capital-files-five-drhps-in-september-with-aggregate-issue-size-around-1100-crore</loc>
     <news:news>
       <news:publication>
         <news:name>Karostartup</news:name>
         <news:language>en</news:language>
       </news:publication>
-      <news:publication_date>2026-10-03T09:00:20Z</news:publication_date>
-      <news:title>Bangalore Watch Company Funding: Indian Watch Brand Raises $1.4 Million From Customers</news:title>
+      <news:publication_date>2026-10-05T12:18:00Z</news:publication_date>
+      <news:title>Valmiki Leela Capital files five DRHPs in September, with aggregate issue size around ₹1,100 crore</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/bhavish-aggarwal-pledges-432-ola-electric-stake-to-fund-1000-crore-rights-issue</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-05T11:22:11Z</news:publication_date>
+      <news:title>Bhavish Aggarwal Pledges 4.32% Ola Electric Stake to Fund ₹1,000 Crore Rights Issue</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/why-startups-in-haryana-should-take-help-of-incubators</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-05T09:44:56Z</news:publication_date>
+      <news:title>Why Startups in Haryana Should Take Help of Incubators</news:title>
     </news:news>
   </url>
 </urlset>
