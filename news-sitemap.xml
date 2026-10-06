@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/unified-ai-workspace-curvetai-raises-rs-6-crore-in-pre-seed-round-led-by-merak-ventures</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-06T10:42:16Z</news:publication_date>
+      <news:title>Unified AI workspace CurvetAI raises Rs 6 crore in pre-seed round led by Merak Ventures</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/kuku-technologies-turns-profitable-fy26-revenue-1484-crore</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-06T09:01:17Z</news:publication_date>
+      <news:title>Kuku Technologies Turns Profitable in FY26 as Revenue Surges 6x to ₹1484 Crore Ahead of IPO</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/pop-partners-with-lazypay-to-launch-popchop-bringing-flexible-pay-in-3-payments-to-gen-z-ahead-of-the-festive-season</loc>
     <news:news>
       <news:publication>
@@ -41,7 +63,7 @@
         <news:name>Karostartup</news:name>
         <news:language>en</news:language>
       </news:publication>
-      <news:publication_date>2026-10-05T09:44:56Z</news:publication_date>
+      <news:publication_date>2026-10-05T04:14:00Z</news:publication_date>
       <news:title>Why Startups in Haryana Should Take Help of Incubators</news:title>
     </news:news>
   </url>
