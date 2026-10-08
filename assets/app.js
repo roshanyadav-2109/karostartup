@@ -1223,6 +1223,9 @@ function _balanceNav() {
     morePanel.insertBefore(last, morePanel.firstChild);
   }
 
+  // Only show "More" when it actually holds categories — never an empty menu.
+  moreEl.hidden = morePanel.children.length === 0;
+
   // Step 4 — if the active category ended up in the panel, mark the
   // More button as active so the user can tell where they are.
   if (morePanel.querySelector('a.is-active')) moreEl.classList.add('is-active');

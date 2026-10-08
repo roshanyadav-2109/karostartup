@@ -390,6 +390,7 @@ input, textarea, select, button { font-family: inherit; font-size: 1rem; color: 
    When the categories table has more rows than the nav row can
    comfortably fit (>7), the extras live inside this menu.
    ============================================================ */
+.k-nav-more[hidden] { display: none !important; }
 .k-nav-more {
   position: relative;
   height: 100%;
@@ -831,7 +832,7 @@ a:hover .media-play { background: var(--brand); }
 .hero-section { padding: 32px 0; }
 .hero {
   display: grid;
-  grid-template-columns: 3fr 6fr 3fr;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 6fr) minmax(0, 3fr);
   gap: var(--gap);
   padding-bottom: 32px;
   align-items: stretch;
@@ -1026,6 +1027,10 @@ a:hover .media-play { background: var(--brand); }
   z-index: 1;
 }
 .hero-lead-title {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(2rem, 4.2vw, 3.4rem);
@@ -6427,3 +6432,7 @@ a:hover .media-play { background: var(--brand); }
   .share-story-promo{margin:24px 16px;padding:16px 18px;gap:12px;}
   .share-story-promo .ssp-btn{width:100%;text-align:center;}
 }
+
+/* Homepage: grid children may shrink, headlines wrap instead of overflowing */
+.hero > *, .hero-middle, .hero-lead-v2, .hero-side-left, .lnews-feature, .lnews-side { min-width: 0; }
+.hero-lead-v2 a, .hero-side-left .side-card h3, .hero-side-left .side-card .title, .lnews-feature h3, .lnews-side h3, .hero-update-card h4 { overflow-wrap: anywhere; word-break: break-word; }
