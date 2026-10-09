@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/us-suspends-perm-green-card-process-for-infosys-tcs-wipro-5-other-companies</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-09T12:06:39Z</news:publication_date>
+      <news:title>US Suspends PERM Green Card Process for Infosys, TCS, Wipro &amp; 5 Other Companies</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/nabventures-announces-first-close-of-fund-ii-at-inr-450-crore-target-corpus-set-at-inr-1500-crore</loc>
     <news:news>
       <news:publication>
