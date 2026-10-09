@@ -31,7 +31,7 @@ export const config = {
   // Run on everything EXCEPT static assets / api / the homepage data file, so we
   // can see old root /<slug>, /tag, /author, /wp-content, /20YY paths. The 3
   // the 3 view OG routes are included. (Reserved paths still pass through in-handler.)
-  matcher: ['/((?!api/|_next/|assets/|data/|favicon.ico|robots.txt|sitemap.xml|news-sitemap.xml).*)'],
+  matcher: ['/((?!api/|_next/|assets/|data/|favicon.ico|robots.txt|ads.txt|sitemap.xml|news-sitemap.xml).*)'],
 };
 
 const BASE = 'https://svwpvqmqmisoffbnnjdc.supabase.co';
@@ -43,6 +43,11 @@ const SITE_NAME = 'Karostartup';
 const SITE_TWITTER = '@karo_startup';
 const DEFAULT_OG_IMAGE = `${ORIGIN}/assets/logo-wordmark.png`;
 const PUBLISHER_LOGO = `${ORIGIN}/assets/logo-wordmark.png`;
+// Same AdSense tag the static pages carry. Google's crawlers (incl. AdSense's
+// Mediapartners-Google) get the SSR pages below, so they must carry it too or
+// site verification can't find the code.
+const ADSENSE_HEAD = `<meta name="google-adsense-account" content="ca-pub-9995997205585960">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9995997205585960" crossorigin="anonymous"></script>`;
 
 // Link-preview / unfurling agents (messaging apps, social networks, workplace
 // tools). These want HEAD META ONLY — small and fast. Checked BEFORE the search
@@ -112,7 +117,7 @@ const RESERVED = new Set([
   'article', 'category', 'company', 'admin', 'auth', 'assets', 'api', 'data', '_next', '.well-known',
   'best-brands', 'newsletters', 'podcasts', 'plus', 'share-your-startup', 'internship', 'contact',
   'privacy', 'terms', 'cookies', 'features', 'search', 'neural-ai', 'profile', 'index', '404', 'editorial-policy', 'share-your-story',
-  'sitemap.xml', 'robots.txt', 'favicon.ico', 'sitemap', 'manifest.json', 'auth',
+  'sitemap.xml', 'robots.txt', 'ads.txt', 'favicon.ico', 'sitemap', 'manifest.json', 'auth',
   // old sections already 308'd by vercel.json before middleware runs (belt-and-suspenders)
   'general', 'news', 'press-release', 'success-stories', 'startup-news', 'startup-stories',
   'business-models', 'funding', 'ipo', 'technology', 'innovation', 'marketing', 'products',
@@ -380,6 +385,7 @@ function buildArticlePage(row: any, slug: string) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   ${headHtml}
   <link rel="stylesheet" href="/assets/style.css">
+  ${ADSENSE_HEAD}
 </head><body>
   <article>
     ${kicker}
@@ -486,6 +492,7 @@ function hubPage(opts: {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   ${head}
   <link rel="stylesheet" href="/assets/style.css">
+  ${ADSENSE_HEAD}
 </head><body>
   <h1>${esc(opts.heading)}</h1>
   ${opts.intro ? `<p>${esc(opts.intro)}</p>` : ''}
