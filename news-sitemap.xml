@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/nabventures-announces-first-close-of-fund-ii-at-inr-450-crore-target-corpus-set-at-inr-1500-crore</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-09T08:51:16Z</news:publication_date>
+      <news:title>NABVENTURES Announces First Close of Fund II at INR 450 Crore; Target Corpus Set at INR 1,500 Crore</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/ionage-raises-13-million-in-pre-series-a-funding</loc>
     <news:news>
       <news:publication>
@@ -43,39 +54,6 @@
       </news:publication>
       <news:publication_date>2026-10-08T07:17:44Z</news:publication_date>
       <news:title>47.5% of startup ecosystem score low on wellbeing, employees fare worst: State of Mind report</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/quanfluence-funding-10-million-raised-to-build-photonic-quantum-computer</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-07T09:40:34Z</news:publication_date>
-      <news:title>Quanfluence Funding: $10 Million Raised to Build Photonic Quantum Computer</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/swara-baby-products-gets-sebi-nod-for-1000-crore-ipo</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-07T07:42:49Z</news:publication_date>
-      <news:title>Swara Baby Products Gets SEBI Nod for ₹1,000 Crore IPO</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/sunfox-technologies-raises-7-million-funding-series-a-for-spandan-portable-ecg-platform</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-07T06:24:00Z</news:publication_date>
-      <news:title>Sunfox Raises $7 Million Series A Funding to Scale Spandan Portable ECG Platform</news:title>
     </news:news>
   </url>
 </urlset>
