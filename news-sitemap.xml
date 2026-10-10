@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/dailyobjects-raises-332-crore-in-series-c-funding-at-1050-crore-valuation</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-10T08:19:00Z</news:publication_date>
+      <news:title>DailyObjects Raises ₹332 Crore in Series C Funding at ₹1,050 Crore Valuation</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/gujarat-launches-ssip-20-with-rs-500-crore-corpus-to-power-student-innovation-and-start-up-ecosystem</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-10T05:04:32Z</news:publication_date>
+      <news:title>Gujarat Launches SSIP 2.0 with Rs. 500 Crore Corpus to Power Student Innovation and Start-up Ecosystem</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/us-suspends-perm-green-card-process-for-infosys-tcs-wipro-5-other-companies</loc>
     <news:news>
       <news:publication>
@@ -43,28 +65,6 @@
       </news:publication>
       <news:publication_date>2026-10-08T11:05:19Z</news:publication_date>
       <news:title>Energy AI Labs is Closing the ‘Battery Trust Gap’ with Intelligence</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/credfix-raises-161-crore-in-seed-funding-investors-use-of-funds-and-what-it-does</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-08T09:01:15Z</news:publication_date>
-      <news:title>Credfix Raises ₹16.1 Crore in Seed Funding: Investors, Use of Funds and What It Does</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/475-of-startup-ecosystem-score-low-on-wellbeing-employees-fare-worst-state-of-mind-report</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-08T07:17:44Z</news:publication_date>
-      <news:title>47.5% of startup ecosystem score low on wellbeing, employees fare worst: State of Mind report</news:title>
     </news:news>
   </url>
 </urlset>
