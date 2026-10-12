@@ -2,14 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
-    <loc>https://www.karostartup.com/article/et-startup-awards-2026-winners-list-groww-named-startup-of-the-year</loc>
+    <loc>https://www.karostartup.com/article/why-startups-in-uttarakhand-should-register-with-incubators</loc>
     <news:news>
       <news:publication>
         <news:name>Karostartup</news:name>
         <news:language>en</news:language>
       </news:publication>
-      <news:publication_date>2026-10-10T10:53:14Z</news:publication_date>
-      <news:title>ET Startup Awards 2026 Winners List: Groww Named Startup of the Year</news:title>
+      <news:publication_date>2026-10-12T11:36:43Z</news:publication_date>
+      <news:title>Why Startups in Uttarakhand Should Register with Incubators</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/zetwerk-manufacturing-ipo-opens-october-15-price-band-dates-lot-size-key-details</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-12T11:02:15Z</news:publication_date>
+      <news:title>Zetwerk Manufacturing IPO Opens October 15: Price Band, Dates, Lot Size &amp; Key Details</news:title>
     </news:news>
   </url>
 </urlset>
