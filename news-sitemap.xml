@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/how-paiwand-studio-is-turning-textile-waste-into-a-business-opportunity</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-14T11:49:21Z</news:publication_date>
+      <news:title>How Paiwand Studio Is Turning Textile Waste Into a Business Opportunity</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-incubators-help-startups-grow-in-chhattisgarh</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-14T11:30:00Z</news:publication_date>
+      <news:title>How Incubators Help Startups Grow in Chhattisgarh</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/revrag-ai-raises-25-million-seed-funding-to-scale-ai-relationship-managers-for-banks-and-fintechs</loc>
     <news:news>
       <news:publication>
@@ -76,17 +98,6 @@
       </news:publication>
       <news:publication_date>2026-10-13T09:36:47Z</news:publication_date>
       <news:title>Boldfit Raises ₹400 Crore in Series B Funding Led by Bharat Value Fund</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/why-startups-in-uttarakhand-should-register-with-incubators</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-12T11:36:43Z</news:publication_date>
-      <news:title>Why Startups in Uttarakhand Should Register with Incubators</news:title>
     </news:news>
   </url>
 </urlset>
