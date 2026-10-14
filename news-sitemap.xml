@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/ova-ferticon-2026-brings-200-doctors-to-thane-fertility-care-and-high-risk-pregnancy-in-focus</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-14T04:51:53Z</news:publication_date>
+      <news:title>Ova Ferticon 2026 brings 200+ doctors to Thane, Fertility care and high-risk pregnancy in focus</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/npci-postpones-upi-mdr-charges-until-after-diwali</loc>
     <news:news>
       <news:publication>
