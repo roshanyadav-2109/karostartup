@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/gokwik-leverages-its-festive-data-to-rank-revenue-opportunities-for-d2c-brands</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-15T07:40:40Z</news:publication_date>
+      <news:title>GoKwik Leverages Its Festive Data to Rank Revenue Opportunities for D2C Brands</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/nabventures-fund-ii-targets-30-70-crore-investments-in-agri-and-rural-businesses-across-early-and-growth-stages</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-15T07:18:43Z</news:publication_date>
+      <news:title>NABVENTURES Fund II Targets ₹30 - 70 Crore Investments in Agri and Rural Businesses Across Early and Growth Stages</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/how-paiwand-studio-is-turning-textile-waste-into-a-business-opportunity</loc>
     <news:news>
       <news:publication>
