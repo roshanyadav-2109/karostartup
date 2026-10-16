@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://www.karostartup.com/article/jio-platforms-30188-crore-mega-ipo-set-to-be-indias-largest-draws-strong-anchor-interest-from-global-funds</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-16T14:11:10Z</news:publication_date>
+      <news:title>Jio Platforms&apos; ₹30,188-Crore Mega IPO - Set to Be India&apos;s Largest, Draws Strong Anchor Interest from Global Funds</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.karostartup.com/article/how-symple-ecom-solutions-is-helping-6000-sellers-grow-online</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Karostartup</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-16T11:15:00Z</news:publication_date>
+      <news:title>How Symple Ecom Solutions Is Helping 6,000+ Sellers Grow Online</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://www.karostartup.com/article/why-should-puducherry-startups-register-with-incubators</loc>
     <news:news>
       <news:publication>
@@ -43,28 +65,6 @@
       </news:publication>
       <news:publication_date>2026-10-15T07:18:43Z</news:publication_date>
       <news:title>NABVENTURES Fund II Targets ₹30 - 70 Crore Investments in Agri and Rural Businesses Across Early and Growth Stages</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-paiwand-studio-is-turning-textile-waste-into-a-business-opportunity</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-14T11:49:21Z</news:publication_date>
-      <news:title>How Paiwand Studio Is Turning Textile Waste Into a Business Opportunity</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/how-incubators-help-startups-grow-in-chhattisgarh</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-14T11:30:00Z</news:publication_date>
-      <news:title>How Incubators Help Startups Grow in Chhattisgarh</news:title>
     </news:news>
   </url>
 </urlset>
