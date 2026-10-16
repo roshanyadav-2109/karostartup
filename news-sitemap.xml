@@ -67,26 +67,4 @@
       <news:title>How Incubators Help Startups Grow in Chhattisgarh</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://www.karostartup.com/article/revrag-ai-raises-25-million-seed-funding-to-scale-ai-relationship-managers-for-banks-and-fintechs</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-14T09:33:00Z</news:publication_date>
-      <news:title>RevRag AI Raises $2.5 Million Seed Funding to Scale AI Relationship Managers for Banks and Fintechs</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://www.karostartup.com/article/spill-games-raises-105-million-series-a-led-by-elevation-capital-to-scale-mobile-games</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Karostartup</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-14T07:28:39Z</news:publication_date>
-      <news:title>Spill Games Raises $10.5 Million Series A Led by Elevation Capital to Scale Mobile Games</news:title>
-    </news:news>
-  </url>
 </urlset>
